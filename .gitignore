@@ -1,0 +1,24 @@
+# Data (raw, interim, processed) — never commit
+data/
+
+# Python virtual environment
+.venv/
+
+# Trained model weights (large binaries, reproducible from notebooks)
+models/
+
+# Secrets (cloud vision API key)
+.env
+
+# Python / Jupyter caches
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# macOS Finder metadata
+.DS_Store
+
+# Claude Code files (assistant instructions and settings — kept local, not part of the project)
+.claude/
+CLAUDE.md
+CLAUDE.local.md
