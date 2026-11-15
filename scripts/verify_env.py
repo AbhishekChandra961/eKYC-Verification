@@ -1,4 +1,4 @@
-"""Phase 0 environment check: TensorFlow + Metal GPU, matmul speed, and LFW loading.
+"""Phase 1 environment check: TensorFlow + Metal GPU, matmul speed, and LFW loading.
 
 Run from anywhere:  .venv/bin/python scripts/verify_env.py
 """

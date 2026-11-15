@@ -1,0 +1,7 @@
+label,forged,forged,genuine,genuine,total
+source,clip,template,clip,template,
+split,,,,,
+train,2776,853,5616,702,9947
+val,589,179,1200,150,2118
+test,440,190,1184,148,1962
+total,3805,1222,8000,1000,14027

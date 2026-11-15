@@ -28,7 +28,7 @@ IMAGE = Path(sys.argv[2]) if len(sys.argv) > 2 else REALS / "alb_id_00.jpg"
 WARM_IMAGE = Path(sys.argv[3]) if len(sys.argv) > 3 else REALS / "alb_id_01.jpg"
 
 # Key names follow the field_name vocabulary of the SIDTD template annotations, so the output can
-# later be scored field-by-field against ground truth (Phase 4).
+# later be scored field-by-field against ground truth (Phase 5).
 FIELDS = [
     "document_type", "issuing_country", "surname", "name", "birth_date", "birth_place", "gender",
     "nationality", "id_number", "document_number", "issue_date", "expiry_date", "authority",

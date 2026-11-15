@@ -1,0 +1,12 @@
+doc_type,train,val,test,total
+alb_id,957,180,205,1342
+aze_passport,964,186,254,1404
+esp_id,1223,190,238,1651
+est_id,947,179,214,1340
+fin_id,989,193,159,1341
+grc_passport,992,270,139,1401
+lva_passport,965,213,224,1402
+rus_internalpassport,967,256,182,1405
+srb_passport,1024,233,143,1400
+svk_id,919,218,204,1341
+total,9947,2118,1962,14027
