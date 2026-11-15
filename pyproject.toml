@@ -1,0 +1,20 @@
+# Makes src/ekyc an installable package so notebooks, tests and services can all `import ekyc`.
+# Installed once in editable mode (code changes apply immediately, no reinstall):
+#   uv pip install --python .venv/bin/python -e .
+# Pinned third-party dependencies live in requirements.txt, not here.
+
+[project]
+name = "ekyc"
+version = "0.1.0"
+description = "eKYC verification pipeline: document classification, forgery detection, face match, field extraction"
+requires-python = ">=3.11,<3.12"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

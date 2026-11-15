@@ -10,10 +10,12 @@ models/
 # Secrets (cloud vision API key)
 .env
 
-# Python / Jupyter caches
+# Python / Jupyter caches and build metadata
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
+.pytest_cache/
+*.egg-info/
 
 # macOS Finder metadata
 .DS_Store

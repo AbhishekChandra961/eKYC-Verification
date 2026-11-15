@@ -1,5 +1,7 @@
-# Exact versions frozen from .venv (Python 3.11.18, macOS arm64) on 2026-11-15 with: uv pip freeze
-# Recreate: uv venv --python 3.11 .venv && uv pip install --python .venv/bin/python -r requirements.txt
+# Exact versions frozen from .venv (Python 3.11.18, macOS arm64) with: uv pip freeze --exclude-editable
+# Recreate: uv venv --python 3.11 .venv
+#           uv pip install --python .venv/bin/python -r requirements.txt
+#           uv pip install --python .venv/bin/python -e .      (installs src/ekyc, see pyproject.toml)
 #
 # Why tensorflow==2.18.1: tensorflow-metal 1.2.0 (latest, Jan 2025) is built against TF 2.18.
 # The plugin does not declare a TF dependency, so pip would happily install a newer TF (2.19+)
@@ -40,6 +42,7 @@ h5py==3.16.0
 httpcore==1.0.9
 httpx==0.28.1
 idna==3.20
+iniconfig==2.3.1
 ipykernel==7.4.0
 ipython==9.18.1
 ipython-pygments-lexers==1.1.1
@@ -92,6 +95,7 @@ parso==0.8.7
 pexpect==4.9.0
 pillow==13.0.0
 platformdirs==4.14.5
+pluggy==1.7.0
 prometheus-client==0.26.0
 prompt-toolkit==3.0.53
 protobuf==5.29.6
@@ -103,6 +107,7 @@ pydantic==2.14.3
 pydantic-core==2.50.4
 pygments==2.21.0
 pyparsing==3.3.3
+pytest==9.2.0
 python-dateutil==4.0.0
 python-dotenv==1.2.4
 python-json-logger==4.2.0

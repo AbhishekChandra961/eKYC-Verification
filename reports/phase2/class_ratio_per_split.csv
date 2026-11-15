@@ -1,0 +1,4 @@
+split,genuine,forged,genuine_per_forged,forged_share
+train,6318,3629,1.74,0.365
+val,1350,768,1.76,0.363
+test,1332,630,2.11,0.321
