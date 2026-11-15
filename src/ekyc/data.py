@@ -7,6 +7,7 @@ Pipeline (each step is one function; the notebook 01_data_manifest calls them in
   4. mark_in_sample      - keep a few evenly spaced frames per clip (frames are near-duplicates)
   5. parse_ground_truth  - text-field and photo boxes from the VIA annotation files
   6. build_cache         - resized RGB JPEG copies under data/processed/images
+  6b. flag_blank_frames  - marks video frames that show no document (Phase 2.1)
   7. check_leakage       - asserts that no document leaks across splits
 
 All functions are pure (inputs -> outputs). Nothing here writes to data/raw or data/interim.
@@ -430,6 +431,43 @@ def build_cache(manifest: pd.DataFrame, project_root: Path = config.PROJECT_ROOT
         widths.append(width)
         heights.append(height)
     return manifest.assign(cache_path=cache_paths, orig_width=widths, orig_height=heights), written
+
+
+# =============================================================== 6b. blank video frames (Phase 2.1)
+def blank_frame_stats(path: Path) -> tuple[float, float]:
+    """(grey-level standard deviation, share of near-black pixels) of a tiny greyscale thumbnail.
+    The 64x40 thumbnail averages away JPEG noise and makes the check fast."""
+    with Image.open(path) as image:
+        image.draft("L", (64, 64))  # fast reduced-size greyscale JPEG decode
+        grey = np.asarray(image.convert("L").resize(config.BLANK_THUMBNAIL), dtype=np.float32)
+    return float(grey.std()), float((grey < config.BLANK_DARK_LEVEL).mean())
+
+
+def is_blank(pixel_std, dark_share):
+    """The rule from config: an (almost) flat colour, or mostly black. Works on numbers or arrays."""
+    return (pixel_std < config.BLANK_STD_MAX) | (dark_share > config.BLANK_DARK_SHARE_MIN)
+
+
+def flag_blank_frames(manifest: pd.DataFrame, project_root: Path = config.PROJECT_ROOT) -> pd.DataFrame:
+    """pixel_std, dark_share and is_empty for every row, measured on its cached image."""
+    stats = [blank_frame_stats(project_root / p) for p in tqdm(manifest["cache_path"], desc="blank check",
+                                                               unit="img", mininterval=5)]
+    out = pd.DataFrame(stats, columns=["pixel_std", "dark_share"], index=manifest.index)
+    out["is_empty"] = is_blank(out["pixel_std"], out["dark_share"])
+    return out
+
+
+def assert_splits_unchanged(previous: pd.DataFrame, current: pd.DataFrame) -> int:
+    """Raise AssertionError if any image was added, removed or moved to another split compared with
+    `previous` (e.g. the manifest saved by an earlier run). Returns the number of rows compared."""
+    before = previous.set_index("image_path")["split"]
+    after = current.set_index("image_path")["split"]
+    assert set(before.index) == set(after.index), (
+        f"image set changed: {len(set(before.index) - set(after.index))} removed, "
+        f"{len(set(after.index) - set(before.index))} added")
+    moved = before[before != after.loc[before.index]]
+    assert moved.empty, f"{len(moved)} images changed split, e.g. {list(moved.index[:3])}"
+    return len(before)
 
 
 # =============================================================== 7. leakage checks

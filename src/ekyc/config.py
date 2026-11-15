@@ -53,3 +53,13 @@ MAX_FAKE_FRAMES = 20
 
 RESIZE_LONGEST = 512  # cached images: longest side in pixels (aspect ratio kept)
 JPEG_QUALITY = 92  # cached images: JPEG quality
+
+# ---------------------------------------------------------------- blank video frames (Phase 2.1)
+# Some clip frames show no document: the dataset's automatic crop missed the card and left a black
+# or plain-coloured frame. A frame is "empty" if its 64x40 greyscale thumbnail is (almost) one flat
+# colour (std < 3 grey levels) or more than 90 % of its pixels are near-black (grey value < 20).
+# Calibrated by inspecting every flagged frame and the closest unflagged ones (notebook 01).
+BLANK_THUMBNAIL = (64, 40)
+BLANK_STD_MAX = 3.0
+BLANK_DARK_LEVEL = 20
+BLANK_DARK_SHARE_MIN = 0.9
