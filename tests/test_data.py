@@ -14,7 +14,9 @@ from ekyc.data import (
     assert_splits_unchanged,
     assign_groups,
     blank_frame_stats,
+    estimate_jpeg_quality,
     evenly_spaced_indices,
+    image_format,
     is_blank,
     parse_clip_fake,
     parse_clip_real,
@@ -191,3 +193,18 @@ def test_assert_splits_unchanged():
         assert_splits_unchanged(before, before.assign(split=["train", "val"]))  # b.jpg moved
     with pytest.raises(AssertionError):
         assert_splits_unchanged(before, before.iloc[:1])  # b.jpg missing
+
+
+@pytest.mark.parametrize("quality", [30, 60, 75, 92, 95])
+def test_estimate_jpeg_quality_recovers_saved_quality(tmp_path, quality):
+    pixels = np.random.default_rng(0).integers(0, 256, (64, 96, 3), dtype=np.uint8)
+    path = tmp_path / "x.jpg"
+    Image.fromarray(pixels).save(path, format="JPEG", quality=quality)
+    assert estimate_jpeg_quality(path) == quality
+    assert image_format(path) == "JPEG"
+
+
+def test_png_with_jpg_extension_is_detected(tmp_path):
+    path = tmp_path / "frame.jpg"  # SIDTD's forged clip frames look like this: PNG content, .jpg name
+    Image.new("RGB", (8, 8)).save(path, format="PNG")
+    assert image_format(path) == "PNG" and estimate_jpeg_quality(path) is None

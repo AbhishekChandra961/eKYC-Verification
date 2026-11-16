@@ -13,6 +13,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import keras
+import numpy as np
 import pandas as pd
 import tensorflow as tf
 from keras import layers
@@ -42,6 +43,19 @@ def load_image(path: tf.Tensor, image_size: int) -> tf.Tensor:
     image = tf.io.decode_jpeg(tf.io.read_file(path), channels=3)
     image = tf.image.resize_with_pad(image, image_size, image_size)  # -> float32, values 0-255
     return image
+
+
+def pad_geometry(width: int, height: int, size: int) -> tuple[float, int, int]:
+    """Where an image of width x height ends up inside the size x size output of resize_with_pad.
+
+    Returns (scale, offset_x, offset_y): a point (x, y) of the image lands at
+    (x * scale + offset_x, y * scale + offset_y). Same arithmetic as TensorFlow's implementation:
+    scale so the longer side fits, then centre with floor((size - scaled side) / 2) padding.
+    """
+    ratio = max(width / size, height / size)
+    offset_x = max(0, int(np.floor((size - width / ratio) / 2)))
+    offset_y = max(0, int(np.floor((size - height / ratio) / 2)))
+    return 1 / ratio, offset_x, offset_y
 
 
 def build_augmenter(seed: int = config.SEED) -> keras.Sequential:

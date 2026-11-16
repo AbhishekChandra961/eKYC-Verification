@@ -433,6 +433,48 @@ def build_cache(manifest: pd.DataFrame, project_root: Path = config.PROJECT_ROOT
     return manifest.assign(cache_path=cache_paths, orig_width=widths, orig_height=heights), written
 
 
+# =============================================================== 6c. file-format checks (Phase 3B)
+# The JPEG standard's example luminance quantisation table (used by libjpeg, and so by Pillow).
+# A JPEG saved at quality q stores this table scaled by a factor that depends on q, so comparing a
+# file's stored table with the scaled standard tables tells us which quality it was saved at.
+_STANDARD_LUMA_TABLE = np.array([
+    16, 11, 10, 16, 24, 40, 51, 61,
+    12, 12, 14, 19, 26, 58, 60, 55,
+    14, 13, 16, 24, 40, 57, 69, 56,
+    14, 17, 22, 29, 51, 87, 80, 62,
+    18, 22, 37, 56, 68, 109, 103, 77,
+    24, 35, 55, 64, 81, 104, 113, 92,
+    49, 64, 78, 87, 103, 121, 120, 101,
+    72, 92, 95, 98, 112, 100, 103, 99,
+])
+
+
+def standard_luma_table(quality: int) -> np.ndarray:
+    """The 64 luminance quantisation steps libjpeg writes for `quality` (1-100), same integer maths."""
+    scale = 5000 // quality if quality < 50 else 200 - 2 * quality
+    return np.clip((_STANDARD_LUMA_TABLE * scale + 50) // 100, 1, 255)
+
+
+def estimate_jpeg_quality(path: Path) -> int | None:
+    """Estimated JPEG quality (1-100) a file was saved at; None if the file is not a JPEG.
+    The stored luminance table is compared with the standard table at every quality; both are sorted
+    first, so the order in which the 64 values are stored does not matter. Larger steps = coarser
+    compression = lower quality."""
+    with Image.open(path) as image:
+        tables = getattr(image, "quantization", None)  # read from the file header; PNG files have none
+    if not tables:
+        return None
+    observed = np.sort(np.asarray(tables[0]))
+    errors = [np.abs(np.sort(standard_luma_table(q)) - observed).sum() for q in range(1, 101)]
+    return int(np.argmin(errors)) + 1
+
+
+def image_format(path: Path) -> str:
+    """Real file format ("JPEG", "PNG", ...) from the file's content, not its extension."""
+    with Image.open(path) as image:
+        return image.format
+
+
 # =============================================================== 6b. blank video frames (Phase 2.1)
 def blank_frame_stats(path: Path) -> tuple[float, float]:
     """(grey-level standard deviation, share of near-black pixels) of a tiny greyscale thumbnail.
