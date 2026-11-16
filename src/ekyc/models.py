@@ -109,8 +109,22 @@ class EpochTimer(keras.callbacks.Callback):
         self.seconds.append(time.perf_counter() - self._start)
 
 
+class ResumableReduceLROnPlateau(keras.callbacks.ReduceLROnPlateau):
+    """ReduceLROnPlateau that can start from the best value reached before an interrupted run was resumed.
+    (The Keras version forgets its best value at the start of every fit() call.)"""
+
+    def __init__(self, initial_best: float | None = None, **kwargs):
+        super().__init__(**kwargs)
+        self.initial_best = initial_best
+
+    def on_train_begin(self, logs=None):
+        super().on_train_begin(logs)
+        self.best = self.initial_best  # None = no earlier run: any first value counts as an improvement
+
+
 def training_callbacks(checkpoint_path: Path, log_path: Path, patience: int = 3, monitor: str = "val_loss",
-                       mode: str = "min", reduce_lr_patience: int | None = None) -> list:
+                       mode: str = "min", reduce_lr_patience: int | None = None,
+                       resume_best: float | None = None) -> list:
     """Callbacks used for every training run:
     - TerminateOnNaN: stop at once if the loss becomes NaN (happened in Phase 3A fine-tuning);
     - EarlyStopping on `monitor` (best weights restored at the end);
@@ -118,16 +132,21 @@ def training_callbacks(checkpoint_path: Path, log_path: Path, patience: int = 3,
     - optional ReduceLROnPlateau: halve the learning rate when `monitor` stalls;
     - CSVLogger, and an EpochTimer (always the last element of the list).
     mode: "min" for losses, "max" for scores such as "val_pr_auc".
+
+    resume_best: when a run is resumed from its checkpoint (Phase 3B v3: the GPU driver hung mid-run), the best
+    `monitor` value of the epochs already finished. Then the checkpoint is only overwritten by a better epoch,
+    early stopping and the learning-rate schedule count epochs without improvement against that value (as if
+    the run had never stopped), and the CSV log is continued instead of overwritten.
     """
     callbacks = [
         keras.callbacks.TerminateOnNaN(),
         keras.callbacks.EarlyStopping(monitor=monitor, mode=mode, patience=patience, restore_best_weights=True,
-                                      verbose=1),
+                                      baseline=resume_best, verbose=1),
         keras.callbacks.ModelCheckpoint(str(checkpoint_path), monitor=monitor, mode=mode, save_best_only=True,
-                                        verbose=0),
+                                        initial_value_threshold=resume_best, verbose=0),
     ]
     if reduce_lr_patience is not None:
-        callbacks.append(keras.callbacks.ReduceLROnPlateau(monitor=monitor, mode=mode, factor=0.5,
-                                                           patience=reduce_lr_patience, min_lr=1e-7, verbose=1))
-    callbacks += [keras.callbacks.CSVLogger(str(log_path)), EpochTimer()]
+        callbacks.append(ResumableReduceLROnPlateau(initial_best=resume_best, monitor=monitor, mode=mode, factor=0.5,
+                                                    patience=reduce_lr_patience, min_lr=1e-7, verbose=1))
+    callbacks += [keras.callbacks.CSVLogger(str(log_path), append=resume_best is not None), EpochTimer()]
     return callbacks

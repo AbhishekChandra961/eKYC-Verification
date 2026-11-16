@@ -15,6 +15,7 @@ All functions are pure (inputs -> outputs). Nothing here writes to data/raw or d
 
 from __future__ import annotations
 
+import io
 import json
 import os
 import re
@@ -380,16 +381,41 @@ def parse_ground_truth(annotations_dir: Path | None = None) -> pd.DataFrame:
 
 
 # =============================================================== 6. resized image cache
-def cache_path_for(image_path: str) -> str:
-    """Mirror data/interim/... under data/processed/images/..., relative to the project root."""
+def cache_path_for(image_path: str, cache_dir: Path = config.CACHE_DIR) -> str:
+    """Mirror data/interim/... under `cache_dir` (default data/processed/images/...), relative to the project root."""
     interim = config.INTERIM_DIR.relative_to(config.PROJECT_ROOT)
-    cache = config.CACHE_DIR.relative_to(config.PROJECT_ROOT)
+    cache = cache_dir.relative_to(config.PROJECT_ROOT)
     return (cache / Path(image_path).relative_to(interim)).as_posix()
 
 
+def jpeg_round_trip(image: Image.Image, quality: int) -> Image.Image:
+    """Save `image` as an RGB JPEG at `quality` in memory and open the result again (same size).
+    The returned image carries the traces of that save, exactly as if it had been stored that way on disk.
+    Close it after use (or use it in a `with` block)."""
+    buffer = io.BytesIO()
+    image.convert("RGB").save(buffer, format="JPEG", quality=quality)
+    buffer.seek(0)
+    return Image.open(buffer)
+
+
+def _shrink(image: Image.Image, new_size: tuple[int, int]) -> Image.Image:
+    """Decode an opened JPEG and resize it to new_size as RGB (the common path of every cached image)."""
+    # draft(): the JPEG decoder can decode directly at 1/2, 1/4 or 1/8 size. It picks the
+    # smallest of those that is still >= new_size, which is faster and needs much less RAM.
+    image.draft(image.mode, new_size)
+    # convert("RGB"): half of the genuine templates are CMYK JPEGs, all fakes are RGB.
+    # Converting everything to RGB removes a colour-format difference a model could exploit.
+    return image.convert("RGB").resize(new_size, Image.Resampling.LANCZOS)
+
+
 def resize_to_cache(src: Path, dst: Path, longest: int = config.RESIZE_LONGEST,
-                    quality: int = config.JPEG_QUALITY) -> tuple[int, int]:
+                    quality: int = config.JPEG_QUALITY, enlarge: bool = False,
+                    pre_quality: int | None = None) -> tuple[int, int]:
     """Save a copy of `src` resized so its longest side is `longest` px, as an RGB JPEG.
+    enlarge=False: images already smaller than `longest` keep their size (512 px cache);
+    enlarge=True : every image ends up with exactly `longest` px (hi-res cache of Phase 3B v2).
+    pre_quality  : if given, the image is first saved as a JPEG at this quality at its ORIGINAL size and
+                   continues from that copy (Phase 3B v3: gives genuine templates the forged ones' history).
     Skips the work if `dst` already exists (so an interrupted run can resume).
     Returns the ORIGINAL (width, height), needed later to scale annotation boxes to the cache.
     """
@@ -397,14 +423,15 @@ def resize_to_cache(src: Path, dst: Path, longest: int = config.RESIZE_LONGEST,
         original_size = image.size  # read from the file header; no pixels decoded yet
         if dst.exists():
             return original_size
-        scale = min(1.0, longest / max(original_size))  # never enlarge small images
+        scale = longest / max(original_size)
+        if not enlarge:
+            scale = min(1.0, scale)
         new_size = (max(1, round(original_size[0] * scale)), max(1, round(original_size[1] * scale)))
-        # draft(): the JPEG decoder can decode directly at 1/2, 1/4 or 1/8 size. It picks the
-        # smallest of those that is still >= new_size, which is faster and needs much less RAM.
-        image.draft(image.mode, new_size)
-        # convert("RGB"): half of the genuine templates are CMYK JPEGs, all fakes are RGB.
-        # Converting everything to RGB removes a colour-format difference a model could exploit.
-        small = image.convert("RGB").resize(new_size, Image.Resampling.LANCZOS)
+        if pre_quality is None:
+            small = _shrink(image, new_size)
+        else:
+            with jpeg_round_trip(image, pre_quality) as saved:  # full-size save, then the same path as above
+                small = _shrink(saved, new_size)
     dst.parent.mkdir(parents=True, exist_ok=True)
     tmp = dst.with_name(dst.name + ".tmp")  # write-then-rename: a crash never leaves a half-written file
     small.save(tmp, format="JPEG", quality=quality)
@@ -413,24 +440,33 @@ def resize_to_cache(src: Path, dst: Path, longest: int = config.RESIZE_LONGEST,
 
 
 def build_cache(manifest: pd.DataFrame, project_root: Path = config.PROJECT_ROOT,
-                longest: int = config.RESIZE_LONGEST, quality: int = config.JPEG_QUALITY) -> tuple[pd.DataFrame, int]:
-    """Resize every manifest image into the cache, one image at a time (low memory).
-    Returns (manifest with cache_path, orig_width, orig_height columns; number of files written).
+                longest: int = config.RESIZE_LONGEST, quality: int = config.JPEG_QUALITY,
+                cache_dir: Path = config.CACHE_DIR, enlarge: bool = False,
+                path_column: str = "cache_path",
+                genuine_pre_quality: int | None = None) -> tuple[pd.DataFrame, int]:
+    """Resize every manifest image into `cache_dir`, one image at a time (low memory). Every image goes
+    through exactly the same code path, whatever its class.
+    genuine_pre_quality: if given, genuine images (label 0) first get a JPEG save at this quality at their
+    original size (see resize_to_cache). This is the one class-dependent step, and it exists to make the
+    classes' histories EQUAL: the forged templates were already saved that way when they were made.
+    Returns (manifest with `path_column`, orig_width, orig_height columns; number of files written).
     """
     processed = config.PROCESSED_DIR.resolve()
     cache_paths, widths, heights, written = [], [], [], 0
-    for image_path in tqdm(manifest["image_path"], desc="resizing", unit="img", mininterval=5):
-        cache_path = cache_path_for(image_path)
+    rows = zip(manifest["image_path"], manifest["label"])
+    for image_path, label in tqdm(rows, total=len(manifest), desc="resizing", unit="img", mininterval=5):
+        cache_path = cache_path_for(image_path, cache_dir)
         dst = project_root / cache_path
         if not dst.resolve().is_relative_to(processed):  # safety net: only ever write to data/processed
             raise RuntimeError(f"Refusing to write outside data/processed: {dst}")
         existed = dst.exists()
-        width, height = resize_to_cache(project_root / image_path, dst, longest, quality)
+        pre_quality = genuine_pre_quality if label == 0 else None
+        width, height = resize_to_cache(project_root / image_path, dst, longest, quality, enlarge, pre_quality)
         written += not existed
         cache_paths.append(cache_path)
         widths.append(width)
         heights.append(height)
-    return manifest.assign(cache_path=cache_paths, orig_width=widths, orig_height=heights), written
+    return manifest.assign(**{path_column: cache_paths}, orig_width=widths, orig_height=heights), written
 
 
 # =============================================================== 6c. file-format checks (Phase 3B)

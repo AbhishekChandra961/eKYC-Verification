@@ -106,7 +106,37 @@ def test_closed_form_weights_equal_true_gradients():
 def test_training_callbacks():
     cbs = models.training_callbacks("x.keras", "x.csv", monitor="val_pr_auc", mode="max", reduce_lr_patience=1)
     kinds = [type(cb).__name__ for cb in cbs]
-    assert kinds[0] == "TerminateOnNaN" and "ReduceLROnPlateau" in kinds and kinds[-1] == "EpochTimer"
+    assert kinds[0] == "TerminateOnNaN" and kinds[-1] == "EpochTimer"
+    assert any(isinstance(cb, keras.callbacks.ReduceLROnPlateau) for cb in cbs)
     assert all(getattr(cb, "monitor", "val_pr_auc") == "val_pr_auc" for cb in cbs)
-    assert "ReduceLROnPlateau" not in [type(cb).__name__ for cb in models.training_callbacks("x.keras", "x.csv")]
+    assert not any(isinstance(cb, keras.callbacks.ReduceLROnPlateau) for cb in models.training_callbacks("x.keras", "x.csv"))
     assert isinstance(cbs[1], keras.callbacks.EarlyStopping)
+
+
+def _resume_fit(tmp_path, resume_best):
+    """One epoch (the 2nd) of a tiny model whose val_loss (mse >= 0) can never beat resume_best = -1."""
+    log = tmp_path / "log.csv"
+    log.write_text("epoch,learning_rate,loss,val_loss\n0,0.001,1.0,1.0\n")  # epoch 0, from the "first run"
+    cbs = models.training_callbacks(tmp_path / "m.keras", log, patience=3, monitor="val_loss", mode="min",
+                                    reduce_lr_patience=1, resume_best=resume_best)
+    model = keras.Sequential([keras.layers.Input((2,)), keras.layers.Dense(1)])
+    model.compile(optimizer=keras.optimizers.Adam(1e-3), loss="mse")
+    x, y = np.zeros((8, 2)), np.ones((8, 1))
+    model.fit(x, y, validation_data=(x, y), initial_epoch=1, epochs=2, callbacks=cbs, verbose=0)
+    return model, cbs, log.read_text().splitlines()
+
+
+def test_training_callbacks_resume_against_the_earlier_best(tmp_path):
+    model, cbs, lines = _resume_fit(tmp_path, resume_best=-1.0)
+    assert not (tmp_path / "m.keras").exists()  # not better than the earlier best: earlier checkpoint kept
+    assert len(lines) == 3 and lines[1].startswith("0,")  # log continued: first-run row kept, epoch 1 added
+    assert lines[2].startswith("1,")
+    assert cbs[1].wait == 1  # early stopping counts this epoch as "no improvement"
+    assert float(model.optimizer.learning_rate) == pytest.approx(5e-4)  # patience 1 -> learning rate halved
+
+
+def test_training_callbacks_without_resume_start_fresh(tmp_path):
+    model, cbs, lines = _resume_fit(tmp_path, resume_best=None)
+    assert (tmp_path / "m.keras").exists()  # the first epoch of a fresh run is always the best so far
+    assert len(lines) == 2  # log overwritten
+    assert float(model.optimizer.learning_rate) == pytest.approx(1e-3)
