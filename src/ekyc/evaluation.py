@@ -19,6 +19,24 @@ def ranking_scores(y_true, scores) -> dict:
             "roc_auc": float(roc_auc_score(y_true, scores))}
 
 
+def ranking_scores_ci(y_true, scores, n_boot: int = 1000, seed: int = 0, level: float = 0.95) -> pd.DataFrame:
+    """ranking_scores with percentile confidence intervals from a stratified bootstrap: each draw resamples the
+    genuine and the forged images separately, with replacement, so both counts stay fixed. Rows pr_auc, roc_auc;
+    columns value, 95% low, 95% high."""
+    y_true, scores = np.asarray(y_true), np.asarray(scores, dtype=float)
+    rng = np.random.default_rng(seed)
+    by_class = [np.flatnonzero(y_true == c) for c in (0, 1)]
+    draws = []
+    for _ in range(n_boot):
+        drawn = np.concatenate([rng.choice(rows, len(rows)) for rows in by_class])
+        draws.append(ranking_scores(y_true[drawn], scores[drawn]))
+    draws = pd.DataFrame(draws)
+    table = pd.DataFrame({"value": pd.Series(ranking_scores(y_true, scores)),
+                          "95% low": draws.quantile((1 - level) / 2),
+                          "95% high": draws.quantile((1 + level) / 2)})
+    return table.loc[["pr_auc", "roc_auc"]]
+
+
 def threshold_for_recall(y_true, scores, min_recall: float = 0.90) -> dict:
     """Highest threshold whose forged-recall is still >= min_recall (= the best precision among
     thresholds that catch at least min_recall of the forgeries)."""
@@ -164,6 +182,24 @@ def edit_hidden_doc_auc(tiles: pd.DataFrame, pages: pd.DataFrame, how: str = "to
     kept = tiles[(y[tiles["page"].to_numpy()] == 0) | (tiles["label"] == 0).to_numpy()]
     doc = page_scores(kept, score_column, how).reindex(range(len(pages))).fillna(0.0)  # no tile left: clean
     return float(roc_auc_score(y, doc))
+
+
+def localisation_summary(tiles: pd.DataFrame, pages: pd.DataFrame, threshold: float,
+                         score_column: str = "score") -> pd.Series:
+    """Is the highest-scoring tile of each forged page on the edit? (Phase 3B, moved here from notebook 03b.)
+    `tiles` needs page, overlaps_edit and the tile score; `pages` needs label and the page score ("score").
+    Returns the share of forged pages whose top tile touches the edit box, the same for the pages detected at
+    `threshold`, and the baseline: the chance that a random tile of a forged page touches the edit."""
+    top = tiles.loc[tiles.groupby("page")[score_column].idxmax()].set_index("page")
+    forged_top = top[pages["label"].to_numpy()[top.index] == 1]
+    detected = pages.loc[forged_top.index, "score"].to_numpy() >= threshold
+    on_forged_page = pages["label"].to_numpy()[tiles["page"].to_numpy()] == 1
+    chance = tiles[on_forged_page].groupby("page")["overlaps_edit"].mean()
+    return pd.Series({"forged pages": len(forged_top),
+                      "top tile touches the edit": forged_top["overlaps_edit"].mean(),
+                      "same, detected pages only": forged_top.loc[detected, "overlaps_edit"].mean(),
+                      "detected pages": int(detected.sum()),
+                      "random tile touches the edit (baseline)": chance.mean()})
 
 
 def compression_history_check(tiles: pd.DataFrame, pages: pd.DataFrame, other_genuine_scores, threshold: float,

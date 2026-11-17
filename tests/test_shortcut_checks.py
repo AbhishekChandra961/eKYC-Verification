@@ -100,6 +100,28 @@ def test_compression_history_check():
     assert changed.loc["position-matched control AUC", "genuine re-saved"] == 0.0
 
 
+def test_localisation_summary():
+    pages, table = _pages_and_tiles()
+    table["overlaps_edit"] = table["label"] != 0  # the edit tile and its sliver touch the edit box
+    pages["score"] = tiles.page_scores(table, how="max").to_numpy()  # 0.99 on forged pages, 0.4 on genuine
+    loc = evaluation.localisation_summary(table, pages, threshold=0.5)
+    assert loc["forged pages"] == 6 and loc["detected pages"] == 6
+    assert loc["top tile touches the edit"] == 1.0 and loc["same, detected pages only"] == 1.0
+    assert loc["random tile touches the edit (baseline)"] == pytest.approx(2 / 9)  # 2 of 9 tiles touch it
+
+
+def test_ranking_scores_ci():
+    y = np.array([0] * 20 + [1] * 20)
+    perfect = evaluation.ranking_scores_ci(y, y + 0.0, n_boot=50)
+    assert (perfect.to_numpy() == 1.0).all()  # perfectly separated in every resample
+    rng = np.random.default_rng(3)
+    scores = y + rng.normal(0, 1, 40)
+    ci = evaluation.ranking_scores_ci(y, scores, n_boot=200, seed=1)
+    assert ci.index.tolist() == ["pr_auc", "roc_auc"] and ci.loc["roc_auc", "value"] == roc_auc_score(y, scores)
+    assert (ci["95% low"] <= ci["value"]).all() and (ci["value"] <= ci["95% high"]).all()
+    assert ci.equals(evaluation.ranking_scores_ci(y, scores, n_boot=200, seed=1))  # same seed, same interval
+
+
 # ------------------------------------------------------------------ equalised compression history (data.py)
 def _photo_like(path, quality=92, size=(300, 200)):
     rng = np.random.default_rng(1)

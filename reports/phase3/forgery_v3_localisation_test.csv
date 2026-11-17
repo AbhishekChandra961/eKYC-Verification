@@ -1,0 +1,6 @@
+,test,validation
+forged pages,190.0,179.0
+top tile touches the edit,0.9526315789473684,0.933
+"same, detected pages only",0.9728260869565217,0.9877
+detected pages,184.0,162.0
+random tile touches the edit (baseline),0.10758714969241286,0.11

@@ -1,0 +1,231 @@
+{
+  "split": "test",
+  "run_at": "2026-11-16 23:31",
+  "frozen": {
+    "model": "models/forgery_detector.keras",
+    "aggregation": "max",
+    "thresholds": {
+      "recall >= 0.90 (val)": 0.729,
+      "F1-optimal (val)": 0.857
+    }
+  },
+  "pages": {
+    "forged": 190,
+    "genuine": 148
+  },
+  "tiles": 27555,
+  "doc_ranking": {
+    "document PR-AUC": {
+      "test": 0.9842,
+      "95% low": 0.9744,
+      "95% high": 0.9923
+    },
+    "document ROC-AUC": {
+      "test": 0.9755,
+      "95% low": 0.9591,
+      "95% high": 0.9886
+    }
+  },
+  "thresholds": {
+    "recall >= 0.90 (val)": {
+      "threshold": 0.729,
+      "precision": 0.8402,
+      "recall": 0.9684,
+      "F1": 0.8998,
+      "false alarm rate": 0.2365,
+      "forged caught": 184.0,
+      "genuine flagged": 35.0,
+      "val precision": 0.8351,
+      "val recall": 0.905
+    },
+    "F1-optimal (val)": {
+      "threshold": 0.857,
+      "precision": 0.9082,
+      "recall": 0.9368,
+      "F1": 0.9223,
+      "false alarm rate": 0.1216,
+      "forged caught": 178.0,
+      "genuine flagged": 18.0,
+      "val precision": 0.9294,
+      "val recall": 0.8827
+    }
+  },
+  "recall_by_ctype": {
+    "Crop_and_Replace": {
+      "forged": 18.0,
+      "recall at 0.729": 0.7778,
+      "recall at 0.857": 0.6667
+    },
+    "Inpaint_and_Rewrite": {
+      "forged": 172.0,
+      "recall at 0.729": 0.9884,
+      "recall at 0.857": 0.9651
+    }
+  },
+  "localisation": {
+    "forged pages": 190.0,
+    "top tile touches the edit": 0.9526,
+    "same, detected pages only": 0.9728,
+    "detected pages": 184.0,
+    "random tile touches the edit (baseline)": 0.1076
+  },
+  "position_matched_control": {
+    "all types": {
+      "forged-page tiles": 13826,
+      "genuine tiles": 12056,
+      "AUC": 0.4839,
+      "95% low": 0.4679,
+      "95% high": 0.4993
+    },
+    "alb_id": {
+      "forged-page tiles": 1436,
+      "genuine tiles": 1232,
+      "AUC": 0.4449,
+      "95% low": 0.4029,
+      "95% high": 0.4809
+    },
+    "aze_passport": {
+      "forged-page tiles": 2524,
+      "genuine tiles": 1584,
+      "AUC": 0.5029,
+      "95% low": 0.4658,
+      "95% high": 0.5302
+    },
+    "esp_id": {
+      "forged-page tiles": 1596,
+      "genuine tiles": 1155,
+      "AUC": 0.449,
+      "95% low": 0.4053,
+      "95% high": 0.4946
+    },
+    "est_id": {
+      "forged-page tiles": 1323,
+      "genuine tiles": 1155,
+      "AUC": 0.4733,
+      "95% low": 0.435,
+      "95% high": 0.5055
+    },
+    "fin_id": {
+      "forged-page tiles": 916,
+      "genuine tiles": 1078,
+      "AUC": 0.4797,
+      "95% low": 0.4472,
+      "95% high": 0.5148
+    },
+    "grc_passport": {
+      "forged-page tiles": 987,
+      "genuine tiles": 1232,
+      "AUC": 0.4905,
+      "95% low": 0.4462,
+      "95% high": 0.529
+    },
+    "lva_passport": {
+      "forged-page tiles": 1385,
+      "genuine tiles": 1232,
+      "AUC": 0.5385,
+      "95% low": 0.5094,
+      "95% high": 0.5659
+    },
+    "rus_internalpassport": {
+      "forged-page tiles": 1264,
+      "genuine tiles": 1232,
+      "AUC": 0.4879,
+      "95% low": 0.4414,
+      "95% high": 0.5325
+    },
+    "srb_passport": {
+      "forged-page tiles": 1152,
+      "genuine tiles": 1078,
+      "AUC": 0.4812,
+      "95% low": 0.4261,
+      "95% high": 0.5346
+    },
+    "svk_id": {
+      "forged-page tiles": 1243,
+      "genuine tiles": 1078,
+      "AUC": 0.4814,
+      "95% low": 0.4414,
+      "95% high": 0.5307
+    }
+  },
+  "position_matched_control_far": {
+    "all types": {
+      "forged-page tiles": 11098,
+      "genuine tiles": 12056,
+      "AUC": 0.4806,
+      "95% low": 0.462,
+      "95% high": 0.4969
+    },
+    "alb_id": {
+      "forged-page tiles": 1157,
+      "genuine tiles": 1232,
+      "AUC": 0.4451,
+      "95% low": 0.4069,
+      "95% high": 0.4801
+    },
+    "aze_passport": {
+      "forged-page tiles": 2000,
+      "genuine tiles": 1584,
+      "AUC": 0.4985,
+      "95% low": 0.4638,
+      "95% high": 0.5273
+    },
+    "esp_id": {
+      "forged-page tiles": 1341,
+      "genuine tiles": 1155,
+      "AUC": 0.4298,
+      "95% low": 0.3805,
+      "95% high": 0.4817
+    },
+    "est_id": {
+      "forged-page tiles": 1069,
+      "genuine tiles": 1155,
+      "AUC": 0.4741,
+      "95% low": 0.4342,
+      "95% high": 0.5091
+    },
+    "fin_id": {
+      "forged-page tiles": 759,
+      "genuine tiles": 1078,
+      "AUC": 0.4888,
+      "95% low": 0.4533,
+      "95% high": 0.526
+    },
+    "grc_passport": {
+      "forged-page tiles": 797,
+      "genuine tiles": 1232,
+      "AUC": 0.5043,
+      "95% low": 0.4515,
+      "95% high": 0.5434
+    },
+    "lva_passport": {
+      "forged-page tiles": 1149,
+      "genuine tiles": 1232,
+      "AUC": 0.5352,
+      "95% low": 0.5001,
+      "95% high": 0.5666
+    },
+    "rus_internalpassport": {
+      "forged-page tiles": 1006,
+      "genuine tiles": 1232,
+      "AUC": 0.4845,
+      "95% low": 0.4347,
+      "95% high": 0.5342
+    },
+    "srb_passport": {
+      "forged-page tiles": 870,
+      "genuine tiles": 1078,
+      "AUC": 0.4784,
+      "95% low": 0.421,
+      "95% high": 0.537
+    },
+    "svk_id": {
+      "forged-page tiles": 950,
+      "genuine tiles": 1078,
+      "AUC": 0.4711,
+      "95% low": 0.4218,
+      "95% high": 0.5175
+    }
+  },
+  "edit_hidden_doc_roc_auc": 0.4587
+}
