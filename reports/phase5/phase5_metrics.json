@@ -1,0 +1,395 @@
+{
+  "prompt_version": "v2",
+  "extractors": {
+    "ollama": "qwen2.5vl:7b"
+  },
+  "cloud": "skipped: no LLM_API_KEY",
+  "dev": {
+    "v1": {
+      "documents": 30,
+      "JSON valid": 1.0,
+      "retries (total)": 0,
+      "latency p50 (s)": 18.080311478930525,
+      "latency p95 (s)": 28.117489945783745,
+      "input tokens (mean)": 1725.4,
+      "output tokens (mean)": 162.6,
+      "fields compared": 312,
+      "exact match": 0.842948717948718,
+      "normalized match": 0.9615384615384616,
+      "CER (mean)": 0.015900163433058168,
+      "spurious fields": 0
+    },
+    "v2": {
+      "documents": 30,
+      "JSON valid": 1.0,
+      "retries (total)": 0,
+      "latency p50 (s)": 12.750179396010935,
+      "latency p95 (s)": 22.26767550639342,
+      "input tokens (mean)": 1748.7,
+      "output tokens (mean)": 163.33333333333334,
+      "fields compared": 312,
+      "exact match": 0.8557692307692307,
+      "normalized match": 0.967948717948718,
+      "CER (mean)": 0.005313690127286617,
+      "spurious fields": 0
+    }
+  },
+  "test": {
+    "ollama": {
+      "documents": 148,
+      "JSON valid": 0.9932432432432432,
+      "retries (total)": 0,
+      "latency p50 (s)": 31.586417499929667,
+      "latency p95 (s)": 64.11186973750591,
+      "input tokens (mean)": 1749.748299319728,
+      "output tokens (mean)": 163.65986394557822,
+      "fields compared": 1547,
+      "exact match": 0.8409825468648998,
+      "normalized match": 0.9521654815772462,
+      "CER (mean)": 0.018355028398561173,
+      "spurious fields": 0
+    }
+  },
+  "test_per_field": {
+    "surname": {
+      "documents": 148,
+      "exact": 0.9054,
+      "normalized": 0.9189,
+      "cer": 0.02
+    },
+    "given_names": {
+      "documents": 148,
+      "exact": 0.9122,
+      "normalized": 0.9257,
+      "cer": 0.0626
+    },
+    "birth_date": {
+      "documents": 148,
+      "exact": 0.8919,
+      "normalized": 0.9865,
+      "cer": 0.0074
+    },
+    "gender": {
+      "documents": 148,
+      "exact": 0.9392,
+      "normalized": 0.9932,
+      "cer": 0.0068
+    },
+    "nationality": {
+      "documents": 134,
+      "exact": 0.8582,
+      "normalized": 0.9925,
+      "cer": 0.0075
+    },
+    "document_number": {
+      "documents": 148,
+      "exact": 0.8919,
+      "normalized": 0.9865,
+      "cer": 0.0075
+    },
+    "personal_number": {
+      "documents": 120,
+      "exact": 0.9833,
+      "normalized": 0.9833,
+      "cer": 0.0167
+    },
+    "issue_date": {
+      "documents": 119,
+      "exact": 0.8739,
+      "normalized": 0.9916,
+      "cer": 0.0084
+    },
+    "expiry_date": {
+      "documents": 134,
+      "exact": 0.8806,
+      "normalized": 0.9925,
+      "cer": 0.0075
+    },
+    "birth_place": {
+      "documents": 90,
+      "exact": 0.7444,
+      "normalized": 0.9778,
+      "cer": 0.012
+    },
+    "authority": {
+      "documents": 90,
+      "exact": 0.6667,
+      "normalized": 0.9556,
+      "cer": 0.0149
+    },
+    "mrz_line0": {
+      "documents": 60,
+      "exact": 0.1333,
+      "normalized": 0.7667,
+      "cer": 0.0674
+    },
+    "mrz_line1": {
+      "documents": 60,
+      "exact": 0.65,
+      "normalized": 0.65,
+      "cer": 0.025
+    }
+  },
+  "test_per_doc_type": {
+    "alb_id": {
+      "fields": 176,
+      "exact": 0.9886,
+      "normalized": 0.9886,
+      "cer": 0.0061,
+      "documents fully correct": 0.875
+    },
+    "aze_passport": {
+      "fields": 234,
+      "exact": 0.6667,
+      "normalized": 0.859,
+      "cer": 0.0322,
+      "documents fully correct": 0.0
+    },
+    "esp_id": {
+      "fields": 135,
+      "exact": 0.9778,
+      "normalized": 0.9852,
+      "cer": 0.0014,
+      "documents fully correct": 0.8667
+    },
+    "est_id": {
+      "fields": 120,
+      "exact": 1.0,
+      "normalized": 1.0,
+      "cer": 0.0,
+      "documents fully correct": 1.0
+    },
+    "fin_id": {
+      "fields": 126,
+      "exact": 0.6349,
+      "normalized": 1.0,
+      "cer": 0.0,
+      "documents fully correct": 1.0
+    },
+    "grc_passport": {
+      "fields": 168,
+      "exact": 0.7917,
+      "normalized": 0.9345,
+      "cer": 0.0273,
+      "documents fully correct": 0.4286
+    },
+    "lva_passport": {
+      "fields": 182,
+      "exact": 0.7857,
+      "normalized": 0.8901,
+      "cer": 0.075,
+      "documents fully correct": 0.5
+    },
+    "rus_internalpassport": {
+      "fields": 84,
+      "exact": 0.8333,
+      "normalized": 1.0,
+      "cer": 0.0,
+      "documents fully correct": 1.0
+    },
+    "srb_passport": {
+      "fields": 182,
+      "exact": 0.8571,
+      "normalized": 0.9835,
+      "cer": 0.0024,
+      "documents fully correct": 0.7857
+    },
+    "svk_id": {
+      "fields": 140,
+      "exact": 0.9786,
+      "normalized": 0.9786,
+      "cer": 0.0068,
+      "documents fully correct": 0.7857
+    }
+  },
+  "rules_ground_truth": {
+    "mrz_format": {
+      "documents": 400,
+      "false_flags": 0,
+      "false-flag rate": 0.0,
+      "worst document type": 0.0
+    },
+    "mrz_check_document_number": {
+      "documents": 400,
+      "false_flags": 0,
+      "false-flag rate": 0.0,
+      "worst document type": 0.0
+    },
+    "mrz_check_birth_date": {
+      "documents": 400,
+      "false_flags": 0,
+      "false-flag rate": 0.0,
+      "worst document type": 0.0
+    },
+    "mrz_check_expiry_date": {
+      "documents": 400,
+      "false_flags": 0,
+      "false-flag rate": 0.0,
+      "worst document type": 0.0
+    },
+    "mrz_check_composite": {
+      "documents": 400,
+      "false_flags": 0,
+      "false-flag rate": 0.0,
+      "worst document type": 0.0
+    },
+    "mrz_vs_surname": {
+      "documents": 400,
+      "false_flags": 3,
+      "false-flag rate": 0.0075,
+      "worst document type": 0.03
+    },
+    "mrz_vs_given_names": {
+      "documents": 400,
+      "false_flags": 0,
+      "false-flag rate": 0.0,
+      "worst document type": 0.0
+    },
+    "mrz_vs_birth_date": {
+      "documents": 400,
+      "false_flags": 3,
+      "false-flag rate": 0.0075,
+      "worst document type": 0.03
+    },
+    "mrz_vs_document_number": {
+      "documents": 399,
+      "false_flags": 0,
+      "false-flag rate": 0.0,
+      "worst document type": 0.0
+    },
+    "mrz_vs_expiry_date": {
+      "documents": 400,
+      "false_flags": 2,
+      "false-flag rate": 0.005,
+      "worst document type": 0.02
+    },
+    "dates_parseable": {
+      "documents": 1000,
+      "false_flags": 0,
+      "false-flag rate": 0.0,
+      "worst document type": 0.0
+    },
+    "date_order": {
+      "documents": 900,
+      "false_flags": 1,
+      "false-flag rate": 0.0011,
+      "worst document type": 0.01
+    }
+  },
+  "rules_demoted": [],
+  "rules_extracted_test": {
+    "date_order": {
+      "documents": 133,
+      "false_flags": 0,
+      "false-flag rate (extracted)": 0.0,
+      "false-flag rate (ground truth, same docs)": 0.0
+    },
+    "dates_parseable": {
+      "documents": 147,
+      "false_flags": 0,
+      "false-flag rate (extracted)": 0.0,
+      "false-flag rate (ground truth, same docs)": 0.0
+    },
+    "mrz_check_birth_date": {
+      "documents": 59,
+      "false_flags": 2,
+      "false-flag rate (extracted)": 0.0339,
+      "false-flag rate (ground truth, same docs)": 0.0
+    },
+    "mrz_check_composite": {
+      "documents": 59,
+      "false_flags": 2,
+      "false-flag rate (extracted)": 0.0339,
+      "false-flag rate (ground truth, same docs)": 0.0
+    },
+    "mrz_check_document_number": {
+      "documents": 59,
+      "false_flags": 2,
+      "false-flag rate (extracted)": 0.0339,
+      "false-flag rate (ground truth, same docs)": 0.0
+    },
+    "mrz_check_expiry_date": {
+      "documents": 59,
+      "false_flags": 1,
+      "false-flag rate (extracted)": 0.0169,
+      "false-flag rate (ground truth, same docs)": 0.0
+    },
+    "mrz_format": {
+      "documents": 60,
+      "false_flags": 1,
+      "false-flag rate (extracted)": 0.0167,
+      "false-flag rate (ground truth, same docs)": 0.0
+    },
+    "mrz_vs_birth_date": {
+      "documents": 59,
+      "false_flags": 3,
+      "false-flag rate (extracted)": 0.0508,
+      "false-flag rate (ground truth, same docs)": 0.0
+    },
+    "mrz_vs_document_number": {
+      "documents": 59,
+      "false_flags": 0,
+      "false-flag rate (extracted)": 0.0,
+      "false-flag rate (ground truth, same docs)": 0.0
+    },
+    "mrz_vs_expiry_date": {
+      "documents": 59,
+      "false_flags": 2,
+      "false-flag rate (extracted)": 0.0339,
+      "false-flag rate (ground truth, same docs)": 0.0
+    },
+    "mrz_vs_given_names": {
+      "documents": 59,
+      "false_flags": 16,
+      "false-flag rate (extracted)": 0.2712,
+      "false-flag rate (ground truth, same docs)": 0.0
+    },
+    "mrz_vs_surname": {
+      "documents": 59,
+      "false_flags": 5,
+      "false-flag rate (extracted)": 0.0847,
+      "false-flag rate (ground truth, same docs)": 0.0
+    }
+  },
+  "forged_mrz": {
+    "pages": 155,
+    "by_ctype": {
+      "Crop_and_Replace": {
+        "model catches (>= 0.729)": 0.4583,
+        "rules catch": 0.5417,
+        "caught via the altered field": 0.375,
+        "model or rules": 0.7917,
+        "model or rules (via the altered field)": 0.7083,
+        "pages": 24
+      },
+      "Inpaint_and_Rewrite": {
+        "model catches (>= 0.729)": 0.9695,
+        "rules catch": 0.2443,
+        "caught via the altered field": 0.0611,
+        "model or rules": 0.9695,
+        "model or rules (via the altered field)": 0.9695,
+        "pages": 131
+      }
+    },
+    "crop_and_replace_missed_by_model": 13,
+    "of_those_caught_by_rules": 8
+  },
+  "summaries": [
+    {
+      "case": "clean approve",
+      "LLM seconds": 11.4,
+      "numbers not in the input": "none"
+    },
+    {
+      "case": "forgery suspected",
+      "LLM seconds": 7.1,
+      "numbers not in the input": "none"
+    },
+    {
+      "case": "face mismatch",
+      "LLM seconds": 6.3,
+      "numbers not in the input": "none"
+    }
+  ],
+  "peak_memory_gb_notebook": 0.15
+}

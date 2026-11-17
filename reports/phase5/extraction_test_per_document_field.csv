@@ -1,0 +1,1548 @@
+doc_id,doc_type,field,truth,predicted,exact,normalized,cer,spurious
+alb_id_08,alb_id,surname,Alikaj,Alikaj,True,True,0.0,False
+alb_id_08,alb_id,given_names,Ajshe,Ajshe,True,True,0.0,False
+alb_id_08,alb_id,birth_date,15-03-1983,15-03-1983,True,True,0.0,False
+alb_id_08,alb_id,gender,F,F,True,True,0.0,False
+alb_id_08,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_08,alb_id,document_number,661469832,661469832,True,True,0.0,False
+alb_id_08,alb_id,personal_number,I35315406P,I35315406P,True,True,0.0,False
+alb_id_08,alb_id,issue_date,15-05-2017,15-05-2017,True,True,0.0,False
+alb_id_08,alb_id,expiry_date,15-05-2027,15-05-2027,True,True,0.0,False
+alb_id_08,alb_id,birth_place,"Laç,Kruje","Laç,Kruje",True,True,0.0,False
+alb_id_08,alb_id,authority,MB,MB,True,True,0.0,False
+alb_id_12,alb_id,surname,Arbnori,Arbnori,True,True,0.0,False
+alb_id_12,alb_id,given_names,Aleksander,Aleksander,True,True,0.0,False
+alb_id_12,alb_id,birth_date,23-08-1993,23-08-1993,True,True,0.0,False
+alb_id_12,alb_id,gender,M,M,True,True,0.0,False
+alb_id_12,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_12,alb_id,document_number,900352040,900352040,True,True,0.0,False
+alb_id_12,alb_id,personal_number,J30823069V,J30823069V,True,True,0.0,False
+alb_id_12,alb_id,issue_date,03-10-2015,03-10-2015,True,True,0.0,False
+alb_id_12,alb_id,expiry_date,03-10-2025,03-10-2025,True,True,0.0,False
+alb_id_12,alb_id,birth_place,Pajove - Peqin,Pajove - Peqin,True,True,0.0,False
+alb_id_12,alb_id,authority,MPB,MPB,True,True,0.0,False
+alb_id_13,alb_id,surname,Bajraktari,Bajraktari,True,True,0.0,False
+alb_id_13,alb_id,given_names,Aleksio,Aleksio,True,True,0.0,False
+alb_id_13,alb_id,birth_date,08-12-1999,08-12-1999,True,True,0.0,False
+alb_id_13,alb_id,gender,M,M,True,True,0.0,False
+alb_id_13,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_13,alb_id,document_number,079318707,079318707,True,True,0.0,False
+alb_id_13,alb_id,personal_number,J91208078C,J91208078C,True,True,0.0,False
+alb_id_13,alb_id,issue_date,22-04-2017,22-04-2017,True,True,0.0,False
+alb_id_13,alb_id,expiry_date,22-04-2027,22-04-2027,True,True,0.0,False
+alb_id_13,alb_id,birth_place,Pajove - Peqin,Pajove - Peqin,True,True,0.0,False
+alb_id_13,alb_id,authority,MB,MB,True,True,0.0,False
+alb_id_14,alb_id,surname,Bajrami,Bajrami,True,True,0.0,False
+alb_id_14,alb_id,given_names,Alesandro,Alesandro,True,True,0.0,False
+alb_id_14,alb_id,birth_date,11-09-1973,11-09-1973,True,True,0.0,False
+alb_id_14,alb_id,gender,M,M,True,True,0.0,False
+alb_id_14,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_14,alb_id,document_number,701570501,701570501,True,True,0.0,False
+alb_id_14,alb_id,personal_number,H30911272M,H30911272M,True,True,0.0,False
+alb_id_14,alb_id,issue_date,30-08-2018,30-08-2018,True,True,0.0,False
+alb_id_14,alb_id,expiry_date,30-08-2028,30-08-2028,True,True,0.0,False
+alb_id_14,alb_id,birth_place,"Sevaster,Vlore","Sevaster,Vlore",True,True,0.0,False
+alb_id_14,alb_id,authority,MB,MB,True,True,0.0,False
+alb_id_19,alb_id,surname,Bardulla,Bardulla,True,True,0.0,False
+alb_id_19,alb_id,given_names,Amelja,Amelja,True,True,0.0,False
+alb_id_19,alb_id,birth_date,27-02-1986,27-02-1986,True,True,0.0,False
+alb_id_19,alb_id,gender,F,F,True,True,0.0,False
+alb_id_19,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_19,alb_id,document_number,877199587,877199587,True,True,0.0,False
+alb_id_19,alb_id,personal_number,I65227901J,I65227901J,True,True,0.0,False
+alb_id_19,alb_id,issue_date,23-08-2015,23-08-2015,True,True,0.0,False
+alb_id_19,alb_id,expiry_date,23-08-2025,23-08-2025,True,True,0.0,False
+alb_id_19,alb_id,birth_place,"Gjinar,Elbasan","Gjinar,Elbasan",True,True,0.0,False
+alb_id_19,alb_id,authority,MB,MB,True,True,0.0,False
+alb_id_22,alb_id,surname,Bejta,Bejta,True,True,0.0,False
+alb_id_22,alb_id,given_names,Arbën,Arbën,True,True,0.0,False
+alb_id_22,alb_id,birth_date,30-06-1991,30-06-1991,True,True,0.0,False
+alb_id_22,alb_id,gender,M,M,True,True,0.0,False
+alb_id_22,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_22,alb_id,document_number,705536852,705536852,True,True,0.0,False
+alb_id_22,alb_id,personal_number,J10630153F,J10630153F,True,True,0.0,False
+alb_id_22,alb_id,issue_date,08-11-2015,08-11-2015,True,True,0.0,False
+alb_id_22,alb_id,expiry_date,08-11-2025,08-11-2025,True,True,0.0,False
+alb_id_22,alb_id,birth_place,"Koprënckë, ALB","Kopërënckë, ALB",False,False,0.07692307692307693,False
+alb_id_22,alb_id,authority,MPB,MPB,True,True,0.0,False
+alb_id_35,alb_id,surname,Bushaj,Bushaj,True,True,0.0,False
+alb_id_35,alb_id,given_names,Arbenita,Arbenita,True,True,0.0,False
+alb_id_35,alb_id,birth_date,14-11-1998,14-11-1998,True,True,0.0,False
+alb_id_35,alb_id,gender,F,F,True,True,0.0,False
+alb_id_35,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_35,alb_id,document_number,533479539,533479539,True,True,0.0,False
+alb_id_35,alb_id,personal_number,J86114275W,J86114275W,True,True,0.0,False
+alb_id_35,alb_id,issue_date,26-08-2018,26-08-2018,True,True,0.0,False
+alb_id_35,alb_id,expiry_date,26-08-2028,26-08-2028,True,True,0.0,False
+alb_id_35,alb_id,birth_place,Shkoder,Shkoder,True,True,0.0,False
+alb_id_35,alb_id,authority,MPB,MPB,True,True,0.0,False
+alb_id_36,alb_id,surname,Bushati,Bushati,True,True,0.0,False
+alb_id_36,alb_id,given_names,Arbërie,Arbërie,True,True,0.0,False
+alb_id_36,alb_id,birth_date,18-08-1994,18-08-1994,True,True,0.0,False
+alb_id_36,alb_id,gender,F,F,True,True,0.0,False
+alb_id_36,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_36,alb_id,document_number,763109949,763109949,True,True,0.0,False
+alb_id_36,alb_id,personal_number,J45818632A,J45818632A,True,True,0.0,False
+alb_id_36,alb_id,issue_date,28-05-2016,28-05-2016,True,True,0.0,False
+alb_id_36,alb_id,expiry_date,28-05-2026,28-05-2026,True,True,0.0,False
+alb_id_36,alb_id,birth_place,"Cerjan,Diber","Cerjan,Diber",True,True,0.0,False
+alb_id_36,alb_id,authority,MB,MB,True,True,0.0,False
+alb_id_46,alb_id,surname,Chani,Chani,True,True,0.0,False
+alb_id_46,alb_id,given_names,Arjana,Arjana,True,True,0.0,False
+alb_id_46,alb_id,birth_date,01-01-1994,01-01-1994,True,True,0.0,False
+alb_id_46,alb_id,gender,F,F,True,True,0.0,False
+alb_id_46,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_46,alb_id,document_number,293268104,293268104,True,True,0.0,False
+alb_id_46,alb_id,personal_number,J45101556H,J45101556H,True,True,0.0,False
+alb_id_46,alb_id,issue_date,22-09-2016,22-09-2016,True,True,0.0,False
+alb_id_46,alb_id,expiry_date,22-09-2026,22-09-2026,True,True,0.0,False
+alb_id_46,alb_id,birth_place,"Sarande,Sarande","Sarande,Sarande",True,True,0.0,False
+alb_id_46,alb_id,authority,MB,MB,True,True,0.0,False
+alb_id_48,alb_id,surname,Ciftja,Ciftja,True,True,0.0,False
+alb_id_48,alb_id,given_names,Arjeta,Arjeta,True,True,0.0,False
+alb_id_48,alb_id,birth_date,29-05-1997,29-05-1997,True,True,0.0,False
+alb_id_48,alb_id,gender,F,F,True,True,0.0,False
+alb_id_48,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_48,alb_id,document_number,553333737,553333737,True,True,0.0,False
+alb_id_48,alb_id,personal_number,J75529174W,J75529174W,True,True,0.0,False
+alb_id_48,alb_id,issue_date,31-03-2017,31-03-2017,True,True,0.0,False
+alb_id_48,alb_id,expiry_date,31-03-2027,31-03-2027,True,True,0.0,False
+alb_id_48,alb_id,birth_place,"Shkodër, ALB","Shkodër, ALB",True,True,0.0,False
+alb_id_48,alb_id,authority,MB,MB,True,True,0.0,False
+alb_id_54,alb_id,surname,Dedej,Dedej,True,True,0.0,False
+alb_id_54,alb_id,given_names,Bajram,Bajram,True,True,0.0,False
+alb_id_54,alb_id,birth_date,01-02-1999,01-02-1999,True,True,0.0,False
+alb_id_54,alb_id,gender,M,M,True,True,0.0,False
+alb_id_54,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_54,alb_id,document_number,400211657,400211657,True,True,0.0,False
+alb_id_54,alb_id,personal_number,J90201865J,J90201865J,True,True,0.0,False
+alb_id_54,alb_id,issue_date,04-07-2016,04-07-2016,True,True,0.0,False
+alb_id_54,alb_id,expiry_date,04-07-2026,04-07-2026,True,True,0.0,False
+alb_id_54,alb_id,birth_place,"Laç,Kruje","Laç,Kruje",True,True,0.0,False
+alb_id_54,alb_id,authority,MB,MB,True,True,0.0,False
+alb_id_66,alb_id,surname,Elezi,Elezi,True,True,0.0,False
+alb_id_66,alb_id,given_names,Bora,Bora,True,True,0.0,False
+alb_id_66,alb_id,birth_date,27-01-2002,27-01-2002,True,True,0.0,False
+alb_id_66,alb_id,gender,F,F,True,True,0.0,False
+alb_id_66,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_66,alb_id,document_number,954077977,954077977,True,True,0.0,False
+alb_id_66,alb_id,personal_number,K25127353I,K25127353I,True,True,0.0,False
+alb_id_66,alb_id,issue_date,14-04-2018,14-04-2018,True,True,0.0,False
+alb_id_66,alb_id,expiry_date,14-04-2028,14-04-2028,True,True,0.0,False
+alb_id_66,alb_id,birth_place,"Koprënckë, ALB","Koprënckë, ALB",True,True,0.0,False
+alb_id_66,alb_id,authority,MPB,MPB,True,True,0.0,False
+alb_id_67,alb_id,surname,Emini,Emini,True,True,0.0,False
+alb_id_67,alb_id,given_names,Bukuroshe,Bukuroshe,True,True,0.0,False
+alb_id_67,alb_id,birth_date,05-10-1977,05-10-1977,True,True,0.0,False
+alb_id_67,alb_id,gender,F,F,True,True,0.0,False
+alb_id_67,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_67,alb_id,document_number,160611230,160611230,True,True,0.0,False
+alb_id_67,alb_id,personal_number,H76005372F,D01292789L,False,False,1.0,False
+alb_id_67,alb_id,issue_date,24-06-2019,24-06-2019,True,True,0.0,False
+alb_id_67,alb_id,expiry_date,24-06-2029,24-06-2029,True,True,0.0,False
+alb_id_67,alb_id,birth_place,"Koprënckë, ALB","Koprënckë, ALB",True,True,0.0,False
+alb_id_67,alb_id,authority,MPB,MPB,True,True,0.0,False
+alb_id_68,alb_id,surname,Fakaj,Fakaj,True,True,0.0,False
+alb_id_68,alb_id,given_names,Dafina,Dafina,True,True,0.0,False
+alb_id_68,alb_id,birth_date,04-05-1983,04-05-1983,True,True,0.0,False
+alb_id_68,alb_id,gender,F,F,True,True,0.0,False
+alb_id_68,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_68,alb_id,document_number,799569441,799569441,True,True,0.0,False
+alb_id_68,alb_id,personal_number,I35504728G,I35504728G,True,True,0.0,False
+alb_id_68,alb_id,issue_date,18-11-2019,18-11-2019,True,True,0.0,False
+alb_id_68,alb_id,expiry_date,18-11-2029,18-11-2029,True,True,0.0,False
+alb_id_68,alb_id,birth_place,"Koprënckë, ALB","Koprënckë, ALB",True,True,0.0,False
+alb_id_68,alb_id,authority,MPB,MPB,True,True,0.0,False
+alb_id_81,alb_id,surname,Brozi,Brozi,True,True,0.0,False
+alb_id_81,alb_id,given_names,Betim,Betim,True,True,0.0,False
+alb_id_81,alb_id,birth_date,31-03-1954,31-03-1954,True,True,0.0,False
+alb_id_81,alb_id,gender,M,M,True,True,0.0,False
+alb_id_81,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_81,alb_id,document_number,153668777,153668777,True,True,0.0,False
+alb_id_81,alb_id,personal_number,F40331576O,F40331576O,True,True,0.0,False
+alb_id_81,alb_id,issue_date,04-03-2017,04-03-2017,True,True,0.0,False
+alb_id_81,alb_id,expiry_date,04-03-2027,04-03-2027,True,True,0.0,False
+alb_id_81,alb_id,birth_place,"Vlorë, ALB","Vlorë, ALB",True,True,0.0,False
+alb_id_81,alb_id,authority,MPB,MPB,True,True,0.0,False
+alb_id_98,alb_id,surname,Ciftja,Ciftja,True,True,0.0,False
+alb_id_98,alb_id,given_names,Elmedina,Elmedina,True,True,0.0,False
+alb_id_98,alb_id,birth_date,28-08-1965,28-08-1965,True,True,0.0,False
+alb_id_98,alb_id,gender,F,F,True,True,0.0,False
+alb_id_98,alb_id,nationality,Shqiptare/Albanian,Shqiptare/Albanian,True,True,0.0,False
+alb_id_98,alb_id,document_number,969453345,969453345,True,True,0.0,False
+alb_id_98,alb_id,personal_number,G55828202M,G55828202M,True,True,0.0,False
+alb_id_98,alb_id,issue_date,23-02-2019,23-02-2019,True,True,0.0,False
+alb_id_98,alb_id,expiry_date,23-02-2029,23-02-2029,True,True,0.0,False
+alb_id_98,alb_id,birth_place,"Mgull, ALB","Mgull, ALB",True,True,0.0,False
+alb_id_98,alb_id,authority,MB,MB,True,True,0.0,False
+aze_passport_01,aze_passport,surname,ABRAMOV,ABRAMOV,True,True,0.0,False
+aze_passport_01,aze_passport,given_names,ADNAN,ADNAN,True,True,0.0,False
+aze_passport_01,aze_passport,birth_date,24.10.1972,24.10.1972,True,True,0.0,False
+aze_passport_01,aze_passport,gender,K/M,K/M,True,True,0.0,False
+aze_passport_01,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_01,aze_passport,document_number,C85157385,C85157385,True,True,0.0,False
+aze_passport_01,aze_passport,personal_number,3KV88GH,3KV88GH,True,True,0.0,False
+aze_passport_01,aze_passport,issue_date,04.08.2016,04.08.2016,True,True,0.0,False
+aze_passport_01,aze_passport,expiry_date,03.08.2026,03.08.2026,True,True,0.0,False
+aze_passport_01,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_01,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_01,aze_passport,mrz_line0,PCAZEABRAMOV<<ADNAN<<<<<<<<<<<<<<<<<<<<<<<<<,PCAZEABRAMOV<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,False,0.3684210526315789,False
+aze_passport_01,aze_passport,mrz_line1,C851573852AZE7210246M26080313KV88GH<<<<<<<70,C851573852AZE7210246M26080313KV88GH<<<<<<<<70,False,False,0.022727272727272728,False
+aze_passport_05,aze_passport,surname,MARTIN,MARTIN,True,True,0.0,False
+aze_passport_05,aze_passport,given_names,ADIL,ADIL,True,True,0.0,False
+aze_passport_05,aze_passport,birth_date,04.04.1989,04.04.1989,True,True,0.0,False
+aze_passport_05,aze_passport,gender,Q/F,Q/F,True,True,0.0,False
+aze_passport_05,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_05,aze_passport,document_number,C27732491,C27732491,True,True,0.0,False
+aze_passport_05,aze_passport,personal_number,KEK2K55,KEK2K55,True,True,0.0,False
+aze_passport_05,aze_passport,issue_date,20.06.2018,20.06.2018,True,True,0.0,False
+aze_passport_05,aze_passport,expiry_date,19.06.2028,19.06.2028,True,True,0.0,False
+aze_passport_05,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_05,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXILI İŞLƏR NAZIRLIYYİ,False,False,0.14285714285714285,False
+aze_passport_05,aze_passport,mrz_line0,PCAZEMARTIN<<ADIL<<<<<<<<<<<<<<<<<<<<<<<<<<<,PCAZEMARTIN<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,False,0.35294117647058826,False
+aze_passport_05,aze_passport,mrz_line1,C277324913AZE8904045F2806192KEK2K55<<<<<<<64,C277324913AZE8904045F2806192KEK2K55<<<<<<<<64,False,False,0.022727272727272728,False
+aze_passport_23,aze_passport,surname,BAGIRZADE,BAĞIRZADE,False,False,0.1111111111111111,False
+aze_passport_23,aze_passport,given_names,ANAR,ANAR,True,True,0.0,False
+aze_passport_23,aze_passport,birth_date,07.03.2002,07.03.2002,True,True,0.0,False
+aze_passport_23,aze_passport,gender,K/M,K/M,True,True,0.0,False
+aze_passport_23,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_23,aze_passport,document_number,C05946053,C05946053,True,True,0.0,False
+aze_passport_23,aze_passport,personal_number,Q2M8334,Q2M8334,True,True,0.0,False
+aze_passport_23,aze_passport,issue_date,06.03.2013,06.03.2013,True,True,0.0,False
+aze_passport_23,aze_passport,expiry_date,05.03.2023,05.03.2023,True,True,0.0,False
+aze_passport_23,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_23,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_23,aze_passport,mrz_line0,PCAZEBAGIRZADE<<ANAR<<<<<<<<<<<<<<<<<<<<<<<<,PCAZEBAGIRZADE<<ANAR<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+aze_passport_23,aze_passport,mrz_line1,C059460538AZE0203074M2303059Q2M8334<<<<<<<68,C059460538AZE0203074M2303059Q2M8334<<<<<<<<68,False,False,0.022727272727272728,False
+aze_passport_44,aze_passport,surname,CORC,CORC,True,True,0.0,False
+aze_passport_44,aze_passport,given_names,CAHANGIR,CAHANGIR,True,True,0.0,False
+aze_passport_44,aze_passport,birth_date,23.03.1976,23.03.1976,True,True,0.0,False
+aze_passport_44,aze_passport,gender,K/M,K/M,True,True,0.0,False
+aze_passport_44,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_44,aze_passport,document_number,C23380826,C23380826,True,True,0.0,False
+aze_passport_44,aze_passport,personal_number,6DNU6VM,6DNU6VM,True,True,0.0,False
+aze_passport_44,aze_passport,issue_date,22.09.2015,22.09.2015,True,True,0.0,False
+aze_passport_44,aze_passport,expiry_date,21.09.2025,21.09.2025,True,True,0.0,False
+aze_passport_44,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_44,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_44,aze_passport,mrz_line0,PCAZECORC<<CAHANGIR<<<<<<<<<<<<<<<<<<<<<<<<<,PCAZECORC<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,False,0.5263157894736842,False
+aze_passport_44,aze_passport,mrz_line1,C233808266AZE7603237M25092196DNU6VM<<<<<<<74,C233808266AZE7603237M25092196DNU6VM<<<<<<<<74,False,False,0.022727272727272728,False
+aze_passport_46,aze_passport,surname,AGHAYEVA,AĞAYEVA,False,False,0.25,False
+aze_passport_46,aze_passport,given_names,AYSEL,AYSEL,True,True,0.0,False
+aze_passport_46,aze_passport,birth_date,04.01.1981,04.01.1981,True,True,0.0,False
+aze_passport_46,aze_passport,gender,Q/F,Q/F,True,True,0.0,False
+aze_passport_46,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_46,aze_passport,document_number,C62990773,C62990773,True,True,0.0,False
+aze_passport_46,aze_passport,personal_number,0C17068,0C17068,True,True,0.0,False
+aze_passport_46,aze_passport,issue_date,30.06.2016,30.06.2016,True,True,0.0,False
+aze_passport_46,aze_passport,expiry_date,29.06.2026,29.06.2026,True,True,0.0,False
+aze_passport_46,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_46,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_46,aze_passport,mrz_line0,PCAZEAGHAYEVA<<AYSEL<<<<<<<<<<<<<<<<<<<<<<<<,PCAZEAGHAYEVA<<AYSEL<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+aze_passport_46,aze_passport,mrz_line1,C629907737AZE8101040F26062990C17068<<<<<<<88,C629907737AZE8101040F26062990C17068<<<<<<<<88,False,False,0.022727272727272728,False
+aze_passport_47,aze_passport,surname,AXUNDOVA,AXUNDOVA,True,True,0.0,False
+aze_passport_47,aze_passport,given_names,AYTEN,AYTEN,True,True,0.0,False
+aze_passport_47,aze_passport,birth_date,09.05.1979,09.05.1979,True,True,0.0,False
+aze_passport_47,aze_passport,gender,Q/F,Q/F,True,True,0.0,False
+aze_passport_47,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_47,aze_passport,document_number,C11648125,C11648125,True,True,0.0,False
+aze_passport_47,aze_passport,personal_number,81Y00TD,81Y00TD,True,True,0.0,False
+aze_passport_47,aze_passport,issue_date,19.04.2018,19.04.2018,True,True,0.0,False
+aze_passport_47,aze_passport,expiry_date,18.04.2028,18.04.2028,True,True,0.0,False
+aze_passport_47,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_47,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_47,aze_passport,mrz_line0,PCAZEAXUNDOVA<<AYTEN<<<<<<<<<<<<<<<<<<<<<<<<,PCAZEAXUNDOVA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,False,0.35,False
+aze_passport_47,aze_passport,mrz_line1,C116481258AZE7905090F280418781Y00TD<<<<<<<38,C116481258AZE7905090F280418781Y00TD<<<<<<<<38,False,False,0.022727272727272728,False
+aze_passport_51,aze_passport,surname,CHAMBERLEN,CHAMBERLEN,True,True,0.0,False
+aze_passport_51,aze_passport,given_names,CAVID,CAVID,True,True,0.0,False
+aze_passport_51,aze_passport,birth_date,28.09.1983,28.09.1983,True,True,0.0,False
+aze_passport_51,aze_passport,gender,K/M,K/M,True,True,0.0,False
+aze_passport_51,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_51,aze_passport,document_number,C32376908,C32376908,True,True,0.0,False
+aze_passport_51,aze_passport,personal_number,8549XT0,8549XT0,True,True,0.0,False
+aze_passport_51,aze_passport,issue_date,12.02.2018,12.02.2018,True,True,0.0,False
+aze_passport_51,aze_passport,expiry_date,11.02.2028,11.02.2028,True,True,0.0,False
+aze_passport_51,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_51,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_51,aze_passport,mrz_line0,PCAZECHAMBERLEN<<CAVID<<<<<<<<<<<<<<<<<<<<<<,PCAZECHAMBERLEN<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,False,0.3181818181818182,False
+aze_passport_51,aze_passport,mrz_line1,C323769084AZE8309282M28021168549XT0<<<<<<<68,C323769084AZE8309282M28021168549XT0<<<<<<<<68,False,False,0.022727272727272728,False
+aze_passport_52,aze_passport,surname,DABO,DABO,True,True,0.0,False
+aze_passport_52,aze_passport,given_names,CEYHUN,CEYHUN,True,True,0.0,False
+aze_passport_52,aze_passport,birth_date,14.04.1994,14.04.1994,True,True,0.0,False
+aze_passport_52,aze_passport,gender,K/M,K/M,True,True,0.0,False
+aze_passport_52,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_52,aze_passport,document_number,C98106468,C98106468,True,True,0.0,False
+aze_passport_52,aze_passport,personal_number,Q9LPTM1,Q9LPTM1,True,True,0.0,False
+aze_passport_52,aze_passport,issue_date,18.01.2013,18.01.2013,True,True,0.0,False
+aze_passport_52,aze_passport,expiry_date,17.01.2023,17.01.2023,True,True,0.0,False
+aze_passport_52,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_52,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_52,aze_passport,mrz_line0,PCAZEDABO<<CEYHUN<<<<<<<<<<<<<<<<<<<<<<<<<<<,PCAZEDABO<<CEYHUN<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+aze_passport_52,aze_passport,mrz_line1,C981064686AZE9404140M2301170Q9LPTM1<<<<<<<14,C981064686AZE9404140M2301170Q9LPTM1<<<<<<<<14,False,False,0.022727272727272728,False
+aze_passport_55,aze_passport,surname,ALLAHVERDIYEVA,ALLAHVERDIYEVA,True,True,0.0,False
+aze_passport_55,aze_passport,given_names,CEYRAN,CEYRAN,True,True,0.0,False
+aze_passport_55,aze_passport,birth_date,20.01.1995,20.01.1995,True,True,0.0,False
+aze_passport_55,aze_passport,gender,Q/F,Q/F,True,True,0.0,False
+aze_passport_55,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_55,aze_passport,document_number,C82006946,C82006946,True,True,0.0,False
+aze_passport_55,aze_passport,personal_number,ZGPR8F0,ZGPR8F0,True,True,0.0,False
+aze_passport_55,aze_passport,issue_date,04.02.2017,04.02.2017,True,True,0.0,False
+aze_passport_55,aze_passport,expiry_date,03.02.2027,03.02.2027,True,True,0.0,False
+aze_passport_55,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_55,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_55,aze_passport,mrz_line0,PCAZEALLAHVERDIYEVA<<CEYRAN<<<<<<<<<<<<<<<<<,PCAZEALLAHVERDIYEVA<<CEYRAN<<<<<<<<<<<<<<<<,False,True,0.0,False
+aze_passport_55,aze_passport,mrz_line1,C820069467AZE9501201F2702032ZGPR8F0<<<<<<<62,C820069467AZE9501201F2702032ZGPR8F0<<<<<<<<62,False,False,0.022727272727272728,False
+aze_passport_64,aze_passport,surname,DIOP,DIOP,True,True,0.0,False
+aze_passport_64,aze_passport,given_names,ELVIN,ELVIN,True,True,0.0,False
+aze_passport_64,aze_passport,birth_date,11.08.1970,11.08.1970,True,True,0.0,False
+aze_passport_64,aze_passport,gender,K/M,K/M,True,True,0.0,False
+aze_passport_64,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_64,aze_passport,document_number,C00024204,C00024204,True,True,0.0,False
+aze_passport_64,aze_passport,personal_number,77B480H,77B480H,True,True,0.0,False
+aze_passport_64,aze_passport,issue_date,30.12.2012,30.12.2012,True,True,0.0,False
+aze_passport_64,aze_passport,expiry_date,29.12.2022,29.12.2022,True,True,0.0,False
+aze_passport_64,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_64,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_64,aze_passport,mrz_line0,PCAZEDIOP<<ELVIN<<<<<<<<<<<<<<<<<<<<<<<<<<<<,PCAZEDIOP<<ELVIN<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+aze_passport_64,aze_passport,mrz_line1,C000242042AZE7008119M221229077B480H<<<<<<<22,C000242042AZE7008119M221229077B480H<<<<<<<<22,False,False,0.022727272727272728,False
+aze_passport_65,aze_passport,surname,ASLANOVA,ASLANOVA,True,True,0.0,False
+aze_passport_65,aze_passport,given_names,DILARA,DILARA,True,True,0.0,False
+aze_passport_65,aze_passport,birth_date,08.12.1976,08.12.1976,True,True,0.0,False
+aze_passport_65,aze_passport,gender,Q/F,Q/F,True,True,0.0,False
+aze_passport_65,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_65,aze_passport,document_number,C57833442,C57833442,True,True,0.0,False
+aze_passport_65,aze_passport,personal_number,QHIQK70,QHIQK70,True,True,0.0,False
+aze_passport_65,aze_passport,issue_date,03.10.2018,03.10.2018,True,True,0.0,False
+aze_passport_65,aze_passport,expiry_date,02.10.2028,02.10.2028,True,True,0.0,False
+aze_passport_65,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_65,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_65,aze_passport,mrz_line0,PCAZEASLANOVA<<DILARA<<<<<<<<<<<<<<<<<<<<<<<,PCAZEASLANOVA<<DILARA<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+aze_passport_65,aze_passport,mrz_line1,C578334426AZE7612080F2810021QHIQK70<<<<<<<02,C578334426AZE7612080F2810021QHIQK70<<<<<<<<02,False,False,0.022727272727272728,False
+aze_passport_75,aze_passport,surname,FERNANDO,FERNANDO,True,True,0.0,False
+aze_passport_75,aze_passport,given_names,FAMILA,FAMILƏ ELVIN QIZI,False,False,2.0,False
+aze_passport_75,aze_passport,birth_date,10.07.1980,10.07.1980,True,True,0.0,False
+aze_passport_75,aze_passport,gender,Q/F,Q/F,True,True,0.0,False
+aze_passport_75,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_75,aze_passport,document_number,C30081633,C30081633,True,True,0.0,False
+aze_passport_75,aze_passport,personal_number,13IC7H7,13IC7H7,True,True,0.0,False
+aze_passport_75,aze_passport,issue_date,13.09.2019,13.09.2019,True,True,0.0,False
+aze_passport_75,aze_passport,expiry_date,12.09.2029,12.09.2029,True,True,0.0,False
+aze_passport_75,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_75,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_75,aze_passport,mrz_line0,PCAZEFERNANDO<<FAMILA<<<<<<<<<<<<<<<<<<<<<<<,PCAZEFEERNANDO<<FAMILA<<<<<<<<<<<<<<<<<<<<<<,False,False,0.047619047619047616,False
+aze_passport_75,aze_passport,mrz_line1,C300816332AZE8007108F290912913IC7H7<<<<<<<52,C300816332AZE8007108F290912913IC7H7<<<<<<<<52,False,False,0.022727272727272728,False
+aze_passport_81,aze_passport,surname,ASADOV,ASADOV,True,True,0.0,False
+aze_passport_81,aze_passport,given_names,ELMIR,ELMIR,True,True,0.0,False
+aze_passport_81,aze_passport,birth_date,15.08.1956,15.08.1956,True,True,0.0,False
+aze_passport_81,aze_passport,gender,K/M,K/M,True,True,0.0,False
+aze_passport_81,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_81,aze_passport,document_number,C41264844,C41264844,True,True,0.0,False
+aze_passport_81,aze_passport,personal_number,5LS820F,5LS820F,True,True,0.0,False
+aze_passport_81,aze_passport,issue_date,15.09.2016,15.09.2016,True,True,0.0,False
+aze_passport_81,aze_passport,expiry_date,14.09.2026,14.09.2026,True,True,0.0,False
+aze_passport_81,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_81,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_81,aze_passport,mrz_line0,PCAZEASADOV<<ELMIR<<<<<<<<<<<<<<<<<<<<<<<<<<,PCAZEASADOV<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,False,0.3888888888888889,False
+aze_passport_81,aze_passport,mrz_line1,C412648445AZE5608157M26091425LS820F<<<<<<<32,C412648445AZE5608157M26091425LS820F<<<<<<<<32,False,False,0.022727272727272728,False
+aze_passport_84,aze_passport,surname,KARAYEV,QARAYEV,False,False,0.14285714285714285,False
+aze_passport_84,aze_passport,given_names,ELMEDDIN,ELMEDDIN,True,True,0.0,False
+aze_passport_84,aze_passport,birth_date,22.06.1963,22.06.1963,True,True,0.0,False
+aze_passport_84,aze_passport,gender,K/M,K/M,True,True,0.0,False
+aze_passport_84,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_84,aze_passport,document_number,C38785509,C38785509,True,True,0.0,False
+aze_passport_84,aze_passport,personal_number,VW46560,VW46560,True,True,0.0,False
+aze_passport_84,aze_passport,issue_date,20.07.2013,20.07.2013,True,True,0.0,False
+aze_passport_84,aze_passport,expiry_date,19.07.2023,19.07.2023,True,True,0.0,False
+aze_passport_84,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_84,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_84,aze_passport,mrz_line0,PCAZEKARAYEV<<ELMEDDIN<<<<<<<<<<<<<<<<<<<<<<,PCAZEKARAYEV<<ELMEDDIN<<<<<<<<<<<<<<<<<<<<<<,True,True,0.0,False
+aze_passport_84,aze_passport,mrz_line1,C387855093AZE6306221M2307194VW46560<<<<<<<00,C387855093AZE6306221M2307194VW46560<<<<<<<<00,False,False,0.022727272727272728,False
+aze_passport_86,aze_passport,surname,RAHIMLI,RAHIMLI,True,True,0.0,False
+aze_passport_86,aze_passport,given_names,FERGANA,BAHADIR QIZI,False,False,1.5714285714285714,False
+aze_passport_86,aze_passport,birth_date,16.11.1969,16.11.1969,True,True,0.0,False
+aze_passport_86,aze_passport,gender,Q/F,Q/F,True,True,0.0,False
+aze_passport_86,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_86,aze_passport,document_number,C06691854,C06691854,True,True,0.0,False
+aze_passport_86,aze_passport,personal_number,XM07810,XM07810,True,True,0.0,False
+aze_passport_86,aze_passport,issue_date,13.10.2016,13.10.2016,True,True,0.0,False
+aze_passport_86,aze_passport,expiry_date,12.10.2026,12.10.2026,True,True,0.0,False
+aze_passport_86,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_86,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXILI İŞLƏR NAZIRLIYYİ,False,False,0.14285714285714285,False
+aze_passport_86,aze_passport,mrz_line0,PCAZERAHIMLI<<FERGANA<<<<<<<<<<<<<<<<<<<<<<<,PCAZERAHIMLI<<FERGANA<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+aze_passport_86,aze_passport,mrz_line1,C066918545AZE6911166F2610128XM07810<<<<<<<18,C066918545AZE6911166F2610128XM07810<<<<<<<<18,False,False,0.022727272727272728,False
+aze_passport_92,aze_passport,surname,YAKOBSEN,YAKOBSEN,True,True,0.0,False
+aze_passport_92,aze_passport,given_names,ELTURAN,ELTURAN,True,True,0.0,False
+aze_passport_92,aze_passport,birth_date,05.10.2006,05.10.2006,True,True,0.0,False
+aze_passport_92,aze_passport,gender,K/M,K/M,True,True,0.0,False
+aze_passport_92,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_92,aze_passport,document_number,C52232868,C52232868,True,True,0.0,False
+aze_passport_92,aze_passport,personal_number,R20985E,R20985E,True,True,0.0,False
+aze_passport_92,aze_passport,issue_date,09.09.2019,09.09.2019,True,True,0.0,False
+aze_passport_92,aze_passport,expiry_date,08.09.2024,08.09.2024,True,True,0.0,False
+aze_passport_92,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_92,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_92,aze_passport,mrz_line0,PCAZEYAKOBSEN<<ELTURAN<<<<<<<<<<<<<<<<<<<<<<,PCAZEYAKOBSEN<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,False,0.4090909090909091,False
+aze_passport_92,aze_passport,mrz_line1,C522328688AZE0610054M2409087R20985E<<<<<<<54,C522328688AZE0610054M2409087R20985E<<<<<<<<54,False,False,0.022727272727272728,False
+aze_passport_94,aze_passport,surname,YAPPA,YAPPA,True,True,0.0,False
+aze_passport_94,aze_passport,given_names,ELXAN,ELXAN,True,True,0.0,False
+aze_passport_94,aze_passport,birth_date,01.05.2003,01.05.2003,True,True,0.0,False
+aze_passport_94,aze_passport,gender,K/M,K/M,True,True,0.0,False
+aze_passport_94,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_94,aze_passport,document_number,C36082037,C36082037,True,True,0.0,False
+aze_passport_94,aze_passport,personal_number,079TS0T,079TS0T,True,True,0.0,False
+aze_passport_94,aze_passport,issue_date,24.12.2015,24.12.2015,True,True,0.0,False
+aze_passport_94,aze_passport,expiry_date,23.12.2020,23.12.2020,True,True,0.0,False
+aze_passport_94,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_94,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_94,aze_passport,mrz_line0,PCAZEYAPPA<<ELXAN<<<<<<<<<<<<<<<<<<<<<<<<<<<,PCAZEYAPPA<<ELXAN<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+aze_passport_94,aze_passport,mrz_line1,C360820371AZE0305015M2012238079TS0T<<<<<<<06,C360820371AZE0305015M2012238079TS0T<<<<<<<<06,False,False,0.022727272727272728,False
+aze_passport_97,aze_passport,surname,CARLOS,CARLOS,True,True,0.0,False
+aze_passport_97,aze_passport,given_names,FIZZA,FIZZA,True,True,0.0,False
+aze_passport_97,aze_passport,birth_date,05.10.2003,05.10.2003,True,True,0.0,False
+aze_passport_97,aze_passport,gender,Q/F,Q/F,True,True,0.0,False
+aze_passport_97,aze_passport,nationality,AZƏRBAYCAN/AZERBAIJAN,AZƏRBAYCAN/azerbaijan,False,True,0.0,False
+aze_passport_97,aze_passport,document_number,C68425015,C68425015,True,True,0.0,False
+aze_passport_97,aze_passport,personal_number,06P1G3K,06P1G3K,True,True,0.0,False
+aze_passport_97,aze_passport,issue_date,11.04.2018,11.04.2018,True,True,0.0,False
+aze_passport_97,aze_passport,expiry_date,10.04.2023,10.04.2023,True,True,0.0,False
+aze_passport_97,aze_passport,birth_place,AZƏRBAYCAN/AZE,AZƏRBAYCAN/aze,False,True,0.0,False
+aze_passport_97,aze_passport,authority,DAXİLİ İŞLƏR NAZİRLİYİ,DAXİLİ İŞLƏR NAZİRLİYİ,True,True,0.0,False
+aze_passport_97,aze_passport,mrz_line0,PCAZECARLOS<<FIZZA<<<<<<<<<<<<<<<<<<<<<<<<<<,PCAZECARLOS<<FIZZA<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+aze_passport_97,aze_passport,mrz_line1,C684250157AZE0310055F230410406P1G3K<<<<<<<16,C684250157AZE0310055F230410406P1G3K<<<<<<<<16,False,False,0.022727272727272728,False
+esp_id_14,esp_id,surname,MANUEL SANCHEZ,MANUEL SANCHEZ,True,True,0.0,False
+esp_id_14,esp_id,given_names,JOSÉ,JOSÉ,True,True,0.0,False
+esp_id_14,esp_id,birth_date,19 10 1993,19 10 1993,True,True,0.0,False
+esp_id_14,esp_id,gender,M,M,True,True,0.0,False
+esp_id_14,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_14,esp_id,document_number,AUU725655,AUU725655,True,True,0.0,False
+esp_id_14,esp_id,personal_number,00171303B,00171303B,True,True,0.0,False
+esp_id_14,esp_id,issue_date,020815,020815,True,True,0.0,False
+esp_id_14,esp_id,expiry_date,02 08 2025,02 08 2025,True,True,0.0,False
+esp_id_15,esp_id,surname,VARGAS PEREZ,VARGAS PEREZ,True,True,0.0,False
+esp_id_15,esp_id,given_names,MANUELA,MANUELA,True,True,0.0,False
+esp_id_15,esp_id,birth_date,26 04 1978,26 04 1978,True,True,0.0,False
+esp_id_15,esp_id,gender,F,F,True,True,0.0,False
+esp_id_15,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_15,esp_id,document_number,APX817462,APX817462,True,True,0.0,False
+esp_id_15,esp_id,personal_number,57809409F,57809409F,True,True,0.0,False
+esp_id_15,esp_id,issue_date,160319,160319,True,True,0.0,False
+esp_id_15,esp_id,expiry_date,16 03 2029,16 03 2029,True,True,0.0,False
+esp_id_21,esp_id,surname,MUNGUÍA GARCIA,MUNGUÍA GARCÍA,False,False,0.07142857142857142,False
+esp_id_21,esp_id,given_names,HUGO,HUGO,True,True,0.0,False
+esp_id_21,esp_id,birth_date,05 03 1988,05 03 1988,True,True,0.0,False
+esp_id_21,esp_id,gender,M,M,True,True,0.0,False
+esp_id_21,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_21,esp_id,document_number,AAK391934,AAK391934,True,True,0.0,False
+esp_id_21,esp_id,personal_number,55558061X,55558061X,True,True,0.0,False
+esp_id_21,esp_id,issue_date,040916,040916,True,True,0.0,False
+esp_id_21,esp_id,expiry_date,04 09 2026,04 09 2026,True,True,0.0,False
+esp_id_33,esp_id,surname,RANGEL ROMANO,RANGEL ROMANO,True,True,0.0,False
+esp_id_33,esp_id,given_names,ARNAU,ARNAU,True,True,0.0,False
+esp_id_33,esp_id,birth_date,15 10 1988,15 10 1988,True,True,0.0,False
+esp_id_33,esp_id,gender,M,M,True,True,0.0,False
+esp_id_33,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_33,esp_id,document_number,AYU195111,AYU195111,True,True,0.0,False
+esp_id_33,esp_id,personal_number,09325228D,09325228D,True,True,0.0,False
+esp_id_33,esp_id,issue_date,030215,030215,True,True,0.0,False
+esp_id_33,esp_id,expiry_date,03 02 2025,03 02 2025,True,True,0.0,False
+esp_id_35,esp_id,surname,CANO NOGUEIRA,CANO NOGUEIRA,True,True,0.0,False
+esp_id_35,esp_id,given_names,ANA,ANA,True,True,0.0,False
+esp_id_35,esp_id,birth_date,13 01 1970,13 01 1970,True,True,0.0,False
+esp_id_35,esp_id,gender,F,F,True,True,0.0,False
+esp_id_35,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_35,esp_id,document_number,AKO055707,AK0055707,False,False,0.1111111111111111,False
+esp_id_35,esp_id,personal_number,73642816A,73642816A,True,True,0.0,False
+esp_id_35,esp_id,issue_date,160319,160319,True,True,0.0,False
+esp_id_35,esp_id,expiry_date,16 03 2029,16 03 2029,True,True,0.0,False
+esp_id_38,esp_id,surname,PERES MUÑOZ,PERES MUÑOZ,True,True,0.0,False
+esp_id_38,esp_id,given_names,AROA,AROA,True,True,0.0,False
+esp_id_38,esp_id,birth_date,02 12 1985,02 12 1985,True,True,0.0,False
+esp_id_38,esp_id,gender,F,F,True,True,0.0,False
+esp_id_38,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_38,esp_id,document_number,AAM432260,AAM432260,True,True,0.0,False
+esp_id_38,esp_id,personal_number,91249799H,91249799H,True,True,0.0,False
+esp_id_38,esp_id,issue_date,061115,061115,True,True,0.0,False
+esp_id_38,esp_id,expiry_date,06 11 2025,06 11 2025,True,True,0.0,False
+esp_id_50,esp_id,surname,CASADO CIUDAD,CASADO CIUDAD,True,True,0.0,False
+esp_id_50,esp_id,given_names,AITOR,AITOR,True,True,0.0,False
+esp_id_50,esp_id,birth_date,15 05 1971,15 05 1971,True,True,0.0,False
+esp_id_50,esp_id,gender,M,M,True,True,0.0,False
+esp_id_50,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_50,esp_id,document_number,ADP088372,ADP088372,True,True,0.0,False
+esp_id_50,esp_id,personal_number,55902612B,55902612B,True,True,0.0,False
+esp_id_50,esp_id,issue_date,280515,280515,True,True,0.0,False
+esp_id_50,esp_id,expiry_date,28 05 2025,28 05 2025,True,True,0.0,False
+esp_id_64,esp_id,surname,BATISTA GARCIA,BATISTA GARCIA,True,True,0.0,False
+esp_id_64,esp_id,given_names,PEDRO,PEDRO,True,True,0.0,False
+esp_id_64,esp_id,birth_date,28 12 1978,28 12 1978,True,True,0.0,False
+esp_id_64,esp_id,gender,M,M,True,True,0.0,False
+esp_id_64,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_64,esp_id,document_number,AFL686545,AFL686545,True,True,0.0,False
+esp_id_64,esp_id,personal_number,87336105X,87336105X,True,True,0.0,False
+esp_id_64,esp_id,issue_date,180118,180118,True,True,0.0,False
+esp_id_64,esp_id,expiry_date,18 01 2028,18012028,False,True,0.0,False
+esp_id_67,esp_id,surname,VACA ALVAREZ,VACA ALVAREZ,True,True,0.0,False
+esp_id_67,esp_id,given_names,SARA,SARA,True,True,0.0,False
+esp_id_67,esp_id,birth_date,21 04 1978,21 04 1978,True,True,0.0,False
+esp_id_67,esp_id,gender,F,F,True,True,0.0,False
+esp_id_67,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_67,esp_id,document_number,ALF074704,ALF074704,True,True,0.0,False
+esp_id_67,esp_id,personal_number,10754755B,10754755B,True,True,0.0,False
+esp_id_67,esp_id,issue_date,020918,020918,True,True,0.0,False
+esp_id_67,esp_id,expiry_date,02 09 2028,02 09 2028,True,True,0.0,False
+esp_id_81,esp_id,surname,BLANCO GARCIA,BLANCO GARCIA,True,True,0.0,False
+esp_id_81,esp_id,given_names,SANTIAGO,SANTIAGO,True,True,0.0,False
+esp_id_81,esp_id,birth_date,10 11 1953,10 11 1953,True,True,0.0,False
+esp_id_81,esp_id,gender,M,M,True,True,0.0,False
+esp_id_81,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_81,esp_id,document_number,APV185157,APV185157,True,True,0.0,False
+esp_id_81,esp_id,personal_number,46797893V,46797893V,True,True,0.0,False
+esp_id_81,esp_id,issue_date,281119,281119,True,True,0.0,False
+esp_id_81,esp_id,expiry_date,28 11 2029,28 11 2029,True,True,0.0,False
+esp_id_83,esp_id,surname,GIRÓN COSTOYA,GIRÓN COSTOYA,True,True,0.0,False
+esp_id_83,esp_id,given_names,HUGO,HUGO,True,True,0.0,False
+esp_id_83,esp_id,birth_date,12 05 1967,12 05 1967,True,True,0.0,False
+esp_id_83,esp_id,gender,M,M,True,True,0.0,False
+esp_id_83,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_83,esp_id,document_number,AHW407944,AHW407944,True,True,0.0,False
+esp_id_83,esp_id,personal_number,42605797R,42605797R,True,True,0.0,False
+esp_id_83,esp_id,issue_date,040118,040118,True,True,0.0,False
+esp_id_83,esp_id,expiry_date,04 01 2028,04 01 2028,True,True,0.0,False
+esp_id_86,esp_id,surname,ARMAS VIANA,ARMAS VIANA,True,True,0.0,False
+esp_id_86,esp_id,given_names,MIRIAM,MIRIAM,True,True,0.0,False
+esp_id_86,esp_id,birth_date,19 10 1953,19 10 1953,True,True,0.0,False
+esp_id_86,esp_id,gender,F,F,True,True,0.0,False
+esp_id_86,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_86,esp_id,document_number,AWM657179,AWM657179,True,True,0.0,False
+esp_id_86,esp_id,personal_number,74284122A,74284122A,True,True,0.0,False
+esp_id_86,esp_id,issue_date,310518,310518,True,True,0.0,False
+esp_id_86,esp_id,expiry_date,31 05 2028,31 05 2028,True,True,0.0,False
+esp_id_90,esp_id,surname,FIGUEROA GARRIDO,FIGUEROA GARRIDO,True,True,0.0,False
+esp_id_90,esp_id,given_names,IKER,IKER,True,True,0.0,False
+esp_id_90,esp_id,birth_date,16 02 1969,16 02 1969,True,True,0.0,False
+esp_id_90,esp_id,gender,M,M,True,True,0.0,False
+esp_id_90,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_90,esp_id,document_number,AFV020258,AFV020258,True,True,0.0,False
+esp_id_90,esp_id,personal_number,54685337J,54685337J,True,True,0.0,False
+esp_id_90,esp_id,issue_date,200215,200215,True,True,0.0,False
+esp_id_90,esp_id,expiry_date,20 02 2025,20 02 2025,True,True,0.0,False
+esp_id_91,esp_id,surname,FONSECA RODRIGUEZ,FONSECA RODRIGUEZ,True,True,0.0,False
+esp_id_91,esp_id,given_names,JAN,JAN,True,True,0.0,False
+esp_id_91,esp_id,birth_date,05 07 1954,05 07 1954,True,True,0.0,False
+esp_id_91,esp_id,gender,M,M,True,True,0.0,False
+esp_id_91,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_91,esp_id,document_number,ALY883399,ALY883399,True,True,0.0,False
+esp_id_91,esp_id,personal_number,00136379V,00136379V,True,True,0.0,False
+esp_id_91,esp_id,issue_date,200318,200318,True,True,0.0,False
+esp_id_91,esp_id,expiry_date,20 03 2028,20 03 2028,True,True,0.0,False
+esp_id_95,esp_id,surname,REGALADO TOSCANO,REGALADO TOSCANO,True,True,0.0,False
+esp_id_95,esp_id,given_names,MALAK,MALAK,True,True,0.0,False
+esp_id_95,esp_id,birth_date,26 08 1965,26 08 1965,True,True,0.0,False
+esp_id_95,esp_id,gender,F,F,True,True,0.0,False
+esp_id_95,esp_id,nationality,ESP,ESP,True,True,0.0,False
+esp_id_95,esp_id,document_number,ADI677481,ADI677481,True,True,0.0,False
+esp_id_95,esp_id,personal_number,27167886L,27167886L,True,True,0.0,False
+esp_id_95,esp_id,issue_date,120115,120115,True,True,0.0,False
+esp_id_95,esp_id,expiry_date,12 01 2025,12 01 2025,True,True,0.0,False
+est_id_09,est_id,surname,LEOK,LEOK,True,True,0.0,False
+est_id_09,est_id,given_names,AINU,AINU,True,True,0.0,False
+est_id_09,est_id,birth_date,20.07.1999,20.07.1999,True,True,0.0,False
+est_id_09,est_id,gender,N/F,N/F,True,True,0.0,False
+est_id_09,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_09,est_id,document_number,AA7536777,AA7536777,True,True,0.0,False
+est_id_09,est_id,personal_number,49907202831,49907202831,True,True,0.0,False
+est_id_09,est_id,expiry_date,21.10.2021,21.10.2021,True,True,0.0,False
+est_id_10,est_id,surname,LEPIK,LEPIK,True,True,0.0,False
+est_id_10,est_id,given_names,AARON,AARON,True,True,0.0,False
+est_id_10,est_id,birth_date,31.03.1993,31.03.1993,True,True,0.0,False
+est_id_10,est_id,gender,M/M,M/M,True,True,0.0,False
+est_id_10,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_10,est_id,document_number,AA9029788,AA9029788,True,True,0.0,False
+est_id_10,est_id,personal_number,39303314018,39303314018,True,True,0.0,False
+est_id_10,est_id,expiry_date,01.05.2023,01.05.2023,True,True,0.0,False
+est_id_18,est_id,surname,AADLI,AADLI,True,True,0.0,False
+est_id_18,est_id,given_names,AIVE,AIVE,True,True,0.0,False
+est_id_18,est_id,birth_date,26.02.1980,26.02.1980,True,True,0.0,False
+est_id_18,est_id,gender,N/F,N/F,True,True,0.0,False
+est_id_18,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_18,est_id,document_number,AA0337821,AA0337821,True,True,0.0,False
+est_id_18,est_id,personal_number,48002261463,48002261463,True,True,0.0,False
+est_id_18,est_id,expiry_date,07.11.2023,07.11.2023,True,True,0.0,False
+est_id_21,est_id,surname,AAS,AAS,True,True,0.0,False
+est_id_21,est_id,given_names,AHTO,AHTO,True,True,0.0,False
+est_id_21,est_id,birth_date,02.04.1987,02.04.1987,True,True,0.0,False
+est_id_21,est_id,gender,M/M,M/M,True,True,0.0,False
+est_id_21,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_21,est_id,document_number,AA4322255,AA4322255,True,True,0.0,False
+est_id_21,est_id,personal_number,38704027554,38704027554,True,True,0.0,False
+est_id_21,est_id,expiry_date,12.04.2024,12.04.2024,True,True,0.0,False
+est_id_27,est_id,surname,ALLIK,ALLIK,True,True,0.0,False
+est_id_27,est_id,given_names,ANETE,ANETE,True,True,0.0,False
+est_id_27,est_id,birth_date,30.04.1982,30.04.1982,True,True,0.0,False
+est_id_27,est_id,gender,N/F,N/F,True,True,0.0,False
+est_id_27,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_27,est_id,document_number,AA3189332,AA3189332,True,True,0.0,False
+est_id_27,est_id,personal_number,48204305595,48204305595,True,True,0.0,False
+est_id_27,est_id,expiry_date,14.12.2020,14.12.2020,True,True,0.0,False
+est_id_36,est_id,surname,REBANE,REBANE,True,True,0.0,False
+est_id_36,est_id,given_names,HEILI,HEILI,True,True,0.0,False
+est_id_36,est_id,birth_date,17.11.1985,17.11.1985,True,True,0.0,False
+est_id_36,est_id,gender,N/F,N/F,True,True,0.0,False
+est_id_36,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_36,est_id,document_number,AA9374352,AA9374352,True,True,0.0,False
+est_id_36,est_id,personal_number,48511171237,48511171237,True,True,0.0,False
+est_id_36,est_id,expiry_date,22.11.2023,22.11.2023,True,True,0.0,False
+est_id_45,est_id,surname,KABIN,KABIN,True,True,0.0,False
+est_id_45,est_id,given_names,HELENA,HELENA,True,True,0.0,False
+est_id_45,est_id,birth_date,08.07.1991,08.07.1991,True,True,0.0,False
+est_id_45,est_id,gender,N/F,N/F,True,True,0.0,False
+est_id_45,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_45,est_id,document_number,AA3221710,AA3221710,True,True,0.0,False
+est_id_45,est_id,personal_number,49107087906,49107087906,True,True,0.0,False
+est_id_45,est_id,expiry_date,26.01.2021,26.01.2021,True,True,0.0,False
+est_id_63,est_id,surname,ÖPIK,ÖPIK,True,True,0.0,False
+est_id_63,est_id,given_names,KRISTIAN,KRISTIAN,True,True,0.0,False
+est_id_63,est_id,birth_date,24.03.1995,24.03.1995,True,True,0.0,False
+est_id_63,est_id,gender,M/M,M/M,True,True,0.0,False
+est_id_63,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_63,est_id,document_number,AA4506600,AA4506600,True,True,0.0,False
+est_id_63,est_id,personal_number,39503241786,39503241786,True,True,0.0,False
+est_id_63,est_id,expiry_date,09.06.2022,09.06.2022,True,True,0.0,False
+est_id_73,est_id,surname,VIIDING,VIIDING,True,True,0.0,False
+est_id_73,est_id,given_names,KUNNAR,KUNNAR,True,True,0.0,False
+est_id_73,est_id,birth_date,17.12.1986,17.12.1986,True,True,0.0,False
+est_id_73,est_id,gender,M/M,M/M,True,True,0.0,False
+est_id_73,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_73,est_id,document_number,AA5795862,AA5795862,True,True,0.0,False
+est_id_73,est_id,personal_number,38612171827,38612171827,True,True,0.0,False
+est_id_73,est_id,expiry_date,13.08.2023,13.08.2023,True,True,0.0,False
+est_id_76,est_id,surname,VITSUT,VITSUT,True,True,0.0,False
+est_id_76,est_id,given_names,KIIRA,KIIRA,True,True,0.0,False
+est_id_76,est_id,birth_date,22.12.1973,22.12.1973,True,True,0.0,False
+est_id_76,est_id,gender,N/F,N/F,True,True,0.0,False
+est_id_76,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_76,est_id,document_number,AA9062225,AA9062225,True,True,0.0,False
+est_id_76,est_id,personal_number,47312226099,47312226099,True,True,0.0,False
+est_id_76,est_id,expiry_date,26.01.2024,26.01.2024,True,True,0.0,False
+est_id_84,est_id,surname,RAUD,RAUD,True,True,0.0,False
+est_id_84,est_id,given_names,INNAR,INNAR,True,True,0.0,False
+est_id_84,est_id,birth_date,10.04.2006,10.04.2006,True,True,0.0,False
+est_id_84,est_id,gender,M/M,M/M,True,True,0.0,False
+est_id_84,est_id,nationality,FRA,FRA,True,True,0.0,False
+est_id_84,est_id,document_number,EA0371856,EA0371856,True,True,0.0,False
+est_id_84,est_id,personal_number,50604106424,50604106424,True,True,0.0,False
+est_id_84,est_id,expiry_date,07.11.2020,07.11.2020,True,True,0.0,False
+est_id_85,est_id,surname,RAUDSEPP,RAUDSEPP,True,True,0.0,False
+est_id_85,est_id,given_names,KOIDU,KOIDU,True,True,0.0,False
+est_id_85,est_id,birth_date,11.02.2002,11.02.2002,True,True,0.0,False
+est_id_85,est_id,gender,N/F,N/F,True,True,0.0,False
+est_id_85,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_85,est_id,document_number,AA3700036,AA3700036,True,True,0.0,False
+est_id_85,est_id,personal_number,60202111133,60202111133,True,True,0.0,False
+est_id_85,est_id,expiry_date,21.06.2020,21.06.2020,True,True,0.0,False
+est_id_87,est_id,surname,REEK,REEK,True,True,0.0,False
+est_id_87,est_id,given_names,KRISTEL,KRISTEL,True,True,0.0,False
+est_id_87,est_id,birth_date,09.05.2003,09.05.2003,True,True,0.0,False
+est_id_87,est_id,gender,N/F,N/F,True,True,0.0,False
+est_id_87,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_87,est_id,document_number,AA6185852,AA6185852,True,True,0.0,False
+est_id_87,est_id,personal_number,60305092351,60305092351,True,True,0.0,False
+est_id_87,est_id,expiry_date,09.08.2023,09.08.2023,True,True,0.0,False
+est_id_90,est_id,surname,ROOLAID,ROOLAID,True,True,0.0,False
+est_id_90,est_id,given_names,IVAR,IVAR,True,True,0.0,False
+est_id_90,est_id,birth_date,19.08.1960,19.08.1960,True,True,0.0,False
+est_id_90,est_id,gender,M/M,M/M,True,True,0.0,False
+est_id_90,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_90,est_id,document_number,AA1113666,AA1113666,True,True,0.0,False
+est_id_90,est_id,personal_number,36008195571,36008195571,True,True,0.0,False
+est_id_90,est_id,expiry_date,24.06.2022,24.06.2022,True,True,0.0,False
+est_id_91,est_id,surname,ROOTARE,ROOTARE,True,True,0.0,False
+est_id_91,est_id,given_names,MARK,MARK,True,True,0.0,False
+est_id_91,est_id,birth_date,14.04.1957,14.04.1957,True,True,0.0,False
+est_id_91,est_id,gender,M/M,M/M,True,True,0.0,False
+est_id_91,est_id,nationality,EST,EST,True,True,0.0,False
+est_id_91,est_id,document_number,AA0843995,AA0843995,True,True,0.0,False
+est_id_91,est_id,personal_number,35704149560,35704149560,True,True,0.0,False
+est_id_91,est_id,expiry_date,29.04.2024,29.04.2024,True,True,0.0,False
+fin_id_12,fin_id,surname,RINNE,Rinne,False,True,0.0,False
+fin_id_12,fin_id,given_names,JALMARI,Jalmari,False,True,0.0,False
+fin_id_12,fin_id,birth_date,01. 08. 1998,01.08.1998,False,True,0.0,False
+fin_id_12,fin_id,gender,M,M,True,True,0.0,False
+fin_id_12,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_12,fin_id,document_number,289636615,289636615,True,True,0.0,False
+fin_id_12,fin_id,personal_number,010898-628M,010898-628M,True,True,0.0,False
+fin_id_12,fin_id,issue_date,29. 09. 2018,29.09.2018,False,True,0.0,False
+fin_id_12,fin_id,expiry_date,29. 09. 2023,29.09.2023,False,True,0.0,False
+fin_id_14,fin_id,surname,NEVALA,NEVALA,True,True,0.0,False
+fin_id_14,fin_id,given_names,ARMAS,ARMAS,True,True,0.0,False
+fin_id_14,fin_id,birth_date,19. 04. 1997,19.04.1997,False,True,0.0,False
+fin_id_14,fin_id,gender,M,M,True,True,0.0,False
+fin_id_14,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_14,fin_id,document_number,101346928,101346928,True,True,0.0,False
+fin_id_14,fin_id,personal_number,190497-158L,190497-158L,True,True,0.0,False
+fin_id_14,fin_id,issue_date,21. 08. 2018,21.08.2018,False,True,0.0,False
+fin_id_14,fin_id,expiry_date,21. 08. 2023,21.08.2023,False,True,0.0,False
+fin_id_15,fin_id,surname,HYNNINEN,Hynninen,False,True,0.0,False
+fin_id_15,fin_id,given_names,KATJA,Katja,False,True,0.0,False
+fin_id_15,fin_id,birth_date,25. 01. 1992,25.01.1992,False,True,0.0,False
+fin_id_15,fin_id,gender,F,F,True,True,0.0,False
+fin_id_15,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_15,fin_id,document_number,103184301,103184301,True,True,0.0,False
+fin_id_15,fin_id,personal_number,250192-642C,250192-642C,True,True,0.0,False
+fin_id_15,fin_id,issue_date,30. 10. 2015,30.10.2015,False,True,0.0,False
+fin_id_15,fin_id,expiry_date,30. 10. 2020,30.10.2020,False,True,0.0,False
+fin_id_29,fin_id,surname,RIIHIJÄRVI,RIIHIJÄRVI,True,True,0.0,False
+fin_id_29,fin_id,given_names,MAIRE,MAIRE,True,True,0.0,False
+fin_id_29,fin_id,birth_date,17. 08. 1981,17.08.1981,False,True,0.0,False
+fin_id_29,fin_id,gender,F,F,True,True,0.0,False
+fin_id_29,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_29,fin_id,document_number,810197911,810197911,True,True,0.0,False
+fin_id_29,fin_id,personal_number,170881-1837,170881-1837,True,True,0.0,False
+fin_id_29,fin_id,issue_date,01. 08. 2016,01.08.2016,False,True,0.0,False
+fin_id_29,fin_id,expiry_date,01. 08. 2021,01.08.2021,False,True,0.0,False
+fin_id_48,fin_id,surname,RITALA,RITALA,True,True,0.0,False
+fin_id_48,fin_id,given_names,PÄIVI,PÄIVI,True,True,0.0,False
+fin_id_48,fin_id,birth_date,20. 05. 1990,20.05.1990,False,True,0.0,False
+fin_id_48,fin_id,gender,F,F,True,True,0.0,False
+fin_id_48,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_48,fin_id,document_number,466348359,466348359,True,True,0.0,False
+fin_id_48,fin_id,personal_number,200590-672U,200590-672U,True,True,0.0,False
+fin_id_48,fin_id,issue_date,02. 10. 2015,02.10.2015,False,True,0.0,False
+fin_id_48,fin_id,expiry_date,02. 10. 2020,02.10.2020,False,True,0.0,False
+fin_id_56,fin_id,surname,NURMELA,NURMELA,True,True,0.0,False
+fin_id_56,fin_id,given_names,KYLLIKKI,KYLLIKKI,True,True,0.0,False
+fin_id_56,fin_id,birth_date,12. 01. 1993,12.01.1993,False,True,0.0,False
+fin_id_56,fin_id,gender,F,F,True,True,0.0,False
+fin_id_56,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_56,fin_id,document_number,442814630,442814630,True,True,0.0,False
+fin_id_56,fin_id,personal_number,120193-7613,120193-7613,True,True,0.0,False
+fin_id_56,fin_id,issue_date,08. 10. 2015,08.10.2015,False,True,0.0,False
+fin_id_56,fin_id,expiry_date,08. 10. 2020,08.10.2020,False,True,0.0,False
+fin_id_66,fin_id,surname,PULKKINEN,PULKKINEN,True,True,0.0,False
+fin_id_66,fin_id,given_names,LEMPI,LEMPI,True,True,0.0,False
+fin_id_66,fin_id,birth_date,19. 07. 1998,19.07.1998,False,True,0.0,False
+fin_id_66,fin_id,gender,F,F,True,True,0.0,False
+fin_id_66,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_66,fin_id,document_number,405248013,405248013,True,True,0.0,False
+fin_id_66,fin_id,personal_number,190798-891X,190798-891X,True,True,0.0,False
+fin_id_66,fin_id,issue_date,22. 05. 2016,22.05.2016,False,True,0.0,False
+fin_id_66,fin_id,expiry_date,22. 05. 2021,22.05.2021,False,True,0.0,False
+fin_id_70,fin_id,surname,KUUSELA,KUUSELA,True,True,0.0,False
+fin_id_70,fin_id,given_names,TAISTO,TAISTO,True,True,0.0,False
+fin_id_70,fin_id,birth_date,18. 12. 2001,18.12.2001,False,True,0.0,False
+fin_id_70,fin_id,gender,M,M,True,True,0.0,False
+fin_id_70,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_70,fin_id,document_number,118095469,118095469,True,True,0.0,False
+fin_id_70,fin_id,personal_number,181201A2055,181201A2055,True,True,0.0,False
+fin_id_70,fin_id,issue_date,14. 10. 2016,14.10.2016,False,True,0.0,False
+fin_id_70,fin_id,expiry_date,14. 10. 2021,14.10.2021,False,True,0.0,False
+fin_id_78,fin_id,surname,VAINIKAINEN,VAINIKAINEN,True,True,0.0,False
+fin_id_78,fin_id,given_names,RITA,RITA,True,True,0.0,False
+fin_id_78,fin_id,birth_date,04. 10. 1996,04.10.1996,False,True,0.0,False
+fin_id_78,fin_id,gender,F,F,True,True,0.0,False
+fin_id_78,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_78,fin_id,document_number,355823853,355823853,True,True,0.0,False
+fin_id_78,fin_id,personal_number,041096-7099,041096-7099,True,True,0.0,False
+fin_id_78,fin_id,issue_date,28. 05. 2017,28.05.2017,False,True,0.0,False
+fin_id_78,fin_id,expiry_date,28. 05. 2022,28.05.2022,False,True,0.0,False
+fin_id_87,fin_id,surname,TUOMIOJA,TUOMIOJA,True,True,0.0,False
+fin_id_87,fin_id,given_names,TUIRE,TUIRE,True,True,0.0,False
+fin_id_87,fin_id,birth_date,28. 08. 1963,28.08.1963,False,True,0.0,False
+fin_id_87,fin_id,gender,F,F,True,True,0.0,False
+fin_id_87,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_87,fin_id,document_number,414160700,414160700,True,True,0.0,False
+fin_id_87,fin_id,personal_number,280863-646L,280863-646L,True,True,0.0,False
+fin_id_87,fin_id,issue_date,10. 11. 2015,10.11.2015,False,True,0.0,False
+fin_id_87,fin_id,expiry_date,10. 11. 2020,10.11.2020,False,True,0.0,False
+fin_id_91,fin_id,surname,IMMONEN,IMMONEN,True,True,0.0,False
+fin_id_91,fin_id,given_names,URMAS,URMAS,True,True,0.0,False
+fin_id_91,fin_id,birth_date,06. 11. 1950,06.11.1950,False,True,0.0,False
+fin_id_91,fin_id,gender,M,M,True,True,0.0,False
+fin_id_91,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_91,fin_id,document_number,178293298,178293298,True,True,0.0,False
+fin_id_91,fin_id,personal_number,061150-3575,061150-3575,True,True,0.0,False
+fin_id_91,fin_id,issue_date,25. 10. 2017,25.10.2017,False,True,0.0,False
+fin_id_91,fin_id,expiry_date,25. 10. 2022,25.10.2022,False,True,0.0,False
+fin_id_93,fin_id,surname,ISOKALLIO,ISOKALLIO,True,True,0.0,False
+fin_id_93,fin_id,given_names,ARVI,ARVI,True,True,0.0,False
+fin_id_93,fin_id,birth_date,16. 11. 1965,16.11.1965,False,True,0.0,False
+fin_id_93,fin_id,gender,M,M,True,True,0.0,False
+fin_id_93,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_93,fin_id,document_number,481778547,481778547,True,True,0.0,False
+fin_id_93,fin_id,personal_number,161165-930Y,161165-930Y,True,True,0.0,False
+fin_id_93,fin_id,issue_date,06. 10. 2019,06.10.2019,False,True,0.0,False
+fin_id_93,fin_id,expiry_date,06. 10. 2024,06.10.2024,False,True,0.0,False
+fin_id_97,fin_id,surname,JALKANEN,JALKANEN,True,True,0.0,False
+fin_id_97,fin_id,given_names,AILI,AILI,True,True,0.0,False
+fin_id_97,fin_id,birth_date,03. 03. 1959,03.03.1959,False,True,0.0,False
+fin_id_97,fin_id,gender,F,F,True,True,0.0,False
+fin_id_97,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_97,fin_id,document_number,858165432,858165432,True,True,0.0,False
+fin_id_97,fin_id,personal_number,030359-475W,030359-475W,True,True,0.0,False
+fin_id_97,fin_id,issue_date,14. 09. 2015,14.09.2015,False,True,0.0,False
+fin_id_97,fin_id,expiry_date,14. 09. 2020,14.09.2020,False,True,0.0,False
+fin_id_98,fin_id,surname,RITALA,RITALA,True,True,0.0,False
+fin_id_98,fin_id,given_names,PETRA,PETRA,True,True,0.0,False
+fin_id_98,fin_id,birth_date,14. 02. 1968,14.02.1968,False,True,0.0,False
+fin_id_98,fin_id,gender,F,F,True,True,0.0,False
+fin_id_98,fin_id,nationality,FIN,FIN,True,True,0.0,False
+fin_id_98,fin_id,document_number,035436000,035436000,True,True,0.0,False
+fin_id_98,fin_id,personal_number,140268-042J,140268-042J,True,True,0.0,False
+fin_id_98,fin_id,issue_date,03. 10. 2019,03.10.2019,False,True,0.0,False
+fin_id_98,fin_id,expiry_date,03. 10. 2024,03.10.2024,False,True,0.0,False
+grc_passport_01,grc_passport,surname,DASKALOPOULOS,DASKALOPOULOS,True,True,0.0,False
+grc_passport_01,grc_passport,given_names,ARTEMIUS,ARTEMIOΣ,False,False,0.25,False
+grc_passport_01,grc_passport,birth_date,02 May 85,02 May 85,True,True,0.0,False
+grc_passport_01,grc_passport,gender,M,M,True,True,0.0,False
+grc_passport_01,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_01,grc_passport,document_number,AP2383876,AP2383876,True,True,0.0,False
+grc_passport_01,grc_passport,issue_date,13 Aug 17,13 Aug 17,True,True,0.0,False
+grc_passport_01,grc_passport,expiry_date,13 Aug 22,13 Aug 22,True,True,0.0,False
+grc_passport_01,grc_passport,birth_place,FLORINA,FLORINA,True,True,0.0,False
+grc_passport_01,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_01,grc_passport,mrz_line0,P<GRCDASKALOPOULOS<<ARTEMIUS<<<<<<<<<<<<<<<<,P<GRCDASKALOPOULOS<<ARTEMIOUS<<<<<<<<<<<<<<<<<<,False,False,0.03571428571428571,False
+grc_passport_01,grc_passport,mrz_line1,AP23838768GRC8505028M2208132<<<<<<<<<<<<<<08,AP23838768GRC8505028M2208132<<<<<<<<<<<<<<08,True,True,0.0,False
+grc_passport_18,grc_passport,surname,BOGRI,BOGRI,True,True,0.0,False
+grc_passport_18,grc_passport,given_names,THEMIS,THEMIS,True,True,0.0,False
+grc_passport_18,grc_passport,birth_date,01 Nov 96,01 Nov 96,True,True,0.0,False
+grc_passport_18,grc_passport,gender,F,F,True,True,0.0,False
+grc_passport_18,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_18,grc_passport,document_number,AM8332353,AM8332353,True,True,0.0,False
+grc_passport_18,grc_passport,issue_date,24 Dec 17,24 Dec 17,True,True,0.0,False
+grc_passport_18,grc_passport,expiry_date,24 Dec 22,24 Dec 22,True,True,0.0,False
+grc_passport_18,grc_passport,birth_place,HARRISBURG,HARRISBURG,True,True,0.0,False
+grc_passport_18,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_18,grc_passport,mrz_line0,P<GRCBOGRI<<THEMIS<<<<<<<<<<<<<<<<<<<<<<<<<<,P<GRCB0GRI<<THEMIS<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,False,0.05555555555555555,False
+grc_passport_18,grc_passport,mrz_line1,AM83323535GRC9611010F2212245<<<<<<<<<<<<<<02,AM83323535GRC9611010F2212245<<<<<<<<<<<<<<02,True,True,0.0,False
+grc_passport_20,grc_passport,surname,KOLIATSOS,KOLIATSOS,True,True,0.0,False
+grc_passport_20,grc_passport,given_names,ISAK,ISAAK,False,False,0.25,False
+grc_passport_20,grc_passport,birth_date,06 Aug 98,06 Aug 98,True,True,0.0,False
+grc_passport_20,grc_passport,gender,M,M,True,True,0.0,False
+grc_passport_20,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_20,grc_passport,document_number,AN0621094,AN0621094,True,True,0.0,False
+grc_passport_20,grc_passport,issue_date,21 Feb 17,21 Feb 17,True,True,0.0,False
+grc_passport_20,grc_passport,expiry_date,21 Feb 22,21 Feb 22,True,True,0.0,False
+grc_passport_20,grc_passport,birth_place,ATHINA,ATHINA,True,True,0.0,False
+grc_passport_20,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_20,grc_passport,mrz_line0,P<GRCKOLIATSOS<<ISAK<<<<<<<<<<<<<<<<<<<<<<<<,P<GRCKOLIATSOS<<ISAK<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+grc_passport_20,grc_passport,mrz_line1,AN06210949GRC9808069M2202211<<<<<<<<<<<<<<06,AN06210949GRC9808069M2202211<<<<<<<<<<<<<<06,True,True,0.0,False
+grc_passport_21,grc_passport,surname,KOUTALIANOS,KOUTALIANOS,True,True,0.0,False
+grc_passport_21,grc_passport,given_names,ALKIVIADIS,ALKIVIADIS,True,True,0.0,False
+grc_passport_21,grc_passport,birth_date,22 Aug 00,22 Aug 00,True,True,0.0,False
+grc_passport_21,grc_passport,gender,M,M,True,True,0.0,False
+grc_passport_21,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_21,grc_passport,document_number,AP8017660,AP8017660,True,True,0.0,False
+grc_passport_21,grc_passport,issue_date,23 Okt 16,23 Okt 16,True,True,0.0,False
+grc_passport_21,grc_passport,expiry_date,23 Okt 21,23 Okt 21,True,True,0.0,False
+grc_passport_21,grc_passport,birth_place,ATHINA,ATHINA,True,True,0.0,False
+grc_passport_21,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_21,grc_passport,mrz_line0,P<GRCKOUTALIANOS<<ALKIVIADIS<<<<<<<<<<<<<<<<,P<GRCKOUTALIANOS<<ALKIVIADIS<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+grc_passport_21,grc_passport,mrz_line1,AP80176603GRC0008224M2110237<<<<<<<<<<<<<<08,AP80176603GRC0008224M2110237<<<<<<<<<<<<<<08,True,True,0.0,False
+grc_passport_29,grc_passport,surname,KARSIVANI,KARSIVANI,True,True,0.0,False
+grc_passport_29,grc_passport,given_names,STAMATINA,STAMATINA,True,True,0.0,False
+grc_passport_29,grc_passport,birth_date,09 Jan 94,09 Jan 94,True,True,0.0,False
+grc_passport_29,grc_passport,gender,F,F,True,True,0.0,False
+grc_passport_29,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_29,grc_passport,document_number,AM9230539,AM9230539,True,True,0.0,False
+grc_passport_29,grc_passport,issue_date,07 Aug 17,07 Aug 17,True,True,0.0,False
+grc_passport_29,grc_passport,expiry_date,07 Aug 22,07 Aug 22,True,True,0.0,False
+grc_passport_29,grc_passport,birth_place,CHOLARGOS,CHOLARGOS,True,True,0.0,False
+grc_passport_29,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_29,grc_passport,mrz_line0,P<GRCKARSIVANI<<STAMATINA<<<<<<<<<<<<<<<<<<<,P<GRCKARSIVANI<<STAMATINA<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+grc_passport_29,grc_passport,mrz_line1,AM92305391GRC9401091F2208073<<<<<<<<<<<<<<06,AM92305391GRC9401091F2208073<<<<<<<<<<<<<<06,True,True,0.0,False
+grc_passport_51,grc_passport,surname,PAPAGEORGIOU,PAPAGEORGIOU,True,True,0.0,False
+grc_passport_51,grc_passport,given_names,KALLINIKI,KALLINIKOS,False,False,0.2222222222222222,False
+grc_passport_51,grc_passport,birth_date,20 Dec 99,20 Dec 99,True,True,0.0,False
+grc_passport_51,grc_passport,gender,M,M,True,True,0.0,False
+grc_passport_51,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_51,grc_passport,document_number,AM1775999,AM1775999,True,True,0.0,False
+grc_passport_51,grc_passport,issue_date,24 Jul 17,24 Jul 17,True,True,0.0,False
+grc_passport_51,grc_passport,expiry_date,24 Jul 22,24 Jul 22,True,True,0.0,False
+grc_passport_51,grc_passport,birth_place,TAVROS,TAVROS,True,True,0.0,False
+grc_passport_51,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_51,grc_passport,mrz_line0,P<GRCPAPAGEORGIOU<<KALLINIKI<<<<<<<<<<<<<<<<,P<GRCPAPAGEORGIOU<<KALLINIKI<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+grc_passport_51,grc_passport,mrz_line1,AM17759991GRC9912201M2207249<<<<<<<<<<<<<<00,AM17759991GRC9912201M2207249<<<<<<<<<<<<<<00,True,True,0.0,False
+grc_passport_58,grc_passport,surname,GRIGORIADOU,GRIGORIADOU,True,True,0.0,False
+grc_passport_58,grc_passport,given_names,NECTARIA,NECTARIA,True,True,0.0,False
+grc_passport_58,grc_passport,birth_date,08 Nov 73,08 Nov 73,True,True,0.0,False
+grc_passport_58,grc_passport,gender,F,F,True,True,0.0,False
+grc_passport_58,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_58,grc_passport,document_number,AK2231407,AK2231407,True,True,0.0,False
+grc_passport_58,grc_passport,issue_date,16 Apr 17,16 Apr 17,True,True,0.0,False
+grc_passport_58,grc_passport,expiry_date,16 Apr 22,16 Apr 22,True,True,0.0,False
+grc_passport_58,grc_passport,birth_place,THESSALONIKI,THESSALONIKI,True,True,0.0,False
+grc_passport_58,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_58,grc_passport,mrz_line0,P<GRCGRIGORIADOU<<NECTARIA<<<<<<<<<<<<<<<<<<,P<GRCGRIGORIADOU<<NECTARIA<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+grc_passport_58,grc_passport,mrz_line1,AK22314071GRC7311084F2204167<<<<<<<<<<<<<<02,AK22314071GRC7311084F2204167<<<<<<<<<<<<<<02,True,True,0.0,False
+grc_passport_65,grc_passport,surname,THEODOROU,THEODOROU,True,True,0.0,False
+grc_passport_65,grc_passport,given_names,LEON,LEON,True,True,0.0,False
+grc_passport_65,grc_passport,birth_date,09 Jun 72,09 Jun 72,True,True,0.0,False
+grc_passport_65,grc_passport,gender,F,F,True,True,0.0,False
+grc_passport_65,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_65,grc_passport,document_number,AN5151551,AN5151551,True,True,0.0,False
+grc_passport_65,grc_passport,issue_date,18 Nov 16,18 Nov 16,True,True,0.0,False
+grc_passport_65,grc_passport,expiry_date,18 Nov 21,18 Nov 21,True,True,0.0,False
+grc_passport_65,grc_passport,birth_place,THESSALONIKI,THESSALONIKI,True,True,0.0,False
+grc_passport_65,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_65,grc_passport,mrz_line0,P<GRCTHEODOROU<<LEON<<<<<<<<<<<<<<<<<<<<<<<<,P<GRCTHEODOROU<<LEON<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+grc_passport_65,grc_passport,mrz_line1,AN51515518GRC7206096F2111186<<<<<<<<<<<<<<06,AN51515518GRC7206096F2111186<<<<<<<<<<<<<<06,True,True,0.0,False
+grc_passport_72,grc_passport,surname,EFTAXIA,EFTAXIA,True,True,0.0,False
+grc_passport_72,grc_passport,given_names,CHARILAOS,CHARILAOS,True,True,0.0,False
+grc_passport_72,grc_passport,birth_date,18 Sep 00,18 Sep 00,True,True,0.0,False
+grc_passport_72,grc_passport,gender,M,M,True,True,0.0,False
+grc_passport_72,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_72,grc_passport,document_number,AP6634694,AP6634694,True,True,0.0,False
+grc_passport_72,grc_passport,issue_date,12 Jul 15,12 Jul 15,True,True,0.0,False
+grc_passport_72,grc_passport,expiry_date,12 Jul 20,12 Jul 20,True,True,0.0,False
+grc_passport_72,grc_passport,birth_place,PEIRAIAS,PEIRAIAS,True,True,0.0,False
+grc_passport_72,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_72,grc_passport,mrz_line0,P<GRCEFTAXIA<<CHARILAOS<<<<<<<<<<<<<<<<<<<<<,P<GRCEFTAXIA<<CHARILAOS<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+grc_passport_72,grc_passport,mrz_line1,AP66346949GRC0009184M2007128<<<<<<<<<<<<<<08,AP66346949GRC0009184M2007128<<<<<<<<<<<<<<08,True,True,0.0,False
+grc_passport_76,grc_passport,surname,ANDREOU,ANDREOU,True,True,0.0,False
+grc_passport_76,grc_passport,given_names,MARIA,MAPIA MARIA,False,False,1.2,False
+grc_passport_76,grc_passport,birth_date,06 Jul 79,06 Jul 79,True,True,0.0,False
+grc_passport_76,grc_passport,gender,F,F,True,True,0.0,False
+grc_passport_76,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_76,grc_passport,document_number,AN0071609,AN0071609,True,True,0.0,False
+grc_passport_76,grc_passport,issue_date,26 Okt 15,26 Okt 15,True,True,0.0,False
+grc_passport_76,grc_passport,expiry_date,26 Okt 20,26 Okt 20,True,True,0.0,False
+grc_passport_76,grc_passport,birth_place,ATHINA,ATHINA,True,True,0.0,False
+grc_passport_76,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_76,grc_passport,mrz_line0,P<GRCANDREOU<<MARIA<<<<<<<<<<<<<<<<<<<<<<<<<,P<GRCANANDREOU<<MARIA<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,False,0.10526315789473684,False
+grc_passport_76,grc_passport,mrz_line1,AN00716092GRC7907061F2010267<<<<<<<<<<<<<<06,AN00716092GRC7907061F2010267<<<<<<<<<<<<<<06,True,True,0.0,False
+grc_passport_87,grc_passport,surname,PAPADOPOULOU,PAPADOPOULOU,True,True,0.0,False
+grc_passport_87,grc_passport,given_names,CATHERINE,AIKATEPINH CATHERINE,False,False,1.2222222222222223,False
+grc_passport_87,grc_passport,birth_date,08 Jun 51,08 Jun 51,True,True,0.0,False
+grc_passport_87,grc_passport,gender,F,F,True,True,0.0,False
+grc_passport_87,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_87,grc_passport,document_number,AN6290423,AN6290423,True,True,0.0,False
+grc_passport_87,grc_passport,issue_date,03 Sep 15,03 Sep 15,True,True,0.0,False
+grc_passport_87,grc_passport,expiry_date,03 Sep 20,03 Sep 20,True,True,0.0,False
+grc_passport_87,grc_passport,birth_place,AMAROUSIO,AMAROUSIO,True,True,0.0,False
+grc_passport_87,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_87,grc_passport,mrz_line0,P<GRCPAPADOPOULOU<<CATHERINE<<<<<<<<<<<<<<<<,P<GRCPAPADOPOULOU<<CATHERINE<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+grc_passport_87,grc_passport,mrz_line1,AN62904233GRC5106088F2009030<<<<<<<<<<<<<<08,AN62904233GRC5106088F2009030<<<<<<<<<<<<<<08,True,True,0.0,False
+grc_passport_89,grc_passport,surname,TRIANTAPHYLLIDOU,TRIANTAPHYLIDOU,False,False,0.0625,False
+grc_passport_89,grc_passport,given_names,EROFILI,EROFILI,True,True,0.0,False
+grc_passport_89,grc_passport,birth_date,10 Jun 68,10 Jun 68,True,True,0.0,False
+grc_passport_89,grc_passport,gender,F,F,True,True,0.0,False
+grc_passport_89,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_89,grc_passport,document_number,AP3831614,AP3831614,True,True,0.0,False
+grc_passport_89,grc_passport,issue_date,18 Mar 15,18 Mar 15,True,True,0.0,False
+grc_passport_89,grc_passport,expiry_date,18 Mar 20,18 Mar 20,True,True,0.0,False
+grc_passport_89,grc_passport,birth_place,AMAROUSIO,AMAROUSIO,True,True,0.0,False
+grc_passport_89,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_89,grc_passport,mrz_line0,P<GRCTRIANTAPHYLLIDOU<<EROFILI<<<<<<<<<<<<<<,P<GRCTRIANTAPHYLIDOU<<EROFILI<<<<<<<<<<<<<<,False,False,0.03333333333333333,False
+grc_passport_89,grc_passport,mrz_line1,AP38316143GRC6806101F2003186<<<<<<<<<<<<<<04,AP38316143GRC6806101F2003186<<<<<<<<<<<<<<04,True,True,0.0,False
+grc_passport_90,grc_passport,surname,POLITIS,POLITIS,True,True,0.0,False
+grc_passport_90,grc_passport,given_names,ANAXAGORAS,ANAXAGORAS,True,True,0.0,False
+grc_passport_90,grc_passport,birth_date,19 Jul 03,19 Jul 03,True,True,0.0,False
+grc_passport_90,grc_passport,gender,M,M,True,True,0.0,False
+grc_passport_90,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_90,grc_passport,document_number,AP6654562,AP6654562,True,True,0.0,False
+grc_passport_90,grc_passport,issue_date,11 Jan 18,11 Jan 18,True,True,0.0,False
+grc_passport_90,grc_passport,expiry_date,11 Jan 20,11 Jan 20,True,True,0.0,False
+grc_passport_90,grc_passport,birth_place,AMAROUSIO,AMAROUSIO,True,True,0.0,False
+grc_passport_90,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_90,grc_passport,mrz_line0,P<GRCPOLITIS<<ANAXAGORAS<<<<<<<<<<<<<<<<<<<<,P<GRCPOLITIS<<ANAXAGORAS<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+grc_passport_90,grc_passport,mrz_line1,AP66545627GRC0307190M2001115<<<<<<<<<<<<<<02,AP66545627GRC0307190M2001115<<<<<<<<<<<<<<02,True,True,0.0,False
+grc_passport_97,grc_passport,surname,ANASTASIOU,ANASTASIOU,True,True,0.0,False
+grc_passport_97,grc_passport,given_names,MIRANDA,MIPANTA MIRANDA,False,False,1.1428571428571428,False
+grc_passport_97,grc_passport,birth_date,17 Jun 06,17 Jun 06,True,True,0.0,False
+grc_passport_97,grc_passport,gender,F,F,True,True,0.0,False
+grc_passport_97,grc_passport,nationality,ΕΛΛΗΝΙΚΗ / HELLENIC,ΕΛΛΗΝΙΚΗ / HELLENIC,True,True,0.0,False
+grc_passport_97,grc_passport,document_number,AN9796411,AN9796411,True,True,0.0,False
+grc_passport_97,grc_passport,issue_date,19 Jul 19,19 Jul 19,True,True,0.0,False
+grc_passport_97,grc_passport,expiry_date,19 Jul 21,19 Jul 21,True,True,0.0,False
+grc_passport_97,grc_passport,birth_place,ATHINA,ATHINA,True,True,0.0,False
+grc_passport_97,grc_passport,authority,Α.Ε.Α./Δ.Δ.- N.P.C.,A.E.A./Δ.Δ.- N.P.C.,False,True,0.0,False
+grc_passport_97,grc_passport,mrz_line0,P<GRCANASTASIOU<<MIRANDA<<<<<<<<<<<<<<<<<<<<,P<GRCANASTASIOU<<MIRANDA<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+grc_passport_97,grc_passport,mrz_line1,AN97964112GRC0606170F2107198<<<<<<<<<<<<<<08,AN97964112GRC0606170F2107198<<<<<<<<<<<<<<08,True,True,0.0,False
+lva_passport_09,lva_passport,surname,PRIEDE,PRIEDE,True,True,0.0,False
+lva_passport_09,lva_passport,given_names,AIJA,AIJA,True,True,0.0,False
+lva_passport_09,lva_passport,birth_date,03.05.1992.,03.05.1992.,True,True,0.0,False
+lva_passport_09,lva_passport,gender,S/F,S / F,False,True,0.0,False
+lva_passport_09,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_09,lva_passport,document_number,LV5586605,LV5586605,True,True,0.0,False
+lva_passport_09,lva_passport,personal_number,030592-17882,030592-17882,True,True,0.0,False
+lva_passport_09,lva_passport,issue_date,11.07.2011.,11.07.2011.,True,True,0.0,False
+lva_passport_09,lva_passport,expiry_date,11.07.2021.,11.07.2021.,True,True,0.0,False
+lva_passport_09,lva_passport,birth_place,DAUGAVPILS,DAUGAVPILS,True,True,0.0,False
+lva_passport_09,lva_passport,authority,PMLP RĪGAS 4.NODAĻA,PMLP RĪGAS 4. NODAĻA,False,True,0.0,False
+lva_passport_09,lva_passport,mrz_line0,P<LVAPRIEDE<<AIJA<<<<<<<<<<<<<<<<<<<<<<<<<<<,P<LVAPRIEDE<<AIJA<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+lva_passport_09,lva_passport,mrz_line1,LV55866057LVA9205037F2107110030592<17882<<58,LV55866057LVA9205037F2107110030592<17882<<58,True,True,0.0,False
+lva_passport_12,lva_passport,surname,PUTRIŅŠ,PUTRINŠ,False,False,0.14285714285714285,False
+lva_passport_12,lva_passport,given_names,ALEKSEJS,ALEKSEJS,True,True,0.0,False
+lva_passport_12,lva_passport,birth_date,30.07.1997.,30.07.1997.,True,True,0.0,False
+lva_passport_12,lva_passport,gender,V/M,V/M,True,True,0.0,False
+lva_passport_12,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_12,lva_passport,document_number,LV9719484,LV9719484,True,True,0.0,False
+lva_passport_12,lva_passport,personal_number,300797-17430,300797-17430,True,True,0.0,False
+lva_passport_12,lva_passport,issue_date,28.07.2016.,28.07.2016.,True,True,0.0,False
+lva_passport_12,lva_passport,expiry_date,28.07.2026.,28.07.2026.,True,True,0.0,False
+lva_passport_12,lva_passport,birth_place,RĒZEKNE,RĒZEKNE,True,True,0.0,False
+lva_passport_12,lva_passport,authority,PMLP RĪGAS 2.NODAĻA,PMLP RĪGAS 2. NODAĻA,False,True,0.0,False
+lva_passport_12,lva_passport,mrz_line0,P<LVAPUTRINS<<ALEKSEJS<<<<<<<<<<<<<<<<<<<<<<,P<LVAPUTRINS<<ALEKSEJS<<<<<<<<<<<<<<<<<<<<<<,True,True,0.0,False
+lva_passport_12,lva_passport,mrz_line1,LV97194846LVA9707302M2607285300797<17430<<18,LV97194846LVA9707302M2607285300797<17430<<18,True,True,0.0,False
+lva_passport_17,lva_passport,surname,RUBENIS,RUBENIS,True,True,0.0,False
+lva_passport_17,lva_passport,given_names,AIRITA,AIRITA,True,True,0.0,False
+lva_passport_17,lva_passport,birth_date,02.11.1981.,02.11.1981.,True,True,0.0,False
+lva_passport_17,lva_passport,gender,S/F,S/F,True,True,0.0,False
+lva_passport_17,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_17,lva_passport,document_number,LV5117731,LV5117731,True,True,0.0,False
+lva_passport_17,lva_passport,personal_number,021181-15601,021181-15601,True,True,0.0,False
+lva_passport_17,lva_passport,issue_date,09.08.2017.,09.08.2017.,True,True,0.0,False
+lva_passport_17,lva_passport,expiry_date,09.08.2027.,09.08.2027.,True,True,0.0,False
+lva_passport_17,lva_passport,birth_place,LUDZA,LUDZA,True,True,0.0,False
+lva_passport_17,lva_passport,authority,PMLP RĪGAS 2.NODAĻA,PMLP RĪGAS 2. NODAĻA,False,True,0.0,False
+lva_passport_17,lva_passport,mrz_line0,P<LVARUBENIS<<AIRITA<<<<<<<<<<<<<<<<<<<<<<<<,P<LVARUBENIS<<AIRITA<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+lva_passport_17,lva_passport,mrz_line1,LV51177311LVA8111029F2708090021181<15601<<00,LV51177311LVA8111029F2708090021181<15601<<00,True,True,0.0,False
+lva_passport_30,lva_passport,surname,KUNDZIŅŠ,KUNDZIŅŠ,True,True,0.0,False
+lva_passport_30,lva_passport,given_names,ANDREJS,ANDREJS,True,True,0.0,False
+lva_passport_30,lva_passport,birth_date,30.03.1989.,30.03.1989.,True,True,0.0,False
+lva_passport_30,lva_passport,gender,V/M,V/M,True,True,0.0,False
+lva_passport_30,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_30,lva_passport,document_number,LV4464935,LV4464935,True,True,0.0,False
+lva_passport_30,lva_passport,personal_number,300389-17707,300389-17707,True,True,0.0,False
+lva_passport_30,lva_passport,issue_date,06.04.2012.,06.04.2012.,True,True,0.0,False
+lva_passport_30,lva_passport,expiry_date,06.04.2022.,06.04.2022.,True,True,0.0,False
+lva_passport_30,lva_passport,birth_place,CĒSIS,CĒSIS,True,True,0.0,False
+lva_passport_30,lva_passport,authority,PMLP RĪGAS 3.NODAĻA,PMLP RĪGAS 3. NODAĻA,False,True,0.0,False
+lva_passport_30,lva_passport,mrz_line0,P<LVAKUNDZINS<<ANDREJS<<<<<<<<<<<<<<<<<<<<<<,P<LVAKUNDZINS<<ANDREJS<<<<<<<<<<<<<<<<<<<<<<,True,True,0.0,False
+lva_passport_30,lva_passport,mrz_line1,LV44649351LVA8903303M2204064300389<17707<<16,LV44649351LVA8903303M2204064300389<17707<<16,True,True,0.0,False
+lva_passport_39,lva_passport,surname,LĀCIS,LĀCIS,True,True,0.0,False
+lva_passport_39,lva_passport,given_names,ELEONORA,ELEONORA,True,True,0.0,False
+lva_passport_39,lva_passport,birth_date,01.01.1971.,01.01.1971.,True,True,0.0,False
+lva_passport_39,lva_passport,gender,S/F,S/F,True,True,0.0,False
+lva_passport_39,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_39,lva_passport,document_number,LV4601455,LV4601455,True,True,0.0,False
+lva_passport_39,lva_passport,personal_number,010171-11825,010171-11825,True,True,0.0,False
+lva_passport_39,lva_passport,issue_date,10.07.2015.,10.07.2015.,True,True,0.0,False
+lva_passport_39,lva_passport,expiry_date,10.07.2025.,10.07.2025.,True,True,0.0,False
+lva_passport_39,lva_passport,birth_place,RĪGA,RĪGA,True,True,0.0,False
+lva_passport_39,lva_passport,authority,PMLP PIEPĀJAS NODAĻA,PMLP PIEPĀJAS NODAĻA,True,True,0.0,False
+lva_passport_39,lva_passport,mrz_line0,P<LVALACIS<<ELEONORA<<<<<<<<<<<<<<<<<<<<<<<<,P<LVALACIS<<ELEONORA<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+lva_passport_39,lva_passport,mrz_line1,LV46014555LVA7101010F2507101010171<11825<<30,LV4601455LVA7101010F25071010171<11825<<30,False,False,0.06818181818181818,False
+lva_passport_41,lva_passport,surname,LŪSIS,LŪSIS,True,True,0.0,False
+lva_passport_41,lva_passport,given_names,ARKĀDIJS,ARKĀDIJS,True,True,0.0,False
+lva_passport_41,lva_passport,birth_date,12.12.1993.,12.12.1993.,True,True,0.0,False
+lva_passport_41,lva_passport,gender,V/M,V/M,True,True,0.0,False
+lva_passport_41,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_41,lva_passport,document_number,LV9227286,LV9227286,True,True,0.0,False
+lva_passport_41,lva_passport,personal_number,121293-11488,121293-11488,True,True,0.0,False
+lva_passport_41,lva_passport,issue_date,28.10.2019.,28.10.2019.,True,True,0.0,False
+lva_passport_41,lva_passport,expiry_date,28.10.2029.,28.10.2029.,True,True,0.0,False
+lva_passport_41,lva_passport,birth_place,RĒZEKNE,RĒZEKNE,True,True,0.0,False
+lva_passport_41,lva_passport,authority,PMLP PIEPĀJAS NODAĻA,PMLP PIEPĀJAS NODAĻA,True,True,0.0,False
+lva_passport_41,lva_passport,mrz_line0,P<LVALUSIS<<ARKADIJS<<<<<<<<<<<<<<<<<<<<<<<<,P<LVALUSIS<<ARKADIJS<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+lva_passport_41,lva_passport,mrz_line1,LV92272860LVA9312122M2910286121293<11488<<20,LV92272860LVA9312122M2910286121293<11488<<20,True,True,0.0,False
+lva_passport_43,lva_passport,surname,SAULĪTIS,SAULĪTIS,True,True,0.0,False
+lva_passport_43,lva_passport,given_names,ARMĪNS,ARMĪNS,True,True,0.0,False
+lva_passport_43,lva_passport,birth_date,28.04.1977.,28.04.1977.,True,True,0.0,False
+lva_passport_43,lva_passport,gender,V/M,V/M,True,True,0.0,False
+lva_passport_43,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_43,lva_passport,document_number,LV0751099,LV0751099,True,True,0.0,False
+lva_passport_43,lva_passport,personal_number,280477-17756,280477-17756,True,True,0.0,False
+lva_passport_43,lva_passport,issue_date,07.11.2011.,07.11.2011.,True,True,0.0,False
+lva_passport_43,lva_passport,expiry_date,07.11.2021.,07.11.2021.,True,True,0.0,False
+lva_passport_43,lva_passport,birth_place,JŪRMALA,JŪRMALA,True,True,0.0,False
+lva_passport_43,lva_passport,authority,PMLP RĪGAS 4.NODAĻA,PMLP RĪGAS 4. NODAĻA,False,True,0.0,False
+lva_passport_43,lva_passport,mrz_line0,P<LVASAULITIS<<ARMINS<<<<<<<<<<<<<<<<<<<<<<<,P<LVASAULITIS<<ARMINS<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+lva_passport_43,lva_passport,mrz_line1,LV07510991LVA7704282M2111072280477<17756<<46,LV07510991LVA7704282M2111072280477<17756<<46,True,True,0.0,False
+lva_passport_56,lva_passport,surname,ZARIŅŠ,ZARIŅŠ,True,True,0.0,False
+lva_passport_56,lva_passport,given_names,ELĪNA,ELĪNA,True,True,0.0,False
+lva_passport_56,lva_passport,birth_date,21.02.1987.,1.02.1987.,False,False,0.1,False
+lva_passport_56,lva_passport,gender,S/F,S/F,True,True,0.0,False
+lva_passport_56,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_56,lva_passport,document_number,LV2670545,LV2670545,True,True,0.0,False
+lva_passport_56,lva_passport,personal_number,210287-10270,210287-10270,True,True,0.0,False
+lva_passport_56,lva_passport,issue_date,09.10.2017.,09.10.2017.,True,True,0.0,False
+lva_passport_56,lva_passport,expiry_date,09.10.2027.,09.10.2027.,True,True,0.0,False
+lva_passport_56,lva_passport,birth_place,SALDUS,SALDUS,True,True,0.0,False
+lva_passport_56,lva_passport,authority,PMLP DAUGAVPILS NODAĻA,PMLP DAUGAVPILS NODAĻA,True,True,0.0,False
+lva_passport_56,lva_passport,mrz_line0,P<LVAZARINS<<ELINA<<<<<<<<<<<<<<<<<<<<<<<<<<,P<LVAZARINS<<ELINA<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+lva_passport_56,lva_passport,mrz_line1,LV26705457LVA8702218F2710095210287<10270<<02,LV26705457LVA8702218F2710095210287<10270<<02,True,True,0.0,False
+lva_passport_57,lva_passport,surname,ZAĶIS,ZAĶIS,True,True,0.0,False
+lva_passport_57,lva_passport,given_names,ELĪZA,ELĪZA,True,True,0.0,False
+lva_passport_57,lva_passport,birth_date,11.07.1997.,11.07.1997.,True,True,0.0,False
+lva_passport_57,lva_passport,gender,S/F,S/F,True,True,0.0,False
+lva_passport_57,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_57,lva_passport,document_number,LV5213097,LV5213097,True,True,0.0,False
+lva_passport_57,lva_passport,personal_number,110797-14818,110797-14818,True,True,0.0,False
+lva_passport_57,lva_passport,issue_date,07.07.2014.,07.07.2014.,True,True,0.0,False
+lva_passport_57,lva_passport,expiry_date,07.07.2024.,07.07.2024.,True,True,0.0,False
+lva_passport_57,lva_passport,birth_place,RĪGA,RĪGA,True,True,0.0,False
+lva_passport_57,lva_passport,authority,PMLP RĪGAS 2.NODAĻA,PMLP RĪGAS 2. NODAĻA,False,True,0.0,False
+lva_passport_57,lva_passport,mrz_line0,P<LVAZAKIS<<ELIZA<<<<<<<<<<<<<<<<<<<<<<<<<<<,P<LVAZAKIS<<ELIZA<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+lva_passport_57,lva_passport,mrz_line1,LV52130979LVA9707117F2407072110797<14818<<70,LV5213097LVA9707117F2407072110797<14818<<70,False,False,0.022727272727272728,False
+lva_passport_62,lva_passport,surname,ZVIRGZDIŅŠ,,False,False,1.0,False
+lva_passport_62,lva_passport,given_names,KONSTANTĪNS,,False,False,1.0,False
+lva_passport_62,lva_passport,birth_date,07.07.1975.,,False,False,1.0,False
+lva_passport_62,lva_passport,gender,V/M,,False,False,1.0,False
+lva_passport_62,lva_passport,nationality,LATVIJAS,,False,False,1.0,False
+lva_passport_62,lva_passport,document_number,LV3953906,,False,False,1.0,False
+lva_passport_62,lva_passport,personal_number,070775-15072,,False,False,1.0,False
+lva_passport_62,lva_passport,issue_date,12.12.2013.,,False,False,1.0,False
+lva_passport_62,lva_passport,expiry_date,12.12.2023.,,False,False,1.0,False
+lva_passport_62,lva_passport,birth_place,DOBELE,,False,False,1.0,False
+lva_passport_62,lva_passport,authority,PMLP RĪGAS 1.NODAĻA,,False,False,1.0,False
+lva_passport_62,lva_passport,mrz_line0,P<LVAZVIRGZDINS<<KONSTANTINS<<<<<<<<<<<<<<<<,,False,False,1.0,False
+lva_passport_62,lva_passport,mrz_line1,LV39539063LVA7507070M2312123070775<15072<<78,,False,False,1.0,False
+lva_passport_69,lva_passport,surname,BALODIS,BALODIS,True,True,0.0,False
+lva_passport_69,lva_passport,given_names,LUĪZE,LUIZE,False,False,0.2,False
+lva_passport_69,lva_passport,birth_date,11.02.1993.,11.02.1993.,True,True,0.0,False
+lva_passport_69,lva_passport,gender,S/F,S/F,True,True,0.0,False
+lva_passport_69,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_69,lva_passport,document_number,LV8494902,LV8494902,True,True,0.0,False
+lva_passport_69,lva_passport,personal_number,110293-16020,110293-16020,True,True,0.0,False
+lva_passport_69,lva_passport,issue_date,02.10.2011.,02.10.2011.,True,True,0.0,False
+lva_passport_69,lva_passport,expiry_date,02.10.2021.,02.10.2021.,True,True,0.0,False
+lva_passport_69,lva_passport,birth_place,RĪGA,RĪGA,True,True,0.0,False
+lva_passport_69,lva_passport,authority,PMLP RĪGAS 2.NODAĻA,PMLP RĪGAS 2. NODALA,False,False,0.05263157894736842,False
+lva_passport_69,lva_passport,mrz_line0,P<LVABALODIS<<LUIZE<<<<<<<<<<<<<<<<<<<<<<<<<,P<LVABALODIS<<LUIZE<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+lva_passport_69,lva_passport,mrz_line1,LV84949022LVA9302110F2110020110293<16020<<96,LV84949022LVA9302110F2110020110293<16020<<96,True,True,0.0,False
+lva_passport_79,lva_passport,surname,APINIS,APINIS,True,True,0.0,False
+lva_passport_79,lva_passport,given_names,MARINA,MARINA,True,True,0.0,False
+lva_passport_79,lva_passport,birth_date,14.01.2002.,14.01.2002.,True,True,0.0,False
+lva_passport_79,lva_passport,gender,S/F,S/F,True,True,0.0,False
+lva_passport_79,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_79,lva_passport,document_number,LV8533692,LV8533692,True,True,0.0,False
+lva_passport_79,lva_passport,personal_number,140102-23771,140102-23771,True,True,0.0,False
+lva_passport_79,lva_passport,issue_date,06.08.2018.,06.08.2018.,True,True,0.0,False
+lva_passport_79,lva_passport,expiry_date,06.08.2028.,06.08.2028.,True,True,0.0,False
+lva_passport_79,lva_passport,birth_place,RĪGA,RĪGA,True,True,0.0,False
+lva_passport_79,lva_passport,authority,PMLP JELGAVAS NODAĻA,PMLP JELGAVAS NODAĻA,True,True,0.0,False
+lva_passport_79,lva_passport,mrz_line0,P<LVAAPINIS<<MARINA<<<<<<<<<<<<<<<<<<<<<<<<<,P<LVAAPINIS<<MARINA<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+lva_passport_79,lva_passport,mrz_line1,LV85336926LVA0201140F2808060140102<23771<<82,LV85336926LVA0201140F2808060140102<23771<<82,True,True,0.0,False
+lva_passport_85,lva_passport,surname,LAZDIŅŠ,LAZDIŅŠ,True,True,0.0,False
+lva_passport_85,lva_passport,given_names,MARITA,MARITA,True,True,0.0,False
+lva_passport_85,lva_passport,birth_date,21.09.1963.,21.09.1963.,True,True,0.0,False
+lva_passport_85,lva_passport,gender,S/F,S/F,True,True,0.0,False
+lva_passport_85,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_85,lva_passport,document_number,LV8110279,LV8110279,True,True,0.0,False
+lva_passport_85,lva_passport,personal_number,210963-19681,210963-19681,True,True,0.0,False
+lva_passport_85,lva_passport,issue_date,15.02.2017.,15.02.2017.,True,True,0.0,False
+lva_passport_85,lva_passport,expiry_date,15.02.2027.,15.02.2027.,True,True,0.0,False
+lva_passport_85,lva_passport,birth_place,RĪGA,RĪGA,True,True,0.0,False
+lva_passport_85,lva_passport,authority,PMLP RĪGAS 4.NODAĻA,PMLP RĪGAS 4. NODAĻA,False,True,0.0,False
+lva_passport_85,lva_passport,mrz_line0,P<LVALAZDINS<<MARITA<<<<<<<<<<<<<<<<<<<<<<<<,P<LVALAZDINS<<MARITA<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+lva_passport_85,lva_passport,mrz_line1,LV81102792LVA6309211F2702157210963<19681<<08,LV81102792LVA6309211F2702157210963<19681<<08,True,True,0.0,False
+lva_passport_93,lva_passport,surname,SAULĪTIS,SAULĪTIS,True,True,0.0,False
+lva_passport_93,lva_passport,given_names,OTO,OTO,True,True,0.0,False
+lva_passport_93,lva_passport,birth_date,07.07.2002.,07.07.2002.,True,True,0.0,False
+lva_passport_93,lva_passport,gender,V/M,V/M,True,True,0.0,False
+lva_passport_93,lva_passport,nationality,LATVIJAS,LATVIJAS,True,True,0.0,False
+lva_passport_93,lva_passport,document_number,LV4664006,LV4664006,True,True,0.0,False
+lva_passport_93,lva_passport,personal_number,070702-24314,070702-24314,True,True,0.0,False
+lva_passport_93,lva_passport,issue_date,03.05.2017.,03.05.2017.,True,True,0.0,False
+lva_passport_93,lva_passport,expiry_date,03.05.2027.,03.05.2027.,True,True,0.0,False
+lva_passport_93,lva_passport,birth_place,TALSI,TALSI,True,True,0.0,False
+lva_passport_93,lva_passport,authority,PMLP RĪGAS 4.NODAĻA,PMLP RĪGAS 4. NODAĻA,False,True,0.0,False
+lva_passport_93,lva_passport,mrz_line0,P<LVASAULITIS<<OTO<<<<<<<<<<<<<<<<<<<<<<<<<<,P<LVASAULITIS<<0TO<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,False,0.05555555555555555,False
+lva_passport_93,lva_passport,mrz_line1,LV46640064LVA0207072M2705033070702<24314<<08,LV46640064LVA0207072M2705033070702<24314<<08,True,True,0.0,False
+rus_internalpassport_20,rus_internalpassport,surname,АНРЕП,АНРЕП,True,True,0.0,False
+rus_internalpassport_20,rus_internalpassport,given_names,ПЕТР ФОМИЧ,ПЕТР ФОМИЧ,True,True,0.0,False
+rus_internalpassport_20,rus_internalpassport,birth_date,16.06.1998,16.06.1998,True,True,0.0,False
+rus_internalpassport_20,rus_internalpassport,gender,МУЖ.,МУЖ.,True,True,0.0,False
+rus_internalpassport_20,rus_internalpassport,document_number,15    18    695558,1518695558,False,True,0.0,False
+rus_internalpassport_20,rus_internalpassport,birth_place,ГОР. ЗЕЯ АМУРСКОЙ ОБЛ.,ГОР. ЗЕЯ АМУРСКОЙ ОБЛ.,True,True,0.0,False
+rus_internalpassport_25,rus_internalpassport,surname,ФЕНЕНКО,ФЕНЕНКО,True,True,0.0,False
+rus_internalpassport_25,rus_internalpassport,given_names,ОКСАНА МАРКОВНА,ОКСАНА МАРКОВНА,True,True,0.0,False
+rus_internalpassport_25,rus_internalpassport,birth_date,18.04.1977,18.04.1977,True,True,0.0,False
+rus_internalpassport_25,rus_internalpassport,gender,ЖЕН.,ЖЕН.,True,True,0.0,False
+rus_internalpassport_25,rus_internalpassport,document_number,46    97    445141,46 97 445141,False,True,0.0,False
+rus_internalpassport_25,rus_internalpassport,birth_place,ГОР. ИСТРА МОСКОВСКОЙ ОБЛАСТИ,ГОР. ИСТРА МОСКОВСКОЙ ОБЛАСТИ,True,True,0.0,False
+rus_internalpassport_33,rus_internalpassport,surname,ТРОШКИН,ТРОШКИН,True,True,0.0,False
+rus_internalpassport_33,rus_internalpassport,given_names,ПИМЕН ЧЕСЛАВОВИЧ,ПИМЕН ЧЕСЛАВОВИЧ,True,True,0.0,False
+rus_internalpassport_33,rus_internalpassport,birth_date,14.06.1979,14.06.1979,True,True,0.0,False
+rus_internalpassport_33,rus_internalpassport,gender,МУЖ.,МУЖ.,True,True,0.0,False
+rus_internalpassport_33,rus_internalpassport,document_number,05    99    176362,05 99 176362,False,True,0.0,False
+rus_internalpassport_33,rus_internalpassport,birth_place,С. ВОЛЬНО-НАДЕЖДИНСКОЕ НАДЕЖДИНСКОГО Р-НА ПРИМОРСКОГО КРАЯ,С. ВОЛЬНО-НАДЕЖДИНСКОЕ НАДЕЖДИНСКОГО Р-НА ПРИМОРСКОГО КРАЯ,True,True,0.0,False
+rus_internalpassport_35,rus_internalpassport,surname,ТОЛБАЕВА,ТОЛБАЕВА,True,True,0.0,False
+rus_internalpassport_35,rus_internalpassport,given_names,ИНГА ФЕЛИКСОВНА,ИНГА ФЕЛИКСОВНА,True,True,0.0,False
+rus_internalpassport_35,rus_internalpassport,birth_date,08.07.1995,08.07.1995,True,True,0.0,False
+rus_internalpassport_35,rus_internalpassport,gender,ЖЕН.,ЖЕН.,True,True,0.0,False
+rus_internalpassport_35,rus_internalpassport,document_number,46    15    374912,46 15 374912,False,True,0.0,False
+rus_internalpassport_35,rus_internalpassport,birth_place,ПОСЕЛОК ТОМИЛИНО ЛЮБЕРЦКОГО РАЙОНА МОСКОВСКОЙ ОБЛАСТИ,ПОСЕЛОК ТОМИЛИНО ЛЮБЕРЦКОГО РАЙОНА МОСКОВСКОЙ ОБЛАСТИ,True,True,0.0,False
+rus_internalpassport_48,rus_internalpassport,surname,ДЕРЕВСКОВА,ДЕРЕВСКОВА,True,True,0.0,False
+rus_internalpassport_48,rus_internalpassport,given_names,АЛЕКСАНДРА ИОСИФОВНА,АЛЕКСАНДРА ИОСИФОВНА,True,True,0.0,False
+rus_internalpassport_48,rus_internalpassport,birth_date,29.08.1995,29.08.1995,True,True,0.0,False
+rus_internalpassport_48,rus_internalpassport,gender,ЖЕН.,ЖЕН.,True,True,0.0,False
+rus_internalpassport_48,rus_internalpassport,document_number,46    15    893186,46 15 893186,False,True,0.0,False
+rus_internalpassport_48,rus_internalpassport,birth_place,ГОРОД ПОДОЛЬСК МОСКОВСКОЙ ОБЛАСТИ,ГОРОД ПОДОЛЬСК МОСКОВСКОЙ ОБЛАСТИ,True,True,0.0,False
+rus_internalpassport_50,rus_internalpassport,surname,ЯКУСИК,ЯКУСИК,True,True,0.0,False
+rus_internalpassport_50,rus_internalpassport,given_names,ЭММАНУИЛ ФЕДОСИЕВИЧ,ЭММАНУИЛ ФЕДОСИЕВИЧ,True,True,0.0,False
+rus_internalpassport_50,rus_internalpassport,birth_date,13.04.1992,13.04.1992,True,True,0.0,False
+rus_internalpassport_50,rus_internalpassport,gender,МУЖ.,МУЖ.,True,True,0.0,False
+rus_internalpassport_50,rus_internalpassport,document_number,68    12    353092,68 12 353092,False,True,0.0,False
+rus_internalpassport_50,rus_internalpassport,birth_place,С. РЫСЛИ МОРШАНСКОГО Р-НА ТАМБОВСКОЙ ОБЛ.,С. РЫСЛИ МОРШАНСКОГО Р-НА ТАМБОВСКОЙ ОБЛ.,True,True,0.0,False
+rus_internalpassport_54,rus_internalpassport,surname,КАРАЕВ,КАРАЕВ,True,True,0.0,False
+rus_internalpassport_54,rus_internalpassport,given_names,ПРОХОР ИПАТОВИЧ,ПРОХОР ИПАТОВИЧ,True,True,0.0,False
+rus_internalpassport_54,rus_internalpassport,birth_date,31.08.1973,31.08.1973,True,True,0.0,False
+rus_internalpassport_54,rus_internalpassport,gender,МУЖ.,МУЖ.,True,True,0.0,False
+rus_internalpassport_54,rus_internalpassport,document_number,45    18    438004,45 18 438004,False,True,0.0,False
+rus_internalpassport_54,rus_internalpassport,birth_place,ГОР. МИЧУРИНСК ТАМБОВСКОЙ ОБЛ.,ГОР. МИЧУРИНСК ТАМБОВСКОЙ ОБЛ.,True,True,0.0,False
+rus_internalpassport_63,rus_internalpassport,surname,ЩЕРБИНА,ЩЕРБИНА,True,True,0.0,False
+rus_internalpassport_63,rus_internalpassport,given_names,СЕРГЕЙ ОСТАПОВИЧ,СЕРГЕЙ ОСТАПОВИЧ,True,True,0.0,False
+rus_internalpassport_63,rus_internalpassport,birth_date,20.11.1986,20.11.1986,True,True,0.0,False
+rus_internalpassport_63,rus_internalpassport,gender,МУЖ.,МУЖ.,True,True,0.0,False
+rus_internalpassport_63,rus_internalpassport,document_number,46    06    320741,46 06 320741,False,True,0.0,False
+rus_internalpassport_63,rus_internalpassport,birth_place,ГОР. ЛЕНИНСК КЗЫЛ-ОРДИНСКОЙ ОБЛ.,ГОР. ЛЕНИНСК КЗЫЛ-ОРДИНСКОЙ ОБЛ.,True,True,0.0,False
+rus_internalpassport_68,rus_internalpassport,surname,МИШНЕВА,МИШНЕВА,True,True,0.0,False
+rus_internalpassport_68,rus_internalpassport,given_names,ЮНОНА КОНСТАНТИНОВНА,ЮНОНА КОНСТАНТИНОВНА,True,True,0.0,False
+rus_internalpassport_68,rus_internalpassport,birth_date,08.02.1996,08.02.1996,True,True,0.0,False
+rus_internalpassport_68,rus_internalpassport,gender,ЖЕН.,ЖЕН.,True,True,0.0,False
+rus_internalpassport_68,rus_internalpassport,document_number,56    16    790454,56 16 790454,False,True,0.0,False
+rus_internalpassport_68,rus_internalpassport,birth_place,Г. КАМЕНКА ПЕНЗЕНСКОЙ ОБЛ.,Г. КАМЕНКА ПЕНЗЕНСКОЙ ОБЛ.,True,True,0.0,False
+rus_internalpassport_69,rus_internalpassport,surname,ЯНИШИНА,ЯНИШИНА,True,True,0.0,False
+rus_internalpassport_69,rus_internalpassport,given_names,ХРИСТИНА ФИЛИППОВНА,ХРИСТИНА ФИЛИППОВНА,True,True,0.0,False
+rus_internalpassport_69,rus_internalpassport,birth_date,12.09.1998,12.09.1998,True,True,0.0,False
+rus_internalpassport_69,rus_internalpassport,gender,ЖЕН.,ЖЕН.,True,True,0.0,False
+rus_internalpassport_69,rus_internalpassport,document_number,46    18    296473,46 18 296473,False,True,0.0,False
+rus_internalpassport_69,rus_internalpassport,birth_place,Г. ХИМКИ МОСКОВСКОЙ ОБЛ.,Г. ХИМКИ МОСКОВСКОЙ ОБЛ.,True,True,0.0,False
+rus_internalpassport_73,rus_internalpassport,surname,САФИЮЛИН,САФИЮЛИН,True,True,0.0,False
+rus_internalpassport_73,rus_internalpassport,given_names,СЕРАФИМ ДАВЫДОВИЧ,СЕРАФИМ ДАВЫДОВИЧ,True,True,0.0,False
+rus_internalpassport_73,rus_internalpassport,birth_date,01.07.1995,01.07.1995,True,True,0.0,False
+rus_internalpassport_73,rus_internalpassport,gender,МУЖ.,МУЖ.,True,True,0.0,False
+rus_internalpassport_73,rus_internalpassport,document_number,45    15    565088,45 15 565088,False,True,0.0,False
+rus_internalpassport_73,rus_internalpassport,birth_place,ГОР. ГОМЕЛЬ БЕЛОРУССИЯ,ГОР. ГОМЕЛЬ БЕЛОРУССИЯ,True,True,0.0,False
+rus_internalpassport_82,rus_internalpassport,surname,ДЯБИН,ДЯБИН,True,True,0.0,False
+rus_internalpassport_82,rus_internalpassport,given_names,ИЗМАИЛ ПЛАТОНОВИЧ,ИЗМАИЛ ПЛАТОНОВИЧ,True,True,0.0,False
+rus_internalpassport_82,rus_internalpassport,birth_date,03.08.1962,03.08.1962,True,True,0.0,False
+rus_internalpassport_82,rus_internalpassport,gender,МУЖ.,МУЖ.,True,True,0.0,False
+rus_internalpassport_82,rus_internalpassport,document_number,03    07    622578,0307622578,False,True,0.0,False
+rus_internalpassport_82,rus_internalpassport,birth_place,ГОР. СОЧИ КРАСНОДАРСКОГО КРАЯ,ГОР. СОЧИ КРАСНОДАРСКОГО КРАЯ,True,True,0.0,False
+rus_internalpassport_98,rus_internalpassport,surname,СОНИНА,СОНИНА,True,True,0.0,False
+rus_internalpassport_98,rus_internalpassport,given_names,ЛЮДМИЛА СВЯТОСЛАВОВНА,ЛЮДМИЛА СВЯТОСЛАВОВНА,True,True,0.0,False
+rus_internalpassport_98,rus_internalpassport,birth_date,21.01.2004,21.01.2004,True,True,0.0,False
+rus_internalpassport_98,rus_internalpassport,gender,ЖЕН.,ЖЕН.,True,True,0.0,False
+rus_internalpassport_98,rus_internalpassport,document_number,45    18    865185,45 18 865185,False,True,0.0,False
+rus_internalpassport_98,rus_internalpassport,birth_place,П. В. МИХАЙЛОВКА ОДЕССКОЙ ОБЛ.,П. В. МИХАЙЛОВКА ОДЕССКОЙ ОБЛ.,True,True,0.0,False
+rus_internalpassport_99,rus_internalpassport,surname,ФЛЁРОВА,ФЛЁРОВА,True,True,0.0,False
+rus_internalpassport_99,rus_internalpassport,given_names,ЕВА ПЕТРОВНА,ЕВА ПЕТРОВНА,True,True,0.0,False
+rus_internalpassport_99,rus_internalpassport,birth_date,21.01.2005,21.01.2005,True,True,0.0,False
+rus_internalpassport_99,rus_internalpassport,gender,ЖЕН.,ЖЕН.,True,True,0.0,False
+rus_internalpassport_99,rus_internalpassport,document_number,60    19    193554,60 19 193554,False,True,0.0,False
+rus_internalpassport_99,rus_internalpassport,birth_place,С. ЧАЛТЫРЬ МЯСНИКОВСКОГО Р-НА РОСТОВСКОЙ ОБЛ.,С. ЧАЛТЫРЬ МЯСНИКОВСКОГО Р-НА РОСТОВСКОЙ ОБЛ.,True,True,0.0,False
+srb_passport_04,srb_passport,surname,NEŠIĆ,NEŠIĆ,True,True,0.0,False
+srb_passport_04,srb_passport,given_names,ILIJA,ILIJA,True,True,0.0,False
+srb_passport_04,srb_passport,birth_date,23.06.1993,23.06.1993,True,True,0.0,False
+srb_passport_04,srb_passport,gender,M / M,M / M,True,True,0.0,False
+srb_passport_04,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_04,srb_passport,document_number,710147339,710147339,True,True,0.0,False
+srb_passport_04,srb_passport,personal_number,2306993442173,2306993442173,True,True,0.0,False
+srb_passport_04,srb_passport,issue_date,09.08.2016,09.08.2016,True,True,0.0,False
+srb_passport_04,srb_passport,expiry_date,09.08.2026,09.08.2026,True,True,0.0,False
+srb_passport_04,srb_passport,birth_place,"PIROT, REPUBLIKA SRBIJA","PIROT, REPUBLIKA SRBIJA",True,True,0.0,False
+srb_passport_04,srb_passport,authority,"MUP R SRBIJE, PU U SOMBORU","MUP R SRBIJE, PU U SOMBORU",True,True,0.0,False
+srb_passport_04,srb_passport,mrz_line0,P<SRBNESIC<<ILIJA<<<<<<<<<<<<<<<<<<<<<<<<<<<,P<SRBNESIC<<ILIJA<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+srb_passport_04,srb_passport,mrz_line1,7101473397SRB9306233M26080972306993442173<38,7101473397SRB9306233M26080972306993442173<38,True,True,0.0,False
+srb_passport_05,srb_passport,surname,NOVAKOVIĆ,NOVAKOVIĆ,True,True,0.0,False
+srb_passport_05,srb_passport,given_names,SANDRA,SANDRA,True,True,0.0,False
+srb_passport_05,srb_passport,birth_date,30.01.1995,30.01.1995,True,True,0.0,False
+srb_passport_05,srb_passport,gender,Ž / F,Ž,False,True,0.0,False
+srb_passport_05,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_05,srb_passport,document_number,847370975,847370975,True,True,0.0,False
+srb_passport_05,srb_passport,personal_number,3001995841860,3001995841860,True,True,0.0,False
+srb_passport_05,srb_passport,issue_date,17.09.2015,17.09.2015,True,True,0.0,False
+srb_passport_05,srb_passport,expiry_date,17.09.2025,17.09.2025,True,True,0.0,False
+srb_passport_05,srb_passport,birth_place,"BEOGRAD,REPUBLIKA SRBIJA","BEograd, Republika Srbija",False,True,0.0,False
+srb_passport_05,srb_passport,authority,"MUP R SRBIJE, PU U PIROTU","MUP R SRBIJE, PU U PIROTU",True,True,0.0,False
+srb_passport_05,srb_passport,mrz_line0,P<SRBNOVAKOVIC<<SANDRA<<<<<<<<<<<<<<<<<<<<<<,P<SRBNOVAKOVIC<<SANDRA<<<<<<<<<<<<<<<<<<<<<<,True,True,0.0,False
+srb_passport_05,srb_passport,mrz_line1,8473709756SRB9501304F25091723001995841860<42,8473709756SRB9501304F25091723001995841860<42,True,True,0.0,False
+srb_passport_09,srb_passport,surname,KOSTIĆ,KOSTIĆ,True,True,0.0,False
+srb_passport_09,srb_passport,given_names,MIRA,MIRA,True,True,0.0,False
+srb_passport_09,srb_passport,birth_date,19.10.1996,19.10.1996,True,True,0.0,False
+srb_passport_09,srb_passport,gender,Ž / F,Ž,False,True,0.0,False
+srb_passport_09,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_09,srb_passport,document_number,459606607,459606607,True,True,0.0,False
+srb_passport_09,srb_passport,personal_number,1910996750736,1910996750736,True,True,0.0,False
+srb_passport_09,srb_passport,issue_date,11.05.2015,11.05.2015,True,True,0.0,False
+srb_passport_09,srb_passport,expiry_date,11.05.2025,11.05.2025,True,True,0.0,False
+srb_passport_09,srb_passport,birth_place,"BEOGRAD, REPUBLIKA SRBIJA","BEograd, Republika Srbija",False,True,0.0,False
+srb_passport_09,srb_passport,authority,"MUP R SRBIJE, PU ZA GRAD BEOGRAD","MUP R SRBIJE, PU ZA GRAD BEograd",False,True,0.0,False
+srb_passport_09,srb_passport,mrz_line0,P<SRBKOSTIC<<MIRA<<<<<<<<<<<<<<<<<<<<<<<<<<<,P<SRBKOSTIC<<MIRA<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+srb_passport_09,srb_passport,mrz_line1,4596066079SRB9610194F25051181910996750736<58,4596066079SRB9610194F25051181910996750736<58,True,True,0.0,False
+srb_passport_13,srb_passport,surname,CVETKOVIĆ,CVETKOVIĆ,True,True,0.0,False
+srb_passport_13,srb_passport,given_names,LJUBISAV,LJUBISAV,True,True,0.0,False
+srb_passport_13,srb_passport,birth_date,08.07.1994,08.07.1994,True,True,0.0,False
+srb_passport_13,srb_passport,gender,M / M,M / M,True,True,0.0,False
+srb_passport_13,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_13,srb_passport,document_number,219771747,219771747,True,True,0.0,False
+srb_passport_13,srb_passport,personal_number,0807994281562,0807994281562,True,True,0.0,False
+srb_passport_13,srb_passport,issue_date,20.09.2017,20.09.2017,True,True,0.0,False
+srb_passport_13,srb_passport,expiry_date,20.09.2027,20.09.2027,True,True,0.0,False
+srb_passport_13,srb_passport,birth_place,"BILJAČA, REPUBLIKA SRBIJA","BILJAČA, REPUBLIKA SRBIJA",True,True,0.0,False
+srb_passport_13,srb_passport,authority,"MUP R SRBIJE, PU U NOVOM SADU","MUP R SRBIJE, PU U NOVOM SADU",True,True,0.0,False
+srb_passport_13,srb_passport,mrz_line0,P<SRBCVETKOVIC<<LJUBISAV<<<<<<<<<<<<<<<<<<<<,P<SRBCVETKOVIC<<LJUBISAV<<<<<<<<<<<<<<<<<<<<,True,True,0.0,False
+srb_passport_13,srb_passport,mrz_line1,2197717475SRB9407082M27092040807994281562<38,2197717475SRB9407082M27092040807994281562<38,True,True,0.0,False
+srb_passport_16,srb_passport,surname,NIKOLIĆ,NIKOLIC,False,False,0.14285714285714285,False
+srb_passport_16,srb_passport,given_names,LIDIJA,LIDIJA,True,True,0.0,False
+srb_passport_16,srb_passport,birth_date,17.01.1993,17.01.1993,True,True,0.0,False
+srb_passport_16,srb_passport,gender,Ž / F,Ž,False,True,0.0,False
+srb_passport_16,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_16,srb_passport,document_number,976600073,976600073,True,True,0.0,False
+srb_passport_16,srb_passport,personal_number,1701993971495,1701993971495,True,True,0.0,False
+srb_passport_16,srb_passport,issue_date,06.08.2011,06.08.2011,True,True,0.0,False
+srb_passport_16,srb_passport,expiry_date,06.08.2021,06.08.2021,True,True,0.0,False
+srb_passport_16,srb_passport,birth_place,"ŠTARNBERG, NEMAČKA SR","ŠTARNBERG, NEMAČKA SR",True,True,0.0,False
+srb_passport_16,srb_passport,authority,"MUP R SRBIJE, PU U LESKOVCU","MUP R SRBIJE, PU U LESKOVCU",True,True,0.0,False
+srb_passport_16,srb_passport,mrz_line0,P<SRBNIKOLIC<<LIDIJA<<<<<<<<<<<<<<<<<<<<<<<<,P<SRBNIKOLIC<<LIDIJA<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+srb_passport_16,srb_passport,mrz_line1,9766000736SRB9301179F21080691701993971495<90,9766000736SRB9301179F21080691701993971495<90,True,True,0.0,False
+srb_passport_26,srb_passport,surname,PETROVIĆ,PETROVIĆ,True,True,0.0,False
+srb_passport_26,srb_passport,given_names,BORKA,BORKA,True,True,0.0,False
+srb_passport_26,srb_passport,birth_date,05.05.1986,05.05.1986,True,True,0.0,False
+srb_passport_26,srb_passport,gender,Ž / F,Ž,False,True,0.0,False
+srb_passport_26,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_26,srb_passport,document_number,066254666,066254666,True,True,0.0,False
+srb_passport_26,srb_passport,personal_number,0505986902909,0505986902909,True,True,0.0,False
+srb_passport_26,srb_passport,issue_date,06.05.2019,06.05.2019,True,True,0.0,False
+srb_passport_26,srb_passport,expiry_date,06.05.2029,06.05.2029,True,True,0.0,False
+srb_passport_26,srb_passport,birth_place,"LOZNICA, REPUBLIKA SRBIJA","LOZNICA, REPUBLIKA SRBIJA",True,True,0.0,False
+srb_passport_26,srb_passport,authority,"MUP R SRBIJE, PU ZA GRAD BEOGRAD","MUP R SRBIJE, PU ZA GRAD BEograd",False,True,0.0,False
+srb_passport_26,srb_passport,mrz_line0,P<SRBPETROVIC<<BORKA<<<<<<<<<<<<<<<<<<<<<<<<,P<SRBPETROVIC<<BORKA<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+srb_passport_26,srb_passport,mrz_line1,0662546663SRB8605054F29050620505986902909<82,0662546663SRB8605054F29050620505986902909<82,True,True,0.0,False
+srb_passport_28,srb_passport,surname,VUKOMANOVIĆ,VUKOMANOVIC,False,False,0.09090909090909091,False
+srb_passport_28,srb_passport,given_names,JANA,JANA,True,True,0.0,False
+srb_passport_28,srb_passport,birth_date,27.09.1979,27.09.1979,True,True,0.0,False
+srb_passport_28,srb_passport,gender,Ž / F,Ž,False,True,0.0,False
+srb_passport_28,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_28,srb_passport,document_number,190612451,190612451,True,True,0.0,False
+srb_passport_28,srb_passport,personal_number,2709979031289,2709979031289,True,True,0.0,False
+srb_passport_28,srb_passport,issue_date,28.11.2019,28.11.2019,True,True,0.0,False
+srb_passport_28,srb_passport,expiry_date,28.11.2029,28.11.2029,True,True,0.0,False
+srb_passport_28,srb_passport,birth_place,"NOVI SAD, REPUBLIKA SRBIJA","NOVI SAD, REPUBLIKA SRBIJA",True,True,0.0,False
+srb_passport_28,srb_passport,authority,"MUP R SRBIJE, PU U ŠAPCU","MUP R SRBIJE, PU U ŠAPCU",True,True,0.0,False
+srb_passport_28,srb_passport,mrz_line0,P<SRBVUKOMANOVIC<<JANA<<<<<<<<<<<<<<<<<<<<<<,P<SRBVUKOMANOVIC<<JANA<<<<<<<<<<<<<<<<<<<<<<,True,True,0.0,False
+srb_passport_28,srb_passport,mrz_line1,1906124515SRB7909272F29112832709979031289<28,1906124515SRB7909272F29112832709979031289<28,True,True,0.0,False
+srb_passport_31,srb_passport,surname,ŽIVIĆ,ŽIVIĆ,True,True,0.0,False
+srb_passport_31,srb_passport,given_names,RADIČ,RADIĆ,False,False,0.2,False
+srb_passport_31,srb_passport,birth_date,20.12.1998,20.12.1998,True,True,0.0,False
+srb_passport_31,srb_passport,gender,M / M,M / M,True,True,0.0,False
+srb_passport_31,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_31,srb_passport,document_number,537268942,537268942,True,True,0.0,False
+srb_passport_31,srb_passport,personal_number,2012998323402,2012998323402,True,True,0.0,False
+srb_passport_31,srb_passport,issue_date,07.03.2011,07.03.2011,True,True,0.0,False
+srb_passport_31,srb_passport,expiry_date,07.03.2021,07.03.2021,True,True,0.0,False
+srb_passport_31,srb_passport,birth_place,"ŠTARNBERG, NEMAČKA SR","ŠTARNBERG, NEMAČKA SR",True,True,0.0,False
+srb_passport_31,srb_passport,authority,"MUP R SRBIJE, PU U SOMBORU","MUP R SRBIJE, PU U SOMBORU",True,True,0.0,False
+srb_passport_31,srb_passport,mrz_line0,P<SRBZIVIC<<RADIC<<<<<<<<<<<<<<<<<<<<<<<<<<<,P<SRBZIVIC<<RADIC<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+srb_passport_31,srb_passport,mrz_line1,5372689428SRB9812208M21030752012998323402<94,5372689428SRB9812208M21030752012998323402<94,True,True,0.0,False
+srb_passport_44,srb_passport,surname,PEJIĆ,PEJIĆ,True,True,0.0,False
+srb_passport_44,srb_passport,given_names,MIRKO,MIRKO,True,True,0.0,False
+srb_passport_44,srb_passport,birth_date,06.12.1978,06.12.1978,True,True,0.0,False
+srb_passport_44,srb_passport,gender,M / M,M / M,True,True,0.0,False
+srb_passport_44,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_44,srb_passport,document_number,639671489,639671489,True,True,0.0,False
+srb_passport_44,srb_passport,personal_number,0612978714432,0612978714432,True,True,0.0,False
+srb_passport_44,srb_passport,issue_date,22.07.2011,22.07.2011,True,True,0.0,False
+srb_passport_44,srb_passport,expiry_date,22.07.2021,22.07.2021,True,True,0.0,False
+srb_passport_44,srb_passport,birth_place,"GOSPIĆ, HRVATSKA","GOSPIĆ, HRVATSKA",True,True,0.0,False
+srb_passport_44,srb_passport,authority,"MUP R SRBIJE, KOORDINACIONA UPRAVA","MUP R SRBIJE, KOORDINACIONA UPRAVA",True,True,0.0,False
+srb_passport_44,srb_passport,mrz_line0,P<SRBPEJIC<<MIRKO<<<<<<<<<<<<<<<<<<<<<<<<<<<,P<SRBPEJIC<<MIRKO<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+srb_passport_44,srb_passport,mrz_line1,6396714895SRB7812064M21072240612978714432<20,6396714895SRB7812064M21072240612978714432<20,True,True,0.0,False
+srb_passport_53,srb_passport,surname,VLADIĆ,VLADIĆ,True,True,0.0,False
+srb_passport_53,srb_passport,given_names,MIODRAG,MIODRAG,True,True,0.0,False
+srb_passport_53,srb_passport,birth_date,15.06.1971,15.06.1971,True,True,0.0,False
+srb_passport_53,srb_passport,gender,M / M,M / M,True,True,0.0,False
+srb_passport_53,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_53,srb_passport,document_number,629235455,629235455,True,True,0.0,False
+srb_passport_53,srb_passport,personal_number,1506971661596,1506971661596,True,True,0.0,False
+srb_passport_53,srb_passport,issue_date,11.11.2014,11.11.2014,True,True,0.0,False
+srb_passport_53,srb_passport,expiry_date,11.11.2024,11.11.2024,True,True,0.0,False
+srb_passport_53,srb_passport,birth_place,"VRŠAC, REPUBLIKA SRBIJA","VRŠAC, REPUBLIKA SRBIJA",True,True,0.0,False
+srb_passport_53,srb_passport,authority,"MUP R SRBIJE, PU U BORU","MUP R SRBIJE, PU U BORU",True,True,0.0,False
+srb_passport_53,srb_passport,mrz_line0,P<SRBVLADIC<<MIODRAG<<<<<<<<<<<<<<<<<<<<<<<<,P<SRBVLADIC<<MIODRAG<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+srb_passport_53,srb_passport,mrz_line1,6292354553SRB7106152M24111181506971661596<22,6292354553SRB7106152M24111181506971661596<22,True,True,0.0,False
+srb_passport_73,srb_passport,surname,PEJIĆ,PEJIĆ,True,True,0.0,False
+srb_passport_73,srb_passport,given_names,SLAVEN,SLAVEN,True,True,0.0,False
+srb_passport_73,srb_passport,birth_date,03.04.1977,03.04.1977,True,True,0.0,False
+srb_passport_73,srb_passport,gender,M / M,M / M,True,True,0.0,False
+srb_passport_73,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_73,srb_passport,document_number,666784327,666784327,True,True,0.0,False
+srb_passport_73,srb_passport,personal_number,0304977680088,0304977680088,True,True,0.0,False
+srb_passport_73,srb_passport,issue_date,14.12.2011,14.12.2011,True,True,0.0,False
+srb_passport_73,srb_passport,expiry_date,14.12.2021,14.12.2021,True,True,0.0,False
+srb_passport_73,srb_passport,birth_place,"SOMBOR, REPUBLIKA SRBIJA","SOMBOR, REPUBLIKA SRBIJA",True,True,0.0,False
+srb_passport_73,srb_passport,authority,"MUP R SRBIJE, PU ZA GRAD BEOGRAD","MUP R SRBIJE, PU ZA GRAD BEograd",False,True,0.0,False
+srb_passport_73,srb_passport,mrz_line0,P<SRBPEJIC<<SLAVEN<<<<<<<<<<<<<<<<<<<<<<<<<<,P<SRBPEJIC<<SLAVEN<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+srb_passport_73,srb_passport,mrz_line1,6667843277SRB7704031M21121490304977680088<02,6667843277SRB7704031M21121490304977680088<02,True,True,0.0,False
+srb_passport_77,srb_passport,surname,JOCIĆ,JOCIĆ,True,True,0.0,False
+srb_passport_77,srb_passport,given_names,SOFIJA,SOFIJA,True,True,0.0,False
+srb_passport_77,srb_passport,birth_date,11.05.1975,11.05.1975,True,True,0.0,False
+srb_passport_77,srb_passport,gender,Ž / F,Ž,False,True,0.0,False
+srb_passport_77,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_77,srb_passport,document_number,053968171,053968171,True,True,0.0,False
+srb_passport_77,srb_passport,personal_number,1105975951623,1105975951623,True,True,0.0,False
+srb_passport_77,srb_passport,issue_date,01.08.2013,01.08.2013,True,True,0.0,False
+srb_passport_77,srb_passport,expiry_date,01.08.2023,01.08.2023,True,True,0.0,False
+srb_passport_77,srb_passport,birth_place,"BEOGRAD, REPUBLIKA SRBIJA","BEograd, Republika Srbija",False,True,0.0,False
+srb_passport_77,srb_passport,authority,"MUP R SRBIJE, PU ZA GRAD BEOGRAD","MUP R SRBIJE, PU ZA GRAD BEograd",False,True,0.0,False
+srb_passport_77,srb_passport,mrz_line0,P<SRBJOCIC<<SOFIJA<<<<<<<<<<<<<<<<<<<<<<<<<<,P<SRBJOCIC<<SOFIJA<<<<<<<<<<<<<<<<<<<<<<<<<<<<,False,True,0.0,False
+srb_passport_77,srb_passport,mrz_line1,0539681716SRB7505113F23080101105975951623<48,0539681716SRB7505113F23080101105975951623<48,True,True,0.0,False
+srb_passport_82,srb_passport,surname,JANKOVIĆ,JANKOVIĆ,True,True,0.0,False
+srb_passport_82,srb_passport,given_names,BORIS,BORIS,True,True,0.0,False
+srb_passport_82,srb_passport,birth_date,29.07.1962,29.07.1962,True,True,0.0,False
+srb_passport_82,srb_passport,gender,M / M,M / M,True,True,0.0,False
+srb_passport_82,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_82,srb_passport,document_number,239003579,239003579,True,True,0.0,False
+srb_passport_82,srb_passport,personal_number,2907962414132,2907962414132,True,True,0.0,False
+srb_passport_82,srb_passport,issue_date,19.06.2018,19.06.2018,True,True,0.0,False
+srb_passport_82,srb_passport,expiry_date,19.06.2028,19.06.2028,True,True,0.0,False
+srb_passport_82,srb_passport,birth_place,"LOZNICA, REPUBLIKA SRBIJA","LOZNICA, REPUBLIKA SRBIJA",True,True,0.0,False
+srb_passport_82,srb_passport,authority,"MUP R SRBIJE, PU U GRAD BEOGRAD","MUP R SRBIJE, PU U GRAD BEOGRAD",True,True,0.0,False
+srb_passport_82,srb_passport,mrz_line0,P<SRBJANKOVIC<<BORIS<<<<<<<<<<<<<<<<<<<<<<<<,P<SRBJANKOVIC<<BORIS<<<<<<<<<<<<<<<<<<<<<<<<,True,True,0.0,False
+srb_passport_82,srb_passport,mrz_line1,2390035790SRB6207292M28061922907962414132<88,2390035790SRB6207292M28061922907962414132<88,True,True,0.0,False
+srb_passport_85,srb_passport,surname,SANDIĆ,SANDIĆ,True,True,0.0,False
+srb_passport_85,srb_passport,given_names,SANDRA,SANDRA,True,True,0.0,False
+srb_passport_85,srb_passport,birth_date,08.04.1964,08.04.1964,True,True,0.0,False
+srb_passport_85,srb_passport,gender,Ž / F,Ž,False,True,0.0,False
+srb_passport_85,srb_passport,nationality,SRPSKO,SRPSKO,True,True,0.0,False
+srb_passport_85,srb_passport,document_number,656462763,656462763,True,True,0.0,False
+srb_passport_85,srb_passport,personal_number,0804964411104,0804964411104,True,True,0.0,False
+srb_passport_85,srb_passport,issue_date,20.08.2015,20.08.2015,True,True,0.0,False
+srb_passport_85,srb_passport,expiry_date,20.08.2025,20.08.2025,True,True,0.0,False
+srb_passport_85,srb_passport,birth_place,"LOZNICA, REPUBLIKA SRBIJA","LOZNICA, REPUBLIKA SRBIJA",True,True,0.0,False
+srb_passport_85,srb_passport,authority,"MUP R SRBIJE, PU U SREMSKOJ MITROVICI","MUP R SRBIJE, PU U SREMSKOJ MITROVICI",True,True,0.0,False
+srb_passport_85,srb_passport,mrz_line0,P<SRBSANDIC<<SANDRA<<<<<<<<<<<<<<<<<<<<<<<<<,P<SRBSANDIC<<SANDRA<<<<<<<<<<<<<<<<<<<<<<<<<,True,True,0.0,False
+srb_passport_85,srb_passport,mrz_line1,6564627631SRB6404080F25082010804964411104<46,6564627631SRB6404080F25082010804964411104<46,True,True,0.0,False
+svk_id_10,svk_id,surname,Tatarević,Tatarevič,False,False,0.1111111111111111,False
+svk_id_10,svk_id,given_names,Damjan,Damjan,True,True,0.0,False
+svk_id_10,svk_id,birth_date,21.04.1984,21.04.1984,True,True,0.0,False
+svk_id_10,svk_id,gender,M,M,True,True,0.0,False
+svk_id_10,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_10,svk_id,document_number,RT023430,RT023430,True,True,0.0,False
+svk_id_10,svk_id,personal_number,840421/3217,840421/3217,True,True,0.0,False
+svk_id_10,svk_id,issue_date,04.02.2014,04.02.2014,True,True,0.0,False
+svk_id_10,svk_id,expiry_date,04.02.2024,04.02.2024,True,True,0.0,False
+svk_id_10,svk_id,authority,Prievidza,Prievidza,True,True,0.0,False
+svk_id_15,svk_id,surname,Budimir,Budimir,True,True,0.0,False
+svk_id_15,svk_id,given_names,Ljuba,Ljuba,True,True,0.0,False
+svk_id_15,svk_id,birth_date,03.03.1974,03.03.1974,True,True,0.0,False
+svk_id_15,svk_id,gender,F,F,True,True,0.0,False
+svk_id_15,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_15,svk_id,document_number,AR399728,AR399728,True,True,0.0,False
+svk_id_15,svk_id,personal_number,740303/2521,740303/2521,True,True,0.0,False
+svk_id_15,svk_id,issue_date,19.02.2015,19.02.2015,True,True,0.0,False
+svk_id_15,svk_id,expiry_date,19.02.2025,19.02.2025,True,True,0.0,False
+svk_id_15,svk_id,authority,Bratislava,Bratislava,True,True,0.0,False
+svk_id_17,svk_id,surname,Troger,Troger,True,True,0.0,False
+svk_id_17,svk_id,given_names,Jolan,Jolan,True,True,0.0,False
+svk_id_17,svk_id,birth_date,13.06.1983,13.06.1983,True,True,0.0,False
+svk_id_17,svk_id,gender,F,F,True,True,0.0,False
+svk_id_17,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_17,svk_id,document_number,NR933283,NR933283,True,True,0.0,False
+svk_id_17,svk_id,personal_number,830613/9320,830613/9320,True,True,0.0,False
+svk_id_17,svk_id,issue_date,13.03.2013,13.03.2013,True,True,0.0,False
+svk_id_17,svk_id,expiry_date,13.03.2023,13.03.2023,True,True,0.0,False
+svk_id_17,svk_id,authority,Levice,Levice,True,True,0.0,False
+svk_id_20,svk_id,surname,Beširović,Beširović,True,True,0.0,False
+svk_id_20,svk_id,given_names,Muhamet,Muhamet,True,True,0.0,False
+svk_id_20,svk_id,birth_date,28.06.1985,28.06.1985,True,True,0.0,False
+svk_id_20,svk_id,gender,M,M,True,True,0.0,False
+svk_id_20,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_20,svk_id,document_number,FT492204,FT492204,True,True,0.0,False
+svk_id_20,svk_id,personal_number,850628/1535,850628/1535,True,True,0.0,False
+svk_id_20,svk_id,issue_date,06.12.2014,06.12.2014,True,True,0.0,False
+svk_id_20,svk_id,expiry_date,06.12.2024,06.12.2024,True,True,0.0,False
+svk_id_20,svk_id,authority,Pezinok,Pezinok,True,True,0.0,False
+svk_id_24,svk_id,surname,Bajič,Bajič,True,True,0.0,False
+svk_id_24,svk_id,given_names,Kasim,Kasim,True,True,0.0,False
+svk_id_24,svk_id,birth_date,11.12.1989,11.12.1989,True,True,0.0,False
+svk_id_24,svk_id,gender,M,M,True,True,0.0,False
+svk_id_24,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_24,svk_id,document_number,NT299371,NT299371,True,True,0.0,False
+svk_id_24,svk_id,personal_number,891211/8374,891211/8374,True,True,0.0,False
+svk_id_24,svk_id,issue_date,24.11.2015,24.11.2015,True,True,0.0,False
+svk_id_24,svk_id,expiry_date,24.11.2025,24.11.2025,True,True,0.0,False
+svk_id_24,svk_id,authority,Košice,Košice,True,True,0.0,False
+svk_id_42,svk_id,surname,Pucelj,Pucelj,True,True,0.0,False
+svk_id_42,svk_id,given_names,Zikrija,Zikrija,True,True,0.0,False
+svk_id_42,svk_id,birth_date,26.01.1966,26.01.1966,True,True,0.0,False
+svk_id_42,svk_id,gender,M,M,True,True,0.0,False
+svk_id_42,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_42,svk_id,document_number,BA758879,BA758879,True,True,0.0,False
+svk_id_42,svk_id,personal_number,660126/9964,660126/9964,True,True,0.0,False
+svk_id_42,svk_id,issue_date,09.10.2014,09.10.2014,True,True,0.0,False
+svk_id_42,svk_id,expiry_date,09.10.2024,09.10.2024,True,True,0.0,False
+svk_id_42,svk_id,authority,Vranov nad Topľou,Vranov nad Topľou,True,True,0.0,False
+svk_id_47,svk_id,surname,Kamin,Kamin,True,True,0.0,False
+svk_id_47,svk_id,given_names,Zuzana,Zuzana,True,True,0.0,False
+svk_id_47,svk_id,birth_date,27.04.1963,27.04.1963,True,True,0.0,False
+svk_id_47,svk_id,gender,F,F,True,True,0.0,False
+svk_id_47,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_47,svk_id,document_number,DB096211,DB096211,True,True,0.0,False
+svk_id_47,svk_id,personal_number,630427/2741,630427/2741,True,True,0.0,False
+svk_id_47,svk_id,issue_date,11.01.2015,11.01.2015,True,True,0.0,False
+svk_id_47,svk_id,expiry_date,11.01.2025,11.01.2025,True,True,0.0,False
+svk_id_47,svk_id,authority,Hlohovec,Hlohovec,True,True,0.0,False
+svk_id_65,svk_id,surname,Kožul,Kožul,True,True,0.0,False
+svk_id_65,svk_id,given_names,Šemsije,Šemsije,True,True,0.0,False
+svk_id_65,svk_id,birth_date,18.04.1991,18.04.1991,True,True,0.0,False
+svk_id_65,svk_id,gender,F,F,True,True,0.0,False
+svk_id_65,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_65,svk_id,document_number,QG713941,QG713941,True,True,0.0,False
+svk_id_65,svk_id,personal_number,910418/5838,910418/5838,True,True,0.0,False
+svk_id_65,svk_id,issue_date,25.02.2015,25.02.2015,True,True,0.0,False
+svk_id_65,svk_id,expiry_date,25.02.2025,25.02.2025,True,True,0.0,False
+svk_id_65,svk_id,authority,Dolný Kubín,Dolný Kubín,True,True,0.0,False
+svk_id_75,svk_id,surname,Gašparac,Gašparac,True,True,0.0,False
+svk_id_75,svk_id,given_names,Tania,Tania,True,True,0.0,False
+svk_id_75,svk_id,birth_date,10.09.1994,10.09.1994,True,True,0.0,False
+svk_id_75,svk_id,gender,F,F,True,True,0.0,False
+svk_id_75,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_75,svk_id,document_number,HP889026,HP889026,True,True,0.0,False
+svk_id_75,svk_id,personal_number,940910/5127,940910/5127,True,True,0.0,False
+svk_id_75,svk_id,issue_date,24.05.2013,24.05.2013,True,True,0.0,False
+svk_id_75,svk_id,expiry_date,24.05.2023,24.05.2023,True,True,0.0,False
+svk_id_75,svk_id,authority,Skalica,Skalica,True,True,0.0,False
+svk_id_78,svk_id,surname,Dragica Stern,Stern,False,False,0.6153846153846154,False
+svk_id_78,svk_id,given_names,Marija,Marija,True,True,0.0,False
+svk_id_78,svk_id,birth_date,06.07.1979,06.07.1979,True,True,0.0,False
+svk_id_78,svk_id,gender,F,F,True,True,0.0,False
+svk_id_78,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_78,svk_id,document_number,FU527499,FU527499,True,True,0.0,False
+svk_id_78,svk_id,personal_number,790706/2379,790706/2379,True,True,0.0,False
+svk_id_78,svk_id,issue_date,08.11.2012,08.11.2012,True,True,0.0,False
+svk_id_78,svk_id,expiry_date,08.11.2022,08.11.2022,True,True,0.0,False
+svk_id_78,svk_id,authority,Kežmarok,Kežmarok,True,True,0.0,False
+svk_id_83,svk_id,surname,Franičević,Franičević,True,True,0.0,False
+svk_id_83,svk_id,given_names,Mladen,Mladen,True,True,0.0,False
+svk_id_83,svk_id,birth_date,24.01.1999,24.01.1999,True,True,0.0,False
+svk_id_83,svk_id,gender,M,M,True,True,0.0,False
+svk_id_83,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_83,svk_id,document_number,AX019680,AX019680,True,True,0.0,False
+svk_id_83,svk_id,personal_number,990124/3123,990124/3123,True,True,0.0,False
+svk_id_83,svk_id,issue_date,12.02.2016,12.02.2016,True,True,0.0,False
+svk_id_83,svk_id,expiry_date,12.02.2026,12.02.2026,True,True,0.0,False
+svk_id_83,svk_id,authority,Revúca,Revúca,True,True,0.0,False
+svk_id_86,svk_id,surname,Rastočnik,Rastochnik,False,False,0.2222222222222222,False
+svk_id_86,svk_id,given_names,Sadije,Sadije,True,True,0.0,False
+svk_id_86,svk_id,birth_date,03.01.1960,03.01.1960,True,True,0.0,False
+svk_id_86,svk_id,gender,F,F,True,True,0.0,False
+svk_id_86,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_86,svk_id,document_number,KD129881,KD129881,True,True,0.0,False
+svk_id_86,svk_id,personal_number,600103/9398,600103/9398,True,True,0.0,False
+svk_id_86,svk_id,issue_date,03.02.2015,03.02.2015,True,True,0.0,False
+svk_id_86,svk_id,expiry_date,03.02.2025,03.02.2025,True,True,0.0,False
+svk_id_86,svk_id,authority,Stupava,Stupava,True,True,0.0,False
+svk_id_87,svk_id,surname,Ferkolj,Ferkolj,True,True,0.0,False
+svk_id_87,svk_id,given_names,Hadžera,Hadžera,True,True,0.0,False
+svk_id_87,svk_id,birth_date,12.12.1962,12.12.1962,True,True,0.0,False
+svk_id_87,svk_id,gender,F,F,True,True,0.0,False
+svk_id_87,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_87,svk_id,document_number,XS534932,XS534932,True,True,0.0,False
+svk_id_87,svk_id,personal_number,621212/3562,621212/3562,True,True,0.0,False
+svk_id_87,svk_id,issue_date,11.02.2015,11.02.2015,True,True,0.0,False
+svk_id_87,svk_id,expiry_date,11.02.2025,11.02.2025,True,True,0.0,False
+svk_id_87,svk_id,authority,Stupava,Stupava,True,True,0.0,False
+svk_id_99,svk_id,surname,Bovha,Bovha,True,True,0.0,False
+svk_id_99,svk_id,given_names,Marija Maruša,Marija Maruša,True,True,0.0,False
+svk_id_99,svk_id,birth_date,22.06.1960,22.06.1960,True,True,0.0,False
+svk_id_99,svk_id,gender,F,F,True,True,0.0,False
+svk_id_99,svk_id,nationality,SVK,SVK,True,True,0.0,False
+svk_id_99,svk_id,document_number,PP135768,PP135768,True,True,0.0,False
+svk_id_99,svk_id,personal_number,600622/8734,600622/8734,True,True,0.0,False
+svk_id_99,svk_id,issue_date,22.11.2016,22.11.2016,True,True,0.0,False
+svk_id_99,svk_id,expiry_date,22.11.2026,22.11.2026,True,True,0.0,False
+svk_id_99,svk_id,authority,Svidník,Svidník,True,True,0.0,False

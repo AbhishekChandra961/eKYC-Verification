@@ -1,0 +1,13 @@
+rule,documents,false_flags,false-flag rate (extracted),"false-flag rate (ground truth, same docs)"
+date_order,133,0,0.0,0.0
+dates_parseable,147,0,0.0,0.0
+mrz_check_birth_date,59,2,0.03389830508474576,0.0
+mrz_check_composite,59,2,0.03389830508474576,0.0
+mrz_check_document_number,59,2,0.03389830508474576,0.0
+mrz_check_expiry_date,59,1,0.01694915254237288,0.0
+mrz_format,60,1,0.016666666666666666,0.0
+mrz_vs_birth_date,59,3,0.05084745762711865,0.0
+mrz_vs_document_number,59,0,0.0,0.0
+mrz_vs_expiry_date,59,2,0.03389830508474576,0.0
+mrz_vs_given_names,59,16,0.2711864406779661,0.0
+mrz_vs_surname,59,5,0.0847457627118644,0.0
