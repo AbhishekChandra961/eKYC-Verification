@@ -1,0 +1,161 @@
+# eKYC infrastructure (Phase 6): Kafka (KRaft), Kafka UI, MongoDB and an S3-compatible object store.
+# The workers run on the host (Metal GPU); Ollama also runs on the host. Settings come from .env
+# (copy .env.example). Start: docker compose up -d    Stop: docker compose down    (volumes are kept)
+#
+# Images (pinned; all multi-arch with arm64 builds, checked on Docker Hub 2026-11-17):
+#   apache/kafka 4.4.0      official Apache image, KRaft mode (no ZooKeeper)
+#   kafbat/kafka-ui v1.5.0  maintained fork of provectus kafka-ui (which has had no release since 2024)
+#   mongo 8.0               official image
+#   rustfs/rustfs 1.0.6     S3-compatible store (Apache-2.0). MinIO's community Docker images stopped in
+#                           Oct 2025 and the project was archived in 2026, so it is no longer an option.
+# Memory (16 GB Mac, Docker VM 8 GB): Kafka heap 512 MB, MongoDB cache 0.25 GB, every container capped.
+
+name: ekyc
+
+x-logging: &small-logs  # keep container logs from filling the disk
+  driver: json-file
+  options: {max-size: "10m", max-file: "2"}
+
+services:
+  kafka:
+    image: apache/kafka:4.4.0
+    container_name: ekyc-kafka
+    environment:
+      CLUSTER_ID: ${KAFKA_CLUSTER_ID:?set KAFKA_CLUSTER_ID in .env}
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller  # one node does both jobs (fine for development)
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      # INTERNAL: other containers (kafka:9092); EXTERNAL: the workers on the host (localhost:9094)
+      KAFKA_LISTENERS: INTERNAL://:9092,CONTROLLER://:9093,EXTERNAL://:9094
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9092,EXTERNAL://localhost:9094
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"  # topics only from kafka-init: a typo in a topic name fails loudly
+      KAFKA_NUM_PARTITIONS: 3
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1  # a single broker can only hold one copy
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+      # The node's broker part must heartbeat its own controller part; the default 9 s lease made it fence itself
+      # (consumer-offset partitions offline, "Waiting for coordinator") whenever the Docker VM stalled under host
+      # memory pressure. 60 s rides out such stalls on a single-node development broker.
+      KAFKA_BROKER_SESSION_TIMEOUT_MS: 60000
+      KAFKA_HEAP_OPTS: -Xms${KAFKA_HEAP:-512m} -Xmx${KAFKA_HEAP:-512m}
+    ports: ["9094:9094"]
+    volumes: [kafka-data:/var/lib/kafka/data]
+    mem_limit: 1g
+    healthcheck:  # the broker answers on its internal listener
+      test: ["CMD-SHELL", "nc -z localhost 9092"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    restart: unless-stopped
+    logging: *small-logs
+
+  kafka-init:  # one-shot: creates the topics (from CLAUDE.md), 3 partitions each; safe to run again
+    image: apache/kafka:4.4.0
+    depends_on:
+      kafka: {condition: service_healthy}
+    environment:
+      KAFKA_HEAP_OPTS: -Xmx128m
+      TOPICS: kyc.submitted kyc.tasks.doc kyc.tasks.forgery kyc.tasks.face kyc.tasks.extraction kyc.results kyc.decided kyc.dlq
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -e
+        for topic in $$TOPICS; do
+          /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --create --if-not-exists \
+            --topic "$$topic" --partitions 3 --replication-factor 1
+        done
+        /opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list
+    restart: "no"
+    logging: *small-logs
+
+  kafka-ui:
+    image: kafbat/kafka-ui:v1.5.0
+    container_name: ekyc-kafka-ui
+    depends_on:
+      kafka: {condition: service_healthy}
+    environment:
+      KAFKA_CLUSTERS_0_NAME: ekyc
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:9092
+      DYNAMIC_CONFIG_ENABLED: "false"
+      JAVA_OPTS: -Xms128m -Xmx256m
+    ports: ["8080:8080"]
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/actuator/health | grep -q UP"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+    restart: unless-stopped
+    logging: *small-logs
+
+  mongo:
+    image: mongo:8.0
+    container_name: ekyc-mongo
+    command: ["--wiredTigerCacheSizeGB", "0.25"]  # default would take half the container's RAM
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USER:?set MONGO_ROOT_USER in .env}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?set MONGO_ROOT_PASSWORD in .env}
+    ports: ["27017:27017"]
+    volumes: [mongo-data:/data/db]
+    mem_limit: 768m
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --quiet --eval 'db.adminCommand(\"ping\").ok' | grep -q 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+    logging: *small-logs
+
+  s3:
+    image: rustfs/rustfs:1.0.6
+    container_name: ekyc-s3
+    environment:
+      RUSTFS_ACCESS_KEY: ${S3_ACCESS_KEY:?set S3_ACCESS_KEY in .env}
+      RUSTFS_SECRET_KEY: ${S3_SECRET_KEY:?set S3_SECRET_KEY in .env}
+      RUSTFS_VOLUMES: /data
+      RUSTFS_ADDRESS: 0.0.0.0:9000
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_CONSOLE_ADDRESS: 0.0.0.0:9001
+    ports: ["9000:9000", "9001:9001"]  # 9000 S3 API, 9001 web console
+    volumes: [s3-data:/data]
+    mem_limit: 512m
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9000/health > /dev/null || wget -qO- http://localhost:9000/health > /dev/null"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    restart: unless-stopped
+    logging: *small-logs
+
+  s3-init:  # one-shot: creates the upload bucket (S3 "CreateBucket", signed with AWS SigV4); safe to run again
+    image: curlimages/curl:8.23.0
+    depends_on:
+      s3: {condition: service_healthy}
+    environment:
+      S3_ACCESS_KEY: ${S3_ACCESS_KEY}
+      S3_SECRET_KEY: ${S3_SECRET_KEY}
+      S3_BUCKET: ${S3_BUCKET:-kyc-uploads}
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        code=$$(curl -s -o /tmp/out -w '%{http_code}' -X PUT --aws-sigv4 "aws:amz:us-east-1:s3" \
+          --user "$$S3_ACCESS_KEY:$$S3_SECRET_KEY" -H "x-amz-content-sha256: UNSIGNED-PAYLOAD" \
+          "http://s3:9000/$$S3_BUCKET")
+        echo "CreateBucket $$S3_BUCKET -> HTTP $$code"; cat /tmp/out; echo
+        case "$$code" in 200|409) exit 0;; *) exit 1;; esac
+    restart: "no"
+    logging: *small-logs
+
+volumes:
+  kafka-data:
+  mongo-data:
+  s3-data:

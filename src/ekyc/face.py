@@ -59,9 +59,11 @@ def to_bgr_uint8(image: np.ndarray) -> np.ndarray:
     return cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
 
-def detect_and_align(image_rgb: np.ndarray, detector, recognizer,
-                     settings: dict = DETECTOR_SETTINGS) -> tuple[np.ndarray | None, dict]:
-    """Find the most confident face and return it aligned (112x112 BGR uint8), plus detection details.
+def detect_and_align(image_rgb: np.ndarray, detector, recognizer, settings: dict = DETECTOR_SETTINGS,
+                     pick: str = "score") -> tuple[np.ndarray | None, dict]:
+    """Find a face and return it aligned (112x112 BGR uint8), plus detection details.
+    pick="score": the most confident face (LFW crops, selfies); pick="largest": the biggest face box (a whole ID
+    page, where the small "ghost" copy of the portrait must not be chosen; Phase 6 face-worker).
 
     Steps: enlarge small images (shorter side < min_side), add a black border, run YuNet, keep the face with the
     highest confidence, and let SFace rotate/crop it with the 5 landmarks. Returns (None, info) if no face is
@@ -80,7 +82,8 @@ def detect_and_align(image_rgb: np.ndarray, detector, recognizer,
     _, faces = detector.detect(bgr)  # None, or one row per face: x, y, w, h, 5 landmark (x, y) pairs, score
     if faces is None or len(faces) == 0:
         return None, {"faces": 0, "score": np.nan, "box": None, "scale": scale}
-    best = faces[int(np.argmax(faces[:, -1]))]
+    chosen = np.argmax(faces[:, 2] * faces[:, 3]) if pick == "largest" else np.argmax(faces[:, -1])
+    best = faces[int(chosen)]
     x, y, w, h = best[:4]
     box = ((x - pad) / scale, (y - pad) / scale, w / scale, h / scale)  # back to original image pixels
     aligned = recognizer.alignCrop(bgr, best)

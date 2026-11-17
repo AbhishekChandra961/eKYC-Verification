@@ -423,20 +423,31 @@ def resize_to_cache(src: Path, dst: Path, longest: int = config.RESIZE_LONGEST,
         original_size = image.size  # read from the file header; no pixels decoded yet
         if dst.exists():
             return original_size
-        scale = longest / max(original_size)
-        if not enlarge:
-            scale = min(1.0, scale)
-        new_size = (max(1, round(original_size[0] * scale)), max(1, round(original_size[1] * scale)))
-        if pre_quality is None:
-            small = _shrink(image, new_size)
-        else:
-            with jpeg_round_trip(image, pre_quality) as saved:  # full-size save, then the same path as above
-                small = _shrink(saved, new_size)
+        jpeg = resized_jpeg_bytes(image, longest, quality, enlarge, pre_quality)
     dst.parent.mkdir(parents=True, exist_ok=True)
     tmp = dst.with_name(dst.name + ".tmp")  # write-then-rename: a crash never leaves a half-written file
-    small.save(tmp, format="JPEG", quality=quality)
+    tmp.write_bytes(jpeg)
     os.replace(tmp, dst)
     return original_size
+
+
+def resized_jpeg_bytes(image: Image.Image, longest: int, quality: int, enlarge: bool = False,
+                       pre_quality: int | None = None) -> bytes:
+    """The cache step in memory: the JPEG bytes resize_to_cache would write for this opened image.
+    The inference workers (Phase 6) call this on uploads, so a model sees exactly the preprocessing it was
+    trained with (tests check byte equality with the training caches)."""
+    scale = longest / max(image.size)
+    if not enlarge:
+        scale = min(1.0, scale)
+    new_size = (max(1, round(image.size[0] * scale)), max(1, round(image.size[1] * scale)))
+    if pre_quality is None:
+        small = _shrink(image, new_size)
+    else:
+        with jpeg_round_trip(image, pre_quality) as saved:  # full-size save, then the same path as above
+            small = _shrink(saved, new_size)
+    buffer = io.BytesIO()
+    small.save(buffer, format="JPEG", quality=quality)
+    return buffer.getvalue()
 
 
 def build_cache(manifest: pd.DataFrame, project_root: Path = config.PROJECT_ROOT,

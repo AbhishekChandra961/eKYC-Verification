@@ -36,10 +36,10 @@ IMAGE_QUALITY = 90
 # ---------------------------------------------------------------- image preparation
 
 
-def prepare_image(path: Path, longest: int = IMAGE_LONGEST, quality: int = IMAGE_QUALITY) -> bytes:
-    """Raw template -> RGB (500 genuine templates are CMYK) -> longest side exactly `longest` px (Lanczos) ->
-    JPEG bytes at `quality`. Nothing is written to disk."""
-    with Image.open(path) as image:
+def prepare_image(source: Path | bytes, longest: int = IMAGE_LONGEST, quality: int = IMAGE_QUALITY) -> bytes:
+    """Raw template (a path, or the uploaded file's bytes) -> RGB (500 genuine templates are CMYK) -> longest
+    side exactly `longest` px (Lanczos) -> JPEG bytes at `quality`. Nothing is written to disk."""
+    with Image.open(io.BytesIO(source) if isinstance(source, bytes) else source) as image:
         image = image.convert("RGB")
         scale = longest / max(image.size)
         image = image.resize((round(image.width * scale), round(image.height * scale)), Image.Resampling.LANCZOS)
@@ -267,8 +267,10 @@ class OllamaExtractor(Extractor):
     name = "ollama"
 
     def __init__(self, model: str = "qwen2.5vl:7b", host: str = "http://localhost:11434", keep_alive: str = "10m",
-                 num_ctx: int = 6144, timeout: float = 600.0, transport: httpx.BaseTransport | None = None):
+                 num_ctx: int = 6144, timeout: float = 600.0, transport: httpx.BaseTransport | None = None,
+                 options: dict | None = None):
         self.model, self.host, self.keep_alive, self.num_ctx = model, host.rstrip("/"), keep_alive, num_ctx
+        self.options = options or {}  # extra generation options (the Phase 6 worker caps num_predict etc.)
         self.client = httpx.Client(timeout=timeout, transport=transport)  # transport: a fake server in tests
 
     def available(self) -> bool:
@@ -288,7 +290,7 @@ class OllamaExtractor(Extractor):
 
     def _chat(self, messages, format_schema=None) -> dict:
         body = {"model": self.model, "messages": messages, "stream": False, "keep_alive": self.keep_alive,
-                "options": {"temperature": 0, "seed": config.SEED, "num_ctx": self.num_ctx}}
+                "options": {"temperature": 0, "seed": config.SEED, "num_ctx": self.num_ctx, **self.options}}
         if format_schema is not None:
             body["format"] = format_schema
         response = self.client.post(f"{self.host}/api/chat", json=body)
