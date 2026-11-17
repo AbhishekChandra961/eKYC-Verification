@@ -1,0 +1,13 @@
+rule,documents,false_flags,false-flag rate,worst document type,level
+mrz_format,400,0,0.0,0.0,flag
+mrz_check_document_number,400,0,0.0,0.0,flag
+mrz_check_birth_date,400,0,0.0,0.0,flag
+mrz_check_expiry_date,400,0,0.0,0.0,flag
+mrz_check_composite,400,0,0.0,0.0,flag
+mrz_vs_surname,400,3,0.0075,0.03,flag
+mrz_vs_given_names,400,0,0.0,0.0,flag
+mrz_vs_birth_date,400,3,0.0075,0.03,flag
+mrz_vs_document_number,399,0,0.0,0.0,flag
+mrz_vs_expiry_date,400,2,0.005,0.02,flag
+dates_parseable,1000,0,0.0,0.0,flag
+date_order,900,1,0.0011111111111111111,0.01,flag

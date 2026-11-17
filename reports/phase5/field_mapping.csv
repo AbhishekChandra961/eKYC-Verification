@@ -1,0 +1,11 @@
+,surname,given_names,birth_date,gender,nationality,document_number,personal_number,issue_date,expiry_date,birth_place,authority,mrz_line0,mrz_line1
+alb_id,surname,name,birth_date,gender,nationality,number,id_number,issue_date,expiry_date,birth_place,authority,-,-
+aze_passport,surname_eng,name_eng,birth_date,gender,nationality/nationality_eng,number,id_number,issue_date,expiry_date,birth_place,authority,mrz_line0,mrz_line1
+esp_id,surname + surname_second,name,birth_date,gender,nationality,id_number,number,issue_date,expiry_date,-,-,-,-
+est_id,surname,name,birth_date,gender,nationality,number,id_number,-,expiry_date,-,-,-,-
+fin_id,surname,name,birth_date,gender,nationality,number,birth_date_2 + code,issue_date,expiry_date,-,-,-,-
+grc_passport,surname_eng,name_eng,birth_date,gender,nationality,number,-,issue_date,expiry_date,birth_place_eng,authority,mrz_line0,mrz_line1
+lva_passport,surname,name,birth_date,gender,nationality,number,id_number,issue_date,expiry_date,birth_place,authority_line0 + authority_line1,mrz_line0,mrz_line1
+rus_internalpassport,surname,name + patronymic,birth_date,gender,-,number,-,-,-,birth_place_line0 + birth_place_line1 + birth_place_line2,-,-,-
+srb_passport,surname,name,birth_date,gender,nationality,number,id_number,issue_date,expiry_date,birth_place,authority,mrz_line0,mrz_line1
+svk_id,surname,name,birth_date,gender,nationality,number,id_number,issue_date,expiry_date,-,issue_place,-,-
