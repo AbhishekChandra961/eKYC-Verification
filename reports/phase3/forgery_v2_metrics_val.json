@@ -1,0 +1,109 @@
+{
+  "split": "validation (test not used)",
+  "pages": {
+    "train": 1555,
+    "val": 329,
+    "test": 338
+  },
+  "tiles": {
+    "train": {
+      "0 = clean": 118729,
+      "1 = shows the edit": 5702,
+      "-1 = ignored": 2102
+    },
+    "val": {
+      "0 = clean": 25214,
+      "1 = shows the edit": 1260,
+      "-1 = ignored": 366
+    },
+    "test": {
+      "0 = clean": 25882,
+      "1 = shows the edit": 1243,
+      "-1 = ignored": 430
+    }
+  },
+  "tile_ranking": {
+    "stage 1": {
+      "tile PR-AUC": 0.214,
+      "tile ROC-AUC": 0.8418
+    },
+    "stage 2": {
+      "tile PR-AUC": 0.8744,
+      "tile ROC-AUC": 0.9633
+    }
+  },
+  "checkpoint": "stage 2",
+  "aggregation": "top3",
+  "doc_ranking": {
+    "pr_auc": 0.9825,
+    "roc_auc": 0.9737
+  },
+  "thresholds": {
+    "recall >= 0.90": {
+      "threshold": 0.7408,
+      "precision": 0.9702,
+      "recall": 0.9106
+    },
+    "F1-optimal": {
+      "threshold": 0.6646,
+      "precision": 0.954,
+      "recall": 0.9274,
+      "f1": 0.9405
+    }
+  },
+  "negative_control": {
+    "(a) genuine pages: all tiles": {
+      "tiles": 12221.0,
+      "median": 0.0054,
+      "mean": 0.0546,
+      "90th percentile": 0.1803,
+      "share > 0.5": 0.0116,
+      "AUC vs (a)": NaN
+    },
+    "(b) forged pages: tiles not touching the edit": {
+      "tiles": 12993.0,
+      "median": 0.0044,
+      "mean": 0.0583,
+      "90th percentile": 0.1983,
+      "share > 0.5": 0.0195,
+      "AUC vs (a)": 0.4899
+    },
+    "(c) forged pages: tiles at least 112 px from the edit": {
+      "tiles": 10488.0,
+      "median": 0.0038,
+      "mean": 0.0517,
+      "90th percentile": 0.1614,
+      "share > 0.5": 0.0177,
+      "AUC vs (a)": 0.4736
+    },
+    "(d) forged pages: tiles showing the edit (label 1)": {
+      "tiles": 1260.0,
+      "median": 0.9996,
+      "mean": 0.8312,
+      "90th percentile": 1.0,
+      "share > 0.5": 0.8357,
+      "AUC vs (a)": 0.9632
+    }
+  },
+  "doc_roc_auc_edit_tiles_hidden": 0.583,
+  "localisation": {
+    "forged pages": 179.0,
+    "top tile touches the edit": 0.9385,
+    "same, detected pages only": 0.9755,
+    "detected pages": 163.0,
+    "random tile touches the edit (baseline)": 0.11
+  },
+  "stop_rules": {
+    "doc_roc_auc": true,
+    "negative_control": true
+  },
+  "epochs": {
+    "stage 1": 5,
+    "stage 2": 10
+  },
+  "mean_epoch_minutes": {
+    "stage 1": 6.13,
+    "stage 2": 10.29
+  },
+  "peak_memory_gb": 12.0
+}

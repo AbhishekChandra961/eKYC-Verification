@@ -1,0 +1,8 @@
+,as trained (extra q75 save),original q92 history
+position-matched control AUC,0.4908048409363443,0.4530215544605339
+edit-hidden document ROC-AUC,0.40338919925512107,0.3535940409683427
+document ROC-AUC,0.9390689013035384,0.9246554934823091
+document PR-AUC,0.9631513920296025,0.9532363036951959
+false alarms at threshold,32.0,48.0
+genuine pages,150.0,150.0
+mean genuine tile score,0.06336145102977753,0.0728914737701416

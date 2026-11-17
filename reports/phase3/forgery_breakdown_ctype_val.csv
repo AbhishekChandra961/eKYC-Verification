@@ -1,0 +1,5 @@
+,B1,B1,B2,B2
+,forged,recall,forged,recall
+ctype,,,,
+Crop_and_Replace,82.0,0.975609756097561,82.0,0.8414634146341463
+Inpaint_and_Rewrite,686.0,0.892128279883382,686.0,0.9081632653061225

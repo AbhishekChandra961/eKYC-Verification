@@ -1,0 +1,279 @@
+{
+  "split": "validation (test not used)",
+  "pages": {
+    "train": 1555,
+    "val": 329,
+    "test": 338
+  },
+  "tiles": {
+    "train": {
+      "0 = clean": 118729,
+      "1 = shows the edit": 5702,
+      "-1 = ignored": 2102
+    },
+    "val": {
+      "0 = clean": 25214,
+      "1 = shows the edit": 1260,
+      "-1 = ignored": 366
+    },
+    "test": {
+      "0 = clean": 25882,
+      "1 = shows the edit": 1243,
+      "-1 = ignored": 430
+    }
+  },
+  "tile_ranking": {
+    "stage 1": {
+      "tile PR-AUC": 0.2154,
+      "tile ROC-AUC": 0.8409
+    },
+    "stage 2": {
+      "tile PR-AUC": 0.8685,
+      "tile ROC-AUC": 0.9592
+    }
+  },
+  "checkpoint": "stage 2",
+  "aggregation": "max",
+  "stop_rules": {
+    "passed": true,
+    "position-matched control, all types": {
+      "value": 0.4908,
+      "limit": "<= 0.55",
+      "pass": true
+    },
+    "position-matched control, highest type (lva_passport)": {
+      "value": 0.5138,
+      "limit": "<= 0.6",
+      "pass": true
+    },
+    "edit-hidden document ROC-AUC": {
+      "value": 0.4034,
+      "limit": "<= 0.58",
+      "pass": true
+    },
+    "document ROC-AUC": {
+      "value": 0.9391,
+      "limit": ">= 0.7",
+      "pass": true
+    }
+  },
+  "position_matched_control": {
+    "all types": {
+      "forged-page tiles": 12993,
+      "genuine tiles": 12221,
+      "AUC": 0.4908,
+      "95% low": 0.478,
+      "95% high": 0.5043
+    },
+    "alb_id": {
+      "forged-page tiles": 948,
+      "genuine tiles": 1078,
+      "AUC": 0.457,
+      "95% low": 0.404,
+      "95% high": 0.5041
+    },
+    "aze_passport": {
+      "forged-page tiles": 673,
+      "genuine tiles": 1144,
+      "AUC": 0.477,
+      "95% low": 0.43,
+      "95% high": 0.5173
+    },
+    "esp_id": {
+      "forged-page tiles": 1039,
+      "genuine tiles": 1078,
+      "AUC": 0.4511,
+      "95% low": 0.4222,
+      "95% high": 0.4759
+    },
+    "est_id": {
+      "forged-page tiles": 922,
+      "genuine tiles": 1078,
+      "AUC": 0.5101,
+      "95% low": 0.4691,
+      "95% high": 0.539
+    },
+    "fin_id": {
+      "forged-page tiles": 1270,
+      "genuine tiles": 1155,
+      "AUC": 0.4767,
+      "95% low": 0.4523,
+      "95% high": 0.5039
+    },
+    "grc_passport": {
+      "forged-page tiles": 2024,
+      "genuine tiles": 1408,
+      "AUC": 0.51,
+      "95% low": 0.4733,
+      "95% high": 0.5508
+    },
+    "lva_passport": {
+      "forged-page tiles": 1544,
+      "genuine tiles": 1496,
+      "AUC": 0.5138,
+      "95% low": 0.4709,
+      "95% high": 0.5539
+    },
+    "rus_internalpassport": {
+      "forged-page tiles": 1657,
+      "genuine tiles": 1320,
+      "AUC": 0.4747,
+      "95% low": 0.4479,
+      "95% high": 0.5142
+    },
+    "srb_passport": {
+      "forged-page tiles": 1361,
+      "genuine tiles": 1309,
+      "AUC": 0.4975,
+      "95% low": 0.4619,
+      "95% high": 0.5399
+    },
+    "svk_id": {
+      "forged-page tiles": 1555,
+      "genuine tiles": 1155,
+      "AUC": 0.4988,
+      "95% low": 0.4694,
+      "95% high": 0.5267
+    }
+  },
+  "position_matched_control_far": {
+    "all types": {
+      "forged-page tiles": 10488,
+      "genuine tiles": 12221,
+      "AUC": 0.4923,
+      "95% low": 0.4766,
+      "95% high": 0.5086
+    },
+    "alb_id": {
+      "forged-page tiles": 720,
+      "genuine tiles": 1078,
+      "AUC": 0.4726,
+      "95% low": 0.4019,
+      "95% high": 0.5363
+    },
+    "aze_passport": {
+      "forged-page tiles": 549,
+      "genuine tiles": 1144,
+      "AUC": 0.4792,
+      "95% low": 0.426,
+      "95% high": 0.5348
+    },
+    "esp_id": {
+      "forged-page tiles": 861,
+      "genuine tiles": 1078,
+      "AUC": 0.4364,
+      "95% low": 0.401,
+      "95% high": 0.4682
+    },
+    "est_id": {
+      "forged-page tiles": 768,
+      "genuine tiles": 1078,
+      "AUC": 0.5146,
+      "95% low": 0.4797,
+      "95% high": 0.5481
+    },
+    "fin_id": {
+      "forged-page tiles": 1046,
+      "genuine tiles": 1155,
+      "AUC": 0.4785,
+      "95% low": 0.4459,
+      "95% high": 0.5098
+    },
+    "grc_passport": {
+      "forged-page tiles": 1683,
+      "genuine tiles": 1408,
+      "AUC": 0.5175,
+      "95% low": 0.4721,
+      "95% high": 0.5686
+    },
+    "lva_passport": {
+      "forged-page tiles": 1259,
+      "genuine tiles": 1496,
+      "AUC": 0.5162,
+      "95% low": 0.4688,
+      "95% high": 0.5605
+    },
+    "rus_internalpassport": {
+      "forged-page tiles": 1323,
+      "genuine tiles": 1320,
+      "AUC": 0.4763,
+      "95% low": 0.4513,
+      "95% high": 0.5134
+    },
+    "srb_passport": {
+      "forged-page tiles": 1041,
+      "genuine tiles": 1309,
+      "AUC": 0.495,
+      "95% low": 0.4611,
+      "95% high": 0.5441
+    },
+    "svk_id": {
+      "forged-page tiles": 1238,
+      "genuine tiles": 1155,
+      "AUC": 0.4932,
+      "95% low": 0.4569,
+      "95% high": 0.5257
+    }
+  },
+  "doc_ranking": {
+    "pr_auc": 0.9632,
+    "roc_auc": 0.9391
+  },
+  "thresholds": {
+    "recall >= 0.90": {
+      "threshold": 0.729,
+      "precision": 0.8351,
+      "recall": 0.905
+    },
+    "F1-optimal": {
+      "threshold": 0.8574,
+      "precision": 0.9294,
+      "recall": 0.8827,
+      "f1": 0.9054
+    }
+  },
+  "localisation": {
+    "forged pages": 179.0,
+    "top tile touches the edit": 0.933,
+    "same, detected pages only": 0.9877,
+    "detected pages": 162.0,
+    "random tile touches the edit (baseline)": 0.11
+  },
+  "compression_history_check": {
+    "as trained (extra q75 save)": {
+      "position-matched control AUC": 0.4908,
+      "edit-hidden document ROC-AUC": 0.4034,
+      "document ROC-AUC": 0.9391,
+      "document PR-AUC": 0.9632,
+      "false alarms at threshold": 32.0,
+      "genuine pages": 150.0,
+      "mean genuine tile score": 0.0634
+    },
+    "original q92 history": {
+      "position-matched control AUC": 0.453,
+      "edit-hidden document ROC-AUC": 0.3536,
+      "document ROC-AUC": 0.9247,
+      "document PR-AUC": 0.9532,
+      "false alarms at threshold": 48.0,
+      "genuine pages": 150.0,
+      "mean genuine tile score": 0.0729
+    }
+  },
+  "epochs": {
+    "stage 1": 5,
+    "stage 2": 10
+  },
+  "mean_epoch_minutes": {
+    "stage 1": null,
+    "stage 2": 8.99
+  },
+  "epochs_timed_in_this_session": {
+    "stage 1": 0,
+    "stage 2": 7
+  },
+  "resumed": {
+    "stage 2 epochs from the first session": 3,
+    "reason": "tensorflow-metal GPU hang during stage-2 epoch 4 (memory pressure); continued from the stage-2 checkpoint (weights + optimizer state) with resume_best callbacks"
+  },
+  "peak_memory_gb": 14.0
+}

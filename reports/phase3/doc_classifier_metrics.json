@@ -1,0 +1,59 @@
+{
+  "class_names": [
+    "alb_id",
+    "aze_passport",
+    "esp_id",
+    "est_id",
+    "fin_id",
+    "grc_passport",
+    "lva_passport",
+    "rus_internalpassport",
+    "srb_passport",
+    "svk_id"
+  ],
+  "input_size": 224,
+  "confidence_threshold": 0.7699999809265137,
+  "reject_rule": "if the highest softmax probability < confidence_threshold, report 'unrecognized document'",
+  "preprocessing": "RGB JPEG -> tf.image.resize_with_pad(input_size, input_size); float32 pixels 0-255 (EfficientNet rescales internally; do not divide by 255)",
+  "chosen_stage": 1,
+  "val_accuracy": 0.9901,
+  "val_macro_f1": 0.99,
+  "test_accuracy": 0.9929,
+  "test_macro_f1": 0.9934,
+  "test_rejected_share": 0.0148,
+  "lfw_rejected_share": 0.835,
+  "epochs": {
+    "stage1": 15,
+    "stage2": 4
+  },
+  "mean_epoch_seconds": {
+    "stage1": 102.2,
+    "stage2": 113.1
+  },
+  "epoch_seconds": {
+    "stage1": [
+      66.9,
+      88.6,
+      91.5,
+      84.6,
+      88.6,
+      96.3,
+      114.3,
+      117.8,
+      102.2,
+      114.1,
+      96.4,
+      110.9,
+      139.5,
+      107.3,
+      113.4
+    ],
+    "stage2": [
+      117.9,
+      125.7,
+      96.1,
+      112.8
+    ]
+  },
+  "peak_memory_gb": 10.0
+}

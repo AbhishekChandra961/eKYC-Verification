@@ -1,0 +1,7 @@
+,,val,val,test,test
+,,images,accuracy,images,accuracy
+source,label,,,,
+clip,forged,589,0.9830220713073005,440,0.9977272727272727
+clip,genuine,1200,0.9908333333333333,1184,0.9890202702702703
+template,forged,179,1.0,190,1.0
+template,genuine,150,1.0,148,1.0

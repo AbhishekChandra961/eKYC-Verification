@@ -1,0 +1,79 @@
+{
+  "split": "validation (test not used)",
+  "images": {
+    "train": 9910,
+    "val": 2109,
+    "empty_frames_excluded": 62
+  },
+  "ranking": {
+    "B1": {
+      "pr_auc": 0.9658,
+      "roc_auc": 0.9795
+    },
+    "B2 stage 1": {
+      "pr_auc": 0.959,
+      "roc_auc": 0.9772
+    },
+    "B2 stage 2": {
+      "pr_auc": 0.976,
+      "roc_auc": 0.9859
+    }
+  },
+  "b2_checkpoint": "B2 stage 2",
+  "best_model": "B2",
+  "thresholds": {
+    "B1": {
+      "recall >= 0.90": {
+        "threshold": 0.5672,
+        "precision": 0.8596,
+        "recall": 0.901
+      },
+      "F1-optimal": {
+        "threshold": 0.4666,
+        "precision": 0.8281,
+        "recall": 0.9661,
+        "f1": 0.8918
+      }
+    },
+    "B2": {
+      "recall >= 0.90": {
+        "threshold": 0.8452,
+        "precision": 0.8906,
+        "recall": 0.901
+      },
+      "F1-optimal": {
+        "threshold": 0.7399,
+        "precision": 0.8457,
+        "recall": 0.9779,
+        "f1": 0.907
+      }
+    }
+  },
+  "gradcam_pointing": {
+    "template": {
+      "forged images": 179.0,
+      "pointing score": 0.0,
+      "chance level": 0.0058,
+      "pointing score, detected forgeries only": 0.0,
+      "detected forgeries": 109.0
+    },
+    "clip": {
+      "forged images": 589.0,
+      "pointing score": 0.0,
+      "chance level": 0.005,
+      "pointing score, detected forgeries only": 0.0,
+      "detected forgeries": 583.0
+    }
+  },
+  "epochs": {
+    "B1": 15,
+    "B2 stage 1": 6,
+    "B2 stage 2": 8
+  },
+  "mean_epoch_minutes": {
+    "B1": 5.78,
+    "B2 stage 1": 7.06,
+    "B2 stage 2": 7.75
+  },
+  "peak_memory_gb": 15.0
+}

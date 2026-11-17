@@ -1,0 +1,19 @@
+,v2 (compression cue),v3 (equal history)
+document PR-AUC,0.9825477864633922,0.9631513920296025
+document ROC-AUC,0.9736685288640596,0.9390689013035384
+tile PR-AUC,0.8744275314065717,0.8684925597384889
+threshold (recall >= 0.90),0.7407736778259277,0.7290231585502625
+precision at that threshold,0.9702380952380952,0.8350515463917526
+recall at that threshold,0.9106145251396648,0.9050279329608939
+false alarms (of the genuine pages),5,32
+"position-matched control, all types",0.5838900813204753,0.4908048409363443
+  95% interval,"[0.564, 0.605]","[0.478, 0.504]"
+"position-matched control, highest type",0.713 (est_id),0.514 (lva_passport)
+edit-hidden document ROC-AUC,0.5829795158286779,0.3859590316573556
+top tile on the edit (forged pages),0.9385474860335196,0.9329608938547486
+"recall, Inpaint_and_Rewrite",0.9808917197452229,0.9872611464968153
+"recall, Crop_and_Replace",0.4090909090909091,0.3181818181818182
+false alarms with the other compression history,11,48
+document ROC-AUC with the other compression history,0.9531098696461825,0.9246554934823091
+epochs (stage 1 + stage 2),5 + 10,5 + 10
+"minutes per epoch, stage 2",10.29,8.99

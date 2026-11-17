@@ -3,14 +3,21 @@
 Run:  .venv/bin/python -m pytest
 """
 
+import numpy as np
 import pandas as pd
 import pytest
+from PIL import Image
 
 from ekyc import config
 from ekyc.data import (
     UnionFind,
+    assert_splits_unchanged,
     assign_groups,
+    blank_frame_stats,
+    estimate_jpeg_quality,
     evenly_spaced_indices,
+    image_format,
+    is_blank,
     parse_clip_fake,
     parse_clip_real,
     parse_template_fake,
@@ -146,3 +153,58 @@ def test_split_is_by_group_stratified_and_reproducible():
     per_type = table.assign(split=table["group_id"].map(first)).groupby(["doc_type", "split"]).size()
     for doc_type in ("alb_id", "svk_id"):  # 20 groups -> 14 / 3 / 3 within EACH type
         assert per_type[doc_type].to_dict() == {"test": 3, "train": 14, "val": 3}
+
+
+# ------------------------------------------------------------------ blank frames (Phase 2.1)
+def _save(array, path):
+    Image.fromarray(array.astype("uint8")).save(path, quality=92)
+    return path
+
+
+def _document(dark, light, height=320, width=512):
+    """Synthetic 'document': 16 px bands alternating between two grey levels, like lines of text.
+    (Pixel-level random noise would NOT work: the 64x40 thumbnail averages it into a flat colour.)"""
+    rows = np.where((np.arange(height) // 16) % 2 == 0, dark, light)
+    return np.repeat(rows[:, None, None], width, axis=1).repeat(3, axis=2)
+
+
+@pytest.mark.parametrize(
+    "name, make, expected",
+    [
+        ("black", lambda: np.zeros((320, 512, 3)), True),
+        ("plain grey surface", lambda: np.full((320, 512, 3), 140), True),
+        ("black with a document sliver in one corner",
+         lambda: np.pad(np.full((30, 40, 3), 230), ((290, 0), (0, 472), (0, 0))), True),
+        ("bright document", lambda: _document(60, 230), False),
+        ("half black, half document", lambda: np.concatenate(
+            [np.zeros((320, 256, 3)), _document(60, 230, width=256)], axis=1), False),
+        ("dim but visible document", lambda: _document(25, 50), False),
+    ],
+)
+def test_blank_frame_rule(tmp_path, name, make, expected):
+    path = _save(make(), tmp_path / "frame.jpg")
+    assert bool(is_blank(*blank_frame_stats(path))) is expected, name
+
+
+def test_assert_splits_unchanged():
+    before = pd.DataFrame({"image_path": ["a.jpg", "b.jpg"], "split": ["train", "test"]})
+    assert assert_splits_unchanged(before, before.iloc[::-1]) == 2  # row order does not matter
+    with pytest.raises(AssertionError):
+        assert_splits_unchanged(before, before.assign(split=["train", "val"]))  # b.jpg moved
+    with pytest.raises(AssertionError):
+        assert_splits_unchanged(before, before.iloc[:1])  # b.jpg missing
+
+
+@pytest.mark.parametrize("quality", [30, 60, 75, 92, 95])
+def test_estimate_jpeg_quality_recovers_saved_quality(tmp_path, quality):
+    pixels = np.random.default_rng(0).integers(0, 256, (64, 96, 3), dtype=np.uint8)
+    path = tmp_path / "x.jpg"
+    Image.fromarray(pixels).save(path, format="JPEG", quality=quality)
+    assert estimate_jpeg_quality(path) == quality
+    assert image_format(path) == "JPEG"
+
+
+def test_png_with_jpg_extension_is_detected(tmp_path):
+    path = tmp_path / "frame.jpg"  # SIDTD's forged clip frames look like this: PNG content, .jpg name
+    Image.new("RGB", (8, 8)).save(path, format="PNG")
+    assert image_format(path) == "PNG" and estimate_jpeg_quality(path) is None

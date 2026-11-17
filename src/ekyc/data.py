@@ -7,6 +7,7 @@ Pipeline (each step is one function; the notebook 01_data_manifest calls them in
   4. mark_in_sample      - keep a few evenly spaced frames per clip (frames are near-duplicates)
   5. parse_ground_truth  - text-field and photo boxes from the VIA annotation files
   6. build_cache         - resized RGB JPEG copies under data/processed/images
+  6b. flag_blank_frames  - marks video frames that show no document (Phase 2.1)
   7. check_leakage       - asserts that no document leaks across splits
 
 All functions are pure (inputs -> outputs). Nothing here writes to data/raw or data/interim.
@@ -14,6 +15,7 @@ All functions are pure (inputs -> outputs). Nothing here writes to data/raw or d
 
 from __future__ import annotations
 
+import io
 import json
 import os
 import re
@@ -379,16 +381,41 @@ def parse_ground_truth(annotations_dir: Path | None = None) -> pd.DataFrame:
 
 
 # =============================================================== 6. resized image cache
-def cache_path_for(image_path: str) -> str:
-    """Mirror data/interim/... under data/processed/images/..., relative to the project root."""
+def cache_path_for(image_path: str, cache_dir: Path = config.CACHE_DIR) -> str:
+    """Mirror data/interim/... under `cache_dir` (default data/processed/images/...), relative to the project root."""
     interim = config.INTERIM_DIR.relative_to(config.PROJECT_ROOT)
-    cache = config.CACHE_DIR.relative_to(config.PROJECT_ROOT)
+    cache = cache_dir.relative_to(config.PROJECT_ROOT)
     return (cache / Path(image_path).relative_to(interim)).as_posix()
 
 
+def jpeg_round_trip(image: Image.Image, quality: int) -> Image.Image:
+    """Save `image` as an RGB JPEG at `quality` in memory and open the result again (same size).
+    The returned image carries the traces of that save, exactly as if it had been stored that way on disk.
+    Close it after use (or use it in a `with` block)."""
+    buffer = io.BytesIO()
+    image.convert("RGB").save(buffer, format="JPEG", quality=quality)
+    buffer.seek(0)
+    return Image.open(buffer)
+
+
+def _shrink(image: Image.Image, new_size: tuple[int, int]) -> Image.Image:
+    """Decode an opened JPEG and resize it to new_size as RGB (the common path of every cached image)."""
+    # draft(): the JPEG decoder can decode directly at 1/2, 1/4 or 1/8 size. It picks the
+    # smallest of those that is still >= new_size, which is faster and needs much less RAM.
+    image.draft(image.mode, new_size)
+    # convert("RGB"): half of the genuine templates are CMYK JPEGs, all fakes are RGB.
+    # Converting everything to RGB removes a colour-format difference a model could exploit.
+    return image.convert("RGB").resize(new_size, Image.Resampling.LANCZOS)
+
+
 def resize_to_cache(src: Path, dst: Path, longest: int = config.RESIZE_LONGEST,
-                    quality: int = config.JPEG_QUALITY) -> tuple[int, int]:
+                    quality: int = config.JPEG_QUALITY, enlarge: bool = False,
+                    pre_quality: int | None = None) -> tuple[int, int]:
     """Save a copy of `src` resized so its longest side is `longest` px, as an RGB JPEG.
+    enlarge=False: images already smaller than `longest` keep their size (512 px cache);
+    enlarge=True : every image ends up with exactly `longest` px (hi-res cache of Phase 3B v2).
+    pre_quality  : if given, the image is first saved as a JPEG at this quality at its ORIGINAL size and
+                   continues from that copy (Phase 3B v3: gives genuine templates the forged ones' history).
     Skips the work if `dst` already exists (so an interrupted run can resume).
     Returns the ORIGINAL (width, height), needed later to scale annotation boxes to the cache.
     """
@@ -396,14 +423,15 @@ def resize_to_cache(src: Path, dst: Path, longest: int = config.RESIZE_LONGEST,
         original_size = image.size  # read from the file header; no pixels decoded yet
         if dst.exists():
             return original_size
-        scale = min(1.0, longest / max(original_size))  # never enlarge small images
+        scale = longest / max(original_size)
+        if not enlarge:
+            scale = min(1.0, scale)
         new_size = (max(1, round(original_size[0] * scale)), max(1, round(original_size[1] * scale)))
-        # draft(): the JPEG decoder can decode directly at 1/2, 1/4 or 1/8 size. It picks the
-        # smallest of those that is still >= new_size, which is faster and needs much less RAM.
-        image.draft(image.mode, new_size)
-        # convert("RGB"): half of the genuine templates are CMYK JPEGs, all fakes are RGB.
-        # Converting everything to RGB removes a colour-format difference a model could exploit.
-        small = image.convert("RGB").resize(new_size, Image.Resampling.LANCZOS)
+        if pre_quality is None:
+            small = _shrink(image, new_size)
+        else:
+            with jpeg_round_trip(image, pre_quality) as saved:  # full-size save, then the same path as above
+                small = _shrink(saved, new_size)
     dst.parent.mkdir(parents=True, exist_ok=True)
     tmp = dst.with_name(dst.name + ".tmp")  # write-then-rename: a crash never leaves a half-written file
     small.save(tmp, format="JPEG", quality=quality)
@@ -412,24 +440,112 @@ def resize_to_cache(src: Path, dst: Path, longest: int = config.RESIZE_LONGEST,
 
 
 def build_cache(manifest: pd.DataFrame, project_root: Path = config.PROJECT_ROOT,
-                longest: int = config.RESIZE_LONGEST, quality: int = config.JPEG_QUALITY) -> tuple[pd.DataFrame, int]:
-    """Resize every manifest image into the cache, one image at a time (low memory).
-    Returns (manifest with cache_path, orig_width, orig_height columns; number of files written).
+                longest: int = config.RESIZE_LONGEST, quality: int = config.JPEG_QUALITY,
+                cache_dir: Path = config.CACHE_DIR, enlarge: bool = False,
+                path_column: str = "cache_path",
+                genuine_pre_quality: int | None = None) -> tuple[pd.DataFrame, int]:
+    """Resize every manifest image into `cache_dir`, one image at a time (low memory). Every image goes
+    through exactly the same code path, whatever its class.
+    genuine_pre_quality: if given, genuine images (label 0) first get a JPEG save at this quality at their
+    original size (see resize_to_cache). This is the one class-dependent step, and it exists to make the
+    classes' histories EQUAL: the forged templates were already saved that way when they were made.
+    Returns (manifest with `path_column`, orig_width, orig_height columns; number of files written).
     """
     processed = config.PROCESSED_DIR.resolve()
     cache_paths, widths, heights, written = [], [], [], 0
-    for image_path in tqdm(manifest["image_path"], desc="resizing", unit="img", mininterval=5):
-        cache_path = cache_path_for(image_path)
+    rows = zip(manifest["image_path"], manifest["label"])
+    for image_path, label in tqdm(rows, total=len(manifest), desc="resizing", unit="img", mininterval=5):
+        cache_path = cache_path_for(image_path, cache_dir)
         dst = project_root / cache_path
         if not dst.resolve().is_relative_to(processed):  # safety net: only ever write to data/processed
             raise RuntimeError(f"Refusing to write outside data/processed: {dst}")
         existed = dst.exists()
-        width, height = resize_to_cache(project_root / image_path, dst, longest, quality)
+        pre_quality = genuine_pre_quality if label == 0 else None
+        width, height = resize_to_cache(project_root / image_path, dst, longest, quality, enlarge, pre_quality)
         written += not existed
         cache_paths.append(cache_path)
         widths.append(width)
         heights.append(height)
-    return manifest.assign(cache_path=cache_paths, orig_width=widths, orig_height=heights), written
+    return manifest.assign(**{path_column: cache_paths}, orig_width=widths, orig_height=heights), written
+
+
+# =============================================================== 6c. file-format checks (Phase 3B)
+# The JPEG standard's example luminance quantisation table (used by libjpeg, and so by Pillow).
+# A JPEG saved at quality q stores this table scaled by a factor that depends on q, so comparing a
+# file's stored table with the scaled standard tables tells us which quality it was saved at.
+_STANDARD_LUMA_TABLE = np.array([
+    16, 11, 10, 16, 24, 40, 51, 61,
+    12, 12, 14, 19, 26, 58, 60, 55,
+    14, 13, 16, 24, 40, 57, 69, 56,
+    14, 17, 22, 29, 51, 87, 80, 62,
+    18, 22, 37, 56, 68, 109, 103, 77,
+    24, 35, 55, 64, 81, 104, 113, 92,
+    49, 64, 78, 87, 103, 121, 120, 101,
+    72, 92, 95, 98, 112, 100, 103, 99,
+])
+
+
+def standard_luma_table(quality: int) -> np.ndarray:
+    """The 64 luminance quantisation steps libjpeg writes for `quality` (1-100), same integer maths."""
+    scale = 5000 // quality if quality < 50 else 200 - 2 * quality
+    return np.clip((_STANDARD_LUMA_TABLE * scale + 50) // 100, 1, 255)
+
+
+def estimate_jpeg_quality(path: Path) -> int | None:
+    """Estimated JPEG quality (1-100) a file was saved at; None if the file is not a JPEG.
+    The stored luminance table is compared with the standard table at every quality; both are sorted
+    first, so the order in which the 64 values are stored does not matter. Larger steps = coarser
+    compression = lower quality."""
+    with Image.open(path) as image:
+        tables = getattr(image, "quantization", None)  # read from the file header; PNG files have none
+    if not tables:
+        return None
+    observed = np.sort(np.asarray(tables[0]))
+    errors = [np.abs(np.sort(standard_luma_table(q)) - observed).sum() for q in range(1, 101)]
+    return int(np.argmin(errors)) + 1
+
+
+def image_format(path: Path) -> str:
+    """Real file format ("JPEG", "PNG", ...) from the file's content, not its extension."""
+    with Image.open(path) as image:
+        return image.format
+
+
+# =============================================================== 6b. blank video frames (Phase 2.1)
+def blank_frame_stats(path: Path) -> tuple[float, float]:
+    """(grey-level standard deviation, share of near-black pixels) of a tiny greyscale thumbnail.
+    The 64x40 thumbnail averages away JPEG noise and makes the check fast."""
+    with Image.open(path) as image:
+        image.draft("L", (64, 64))  # fast reduced-size greyscale JPEG decode
+        grey = np.asarray(image.convert("L").resize(config.BLANK_THUMBNAIL), dtype=np.float32)
+    return float(grey.std()), float((grey < config.BLANK_DARK_LEVEL).mean())
+
+
+def is_blank(pixel_std, dark_share):
+    """The rule from config: an (almost) flat colour, or mostly black. Works on numbers or arrays."""
+    return (pixel_std < config.BLANK_STD_MAX) | (dark_share > config.BLANK_DARK_SHARE_MIN)
+
+
+def flag_blank_frames(manifest: pd.DataFrame, project_root: Path = config.PROJECT_ROOT) -> pd.DataFrame:
+    """pixel_std, dark_share and is_empty for every row, measured on its cached image."""
+    stats = [blank_frame_stats(project_root / p) for p in tqdm(manifest["cache_path"], desc="blank check",
+                                                               unit="img", mininterval=5)]
+    out = pd.DataFrame(stats, columns=["pixel_std", "dark_share"], index=manifest.index)
+    out["is_empty"] = is_blank(out["pixel_std"], out["dark_share"])
+    return out
+
+
+def assert_splits_unchanged(previous: pd.DataFrame, current: pd.DataFrame) -> int:
+    """Raise AssertionError if any image was added, removed or moved to another split compared with
+    `previous` (e.g. the manifest saved by an earlier run). Returns the number of rows compared."""
+    before = previous.set_index("image_path")["split"]
+    after = current.set_index("image_path")["split"]
+    assert set(before.index) == set(after.index), (
+        f"image set changed: {len(set(before.index) - set(after.index))} removed, "
+        f"{len(set(after.index) - set(before.index))} added")
+    moved = before[before != after.loc[before.index]]
+    assert moved.empty, f"{len(moved)} images changed split, e.g. {list(moved.index[:3])}"
+    return len(before)
 
 
 # =============================================================== 7. leakage checks
