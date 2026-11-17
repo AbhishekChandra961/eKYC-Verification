@@ -86,3 +86,12 @@ TILE_STRIDE = 112  # half a tile: neighbouring tiles overlap by 50 %
 HIRES_EQ_DIR = PROCESSED_DIR / "hires_q75_eq"
 HIRES_EQ_MANIFEST_CSV = HIRES_EQ_DIR / "pages.csv"
 GENUINE_PRE_QUALITY = 75  # the quality the forged originals were saved at
+
+# ---------------------------------------------------------------- face verification (Phase 4)
+# Production path: OpenCV's YuNet detector + SFace recognizer, ONNX files from github.com/opencv/opencv_zoo
+# (YuNet: MIT licence, SFace: Apache 2.0; licence files next to the models). Showcase: a Keras Siamese network.
+LFW_DIR = RAW_DIR / "lfw"  # sklearn's data_home: lfw_home/ with the images and pairsDev{Train,Test}.txt (read-only)
+FACE_MODEL_DIR = PROJECT_ROOT / "models" / "face"
+YUNET_ONNX = FACE_MODEL_DIR / "face_detection_yunet_2023mar.onnx"
+SFACE_ONNX = FACE_MODEL_DIR / "face_recognition_sface_2021dec.onnx"
+FACE_MAX_FAR = 0.01  # thresholds allow at most 1 % false accepts: accepting an impostor is the costly KYC error
