@@ -1,0 +1,78 @@
+{
+  "production_method": "YuNet face detector + SFace face recognizer (OpenCV cv2.FaceDetectorYN / cv2.FaceRecognizerSF); score = cosine similarity of the two SFace embeddings",
+  "opencv_version": "5.0.0",
+  "models": {
+    "detector": {
+      "file": "models/face/face_detection_yunet_2023mar.onnx",
+      "bytes": 232589,
+      "sha256": "8f2383e4dd3cfbb4553ea8718107fc0423210dc964f9f4280604804ed2552fa4",
+      "license": "MIT",
+      "source": "github.com/opencv/opencv_zoo/tree/main/models/face_detection_yunet"
+    },
+    "recognizer": {
+      "file": "models/face/face_recognition_sface_2021dec.onnx",
+      "bytes": 38696353,
+      "sha256": "0ba9fbfa01b5270c96627c4ef784da859931e02f04419c829e83484087c34e79",
+      "license": "Apache-2.0",
+      "source": "github.com/opencv/opencv_zoo/tree/main/models/face_recognition_sface"
+    }
+  },
+  "detector_settings": {
+    "score_threshold": 0.6,
+    "nms_threshold": 0.3,
+    "top_k": 5000,
+    "min_side": 224,
+    "pad_fraction": 0.25
+  },
+  "input": {
+    "image": "RGB (uint8 0-255 or float 0-1), any size; converted to BGR inside ekyc.face",
+    "aligned_face": [
+      112,
+      112,
+      3
+    ],
+    "embedding": "128 numbers, scaled to length 1"
+  },
+  "decision": {
+    "rule": "same person if score >= threshold",
+    "threshold": 0.2597,
+    "chosen_on": "LFW development train pairs (2200): highest TAR with FAR <= 1%",
+    "train_far": 0.01,
+    "train_tar": 0.9945,
+    "review_below": 0.556,
+    "policy": "score < threshold (0.2597): mismatch; threshold-0.556: needs review; >= 0.556: match. 0.556 = the threshold that kept FAR <= 1 % on synthetic ID-portrait pairs (Phase 4 notebook, information only there), adopted as the review boundary in CLAUDE.md; no face found: retake."
+  },
+  "no_face_found": "no score: ask for a new photo or route to manual review (never accept)",
+  "lfw_test": {
+    "roc_auc": 0.9968,
+    "eer": 0.016,
+    "tar_at_far_1%": 0.984,
+    "tar_at_far_0.1%": 0.976,
+    "threshold": 0.2597,
+    "accuracy": 0.982,
+    "far": 0.022,
+    "frr": 0.014,
+    "impostor pairs": 500.0,
+    "genuine pairs": 500.0
+  },
+  "siamese_showcase": {
+    "file": "models/face_siamese.keras",
+    "input": "two RGB faces, resized with padding to 128x128, pixels 0-255 (the model rescales them)",
+    "output": "P(same person)",
+    "threshold": 0.8191,
+    "chosen_on": "332 held-out LFW train pairs (people not used for training)",
+    "lfw_test": {
+      "roc_auc": 0.7788,
+      "eer": 0.3,
+      "tar_at_far_1%": 0.104,
+      "tar_at_far_0.1%": 0.01,
+      "threshold": 0.8191,
+      "accuracy": 0.523,
+      "far": 0.004,
+      "frr": 0.95,
+      "impostor pairs": 500.0,
+      "genuine pairs": 500.0
+    }
+  },
+  "scope": "threshold from LFW (celebrity photos); re-check on real selfie-ID pairs before production use"
+}

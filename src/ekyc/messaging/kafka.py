@@ -7,7 +7,10 @@ restart, so results must be idempotent (upsert by application_id + check_type).
 
 from __future__ import annotations
 
-from confluent_kafka import Consumer, Producer
+import logging
+import time
+
+from confluent_kafka import Consumer, KafkaException, Producer
 
 from ekyc.messaging.events import Envelope, to_json
 from ekyc.messaging.settings import Settings, load_settings
@@ -57,3 +60,27 @@ def make_consumer(group_id: str, topics: list[str], settings: Settings | None = 
     consumer = Consumer(consumer_config(settings or load_settings(), group_id))
     consumer.subscribe(topics)
     return consumer
+
+
+def wait_delivered(producer: Producer, log: logging.Logger, limit_s: float = 300.0) -> None:
+    """Block until Kafka has acknowledged everything produced so far. A broker that stalls for a while (Phase 6: the
+    Docker VM paged out under memory pressure) is waited for, with a warning every 10 s, up to librdkafka's own
+    delivery timeout (5 min); then RuntimeError (the caller does not commit, so the input is processed again)."""
+    start = time.monotonic()
+    while (remaining := producer.flush(10)) > 0:
+        waited = time.monotonic() - start
+        if waited >= limit_s:
+            raise RuntimeError(f"{remaining} message(s) not acknowledged by Kafka after {waited:.0f} s")
+        log.warning("waiting for Kafka to acknowledge %d message(s) (%.0f s so far)", remaining, waited)
+
+
+def safe_commit(consumer: Consumer, message, log: logging.Logger) -> bool:
+    """Commit a message's offset. A failed commit is NOT fatal: the work is done and stored; at worst the message
+    is delivered again, and every consumer here handles duplicates. Returns whether the commit succeeded."""
+    try:
+        consumer.commit(message=message, asynchronous=False)
+        return True
+    except KafkaException as exc:
+        log.warning("offset commit failed (%s); the message may be delivered again (handled idempotently)",
+                    exc.args[0] if exc.args else exc)
+        return False

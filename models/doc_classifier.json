@@ -1,0 +1,21 @@
+{
+  "class_names": [
+    "alb_id",
+    "aze_passport",
+    "esp_id",
+    "est_id",
+    "fin_id",
+    "grc_passport",
+    "lva_passport",
+    "rus_internalpassport",
+    "srb_passport",
+    "svk_id"
+  ],
+  "input_size": 224,
+  "confidence_threshold": 0.7699999809265137,
+  "reject_rule": "if the highest softmax probability < confidence_threshold, report 'unrecognized document'",
+  "preprocessing": "RGB JPEG -> tf.image.resize_with_pad(input_size, input_size); float32 pixels 0-255 (EfficientNet rescales internally; do not divide by 255)",
+  "chosen_stage": 1,
+  "val_accuracy": 0.9901,
+  "val_macro_f1": 0.99
+}

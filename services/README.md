@@ -1,20 +1,104 @@
-# Services (Phase 6): Kafka infrastructure + inference workers
+# Services: API, orchestrator, inference workers (Phases 6-7)
 
 ```
-            S3 (RustFS)  <- images (claim check: events carry only object keys)
-                 ^
-orchestrator --(kyc.tasks.doc / .forgery / .face / .extraction)--> 4 workers --(kyc.results)--> orchestrator
- (Phase 7)                                                            \--(kyc.dlq: events that failed 3x)
+customer/officer --HTTP--> api --(kyc.submitted)--> orchestrator --(kyc.tasks.doc|face, then forgery|extraction)--> 4 workers
+                    ^  SSE   |                         |  ^                                                          |
+                    |        v                         v  +----------------------(kyc.results)-------------------------+
+                    |    MongoDB <------------------- decision engine (src/ekyc/decision.py) --(kyc.decided)
+                    +--- applications, check_results, audit_log, users          S3 (RustFS): the images (events carry keys only)
 ```
 
 - **Infrastructure in Docker** (`docker-compose.yml`): Kafka 4.4 (KRaft, no ZooKeeper), Kafka UI (kafbat),
   MongoDB 8.0, and RustFS as the S3-compatible store. MinIO's community images stopped in 2025, and the project
   was archived in 2026.
-- **Workers run on the host** as Python processes, so TensorFlow can use the Metal GPU. Containerising them is
-  Phase 9.
+- **Services run on the host** as Python processes. Containerising them is Phase 9.
 - **Ollama always runs on the host** (Docker on macOS has no GPU).
 
-## 1. Start the infrastructure
+## Quick start (Phase 7)
+
+```bash
+docker compose up -d                      # infrastructure
+ollama serve                              # if not running (extraction)
+scripts/run_all.sh                        # orchestrator + API + 4 workers; logs in logs/services/
+open http://localhost:8000/docs           # interactive API docs; "Authorize" with a demo account from .env
+.venv/bin/python scripts/e2e_api_smoke.py # 4 applications end to end + officer flow + security checks
+```
+
+### API (FastAPI, `services/api/app.py`): thin, no model ever runs here
+
+| Method | Path | Role | What it does |
+|---|---|---|---|
+| POST | `/auth/login` | - | form `username` (email) + `password` -> JWT (30 min) |
+| POST | `/applications` | CUSTOMER | multipart: `full_name`, `date_of_birth`, `id_image`, `selfie` (JPEG/PNG, <= 10 MB, checked with Pillow) -> S3 + MongoDB + `kyc.submitted` -> **202** with the id |
+| GET | `/applications`, `/applications/{id}` | CUSTOMER | own applications only (another customer's id -> 404); status, outcome, what to retake |
+| GET | `/applications/{id}/events` | CUSTOMER | Server-Sent Events: one `status` event per change until a final status (`?token=` accepted, since browser EventSource cannot send headers) |
+| GET | `/officer/cases` | OFFICER | queue, filter `status` / `outcome`, highest risk score first |
+| GET | `/officer/cases/{id}` | OFFICER | applicant data, every check result, decision + reasons with evidence, official summary, forgery top tile, 5-minute presigned image URLs, audit trail |
+| POST | `/officer/cases/{id}/decision` | OFFICER | `{"action": "approve"\|"reject", "reason": "..."}` (reason mandatory); only from DECIDED (else 409); audited |
+| GET | `/health` | - | MongoDB, S3, Kafka reachable |
+
+- **Passwords and tokens:** passwords are hashed with argon2id (argon2-cffi); tokens are JWT (PyJWT, HS256).
+- **Status codes:** a wrong role gives 403; a missing, invalid or expired token gives 401.
+- **CORS:** allows `http://localhost:5173`.
+- **Logs never contain names, dates of birth or document numbers.** They are masked (`K*** V***`), and
+  `token=` is removed from access-log lines.
+
+### Orchestrator (`services/orchestrator/main.py`, logic in `src/ekyc/orchestration.py`)
+
+1. **On `kyc.submitted`:** the status goes SUBMITTED -> PROCESSING, and the doc and face tasks are published in
+   parallel.
+2. **On the doc result:**
+   - an unusable document (blank or unrecognized) is decided at once as RESUBMIT_REQUIRED, and the other checks
+     are skipped;
+   - otherwise the forgery and extraction tasks are published, the latter with the classified `doc_type`.
+3. **Fan-in:** every result is upserted by `(application_id, check_type)`. When all four are in, the decision
+   engine runs, the decision and the template summary (the **official record**) are stored, the status goes to
+   DECIDED, and `kyc.decided` is published.
+4. **Timeouts:** a sweeper runs every 5 s and marks a check with no result as `timed_out` (extraction after 180 s,
+   the others after 60 s). That leads to MANUAL_REVIEW.
+5. **Officer decision:** an officer then moves DECIDED -> APPROVED or REJECTED. Every transition is written to the
+   append-only `audit_log` (actor, time, from/to status, reason).
+6. **At-least-once delivery:**
+   - offsets are committed after the database write;
+   - transitions are conditional, so a duplicate event cannot move an application twice;
+   - audit entries have deterministic ids, so writing one twice keeps the first;
+   - an invalid or repeatedly failing event goes to `kyc.dlq`.
+7. **Optional LLM note:** `ORCHESTRATOR_LLM_NOTE=true` adds an "AI-assisted note" per case. It is off by default
+   (it would load the 6-8 GB vision model).
+
+### Decision engine (`src/ekyc/decision.py`): a pure function, thresholds read from `models/*.json`
+
+| Check | Condition | Effect |
+|---|---|---|
+| doc | blank / almost black image | RESUBMIT_REQUIRED "image unreadable" (decided early) |
+| doc | confidence < 0.77 (`doc_classifier.json`) | RESUBMIT_REQUIRED "unrecognized document" (early) |
+| face | no face on the selfie / document | RESUBMIT_REQUIRED "retake the selfie / document photo" |
+| face | score < 0.2597 (`face_config.json`) | MANUAL_REVIEW **high** |
+| face | 0.2597 <= score < 0.556 (`face_config.json` `review_below`) | MANUAL_REVIEW medium |
+| forgery | score >= 0.857383 (`forgery_detector.json`) | MANUAL_REVIEW **high** |
+| forgery | 0.729 <= score < 0.857383 | MANUAL_REVIEW medium |
+| extraction | status failed / timed out / skipped | MANUAL_REVIEW medium |
+| extraction | a reliable rule fails (check digits, expiry, document number, date order) | MANUAL_REVIEW **high** |
+| extraction | an MRZ name / birth-date / format rule fails | MANUAL_REVIEW medium |
+| applicant | name differs (case-, diacritic- and order-insensitive; typed words on the document, or >= 0.85 similar) | MANUAL_REVIEW medium |
+| applicant | date of birth differs from the document | MANUAL_REVIEW **high** |
+| applicant | date of birth unreadable | MANUAL_REVIEW medium |
+| extraction | document expired (as of `expiry_as_of`, default today) | **info** (74 % of the synthetic templates are expired); `expired_is_informational=False` -> RESUBMIT_REQUIRED |
+| any check | did not complete (timed out / failed / missing) | MANUAL_REVIEW medium |
+| - | nothing above | AUTO_APPROVED |
+
+- **Precedence:**
+  1. an unusable document;
+  2. any high reason (a suspected fraud is never just bounced back for a retake);
+  3. any retake reason;
+  4. any medium reason;
+  5. otherwise approved.
+- **Risk score**, for sorting the queue, up to 100:
+  - 50 per high reason, 20 per medium;
+  - plus up to 10 from the forgery score and up to 10 from a weak face match.
+- **Every reason carries `check_type` and its evidence values.** Dates of birth are never repeated in it.
+
+## 1. Start the infrastructure (Phase 6)
 
 ```bash
 cp .env.example .env          # then fill in KAFKA_CLUSTER_ID, MONGO_ROOT_PASSWORD, S3_ACCESS_KEY, S3_SECRET_KEY
@@ -38,7 +122,7 @@ worker groups and their lag.
 
 Stop: `docker compose down` (data kept in named volumes); full reset: `docker compose down -v`.
 
-## 2. Start the workers
+## 2. Start only the workers
 
 ```bash
 ollama serve                  # if not already running (extraction-worker)
@@ -65,7 +149,7 @@ Ctrl+C stops them all. Each worker finishes its current message, leaves its cons
 - **Threshold fix:** `models/forgery_detector.json` (gitignored) had the F1 threshold rounded up to 0.8574. It was
   corrected to the exact 0.857383, with a `fix_note`.
 
-## 3. End-to-end smoke test
+## 3. Workers-only smoke test (Phase 6)
 
 ```bash
 .venv/bin/python scripts/e2e_workers_smoke.py
