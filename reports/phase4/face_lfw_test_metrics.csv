@@ -1,0 +1,11 @@
+,SFace (production),Siamese (showcase)
+roc_auc,0.996784,0.778764
+eer,0.016000000000000014,0.30000000000000004
+tar_at_far_1%,0.984,0.104
+tar_at_far_0.1%,0.976,0.01
+threshold,0.25971412658691406,0.8191249966621399
+accuracy,0.982,0.523
+far,0.022,0.004
+frr,0.014,0.95
+impostor pairs,500.0,500.0
+genuine pairs,500.0,500.0

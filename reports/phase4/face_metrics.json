@@ -1,0 +1,84 @@
+{
+  "lfw": {
+    "train_pairs": 2200,
+    "test_pairs": 1000,
+    "siamese_fit_pairs": 1868,
+    "siamese_val_pairs": 332
+  },
+  "sface_train": {
+    "roc_auc": 0.998904958677686,
+    "eer": 0.005454545454545434,
+    "tar_at_far_1%": 0.9945454545454545,
+    "tar_at_far_0.1%": 0.990909090909091,
+    "threshold": 0.25971412658691406,
+    "accuracy": 0.9922727272727273,
+    "far": 0.01,
+    "frr": 0.005454545454545455,
+    "impostor pairs": 1100,
+    "genuine pairs": 1100
+  },
+  "siamese_val": {
+    "roc_auc": 0.776701143168209,
+    "eer": 0.2801125022681909,
+    "tar_at_far_1%": 0.03592814371257485,
+    "tar_at_far_0.1%": 0.029940119760479042,
+    "threshold": 0.8191249966621399,
+    "accuracy": 0.5120481927710844,
+    "far": 0.006060606060606061,
+    "frr": 0.9640718562874252,
+    "impostor pairs": 165,
+    "genuine pairs": 167
+  },
+  "lfw_test": {
+    "SFace (production)": {
+      "roc_auc": 0.996784,
+      "eer": 0.016000000000000014,
+      "tar_at_far_1%": 0.984,
+      "tar_at_far_0.1%": 0.976,
+      "threshold": 0.25971412658691406,
+      "accuracy": 0.982,
+      "far": 0.022,
+      "frr": 0.014,
+      "impostor pairs": 500.0,
+      "genuine pairs": 500.0
+    },
+    "Siamese (showcase)": {
+      "roc_auc": 0.778764,
+      "eer": 0.30000000000000004,
+      "tar_at_far_1%": 0.104,
+      "tar_at_far_0.1%": 0.01,
+      "threshold": 0.8191249966621399,
+      "accuracy": 0.523,
+      "far": 0.004,
+      "frr": 0.95,
+      "impostor pairs": 500.0,
+      "genuine pairs": 500.0
+    }
+  },
+  "detection_rate": {
+    "lfw_train": 1.0,
+    "lfw_test": 1.0,
+    "id_photos": 0.999
+  },
+  "id_sanity": {
+    "match (ID vs simulated selfie)": {
+      "pairs": 1000,
+      "face_missing": 1,
+      "median_score": 0.9266821146011353,
+      "lowest": 0.3624572157859802,
+      "highest": 0.9829167127609253,
+      "accepted": 0.999
+    },
+    "non-match (two documents)": {
+      "pairs": 1000,
+      "face_missing": 1,
+      "median_score": 0.1893024444580078,
+      "lowest": -0.1490069180727005,
+      "highest": 0.9365416765213013,
+      "accepted": 0.299
+    }
+  },
+  "siamese_epochs": 12,
+  "siamese_seconds_per_epoch": 6.940723763681793,
+  "peak_memory_gb": 15.0
+}

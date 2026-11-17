@@ -1,0 +1,2001 @@
+kind,doc_a,doc_b,doc_type,score,face missing,accepted
+match (ID vs simulated selfie),alb_id_00,alb_id_00,alb_id,0.79345006,False,True
+match (ID vs simulated selfie),alb_id_01,alb_id_01,alb_id,0.89024425,False,True
+match (ID vs simulated selfie),alb_id_02,alb_id_02,alb_id,0.81251013,False,True
+match (ID vs simulated selfie),alb_id_03,alb_id_03,alb_id,0.96067023,False,True
+match (ID vs simulated selfie),alb_id_04,alb_id_04,alb_id,0.93400526,False,True
+match (ID vs simulated selfie),alb_id_05,alb_id_05,alb_id,0.91541624,False,True
+match (ID vs simulated selfie),alb_id_06,alb_id_06,alb_id,0.8764445,False,True
+match (ID vs simulated selfie),alb_id_07,alb_id_07,alb_id,0.9451097,False,True
+match (ID vs simulated selfie),alb_id_08,alb_id_08,alb_id,0.9549307,False,True
+match (ID vs simulated selfie),alb_id_09,alb_id_09,alb_id,0.9476743,False,True
+match (ID vs simulated selfie),alb_id_10,alb_id_10,alb_id,0.9363658,False,True
+match (ID vs simulated selfie),alb_id_11,alb_id_11,alb_id,0.8727909,False,True
+match (ID vs simulated selfie),alb_id_12,alb_id_12,alb_id,0.9392594,False,True
+match (ID vs simulated selfie),alb_id_13,alb_id_13,alb_id,0.9079211,False,True
+match (ID vs simulated selfie),alb_id_14,alb_id_14,alb_id,0.9541121,False,True
+match (ID vs simulated selfie),alb_id_15,alb_id_15,alb_id,0.91294825,False,True
+match (ID vs simulated selfie),alb_id_16,alb_id_16,alb_id,0.899081,False,True
+match (ID vs simulated selfie),alb_id_17,alb_id_17,alb_id,0.85948884,False,True
+match (ID vs simulated selfie),alb_id_18,alb_id_18,alb_id,0.92904854,False,True
+match (ID vs simulated selfie),alb_id_19,alb_id_19,alb_id,0.90727377,False,True
+match (ID vs simulated selfie),alb_id_20,alb_id_20,alb_id,0.9456877,False,True
+match (ID vs simulated selfie),alb_id_21,alb_id_21,alb_id,0.92729384,False,True
+match (ID vs simulated selfie),alb_id_22,alb_id_22,alb_id,0.9490479,False,True
+match (ID vs simulated selfie),alb_id_23,alb_id_23,alb_id,0.94439685,False,True
+match (ID vs simulated selfie),alb_id_24,alb_id_24,alb_id,0.95235896,False,True
+match (ID vs simulated selfie),alb_id_25,alb_id_25,alb_id,0.9006876,False,True
+match (ID vs simulated selfie),alb_id_26,alb_id_26,alb_id,0.924145,False,True
+match (ID vs simulated selfie),alb_id_27,alb_id_27,alb_id,0.9223891,False,True
+match (ID vs simulated selfie),alb_id_28,alb_id_28,alb_id,0.93124634,False,True
+match (ID vs simulated selfie),alb_id_29,alb_id_29,alb_id,0.94872856,False,True
+match (ID vs simulated selfie),alb_id_30,alb_id_30,alb_id,0.9451528,False,True
+match (ID vs simulated selfie),alb_id_31,alb_id_31,alb_id,0.9494449,False,True
+match (ID vs simulated selfie),alb_id_32,alb_id_32,alb_id,0.9448281,False,True
+match (ID vs simulated selfie),alb_id_33,alb_id_33,alb_id,0.9566793,False,True
+match (ID vs simulated selfie),alb_id_34,alb_id_34,alb_id,0.934966,False,True
+match (ID vs simulated selfie),alb_id_35,alb_id_35,alb_id,0.9669987,False,True
+match (ID vs simulated selfie),alb_id_36,alb_id_36,alb_id,0.9140767,False,True
+match (ID vs simulated selfie),alb_id_37,alb_id_37,alb_id,0.93167025,False,True
+match (ID vs simulated selfie),alb_id_38,alb_id_38,alb_id,0.9353347,False,True
+match (ID vs simulated selfie),alb_id_39,alb_id_39,alb_id,0.93223685,False,True
+match (ID vs simulated selfie),alb_id_40,alb_id_40,alb_id,0.9695283,False,True
+match (ID vs simulated selfie),alb_id_41,alb_id_41,alb_id,0.93919444,False,True
+match (ID vs simulated selfie),alb_id_42,alb_id_42,alb_id,0.9411513,False,True
+match (ID vs simulated selfie),alb_id_43,alb_id_43,alb_id,0.9125465,False,True
+match (ID vs simulated selfie),alb_id_44,alb_id_44,alb_id,0.90506375,False,True
+match (ID vs simulated selfie),alb_id_45,alb_id_45,alb_id,0.9316225,False,True
+match (ID vs simulated selfie),alb_id_46,alb_id_46,alb_id,0.9097792,False,True
+match (ID vs simulated selfie),alb_id_47,alb_id_47,alb_id,0.9323816,False,True
+match (ID vs simulated selfie),alb_id_48,alb_id_48,alb_id,0.8136045,False,True
+match (ID vs simulated selfie),alb_id_49,alb_id_49,alb_id,0.74792296,False,True
+match (ID vs simulated selfie),alb_id_50,alb_id_50,alb_id,0.9390696,False,True
+match (ID vs simulated selfie),alb_id_51,alb_id_51,alb_id,0.8615509,False,True
+match (ID vs simulated selfie),alb_id_52,alb_id_52,alb_id,0.95741063,False,True
+match (ID vs simulated selfie),alb_id_53,alb_id_53,alb_id,0.88992655,False,True
+match (ID vs simulated selfie),alb_id_54,alb_id_54,alb_id,0.81837296,False,True
+match (ID vs simulated selfie),alb_id_55,alb_id_55,alb_id,0.86244977,False,True
+match (ID vs simulated selfie),alb_id_56,alb_id_56,alb_id,0.92636395,False,True
+match (ID vs simulated selfie),alb_id_57,alb_id_57,alb_id,0.9563174,False,True
+match (ID vs simulated selfie),alb_id_58,alb_id_58,alb_id,0.9049973,False,True
+match (ID vs simulated selfie),alb_id_59,alb_id_59,alb_id,0.8904162,False,True
+match (ID vs simulated selfie),alb_id_60,alb_id_60,alb_id,0.90678006,False,True
+match (ID vs simulated selfie),alb_id_61,alb_id_61,alb_id,0.94940645,False,True
+match (ID vs simulated selfie),alb_id_62,alb_id_62,alb_id,0.92919254,False,True
+match (ID vs simulated selfie),alb_id_63,alb_id_63,alb_id,0.922141,False,True
+match (ID vs simulated selfie),alb_id_64,alb_id_64,alb_id,0.9362143,False,True
+match (ID vs simulated selfie),alb_id_65,alb_id_65,alb_id,0.36245722,False,True
+match (ID vs simulated selfie),alb_id_66,alb_id_66,alb_id,0.9007356,False,True
+match (ID vs simulated selfie),alb_id_67,alb_id_67,alb_id,0.60035086,False,True
+match (ID vs simulated selfie),alb_id_68,alb_id_68,alb_id,0.9437175,False,True
+match (ID vs simulated selfie),alb_id_69,alb_id_69,alb_id,0.94190717,False,True
+match (ID vs simulated selfie),alb_id_70,alb_id_70,alb_id,0.952996,False,True
+match (ID vs simulated selfie),alb_id_71,alb_id_71,alb_id,0.9262461,False,True
+match (ID vs simulated selfie),alb_id_72,alb_id_72,alb_id,0.91041654,False,True
+match (ID vs simulated selfie),alb_id_73,alb_id_73,alb_id,0.95413154,False,True
+match (ID vs simulated selfie),alb_id_74,alb_id_74,alb_id,0.93767804,False,True
+match (ID vs simulated selfie),alb_id_75,alb_id_75,alb_id,0.8728283,False,True
+match (ID vs simulated selfie),alb_id_76,alb_id_76,alb_id,0.86663103,False,True
+match (ID vs simulated selfie),alb_id_77,alb_id_77,alb_id,0.94028145,False,True
+match (ID vs simulated selfie),alb_id_78,alb_id_78,alb_id,0.9543246,False,True
+match (ID vs simulated selfie),alb_id_79,alb_id_79,alb_id,0.9553523,False,True
+match (ID vs simulated selfie),alb_id_80,alb_id_80,alb_id,0.8916828,False,True
+match (ID vs simulated selfie),alb_id_81,alb_id_81,alb_id,0.96652186,False,True
+match (ID vs simulated selfie),alb_id_82,alb_id_82,alb_id,0.95544946,False,True
+match (ID vs simulated selfie),alb_id_83,alb_id_83,alb_id,0.89085937,False,True
+match (ID vs simulated selfie),alb_id_84,alb_id_84,alb_id,0.9478239,False,True
+match (ID vs simulated selfie),alb_id_85,alb_id_85,alb_id,0.77257645,False,True
+match (ID vs simulated selfie),alb_id_86,alb_id_86,alb_id,0.77893317,False,True
+match (ID vs simulated selfie),alb_id_87,alb_id_87,alb_id,0.932758,False,True
+match (ID vs simulated selfie),alb_id_88,alb_id_88,alb_id,0.94955313,False,True
+match (ID vs simulated selfie),alb_id_89,alb_id_89,alb_id,0.91011065,False,True
+match (ID vs simulated selfie),alb_id_90,alb_id_90,alb_id,0.9281516,False,True
+match (ID vs simulated selfie),alb_id_91,alb_id_91,alb_id,0.9375463,False,True
+match (ID vs simulated selfie),alb_id_92,alb_id_92,alb_id,0.90659046,False,True
+match (ID vs simulated selfie),alb_id_93,alb_id_93,alb_id,0.9260252,False,True
+match (ID vs simulated selfie),alb_id_94,alb_id_94,alb_id,0.87236893,False,True
+match (ID vs simulated selfie),alb_id_95,alb_id_95,alb_id,0.80586016,False,True
+match (ID vs simulated selfie),alb_id_96,alb_id_96,alb_id,0.951344,False,True
+match (ID vs simulated selfie),alb_id_97,alb_id_97,alb_id,0.9708691,False,True
+match (ID vs simulated selfie),alb_id_98,alb_id_98,alb_id,0.9342432,False,True
+match (ID vs simulated selfie),alb_id_99,alb_id_99,alb_id,0.9276017,False,True
+match (ID vs simulated selfie),aze_passport_00,aze_passport_00,aze_passport,0.8844952,False,True
+match (ID vs simulated selfie),aze_passport_01,aze_passport_01,aze_passport,0.9610015,False,True
+match (ID vs simulated selfie),aze_passport_02,aze_passport_02,aze_passport,0.91636515,False,True
+match (ID vs simulated selfie),aze_passport_03,aze_passport_03,aze_passport,0.93588173,False,True
+match (ID vs simulated selfie),aze_passport_04,aze_passport_04,aze_passport,0.9454699,False,True
+match (ID vs simulated selfie),aze_passport_05,aze_passport_05,aze_passport,0.8844486,False,True
+match (ID vs simulated selfie),aze_passport_06,aze_passport_06,aze_passport,0.95368075,False,True
+match (ID vs simulated selfie),aze_passport_07,aze_passport_07,aze_passport,0.9225368,False,True
+match (ID vs simulated selfie),aze_passport_08,aze_passport_08,aze_passport,0.9594276,False,True
+match (ID vs simulated selfie),aze_passport_09,aze_passport_09,aze_passport,0.9328536,False,True
+match (ID vs simulated selfie),aze_passport_10,aze_passport_10,aze_passport,0.96160686,False,True
+match (ID vs simulated selfie),aze_passport_11,aze_passport_11,aze_passport,0.6833033,False,True
+match (ID vs simulated selfie),aze_passport_12,aze_passport_12,aze_passport,0.9327843,False,True
+match (ID vs simulated selfie),aze_passport_13,aze_passport_13,aze_passport,0.8814719,False,True
+match (ID vs simulated selfie),aze_passport_14,aze_passport_14,aze_passport,0.93009585,False,True
+match (ID vs simulated selfie),aze_passport_15,aze_passport_15,aze_passport,0.7098289,False,True
+match (ID vs simulated selfie),aze_passport_16,aze_passport_16,aze_passport,0.9019915,False,True
+match (ID vs simulated selfie),aze_passport_17,aze_passport_17,aze_passport,0.8994693,False,True
+match (ID vs simulated selfie),aze_passport_18,aze_passport_18,aze_passport,0.95115966,False,True
+match (ID vs simulated selfie),aze_passport_19,aze_passport_19,aze_passport,0.8778033,False,True
+match (ID vs simulated selfie),aze_passport_20,aze_passport_20,aze_passport,0.9234566,False,True
+match (ID vs simulated selfie),aze_passport_21,aze_passport_21,aze_passport,0.89808714,False,True
+match (ID vs simulated selfie),aze_passport_22,aze_passport_22,aze_passport,0.91902125,False,True
+match (ID vs simulated selfie),aze_passport_23,aze_passport_23,aze_passport,0.9028363,False,True
+match (ID vs simulated selfie),aze_passport_24,aze_passport_24,aze_passport,0.8938289,False,True
+match (ID vs simulated selfie),aze_passport_25,aze_passport_25,aze_passport,0.954658,False,True
+match (ID vs simulated selfie),aze_passport_26,aze_passport_26,aze_passport,0.95072246,False,True
+match (ID vs simulated selfie),aze_passport_27,aze_passport_27,aze_passport,0.92156035,False,True
+match (ID vs simulated selfie),aze_passport_28,aze_passport_28,aze_passport,0.95008135,False,True
+match (ID vs simulated selfie),aze_passport_29,aze_passport_29,aze_passport,0.93458647,False,True
+match (ID vs simulated selfie),aze_passport_30,aze_passport_30,aze_passport,0.94394755,False,True
+match (ID vs simulated selfie),aze_passport_31,aze_passport_31,aze_passport,0.9461889,False,True
+match (ID vs simulated selfie),aze_passport_32,aze_passport_32,aze_passport,0.93117136,False,True
+match (ID vs simulated selfie),aze_passport_33,aze_passport_33,aze_passport,0.9280131,False,True
+match (ID vs simulated selfie),aze_passport_34,aze_passport_34,aze_passport,0.9106619,False,True
+match (ID vs simulated selfie),aze_passport_35,aze_passport_35,aze_passport,0.9253391,False,True
+match (ID vs simulated selfie),aze_passport_36,aze_passport_36,aze_passport,0.9184515,False,True
+match (ID vs simulated selfie),aze_passport_37,aze_passport_37,aze_passport,0.92653406,False,True
+match (ID vs simulated selfie),aze_passport_38,aze_passport_38,aze_passport,0.9656134,False,True
+match (ID vs simulated selfie),aze_passport_39,aze_passport_39,aze_passport,0.9212395,False,True
+match (ID vs simulated selfie),aze_passport_40,aze_passport_40,aze_passport,0.8949039,False,True
+match (ID vs simulated selfie),aze_passport_41,aze_passport_41,aze_passport,0.926522,False,True
+match (ID vs simulated selfie),aze_passport_42,aze_passport_42,aze_passport,0.84750706,False,True
+match (ID vs simulated selfie),aze_passport_43,aze_passport_43,aze_passport,0.9002198,False,True
+match (ID vs simulated selfie),aze_passport_44,aze_passport_44,aze_passport,0.94424057,False,True
+match (ID vs simulated selfie),aze_passport_45,aze_passport_45,aze_passport,0.94938934,False,True
+match (ID vs simulated selfie),aze_passport_46,aze_passport_46,aze_passport,0.9386619,False,True
+match (ID vs simulated selfie),aze_passport_47,aze_passport_47,aze_passport,0.91575134,False,True
+match (ID vs simulated selfie),aze_passport_48,aze_passport_48,aze_passport,0.94955754,False,True
+match (ID vs simulated selfie),aze_passport_49,aze_passport_49,aze_passport,0.95773375,False,True
+match (ID vs simulated selfie),aze_passport_50,aze_passport_50,aze_passport,0.9313635,False,True
+match (ID vs simulated selfie),aze_passport_51,aze_passport_51,aze_passport,0.93242717,False,True
+match (ID vs simulated selfie),aze_passport_52,aze_passport_52,aze_passport,0.9139438,False,True
+match (ID vs simulated selfie),aze_passport_53,aze_passport_53,aze_passport,0.8455852,False,True
+match (ID vs simulated selfie),aze_passport_54,aze_passport_54,aze_passport,0.966016,False,True
+match (ID vs simulated selfie),aze_passport_55,aze_passport_55,aze_passport,0.92875046,False,True
+match (ID vs simulated selfie),aze_passport_56,aze_passport_56,aze_passport,0.9184421,False,True
+match (ID vs simulated selfie),aze_passport_57,aze_passport_57,aze_passport,0.92047167,False,True
+match (ID vs simulated selfie),aze_passport_58,aze_passport_58,aze_passport,0.7822286,False,True
+match (ID vs simulated selfie),aze_passport_59,aze_passport_59,aze_passport,0.9028511,False,True
+match (ID vs simulated selfie),aze_passport_60,aze_passport_60,aze_passport,0.8387617,False,True
+match (ID vs simulated selfie),aze_passport_61,aze_passport_61,aze_passport,0.9166978,False,True
+match (ID vs simulated selfie),aze_passport_62,aze_passport_62,aze_passport,0.95990443,False,True
+match (ID vs simulated selfie),aze_passport_63,aze_passport_63,aze_passport,0.9381122,False,True
+match (ID vs simulated selfie),aze_passport_64,aze_passport_64,aze_passport,0.91815555,False,True
+match (ID vs simulated selfie),aze_passport_65,aze_passport_65,aze_passport,0.9231671,False,True
+match (ID vs simulated selfie),aze_passport_66,aze_passport_66,aze_passport,0.9451785,False,True
+match (ID vs simulated selfie),aze_passport_67,aze_passport_67,aze_passport,0.95011175,False,True
+match (ID vs simulated selfie),aze_passport_68,aze_passport_68,aze_passport,0.9123505,False,True
+match (ID vs simulated selfie),aze_passport_69,aze_passport_69,aze_passport,0.90202296,False,True
+match (ID vs simulated selfie),aze_passport_70,aze_passport_70,aze_passport,0.90978223,False,True
+match (ID vs simulated selfie),aze_passport_71,aze_passport_71,aze_passport,0.957545,False,True
+match (ID vs simulated selfie),aze_passport_72,aze_passport_72,aze_passport,0.93708843,False,True
+match (ID vs simulated selfie),aze_passport_73,aze_passport_73,aze_passport,0.9462717,False,True
+match (ID vs simulated selfie),aze_passport_74,aze_passport_74,aze_passport,0.93513274,False,True
+match (ID vs simulated selfie),aze_passport_75,aze_passport_75,aze_passport,0.9553931,False,True
+match (ID vs simulated selfie),aze_passport_76,aze_passport_76,aze_passport,0.90339255,False,True
+match (ID vs simulated selfie),aze_passport_77,aze_passport_77,aze_passport,0.9096686,False,True
+match (ID vs simulated selfie),aze_passport_78,aze_passport_78,aze_passport,0.95610744,False,True
+match (ID vs simulated selfie),aze_passport_79,aze_passport_79,aze_passport,0.93340665,False,True
+match (ID vs simulated selfie),aze_passport_80,aze_passport_80,aze_passport,0.7662717,False,True
+match (ID vs simulated selfie),aze_passport_81,aze_passport_81,aze_passport,0.9419438,False,True
+match (ID vs simulated selfie),aze_passport_82,aze_passport_82,aze_passport,0.9404845,False,True
+match (ID vs simulated selfie),aze_passport_83,aze_passport_83,aze_passport,0.9435731,False,True
+match (ID vs simulated selfie),aze_passport_84,aze_passport_84,aze_passport,0.9558362,False,True
+match (ID vs simulated selfie),aze_passport_85,aze_passport_85,aze_passport,0.93179667,False,True
+match (ID vs simulated selfie),aze_passport_86,aze_passport_86,aze_passport,0.96480167,False,True
+match (ID vs simulated selfie),aze_passport_87,aze_passport_87,aze_passport,0.9081306,False,True
+match (ID vs simulated selfie),aze_passport_88,aze_passport_88,aze_passport,0.9423607,False,True
+match (ID vs simulated selfie),aze_passport_89,aze_passport_89,aze_passport,0.8646773,False,True
+match (ID vs simulated selfie),aze_passport_90,aze_passport_90,aze_passport,0.9173746,False,True
+match (ID vs simulated selfie),aze_passport_91,aze_passport_91,aze_passport,0.8717109,False,True
+match (ID vs simulated selfie),aze_passport_92,aze_passport_92,aze_passport,0.8237739,False,True
+match (ID vs simulated selfie),aze_passport_93,aze_passport_93,aze_passport,0.92162365,False,True
+match (ID vs simulated selfie),aze_passport_94,aze_passport_94,aze_passport,0.66410947,False,True
+match (ID vs simulated selfie),aze_passport_95,aze_passport_95,aze_passport,0.96375525,False,True
+match (ID vs simulated selfie),aze_passport_96,aze_passport_96,aze_passport,0.93854904,False,True
+match (ID vs simulated selfie),aze_passport_97,aze_passport_97,aze_passport,0.934342,False,True
+match (ID vs simulated selfie),aze_passport_98,aze_passport_98,aze_passport,0.9255183,False,True
+match (ID vs simulated selfie),aze_passport_99,aze_passport_99,aze_passport,0.92033285,False,True
+match (ID vs simulated selfie),esp_id_00,esp_id_00,esp_id,0.9072552,False,True
+match (ID vs simulated selfie),esp_id_01,esp_id_01,esp_id,0.9090524,False,True
+match (ID vs simulated selfie),esp_id_02,esp_id_02,esp_id,0.89657795,False,True
+match (ID vs simulated selfie),esp_id_03,esp_id_03,esp_id,0.9546058,False,True
+match (ID vs simulated selfie),esp_id_04,esp_id_04,esp_id,0.8906982,False,True
+match (ID vs simulated selfie),esp_id_05,esp_id_05,esp_id,0.9157132,False,True
+match (ID vs simulated selfie),esp_id_06,esp_id_06,esp_id,0.92255676,False,True
+match (ID vs simulated selfie),esp_id_07,esp_id_07,esp_id,0.9572181,False,True
+match (ID vs simulated selfie),esp_id_08,esp_id_08,esp_id,0.90309024,False,True
+match (ID vs simulated selfie),esp_id_09,esp_id_09,esp_id,0.92121696,False,True
+match (ID vs simulated selfie),esp_id_10,esp_id_10,esp_id,0.84924036,False,True
+match (ID vs simulated selfie),esp_id_11,esp_id_11,esp_id,0.9363538,False,True
+match (ID vs simulated selfie),esp_id_12,esp_id_12,esp_id,0.87439036,False,True
+match (ID vs simulated selfie),esp_id_13,esp_id_13,esp_id,0.95369965,False,True
+match (ID vs simulated selfie),esp_id_14,esp_id_14,esp_id,0.9302815,False,True
+match (ID vs simulated selfie),esp_id_15,esp_id_15,esp_id,0.9170133,False,True
+match (ID vs simulated selfie),esp_id_16,esp_id_16,esp_id,0.9241923,False,True
+match (ID vs simulated selfie),esp_id_17,esp_id_17,esp_id,0.90810096,False,True
+match (ID vs simulated selfie),esp_id_18,esp_id_18,esp_id,0.95463246,False,True
+match (ID vs simulated selfie),esp_id_19,esp_id_19,esp_id,0.92607725,False,True
+match (ID vs simulated selfie),esp_id_20,esp_id_20,esp_id,0.88773626,False,True
+match (ID vs simulated selfie),esp_id_21,esp_id_21,esp_id,0.90732783,False,True
+match (ID vs simulated selfie),esp_id_22,esp_id_22,esp_id,0.9349594,False,True
+match (ID vs simulated selfie),esp_id_23,esp_id_23,esp_id,0.85598075,False,True
+match (ID vs simulated selfie),esp_id_24,esp_id_24,esp_id,0.9258559,False,True
+match (ID vs simulated selfie),esp_id_25,esp_id_25,esp_id,0.87380224,False,True
+match (ID vs simulated selfie),esp_id_26,esp_id_26,esp_id,0.9137256,False,True
+match (ID vs simulated selfie),esp_id_27,esp_id_27,esp_id,0.88682693,False,True
+match (ID vs simulated selfie),esp_id_28,esp_id_28,esp_id,0.9372119,False,True
+match (ID vs simulated selfie),esp_id_29,esp_id_29,esp_id,0.8252555,False,True
+match (ID vs simulated selfie),esp_id_30,esp_id_30,esp_id,0.9207119,False,True
+match (ID vs simulated selfie),esp_id_31,esp_id_31,esp_id,0.9219959,False,True
+match (ID vs simulated selfie),esp_id_32,esp_id_32,esp_id,0.88760567,False,True
+match (ID vs simulated selfie),esp_id_33,esp_id_33,esp_id,0.9444528,False,True
+match (ID vs simulated selfie),esp_id_34,esp_id_34,esp_id,0.90698475,False,True
+match (ID vs simulated selfie),esp_id_35,esp_id_35,esp_id,0.7872073,False,True
+match (ID vs simulated selfie),esp_id_36,esp_id_36,esp_id,0.93135667,False,True
+match (ID vs simulated selfie),esp_id_37,esp_id_37,esp_id,0.8387706,False,True
+match (ID vs simulated selfie),esp_id_38,esp_id_38,esp_id,0.8355756,False,True
+match (ID vs simulated selfie),esp_id_39,esp_id_39,esp_id,0.9597612,False,True
+match (ID vs simulated selfie),esp_id_40,esp_id_40,esp_id,0.91233677,False,True
+match (ID vs simulated selfie),esp_id_41,esp_id_41,esp_id,0.9435261,False,True
+match (ID vs simulated selfie),esp_id_42,esp_id_42,esp_id,0.93263197,False,True
+match (ID vs simulated selfie),esp_id_43,esp_id_43,esp_id,0.9104039,False,True
+match (ID vs simulated selfie),esp_id_44,esp_id_44,esp_id,0.9037166,False,True
+match (ID vs simulated selfie),esp_id_45,esp_id_45,esp_id,0.92134947,False,True
+match (ID vs simulated selfie),esp_id_46,esp_id_46,esp_id,0.93041956,False,True
+match (ID vs simulated selfie),esp_id_47,esp_id_47,esp_id,0.8605676,False,True
+match (ID vs simulated selfie),esp_id_48,esp_id_48,esp_id,0.95217645,False,True
+match (ID vs simulated selfie),esp_id_49,esp_id_49,esp_id,0.92191064,False,True
+match (ID vs simulated selfie),esp_id_50,esp_id_50,esp_id,0.9272882,False,True
+match (ID vs simulated selfie),esp_id_51,esp_id_51,esp_id,0.93494445,False,True
+match (ID vs simulated selfie),esp_id_52,esp_id_52,esp_id,0.94841343,False,True
+match (ID vs simulated selfie),esp_id_53,esp_id_53,esp_id,0.8884239,False,True
+match (ID vs simulated selfie),esp_id_54,esp_id_54,esp_id,0.940642,False,True
+match (ID vs simulated selfie),esp_id_55,esp_id_55,esp_id,0.9223473,False,True
+match (ID vs simulated selfie),esp_id_56,esp_id_56,esp_id,0.95116925,False,True
+match (ID vs simulated selfie),esp_id_57,esp_id_57,esp_id,0.8537406,False,True
+match (ID vs simulated selfie),esp_id_58,esp_id_58,esp_id,0.9389186,False,True
+match (ID vs simulated selfie),esp_id_59,esp_id_59,esp_id,0.9325214,False,True
+match (ID vs simulated selfie),esp_id_60,esp_id_60,esp_id,0.9495967,False,True
+match (ID vs simulated selfie),esp_id_61,esp_id_61,esp_id,0.96121484,False,True
+match (ID vs simulated selfie),esp_id_62,esp_id_62,esp_id,0.950935,False,True
+match (ID vs simulated selfie),esp_id_63,esp_id_63,esp_id,0.92902493,False,True
+match (ID vs simulated selfie),esp_id_64,esp_id_64,esp_id,0.9358684,False,True
+match (ID vs simulated selfie),esp_id_65,esp_id_65,esp_id,0.9620383,False,True
+match (ID vs simulated selfie),esp_id_66,esp_id_66,esp_id,0.9453974,False,True
+match (ID vs simulated selfie),esp_id_67,esp_id_67,esp_id,0.9540889,False,True
+match (ID vs simulated selfie),esp_id_68,esp_id_68,esp_id,0.94632554,False,True
+match (ID vs simulated selfie),esp_id_69,esp_id_69,esp_id,0.94322085,False,True
+match (ID vs simulated selfie),esp_id_70,esp_id_70,esp_id,0.91879916,False,True
+match (ID vs simulated selfie),esp_id_71,esp_id_71,esp_id,0.8809683,False,True
+match (ID vs simulated selfie),esp_id_72,esp_id_72,esp_id,0.9642261,False,True
+match (ID vs simulated selfie),esp_id_73,esp_id_73,esp_id,0.9383943,False,True
+match (ID vs simulated selfie),esp_id_74,esp_id_74,esp_id,0.94047314,False,True
+match (ID vs simulated selfie),esp_id_75,esp_id_75,esp_id,0.9557065,False,True
+match (ID vs simulated selfie),esp_id_76,esp_id_76,esp_id,0.95050716,False,True
+match (ID vs simulated selfie),esp_id_77,esp_id_77,esp_id,0.93390435,False,True
+match (ID vs simulated selfie),esp_id_78,esp_id_78,esp_id,0.95316845,False,True
+match (ID vs simulated selfie),esp_id_79,esp_id_79,esp_id,0.96277845,False,True
+match (ID vs simulated selfie),esp_id_80,esp_id_80,esp_id,0.91812354,False,True
+match (ID vs simulated selfie),esp_id_81,esp_id_81,esp_id,0.80631304,False,True
+match (ID vs simulated selfie),esp_id_82,esp_id_82,esp_id,0.97345585,False,True
+match (ID vs simulated selfie),esp_id_83,esp_id_83,esp_id,0.9235598,False,True
+match (ID vs simulated selfie),esp_id_84,esp_id_84,esp_id,0.95152533,False,True
+match (ID vs simulated selfie),esp_id_85,esp_id_85,esp_id,0.9344097,False,True
+match (ID vs simulated selfie),esp_id_86,esp_id_86,esp_id,0.95277447,False,True
+match (ID vs simulated selfie),esp_id_87,esp_id_87,esp_id,0.961427,False,True
+match (ID vs simulated selfie),esp_id_88,esp_id_88,esp_id,0.94648,False,True
+match (ID vs simulated selfie),esp_id_89,esp_id_89,esp_id,0.9361712,False,True
+match (ID vs simulated selfie),esp_id_90,esp_id_90,esp_id,0.94939744,False,True
+match (ID vs simulated selfie),esp_id_91,esp_id_91,esp_id,0.97378546,False,True
+match (ID vs simulated selfie),esp_id_92,esp_id_92,esp_id,0.9451641,False,True
+match (ID vs simulated selfie),esp_id_93,esp_id_93,esp_id,0.9591255,False,True
+match (ID vs simulated selfie),esp_id_94,esp_id_94,esp_id,0.7661023,False,True
+match (ID vs simulated selfie),esp_id_95,esp_id_95,esp_id,0.83280075,False,True
+match (ID vs simulated selfie),esp_id_96,esp_id_96,esp_id,0.797526,False,True
+match (ID vs simulated selfie),esp_id_97,esp_id_97,esp_id,0.93378353,False,True
+match (ID vs simulated selfie),esp_id_98,esp_id_98,esp_id,0.94897246,False,True
+match (ID vs simulated selfie),esp_id_99,esp_id_99,esp_id,0.94291383,False,True
+match (ID vs simulated selfie),est_id_00,est_id_00,est_id,0.95926094,False,True
+match (ID vs simulated selfie),est_id_01,est_id_01,est_id,0.9200523,False,True
+match (ID vs simulated selfie),est_id_02,est_id_02,est_id,0.9033581,False,True
+match (ID vs simulated selfie),est_id_03,est_id_03,est_id,0.86879355,False,True
+match (ID vs simulated selfie),est_id_04,est_id_04,est_id,0.83103156,False,True
+match (ID vs simulated selfie),est_id_05,est_id_05,est_id,0.87790126,False,True
+match (ID vs simulated selfie),est_id_06,est_id_06,est_id,0.93781734,False,True
+match (ID vs simulated selfie),est_id_07,est_id_07,est_id,0.82848465,False,True
+match (ID vs simulated selfie),est_id_08,est_id_08,est_id,0.5842716,False,True
+match (ID vs simulated selfie),est_id_09,est_id_09,est_id,0.8710256,False,True
+match (ID vs simulated selfie),est_id_10,est_id_10,est_id,0.81756544,False,True
+match (ID vs simulated selfie),est_id_11,est_id_11,est_id,0.7896519,False,True
+match (ID vs simulated selfie),est_id_12,est_id_12,est_id,0.8165955,False,True
+match (ID vs simulated selfie),est_id_13,est_id_13,est_id,0.8072609,False,True
+match (ID vs simulated selfie),est_id_14,est_id_14,est_id,0.9045948,False,True
+match (ID vs simulated selfie),est_id_15,est_id_15,est_id,0.8334559,False,True
+match (ID vs simulated selfie),est_id_16,est_id_16,est_id,0.8801247,False,True
+match (ID vs simulated selfie),est_id_17,est_id_17,est_id,0.8845724,False,True
+match (ID vs simulated selfie),est_id_18,est_id_18,est_id,0.8848799,False,True
+match (ID vs simulated selfie),est_id_19,est_id_19,est_id,0.70338345,False,True
+match (ID vs simulated selfie),est_id_20,est_id_20,est_id,0.88110113,False,True
+match (ID vs simulated selfie),est_id_21,est_id_21,est_id,0.95063436,False,True
+match (ID vs simulated selfie),est_id_22,est_id_22,est_id,0.91296476,False,True
+match (ID vs simulated selfie),est_id_23,est_id_23,est_id,0.92373043,False,True
+match (ID vs simulated selfie),est_id_24,est_id_24,est_id,0.9286352,False,True
+match (ID vs simulated selfie),est_id_25,est_id_25,est_id,0.87412065,False,True
+match (ID vs simulated selfie),est_id_26,est_id_26,est_id,0.8955039,False,True
+match (ID vs simulated selfie),est_id_27,est_id_27,est_id,0.8926982,False,True
+match (ID vs simulated selfie),est_id_28,est_id_28,est_id,0.94477797,False,True
+match (ID vs simulated selfie),est_id_29,est_id_29,est_id,0.9148084,False,True
+match (ID vs simulated selfie),est_id_30,est_id_30,est_id,0.93533945,False,True
+match (ID vs simulated selfie),est_id_31,est_id_31,est_id,0.92196953,False,True
+match (ID vs simulated selfie),est_id_32,est_id_32,est_id,0.91818887,False,True
+match (ID vs simulated selfie),est_id_33,est_id_33,est_id,0.9124787,False,True
+match (ID vs simulated selfie),est_id_34,est_id_34,est_id,0.939677,False,True
+match (ID vs simulated selfie),est_id_35,est_id_35,est_id,0.9093174,False,True
+match (ID vs simulated selfie),est_id_36,est_id_36,est_id,0.947244,False,True
+match (ID vs simulated selfie),est_id_37,est_id_37,est_id,0.86042035,False,True
+match (ID vs simulated selfie),est_id_38,est_id_38,est_id,0.94376695,False,True
+match (ID vs simulated selfie),est_id_39,est_id_39,est_id,0.8688396,False,True
+match (ID vs simulated selfie),est_id_40,est_id_40,est_id,0.8632426,False,True
+match (ID vs simulated selfie),est_id_41,est_id_41,est_id,0.9262032,False,True
+match (ID vs simulated selfie),est_id_42,est_id_42,est_id,0.9323892,False,True
+match (ID vs simulated selfie),est_id_43,est_id_43,est_id,0.92099226,False,True
+match (ID vs simulated selfie),est_id_44,est_id_44,est_id,0.90542257,False,True
+match (ID vs simulated selfie),est_id_45,est_id_45,est_id,0.8201808,False,True
+match (ID vs simulated selfie),est_id_46,est_id_46,est_id,0.81977224,False,True
+match (ID vs simulated selfie),est_id_47,est_id_47,est_id,0.8534738,False,True
+match (ID vs simulated selfie),est_id_48,est_id_48,est_id,0.82326615,False,True
+match (ID vs simulated selfie),est_id_49,est_id_49,est_id,0.90948343,False,True
+match (ID vs simulated selfie),est_id_50,est_id_50,est_id,0.8523703,False,True
+match (ID vs simulated selfie),est_id_51,est_id_51,est_id,0.9313529,False,True
+match (ID vs simulated selfie),est_id_52,est_id_52,est_id,0.96302795,False,True
+match (ID vs simulated selfie),est_id_53,est_id_53,est_id,0.80277395,False,True
+match (ID vs simulated selfie),est_id_54,est_id_54,est_id,0.9449594,False,True
+match (ID vs simulated selfie),est_id_55,est_id_55,est_id,0.74821496,False,True
+match (ID vs simulated selfie),est_id_56,est_id_56,est_id,0.9499002,False,True
+match (ID vs simulated selfie),est_id_57,est_id_57,est_id,0.9336946,False,True
+match (ID vs simulated selfie),est_id_58,est_id_58,est_id,0.90902865,False,True
+match (ID vs simulated selfie),est_id_59,est_id_59,est_id,0.6450118,False,True
+match (ID vs simulated selfie),est_id_60,est_id_60,est_id,0.9587032,False,True
+match (ID vs simulated selfie),est_id_61,est_id_61,est_id,0.9031087,False,True
+match (ID vs simulated selfie),est_id_62,est_id_62,est_id,0.9029698,False,True
+match (ID vs simulated selfie),est_id_63,est_id_63,est_id,0.8018886,False,True
+match (ID vs simulated selfie),est_id_64,est_id_64,est_id,,True,False
+match (ID vs simulated selfie),est_id_65,est_id_65,est_id,0.9478499,False,True
+match (ID vs simulated selfie),est_id_66,est_id_66,est_id,0.9732232,False,True
+match (ID vs simulated selfie),est_id_67,est_id_67,est_id,0.89970076,False,True
+match (ID vs simulated selfie),est_id_68,est_id_68,est_id,0.9488055,False,True
+match (ID vs simulated selfie),est_id_69,est_id_69,est_id,0.89382035,False,True
+match (ID vs simulated selfie),est_id_70,est_id_70,est_id,0.955841,False,True
+match (ID vs simulated selfie),est_id_71,est_id_71,est_id,0.95841,False,True
+match (ID vs simulated selfie),est_id_72,est_id_72,est_id,0.9384073,False,True
+match (ID vs simulated selfie),est_id_73,est_id_73,est_id,0.9488576,False,True
+match (ID vs simulated selfie),est_id_74,est_id_74,est_id,0.93379337,False,True
+match (ID vs simulated selfie),est_id_75,est_id_75,est_id,0.88522595,False,True
+match (ID vs simulated selfie),est_id_76,est_id_76,est_id,0.92607725,False,True
+match (ID vs simulated selfie),est_id_77,est_id_77,est_id,0.93561757,False,True
+match (ID vs simulated selfie),est_id_78,est_id_78,est_id,0.93307495,False,True
+match (ID vs simulated selfie),est_id_79,est_id_79,est_id,0.92038375,False,True
+match (ID vs simulated selfie),est_id_80,est_id_80,est_id,0.7664184,False,True
+match (ID vs simulated selfie),est_id_81,est_id_81,est_id,0.8900193,False,True
+match (ID vs simulated selfie),est_id_82,est_id_82,est_id,0.8235678,False,True
+match (ID vs simulated selfie),est_id_83,est_id_83,est_id,0.9116989,False,True
+match (ID vs simulated selfie),est_id_84,est_id_84,est_id,0.6556753,False,True
+match (ID vs simulated selfie),est_id_85,est_id_85,est_id,0.9538938,False,True
+match (ID vs simulated selfie),est_id_86,est_id_86,est_id,0.8505701,False,True
+match (ID vs simulated selfie),est_id_87,est_id_87,est_id,0.89260364,False,True
+match (ID vs simulated selfie),est_id_88,est_id_88,est_id,0.9183743,False,True
+match (ID vs simulated selfie),est_id_89,est_id_89,est_id,0.8097809,False,True
+match (ID vs simulated selfie),est_id_90,est_id_90,est_id,0.6995003,False,True
+match (ID vs simulated selfie),est_id_91,est_id_91,est_id,0.9303797,False,True
+match (ID vs simulated selfie),est_id_92,est_id_92,est_id,0.803081,False,True
+match (ID vs simulated selfie),est_id_93,est_id_93,est_id,0.8521478,False,True
+match (ID vs simulated selfie),est_id_94,est_id_94,est_id,0.9228419,False,True
+match (ID vs simulated selfie),est_id_95,est_id_95,est_id,0.869871,False,True
+match (ID vs simulated selfie),est_id_96,est_id_96,est_id,0.86130893,False,True
+match (ID vs simulated selfie),est_id_97,est_id_97,est_id,0.9295504,False,True
+match (ID vs simulated selfie),est_id_98,est_id_98,est_id,0.8773427,False,True
+match (ID vs simulated selfie),est_id_99,est_id_99,est_id,0.9233875,False,True
+match (ID vs simulated selfie),fin_id_00,fin_id_00,fin_id,0.89450663,False,True
+match (ID vs simulated selfie),fin_id_01,fin_id_01,fin_id,0.93494236,False,True
+match (ID vs simulated selfie),fin_id_02,fin_id_02,fin_id,0.8768012,False,True
+match (ID vs simulated selfie),fin_id_03,fin_id_03,fin_id,0.9231905,False,True
+match (ID vs simulated selfie),fin_id_04,fin_id_04,fin_id,0.8003994,False,True
+match (ID vs simulated selfie),fin_id_05,fin_id_05,fin_id,0.91250974,False,True
+match (ID vs simulated selfie),fin_id_06,fin_id_06,fin_id,0.94725657,False,True
+match (ID vs simulated selfie),fin_id_07,fin_id_07,fin_id,0.90739685,False,True
+match (ID vs simulated selfie),fin_id_08,fin_id_08,fin_id,0.8895148,False,True
+match (ID vs simulated selfie),fin_id_09,fin_id_09,fin_id,0.7213695,False,True
+match (ID vs simulated selfie),fin_id_10,fin_id_10,fin_id,0.8987996,False,True
+match (ID vs simulated selfie),fin_id_11,fin_id_11,fin_id,0.94285405,False,True
+match (ID vs simulated selfie),fin_id_12,fin_id_12,fin_id,0.95156735,False,True
+match (ID vs simulated selfie),fin_id_13,fin_id_13,fin_id,0.8087114,False,True
+match (ID vs simulated selfie),fin_id_14,fin_id_14,fin_id,0.82986146,False,True
+match (ID vs simulated selfie),fin_id_15,fin_id_15,fin_id,0.9316086,False,True
+match (ID vs simulated selfie),fin_id_16,fin_id_16,fin_id,0.70910275,False,True
+match (ID vs simulated selfie),fin_id_17,fin_id_17,fin_id,0.911685,False,True
+match (ID vs simulated selfie),fin_id_18,fin_id_18,fin_id,0.91167116,False,True
+match (ID vs simulated selfie),fin_id_19,fin_id_19,fin_id,0.8287804,False,True
+match (ID vs simulated selfie),fin_id_20,fin_id_20,fin_id,0.95347804,False,True
+match (ID vs simulated selfie),fin_id_21,fin_id_21,fin_id,0.8826506,False,True
+match (ID vs simulated selfie),fin_id_22,fin_id_22,fin_id,0.83584476,False,True
+match (ID vs simulated selfie),fin_id_23,fin_id_23,fin_id,0.9659902,False,True
+match (ID vs simulated selfie),fin_id_24,fin_id_24,fin_id,0.9342122,False,True
+match (ID vs simulated selfie),fin_id_25,fin_id_25,fin_id,0.8654855,False,True
+match (ID vs simulated selfie),fin_id_26,fin_id_26,fin_id,0.7051551,False,True
+match (ID vs simulated selfie),fin_id_27,fin_id_27,fin_id,0.9204062,False,True
+match (ID vs simulated selfie),fin_id_28,fin_id_28,fin_id,0.83047366,False,True
+match (ID vs simulated selfie),fin_id_29,fin_id_29,fin_id,0.8403683,False,True
+match (ID vs simulated selfie),fin_id_30,fin_id_30,fin_id,0.9315167,False,True
+match (ID vs simulated selfie),fin_id_31,fin_id_31,fin_id,0.89018047,False,True
+match (ID vs simulated selfie),fin_id_32,fin_id_32,fin_id,0.9001594,False,True
+match (ID vs simulated selfie),fin_id_33,fin_id_33,fin_id,0.8820412,False,True
+match (ID vs simulated selfie),fin_id_34,fin_id_34,fin_id,0.7990508,False,True
+match (ID vs simulated selfie),fin_id_35,fin_id_35,fin_id,0.9047453,False,True
+match (ID vs simulated selfie),fin_id_36,fin_id_36,fin_id,0.94881666,False,True
+match (ID vs simulated selfie),fin_id_37,fin_id_37,fin_id,0.92250586,False,True
+match (ID vs simulated selfie),fin_id_38,fin_id_38,fin_id,0.92529976,False,True
+match (ID vs simulated selfie),fin_id_39,fin_id_39,fin_id,0.9673367,False,True
+match (ID vs simulated selfie),fin_id_40,fin_id_40,fin_id,0.82164985,False,True
+match (ID vs simulated selfie),fin_id_41,fin_id_41,fin_id,0.77373767,False,True
+match (ID vs simulated selfie),fin_id_42,fin_id_42,fin_id,0.8614352,False,True
+match (ID vs simulated selfie),fin_id_43,fin_id_43,fin_id,0.90656936,False,True
+match (ID vs simulated selfie),fin_id_44,fin_id_44,fin_id,0.8057097,False,True
+match (ID vs simulated selfie),fin_id_45,fin_id_45,fin_id,0.58297956,False,True
+match (ID vs simulated selfie),fin_id_46,fin_id_46,fin_id,0.8322351,False,True
+match (ID vs simulated selfie),fin_id_47,fin_id_47,fin_id,0.9152858,False,True
+match (ID vs simulated selfie),fin_id_48,fin_id_48,fin_id,0.8900951,False,True
+match (ID vs simulated selfie),fin_id_49,fin_id_49,fin_id,0.8164611,False,True
+match (ID vs simulated selfie),fin_id_50,fin_id_50,fin_id,0.9390772,False,True
+match (ID vs simulated selfie),fin_id_51,fin_id_51,fin_id,0.9567741,False,True
+match (ID vs simulated selfie),fin_id_52,fin_id_52,fin_id,0.8813392,False,True
+match (ID vs simulated selfie),fin_id_53,fin_id_53,fin_id,0.8951725,False,True
+match (ID vs simulated selfie),fin_id_54,fin_id_54,fin_id,0.9262339,False,True
+match (ID vs simulated selfie),fin_id_55,fin_id_55,fin_id,0.7776819,False,True
+match (ID vs simulated selfie),fin_id_56,fin_id_56,fin_id,0.92004156,False,True
+match (ID vs simulated selfie),fin_id_57,fin_id_57,fin_id,0.7807332,False,True
+match (ID vs simulated selfie),fin_id_58,fin_id_58,fin_id,0.8510122,False,True
+match (ID vs simulated selfie),fin_id_59,fin_id_59,fin_id,0.94500333,False,True
+match (ID vs simulated selfie),fin_id_60,fin_id_60,fin_id,0.8860268,False,True
+match (ID vs simulated selfie),fin_id_61,fin_id_61,fin_id,0.9445496,False,True
+match (ID vs simulated selfie),fin_id_62,fin_id_62,fin_id,0.86352915,False,True
+match (ID vs simulated selfie),fin_id_63,fin_id_63,fin_id,0.9011963,False,True
+match (ID vs simulated selfie),fin_id_64,fin_id_64,fin_id,0.7836035,False,True
+match (ID vs simulated selfie),fin_id_65,fin_id_65,fin_id,0.94485116,False,True
+match (ID vs simulated selfie),fin_id_66,fin_id_66,fin_id,0.8149725,False,True
+match (ID vs simulated selfie),fin_id_67,fin_id_67,fin_id,0.9125746,False,True
+match (ID vs simulated selfie),fin_id_68,fin_id_68,fin_id,0.86614406,False,True
+match (ID vs simulated selfie),fin_id_69,fin_id_69,fin_id,0.902177,False,True
+match (ID vs simulated selfie),fin_id_70,fin_id_70,fin_id,0.9108778,False,True
+match (ID vs simulated selfie),fin_id_71,fin_id_71,fin_id,0.8862895,False,True
+match (ID vs simulated selfie),fin_id_72,fin_id_72,fin_id,0.8791095,False,True
+match (ID vs simulated selfie),fin_id_73,fin_id_73,fin_id,0.80545914,False,True
+match (ID vs simulated selfie),fin_id_74,fin_id_74,fin_id,0.91735655,False,True
+match (ID vs simulated selfie),fin_id_75,fin_id_75,fin_id,0.9314938,False,True
+match (ID vs simulated selfie),fin_id_76,fin_id_76,fin_id,0.90323925,False,True
+match (ID vs simulated selfie),fin_id_77,fin_id_77,fin_id,0.83807313,False,True
+match (ID vs simulated selfie),fin_id_78,fin_id_78,fin_id,0.87303114,False,True
+match (ID vs simulated selfie),fin_id_79,fin_id_79,fin_id,0.7227953,False,True
+match (ID vs simulated selfie),fin_id_80,fin_id_80,fin_id,0.89547735,False,True
+match (ID vs simulated selfie),fin_id_81,fin_id_81,fin_id,0.9598119,False,True
+match (ID vs simulated selfie),fin_id_82,fin_id_82,fin_id,0.9248276,False,True
+match (ID vs simulated selfie),fin_id_83,fin_id_83,fin_id,0.9192381,False,True
+match (ID vs simulated selfie),fin_id_84,fin_id_84,fin_id,0.8227528,False,True
+match (ID vs simulated selfie),fin_id_85,fin_id_85,fin_id,0.9407833,False,True
+match (ID vs simulated selfie),fin_id_86,fin_id_86,fin_id,0.76250696,False,True
+match (ID vs simulated selfie),fin_id_87,fin_id_87,fin_id,0.8446597,False,True
+match (ID vs simulated selfie),fin_id_88,fin_id_88,fin_id,0.93943125,False,True
+match (ID vs simulated selfie),fin_id_89,fin_id_89,fin_id,0.8685417,False,True
+match (ID vs simulated selfie),fin_id_90,fin_id_90,fin_id,0.96732795,False,True
+match (ID vs simulated selfie),fin_id_91,fin_id_91,fin_id,0.8476882,False,True
+match (ID vs simulated selfie),fin_id_92,fin_id_92,fin_id,0.83214045,False,True
+match (ID vs simulated selfie),fin_id_93,fin_id_93,fin_id,0.95230097,False,True
+match (ID vs simulated selfie),fin_id_94,fin_id_94,fin_id,0.9171082,False,True
+match (ID vs simulated selfie),fin_id_95,fin_id_95,fin_id,0.8690168,False,True
+match (ID vs simulated selfie),fin_id_96,fin_id_96,fin_id,0.8763553,False,True
+match (ID vs simulated selfie),fin_id_97,fin_id_97,fin_id,0.9462595,False,True
+match (ID vs simulated selfie),fin_id_98,fin_id_98,fin_id,0.90075815,False,True
+match (ID vs simulated selfie),fin_id_99,fin_id_99,fin_id,0.9329365,False,True
+match (ID vs simulated selfie),grc_passport_00,grc_passport_00,grc_passport,0.96046716,False,True
+match (ID vs simulated selfie),grc_passport_01,grc_passport_01,grc_passport,0.91630244,False,True
+match (ID vs simulated selfie),grc_passport_02,grc_passport_02,grc_passport,0.8004057,False,True
+match (ID vs simulated selfie),grc_passport_03,grc_passport_03,grc_passport,0.91222405,False,True
+match (ID vs simulated selfie),grc_passport_04,grc_passport_04,grc_passport,0.9642637,False,True
+match (ID vs simulated selfie),grc_passport_05,grc_passport_05,grc_passport,0.8723745,False,True
+match (ID vs simulated selfie),grc_passport_06,grc_passport_06,grc_passport,0.9069004,False,True
+match (ID vs simulated selfie),grc_passport_07,grc_passport_07,grc_passport,0.93988883,False,True
+match (ID vs simulated selfie),grc_passport_08,grc_passport_08,grc_passport,0.9297515,False,True
+match (ID vs simulated selfie),grc_passport_09,grc_passport_09,grc_passport,0.9519147,False,True
+match (ID vs simulated selfie),grc_passport_10,grc_passport_10,grc_passport,0.9333325,False,True
+match (ID vs simulated selfie),grc_passport_11,grc_passport_11,grc_passport,0.959061,False,True
+match (ID vs simulated selfie),grc_passport_12,grc_passport_12,grc_passport,0.92048466,False,True
+match (ID vs simulated selfie),grc_passport_13,grc_passport_13,grc_passport,0.9339156,False,True
+match (ID vs simulated selfie),grc_passport_14,grc_passport_14,grc_passport,0.94199264,False,True
+match (ID vs simulated selfie),grc_passport_15,grc_passport_15,grc_passport,0.9416349,False,True
+match (ID vs simulated selfie),grc_passport_16,grc_passport_16,grc_passport,0.84808433,False,True
+match (ID vs simulated selfie),grc_passport_17,grc_passport_17,grc_passport,0.9579573,False,True
+match (ID vs simulated selfie),grc_passport_18,grc_passport_18,grc_passport,0.9250877,False,True
+match (ID vs simulated selfie),grc_passport_19,grc_passport_19,grc_passport,0.9663293,False,True
+match (ID vs simulated selfie),grc_passport_20,grc_passport_20,grc_passport,0.9321609,False,True
+match (ID vs simulated selfie),grc_passport_21,grc_passport_21,grc_passport,0.9455872,False,True
+match (ID vs simulated selfie),grc_passport_22,grc_passport_22,grc_passport,0.8822356,False,True
+match (ID vs simulated selfie),grc_passport_23,grc_passport_23,grc_passport,0.973601,False,True
+match (ID vs simulated selfie),grc_passport_24,grc_passport_24,grc_passport,0.8903402,False,True
+match (ID vs simulated selfie),grc_passport_25,grc_passport_25,grc_passport,0.92974925,False,True
+match (ID vs simulated selfie),grc_passport_26,grc_passport_26,grc_passport,0.895838,False,True
+match (ID vs simulated selfie),grc_passport_27,grc_passport_27,grc_passport,0.92112786,False,True
+match (ID vs simulated selfie),grc_passport_28,grc_passport_28,grc_passport,0.9251368,False,True
+match (ID vs simulated selfie),grc_passport_29,grc_passport_29,grc_passport,0.88554984,False,True
+match (ID vs simulated selfie),grc_passport_30,grc_passport_30,grc_passport,0.91055894,False,True
+match (ID vs simulated selfie),grc_passport_31,grc_passport_31,grc_passport,0.9495851,False,True
+match (ID vs simulated selfie),grc_passport_32,grc_passport_32,grc_passport,0.9555981,False,True
+match (ID vs simulated selfie),grc_passport_33,grc_passport_33,grc_passport,0.935251,False,True
+match (ID vs simulated selfie),grc_passport_34,grc_passport_34,grc_passport,0.94981354,False,True
+match (ID vs simulated selfie),grc_passport_35,grc_passport_35,grc_passport,0.91400087,False,True
+match (ID vs simulated selfie),grc_passport_36,grc_passport_36,grc_passport,0.9596198,False,True
+match (ID vs simulated selfie),grc_passport_37,grc_passport_37,grc_passport,0.905033,False,True
+match (ID vs simulated selfie),grc_passport_38,grc_passport_38,grc_passport,0.9081258,False,True
+match (ID vs simulated selfie),grc_passport_39,grc_passport_39,grc_passport,0.93128395,False,True
+match (ID vs simulated selfie),grc_passport_40,grc_passport_40,grc_passport,0.9623171,False,True
+match (ID vs simulated selfie),grc_passport_41,grc_passport_41,grc_passport,0.955062,False,True
+match (ID vs simulated selfie),grc_passport_42,grc_passport_42,grc_passport,0.96422607,False,True
+match (ID vs simulated selfie),grc_passport_43,grc_passport_43,grc_passport,0.9297504,False,True
+match (ID vs simulated selfie),grc_passport_44,grc_passport_44,grc_passport,0.9449363,False,True
+match (ID vs simulated selfie),grc_passport_45,grc_passport_45,grc_passport,0.96986324,False,True
+match (ID vs simulated selfie),grc_passport_46,grc_passport_46,grc_passport,0.9020934,False,True
+match (ID vs simulated selfie),grc_passport_47,grc_passport_47,grc_passport,0.88040364,False,True
+match (ID vs simulated selfie),grc_passport_48,grc_passport_48,grc_passport,0.95171756,False,True
+match (ID vs simulated selfie),grc_passport_49,grc_passport_49,grc_passport,0.968212,False,True
+match (ID vs simulated selfie),grc_passport_50,grc_passport_50,grc_passport,0.9177285,False,True
+match (ID vs simulated selfie),grc_passport_51,grc_passport_51,grc_passport,0.91158926,False,True
+match (ID vs simulated selfie),grc_passport_52,grc_passport_52,grc_passport,0.91607594,False,True
+match (ID vs simulated selfie),grc_passport_53,grc_passport_53,grc_passport,0.95668554,False,True
+match (ID vs simulated selfie),grc_passport_54,grc_passport_54,grc_passport,0.95646024,False,True
+match (ID vs simulated selfie),grc_passport_55,grc_passport_55,grc_passport,0.85587335,False,True
+match (ID vs simulated selfie),grc_passport_56,grc_passport_56,grc_passport,0.96386623,False,True
+match (ID vs simulated selfie),grc_passport_57,grc_passport_57,grc_passport,0.94254375,False,True
+match (ID vs simulated selfie),grc_passport_58,grc_passport_58,grc_passport,0.9167237,False,True
+match (ID vs simulated selfie),grc_passport_59,grc_passport_59,grc_passport,0.9784064,False,True
+match (ID vs simulated selfie),grc_passport_60,grc_passport_60,grc_passport,0.9270941,False,True
+match (ID vs simulated selfie),grc_passport_61,grc_passport_61,grc_passport,0.8968309,False,True
+match (ID vs simulated selfie),grc_passport_62,grc_passport_62,grc_passport,0.96314394,False,True
+match (ID vs simulated selfie),grc_passport_63,grc_passport_63,grc_passport,0.9383316,False,True
+match (ID vs simulated selfie),grc_passport_64,grc_passport_64,grc_passport,0.91049826,False,True
+match (ID vs simulated selfie),grc_passport_65,grc_passport_65,grc_passport,0.8972422,False,True
+match (ID vs simulated selfie),grc_passport_66,grc_passport_66,grc_passport,0.920851,False,True
+match (ID vs simulated selfie),grc_passport_67,grc_passport_67,grc_passport,0.93783987,False,True
+match (ID vs simulated selfie),grc_passport_68,grc_passport_68,grc_passport,0.94971657,False,True
+match (ID vs simulated selfie),grc_passport_69,grc_passport_69,grc_passport,0.94969386,False,True
+match (ID vs simulated selfie),grc_passport_70,grc_passport_70,grc_passport,0.83434707,False,True
+match (ID vs simulated selfie),grc_passport_71,grc_passport_71,grc_passport,0.9290878,False,True
+match (ID vs simulated selfie),grc_passport_72,grc_passport_72,grc_passport,0.928882,False,True
+match (ID vs simulated selfie),grc_passport_73,grc_passport_73,grc_passport,0.9295995,False,True
+match (ID vs simulated selfie),grc_passport_74,grc_passport_74,grc_passport,0.92422765,False,True
+match (ID vs simulated selfie),grc_passport_75,grc_passport_75,grc_passport,0.9135854,False,True
+match (ID vs simulated selfie),grc_passport_76,grc_passport_76,grc_passport,0.84653705,False,True
+match (ID vs simulated selfie),grc_passport_77,grc_passport_77,grc_passport,0.90214837,False,True
+match (ID vs simulated selfie),grc_passport_78,grc_passport_78,grc_passport,0.90845984,False,True
+match (ID vs simulated selfie),grc_passport_79,grc_passport_79,grc_passport,0.8960054,False,True
+match (ID vs simulated selfie),grc_passport_80,grc_passport_80,grc_passport,0.94137,False,True
+match (ID vs simulated selfie),grc_passport_81,grc_passport_81,grc_passport,0.880748,False,True
+match (ID vs simulated selfie),grc_passport_82,grc_passport_82,grc_passport,0.86137027,False,True
+match (ID vs simulated selfie),grc_passport_83,grc_passport_83,grc_passport,0.9268766,False,True
+match (ID vs simulated selfie),grc_passport_84,grc_passport_84,grc_passport,0.9303615,False,True
+match (ID vs simulated selfie),grc_passport_85,grc_passport_85,grc_passport,0.9579047,False,True
+match (ID vs simulated selfie),grc_passport_86,grc_passport_86,grc_passport,0.94046843,False,True
+match (ID vs simulated selfie),grc_passport_87,grc_passport_87,grc_passport,0.9335668,False,True
+match (ID vs simulated selfie),grc_passport_88,grc_passport_88,grc_passport,0.9331407,False,True
+match (ID vs simulated selfie),grc_passport_89,grc_passport_89,grc_passport,0.91258377,False,True
+match (ID vs simulated selfie),grc_passport_90,grc_passport_90,grc_passport,0.94053626,False,True
+match (ID vs simulated selfie),grc_passport_91,grc_passport_91,grc_passport,0.9466345,False,True
+match (ID vs simulated selfie),grc_passport_92,grc_passport_92,grc_passport,0.9282711,False,True
+match (ID vs simulated selfie),grc_passport_93,grc_passport_93,grc_passport,0.93584096,False,True
+match (ID vs simulated selfie),grc_passport_94,grc_passport_94,grc_passport,0.96608186,False,True
+match (ID vs simulated selfie),grc_passport_95,grc_passport_95,grc_passport,0.82575375,False,True
+match (ID vs simulated selfie),grc_passport_96,grc_passport_96,grc_passport,0.9394736,False,True
+match (ID vs simulated selfie),grc_passport_97,grc_passport_97,grc_passport,0.8716377,False,True
+match (ID vs simulated selfie),grc_passport_98,grc_passport_98,grc_passport,0.71597534,False,True
+match (ID vs simulated selfie),grc_passport_99,grc_passport_99,grc_passport,0.81382287,False,True
+match (ID vs simulated selfie),lva_passport_00,lva_passport_00,lva_passport,0.96127856,False,True
+match (ID vs simulated selfie),lva_passport_01,lva_passport_01,lva_passport,0.9550333,False,True
+match (ID vs simulated selfie),lva_passport_02,lva_passport_02,lva_passport,0.9752642,False,True
+match (ID vs simulated selfie),lva_passport_03,lva_passport_03,lva_passport,0.9470294,False,True
+match (ID vs simulated selfie),lva_passport_04,lva_passport_04,lva_passport,0.9598142,False,True
+match (ID vs simulated selfie),lva_passport_05,lva_passport_05,lva_passport,0.8513237,False,True
+match (ID vs simulated selfie),lva_passport_06,lva_passport_06,lva_passport,0.7627353,False,True
+match (ID vs simulated selfie),lva_passport_07,lva_passport_07,lva_passport,0.89434934,False,True
+match (ID vs simulated selfie),lva_passport_08,lva_passport_08,lva_passport,0.9589718,False,True
+match (ID vs simulated selfie),lva_passport_09,lva_passport_09,lva_passport,0.8020921,False,True
+match (ID vs simulated selfie),lva_passport_10,lva_passport_10,lva_passport,0.9560305,False,True
+match (ID vs simulated selfie),lva_passport_11,lva_passport_11,lva_passport,0.86715794,False,True
+match (ID vs simulated selfie),lva_passport_12,lva_passport_12,lva_passport,0.90127784,False,True
+match (ID vs simulated selfie),lva_passport_13,lva_passport_13,lva_passport,0.81936276,False,True
+match (ID vs simulated selfie),lva_passport_14,lva_passport_14,lva_passport,0.76713127,False,True
+match (ID vs simulated selfie),lva_passport_15,lva_passport_15,lva_passport,0.9446917,False,True
+match (ID vs simulated selfie),lva_passport_16,lva_passport_16,lva_passport,0.9326036,False,True
+match (ID vs simulated selfie),lva_passport_17,lva_passport_17,lva_passport,0.91577315,False,True
+match (ID vs simulated selfie),lva_passport_18,lva_passport_18,lva_passport,0.93817234,False,True
+match (ID vs simulated selfie),lva_passport_19,lva_passport_19,lva_passport,0.76718724,False,True
+match (ID vs simulated selfie),lva_passport_20,lva_passport_20,lva_passport,0.94042856,False,True
+match (ID vs simulated selfie),lva_passport_21,lva_passport_21,lva_passport,0.94214207,False,True
+match (ID vs simulated selfie),lva_passport_22,lva_passport_22,lva_passport,0.97495115,False,True
+match (ID vs simulated selfie),lva_passport_23,lva_passport_23,lva_passport,0.91065454,False,True
+match (ID vs simulated selfie),lva_passport_24,lva_passport_24,lva_passport,0.90822136,False,True
+match (ID vs simulated selfie),lva_passport_25,lva_passport_25,lva_passport,0.93570024,False,True
+match (ID vs simulated selfie),lva_passport_26,lva_passport_26,lva_passport,0.8667618,False,True
+match (ID vs simulated selfie),lva_passport_27,lva_passport_27,lva_passport,0.78107953,False,True
+match (ID vs simulated selfie),lva_passport_28,lva_passport_28,lva_passport,0.9044803,False,True
+match (ID vs simulated selfie),lva_passport_29,lva_passport_29,lva_passport,0.8666212,False,True
+match (ID vs simulated selfie),lva_passport_30,lva_passport_30,lva_passport,0.9406897,False,True
+match (ID vs simulated selfie),lva_passport_31,lva_passport_31,lva_passport,0.9519173,False,True
+match (ID vs simulated selfie),lva_passport_32,lva_passport_32,lva_passport,0.9546452,False,True
+match (ID vs simulated selfie),lva_passport_33,lva_passport_33,lva_passport,0.95822996,False,True
+match (ID vs simulated selfie),lva_passport_34,lva_passport_34,lva_passport,0.92698294,False,True
+match (ID vs simulated selfie),lva_passport_35,lva_passport_35,lva_passport,0.9092387,False,True
+match (ID vs simulated selfie),lva_passport_36,lva_passport_36,lva_passport,0.93272793,False,True
+match (ID vs simulated selfie),lva_passport_37,lva_passport_37,lva_passport,0.9404702,False,True
+match (ID vs simulated selfie),lva_passport_38,lva_passport_38,lva_passport,0.9348612,False,True
+match (ID vs simulated selfie),lva_passport_39,lva_passport_39,lva_passport,0.87492394,False,True
+match (ID vs simulated selfie),lva_passport_40,lva_passport_40,lva_passport,0.95526785,False,True
+match (ID vs simulated selfie),lva_passport_41,lva_passport_41,lva_passport,0.80352044,False,True
+match (ID vs simulated selfie),lva_passport_42,lva_passport_42,lva_passport,0.88207537,False,True
+match (ID vs simulated selfie),lva_passport_43,lva_passport_43,lva_passport,0.86237633,False,True
+match (ID vs simulated selfie),lva_passport_44,lva_passport_44,lva_passport,0.8676715,False,True
+match (ID vs simulated selfie),lva_passport_45,lva_passport_45,lva_passport,0.88431406,False,True
+match (ID vs simulated selfie),lva_passport_46,lva_passport_46,lva_passport,0.91395104,False,True
+match (ID vs simulated selfie),lva_passport_47,lva_passport_47,lva_passport,0.9348135,False,True
+match (ID vs simulated selfie),lva_passport_48,lva_passport_48,lva_passport,0.8475033,False,True
+match (ID vs simulated selfie),lva_passport_49,lva_passport_49,lva_passport,0.90627605,False,True
+match (ID vs simulated selfie),lva_passport_50,lva_passport_50,lva_passport,0.9483189,False,True
+match (ID vs simulated selfie),lva_passport_51,lva_passport_51,lva_passport,0.9640862,False,True
+match (ID vs simulated selfie),lva_passport_52,lva_passport_52,lva_passport,0.9303073,False,True
+match (ID vs simulated selfie),lva_passport_53,lva_passport_53,lva_passport,0.9422797,False,True
+match (ID vs simulated selfie),lva_passport_54,lva_passport_54,lva_passport,0.9440995,False,True
+match (ID vs simulated selfie),lva_passport_55,lva_passport_55,lva_passport,0.90108776,False,True
+match (ID vs simulated selfie),lva_passport_56,lva_passport_56,lva_passport,0.93671894,False,True
+match (ID vs simulated selfie),lva_passport_57,lva_passport_57,lva_passport,0.71497846,False,True
+match (ID vs simulated selfie),lva_passport_58,lva_passport_58,lva_passport,0.9265836,False,True
+match (ID vs simulated selfie),lva_passport_59,lva_passport_59,lva_passport,0.93602884,False,True
+match (ID vs simulated selfie),lva_passport_60,lva_passport_60,lva_passport,0.9338354,False,True
+match (ID vs simulated selfie),lva_passport_61,lva_passport_61,lva_passport,0.9343016,False,True
+match (ID vs simulated selfie),lva_passport_62,lva_passport_62,lva_passport,0.94768614,False,True
+match (ID vs simulated selfie),lva_passport_63,lva_passport_63,lva_passport,0.9250984,False,True
+match (ID vs simulated selfie),lva_passport_64,lva_passport_64,lva_passport,0.9345185,False,True
+match (ID vs simulated selfie),lva_passport_65,lva_passport_65,lva_passport,0.9398446,False,True
+match (ID vs simulated selfie),lva_passport_66,lva_passport_66,lva_passport,0.913739,False,True
+match (ID vs simulated selfie),lva_passport_67,lva_passport_67,lva_passport,0.9149557,False,True
+match (ID vs simulated selfie),lva_passport_68,lva_passport_68,lva_passport,0.92401874,False,True
+match (ID vs simulated selfie),lva_passport_69,lva_passport_69,lva_passport,0.93628585,False,True
+match (ID vs simulated selfie),lva_passport_70,lva_passport_70,lva_passport,0.9451612,False,True
+match (ID vs simulated selfie),lva_passport_71,lva_passport_71,lva_passport,0.9416748,False,True
+match (ID vs simulated selfie),lva_passport_72,lva_passport_72,lva_passport,0.92952144,False,True
+match (ID vs simulated selfie),lva_passport_73,lva_passport_73,lva_passport,0.92467564,False,True
+match (ID vs simulated selfie),lva_passport_74,lva_passport_74,lva_passport,0.95247144,False,True
+match (ID vs simulated selfie),lva_passport_75,lva_passport_75,lva_passport,0.92620814,False,True
+match (ID vs simulated selfie),lva_passport_76,lva_passport_76,lva_passport,0.9442842,False,True
+match (ID vs simulated selfie),lva_passport_77,lva_passport_77,lva_passport,0.9291752,False,True
+match (ID vs simulated selfie),lva_passport_78,lva_passport_78,lva_passport,0.96121216,False,True
+match (ID vs simulated selfie),lva_passport_79,lva_passport_79,lva_passport,0.9520372,False,True
+match (ID vs simulated selfie),lva_passport_80,lva_passport_80,lva_passport,0.91175294,False,True
+match (ID vs simulated selfie),lva_passport_81,lva_passport_81,lva_passport,0.9248104,False,True
+match (ID vs simulated selfie),lva_passport_82,lva_passport_82,lva_passport,0.8289398,False,True
+match (ID vs simulated selfie),lva_passport_83,lva_passport_83,lva_passport,0.9495676,False,True
+match (ID vs simulated selfie),lva_passport_84,lva_passport_84,lva_passport,0.94187117,False,True
+match (ID vs simulated selfie),lva_passport_85,lva_passport_85,lva_passport,0.96425813,False,True
+match (ID vs simulated selfie),lva_passport_86,lva_passport_86,lva_passport,0.81184995,False,True
+match (ID vs simulated selfie),lva_passport_87,lva_passport_87,lva_passport,0.92577,False,True
+match (ID vs simulated selfie),lva_passport_88,lva_passport_88,lva_passport,0.946234,False,True
+match (ID vs simulated selfie),lva_passport_89,lva_passport_89,lva_passport,0.9305905,False,True
+match (ID vs simulated selfie),lva_passport_90,lva_passport_90,lva_passport,0.9345848,False,True
+match (ID vs simulated selfie),lva_passport_91,lva_passport_91,lva_passport,0.9360202,False,True
+match (ID vs simulated selfie),lva_passport_92,lva_passport_92,lva_passport,0.9541869,False,True
+match (ID vs simulated selfie),lva_passport_93,lva_passport_93,lva_passport,0.9089228,False,True
+match (ID vs simulated selfie),lva_passport_94,lva_passport_94,lva_passport,0.9097897,False,True
+match (ID vs simulated selfie),lva_passport_95,lva_passport_95,lva_passport,0.93998206,False,True
+match (ID vs simulated selfie),lva_passport_96,lva_passport_96,lva_passport,0.9366261,False,True
+match (ID vs simulated selfie),lva_passport_97,lva_passport_97,lva_passport,0.9325718,False,True
+match (ID vs simulated selfie),lva_passport_98,lva_passport_98,lva_passport,0.867528,False,True
+match (ID vs simulated selfie),lva_passport_99,lva_passport_99,lva_passport,0.7692059,False,True
+match (ID vs simulated selfie),rus_internalpassport_00,rus_internalpassport_00,rus_internalpassport,0.94885147,False,True
+match (ID vs simulated selfie),rus_internalpassport_01,rus_internalpassport_01,rus_internalpassport,0.87115204,False,True
+match (ID vs simulated selfie),rus_internalpassport_02,rus_internalpassport_02,rus_internalpassport,0.91244346,False,True
+match (ID vs simulated selfie),rus_internalpassport_03,rus_internalpassport_03,rus_internalpassport,0.9356108,False,True
+match (ID vs simulated selfie),rus_internalpassport_04,rus_internalpassport_04,rus_internalpassport,0.7428911,False,True
+match (ID vs simulated selfie),rus_internalpassport_05,rus_internalpassport_05,rus_internalpassport,0.9260074,False,True
+match (ID vs simulated selfie),rus_internalpassport_06,rus_internalpassport_06,rus_internalpassport,0.9235463,False,True
+match (ID vs simulated selfie),rus_internalpassport_07,rus_internalpassport_07,rus_internalpassport,0.8653085,False,True
+match (ID vs simulated selfie),rus_internalpassport_08,rus_internalpassport_08,rus_internalpassport,0.9045032,False,True
+match (ID vs simulated selfie),rus_internalpassport_09,rus_internalpassport_09,rus_internalpassport,0.9117473,False,True
+match (ID vs simulated selfie),rus_internalpassport_10,rus_internalpassport_10,rus_internalpassport,0.9184356,False,True
+match (ID vs simulated selfie),rus_internalpassport_11,rus_internalpassport_11,rus_internalpassport,0.9237985,False,True
+match (ID vs simulated selfie),rus_internalpassport_12,rus_internalpassport_12,rus_internalpassport,0.9481813,False,True
+match (ID vs simulated selfie),rus_internalpassport_13,rus_internalpassport_13,rus_internalpassport,0.92130786,False,True
+match (ID vs simulated selfie),rus_internalpassport_14,rus_internalpassport_14,rus_internalpassport,0.95497066,False,True
+match (ID vs simulated selfie),rus_internalpassport_15,rus_internalpassport_15,rus_internalpassport,0.90293634,False,True
+match (ID vs simulated selfie),rus_internalpassport_16,rus_internalpassport_16,rus_internalpassport,0.90483916,False,True
+match (ID vs simulated selfie),rus_internalpassport_17,rus_internalpassport_17,rus_internalpassport,0.9377005,False,True
+match (ID vs simulated selfie),rus_internalpassport_18,rus_internalpassport_18,rus_internalpassport,0.8908565,False,True
+match (ID vs simulated selfie),rus_internalpassport_19,rus_internalpassport_19,rus_internalpassport,0.9395368,False,True
+match (ID vs simulated selfie),rus_internalpassport_20,rus_internalpassport_20,rus_internalpassport,0.9228238,False,True
+match (ID vs simulated selfie),rus_internalpassport_21,rus_internalpassport_21,rus_internalpassport,0.91835165,False,True
+match (ID vs simulated selfie),rus_internalpassport_22,rus_internalpassport_22,rus_internalpassport,0.9642898,False,True
+match (ID vs simulated selfie),rus_internalpassport_23,rus_internalpassport_23,rus_internalpassport,0.9299585,False,True
+match (ID vs simulated selfie),rus_internalpassport_24,rus_internalpassport_24,rus_internalpassport,0.90508235,False,True
+match (ID vs simulated selfie),rus_internalpassport_25,rus_internalpassport_25,rus_internalpassport,0.90088063,False,True
+match (ID vs simulated selfie),rus_internalpassport_26,rus_internalpassport_26,rus_internalpassport,0.9107054,False,True
+match (ID vs simulated selfie),rus_internalpassport_27,rus_internalpassport_27,rus_internalpassport,0.961319,False,True
+match (ID vs simulated selfie),rus_internalpassport_28,rus_internalpassport_28,rus_internalpassport,0.9682422,False,True
+match (ID vs simulated selfie),rus_internalpassport_29,rus_internalpassport_29,rus_internalpassport,0.93230593,False,True
+match (ID vs simulated selfie),rus_internalpassport_30,rus_internalpassport_30,rus_internalpassport,0.9469196,False,True
+match (ID vs simulated selfie),rus_internalpassport_31,rus_internalpassport_31,rus_internalpassport,0.9576085,False,True
+match (ID vs simulated selfie),rus_internalpassport_32,rus_internalpassport_32,rus_internalpassport,0.9829167,False,True
+match (ID vs simulated selfie),rus_internalpassport_33,rus_internalpassport_33,rus_internalpassport,0.9423655,False,True
+match (ID vs simulated selfie),rus_internalpassport_34,rus_internalpassport_34,rus_internalpassport,0.91879153,False,True
+match (ID vs simulated selfie),rus_internalpassport_35,rus_internalpassport_35,rus_internalpassport,0.8715761,False,True
+match (ID vs simulated selfie),rus_internalpassport_36,rus_internalpassport_36,rus_internalpassport,0.9212408,False,True
+match (ID vs simulated selfie),rus_internalpassport_37,rus_internalpassport_37,rus_internalpassport,0.9548738,False,True
+match (ID vs simulated selfie),rus_internalpassport_38,rus_internalpassport_38,rus_internalpassport,0.94695514,False,True
+match (ID vs simulated selfie),rus_internalpassport_39,rus_internalpassport_39,rus_internalpassport,0.9558054,False,True
+match (ID vs simulated selfie),rus_internalpassport_40,rus_internalpassport_40,rus_internalpassport,0.901948,False,True
+match (ID vs simulated selfie),rus_internalpassport_41,rus_internalpassport_41,rus_internalpassport,0.8970567,False,True
+match (ID vs simulated selfie),rus_internalpassport_42,rus_internalpassport_42,rus_internalpassport,0.94480175,False,True
+match (ID vs simulated selfie),rus_internalpassport_43,rus_internalpassport_43,rus_internalpassport,0.93123955,False,True
+match (ID vs simulated selfie),rus_internalpassport_44,rus_internalpassport_44,rus_internalpassport,0.94389236,False,True
+match (ID vs simulated selfie),rus_internalpassport_45,rus_internalpassport_45,rus_internalpassport,0.8904098,False,True
+match (ID vs simulated selfie),rus_internalpassport_46,rus_internalpassport_46,rus_internalpassport,0.96134824,False,True
+match (ID vs simulated selfie),rus_internalpassport_47,rus_internalpassport_47,rus_internalpassport,0.9266821,False,True
+match (ID vs simulated selfie),rus_internalpassport_48,rus_internalpassport_48,rus_internalpassport,0.85943115,False,True
+match (ID vs simulated selfie),rus_internalpassport_49,rus_internalpassport_49,rus_internalpassport,0.9520111,False,True
+match (ID vs simulated selfie),rus_internalpassport_50,rus_internalpassport_50,rus_internalpassport,0.92093426,False,True
+match (ID vs simulated selfie),rus_internalpassport_51,rus_internalpassport_51,rus_internalpassport,0.9274045,False,True
+match (ID vs simulated selfie),rus_internalpassport_52,rus_internalpassport_52,rus_internalpassport,0.9518539,False,True
+match (ID vs simulated selfie),rus_internalpassport_53,rus_internalpassport_53,rus_internalpassport,0.8836838,False,True
+match (ID vs simulated selfie),rus_internalpassport_54,rus_internalpassport_54,rus_internalpassport,0.86258304,False,True
+match (ID vs simulated selfie),rus_internalpassport_55,rus_internalpassport_55,rus_internalpassport,0.87523973,False,True
+match (ID vs simulated selfie),rus_internalpassport_56,rus_internalpassport_56,rus_internalpassport,0.7905203,False,True
+match (ID vs simulated selfie),rus_internalpassport_57,rus_internalpassport_57,rus_internalpassport,0.9136122,False,True
+match (ID vs simulated selfie),rus_internalpassport_58,rus_internalpassport_58,rus_internalpassport,0.9028903,False,True
+match (ID vs simulated selfie),rus_internalpassport_59,rus_internalpassport_59,rus_internalpassport,0.93148506,False,True
+match (ID vs simulated selfie),rus_internalpassport_60,rus_internalpassport_60,rus_internalpassport,0.9308815,False,True
+match (ID vs simulated selfie),rus_internalpassport_61,rus_internalpassport_61,rus_internalpassport,0.91276807,False,True
+match (ID vs simulated selfie),rus_internalpassport_62,rus_internalpassport_62,rus_internalpassport,0.9494074,False,True
+match (ID vs simulated selfie),rus_internalpassport_63,rus_internalpassport_63,rus_internalpassport,0.91499007,False,True
+match (ID vs simulated selfie),rus_internalpassport_64,rus_internalpassport_64,rus_internalpassport,0.89354855,False,True
+match (ID vs simulated selfie),rus_internalpassport_65,rus_internalpassport_65,rus_internalpassport,0.93080574,False,True
+match (ID vs simulated selfie),rus_internalpassport_66,rus_internalpassport_66,rus_internalpassport,0.9209449,False,True
+match (ID vs simulated selfie),rus_internalpassport_67,rus_internalpassport_67,rus_internalpassport,0.7977619,False,True
+match (ID vs simulated selfie),rus_internalpassport_68,rus_internalpassport_68,rus_internalpassport,0.91358304,False,True
+match (ID vs simulated selfie),rus_internalpassport_69,rus_internalpassport_69,rus_internalpassport,0.92122537,False,True
+match (ID vs simulated selfie),rus_internalpassport_70,rus_internalpassport_70,rus_internalpassport,0.9388372,False,True
+match (ID vs simulated selfie),rus_internalpassport_71,rus_internalpassport_71,rus_internalpassport,0.9418186,False,True
+match (ID vs simulated selfie),rus_internalpassport_72,rus_internalpassport_72,rus_internalpassport,0.9469067,False,True
+match (ID vs simulated selfie),rus_internalpassport_73,rus_internalpassport_73,rus_internalpassport,0.938902,False,True
+match (ID vs simulated selfie),rus_internalpassport_74,rus_internalpassport_74,rus_internalpassport,0.9417958,False,True
+match (ID vs simulated selfie),rus_internalpassport_75,rus_internalpassport_75,rus_internalpassport,0.93968356,False,True
+match (ID vs simulated selfie),rus_internalpassport_76,rus_internalpassport_76,rus_internalpassport,0.90280926,False,True
+match (ID vs simulated selfie),rus_internalpassport_77,rus_internalpassport_77,rus_internalpassport,0.919873,False,True
+match (ID vs simulated selfie),rus_internalpassport_78,rus_internalpassport_78,rus_internalpassport,0.8873906,False,True
+match (ID vs simulated selfie),rus_internalpassport_79,rus_internalpassport_79,rus_internalpassport,0.94909394,False,True
+match (ID vs simulated selfie),rus_internalpassport_80,rus_internalpassport_80,rus_internalpassport,0.8828159,False,True
+match (ID vs simulated selfie),rus_internalpassport_81,rus_internalpassport_81,rus_internalpassport,0.9679156,False,True
+match (ID vs simulated selfie),rus_internalpassport_82,rus_internalpassport_82,rus_internalpassport,0.8564195,False,True
+match (ID vs simulated selfie),rus_internalpassport_83,rus_internalpassport_83,rus_internalpassport,0.96509373,False,True
+match (ID vs simulated selfie),rus_internalpassport_84,rus_internalpassport_84,rus_internalpassport,0.87747216,False,True
+match (ID vs simulated selfie),rus_internalpassport_85,rus_internalpassport_85,rus_internalpassport,0.919256,False,True
+match (ID vs simulated selfie),rus_internalpassport_86,rus_internalpassport_86,rus_internalpassport,0.9342426,False,True
+match (ID vs simulated selfie),rus_internalpassport_87,rus_internalpassport_87,rus_internalpassport,0.92296076,False,True
+match (ID vs simulated selfie),rus_internalpassport_88,rus_internalpassport_88,rus_internalpassport,0.9425937,False,True
+match (ID vs simulated selfie),rus_internalpassport_89,rus_internalpassport_89,rus_internalpassport,0.96834236,False,True
+match (ID vs simulated selfie),rus_internalpassport_90,rus_internalpassport_90,rus_internalpassport,0.8046917,False,True
+match (ID vs simulated selfie),rus_internalpassport_91,rus_internalpassport_91,rus_internalpassport,0.93803215,False,True
+match (ID vs simulated selfie),rus_internalpassport_92,rus_internalpassport_92,rus_internalpassport,0.9058395,False,True
+match (ID vs simulated selfie),rus_internalpassport_93,rus_internalpassport_93,rus_internalpassport,0.9320474,False,True
+match (ID vs simulated selfie),rus_internalpassport_94,rus_internalpassport_94,rus_internalpassport,0.92374647,False,True
+match (ID vs simulated selfie),rus_internalpassport_95,rus_internalpassport_95,rus_internalpassport,0.841412,False,True
+match (ID vs simulated selfie),rus_internalpassport_96,rus_internalpassport_96,rus_internalpassport,0.85442626,False,True
+match (ID vs simulated selfie),rus_internalpassport_97,rus_internalpassport_97,rus_internalpassport,0.9261713,False,True
+match (ID vs simulated selfie),rus_internalpassport_98,rus_internalpassport_98,rus_internalpassport,0.9532684,False,True
+match (ID vs simulated selfie),rus_internalpassport_99,rus_internalpassport_99,rus_internalpassport,0.91850066,False,True
+match (ID vs simulated selfie),srb_passport_00,srb_passport_00,srb_passport,0.9036932,False,True
+match (ID vs simulated selfie),srb_passport_01,srb_passport_01,srb_passport,0.92030483,False,True
+match (ID vs simulated selfie),srb_passport_02,srb_passport_02,srb_passport,0.94336283,False,True
+match (ID vs simulated selfie),srb_passport_03,srb_passport_03,srb_passport,0.97959757,False,True
+match (ID vs simulated selfie),srb_passport_04,srb_passport_04,srb_passport,0.95501703,False,True
+match (ID vs simulated selfie),srb_passport_05,srb_passport_05,srb_passport,0.9369314,False,True
+match (ID vs simulated selfie),srb_passport_06,srb_passport_06,srb_passport,0.9412072,False,True
+match (ID vs simulated selfie),srb_passport_07,srb_passport_07,srb_passport,0.9360905,False,True
+match (ID vs simulated selfie),srb_passport_08,srb_passport_08,srb_passport,0.8981193,False,True
+match (ID vs simulated selfie),srb_passport_09,srb_passport_09,srb_passport,0.9392171,False,True
+match (ID vs simulated selfie),srb_passport_10,srb_passport_10,srb_passport,0.9226164,False,True
+match (ID vs simulated selfie),srb_passport_11,srb_passport_11,srb_passport,0.93668914,False,True
+match (ID vs simulated selfie),srb_passport_12,srb_passport_12,srb_passport,0.9468026,False,True
+match (ID vs simulated selfie),srb_passport_13,srb_passport_13,srb_passport,0.90474623,False,True
+match (ID vs simulated selfie),srb_passport_14,srb_passport_14,srb_passport,0.92045605,False,True
+match (ID vs simulated selfie),srb_passport_15,srb_passport_15,srb_passport,0.8917097,False,True
+match (ID vs simulated selfie),srb_passport_16,srb_passport_16,srb_passport,0.9417804,False,True
+match (ID vs simulated selfie),srb_passport_17,srb_passport_17,srb_passport,0.8412311,False,True
+match (ID vs simulated selfie),srb_passport_18,srb_passport_18,srb_passport,0.9664914,False,True
+match (ID vs simulated selfie),srb_passport_19,srb_passport_19,srb_passport,0.9584666,False,True
+match (ID vs simulated selfie),srb_passport_20,srb_passport_20,srb_passport,0.95076054,False,True
+match (ID vs simulated selfie),srb_passport_21,srb_passport_21,srb_passport,0.95306945,False,True
+match (ID vs simulated selfie),srb_passport_22,srb_passport_22,srb_passport,0.94415474,False,True
+match (ID vs simulated selfie),srb_passport_23,srb_passport_23,srb_passport,0.95205784,False,True
+match (ID vs simulated selfie),srb_passport_24,srb_passport_24,srb_passport,0.96341753,False,True
+match (ID vs simulated selfie),srb_passport_25,srb_passport_25,srb_passport,0.95119566,False,True
+match (ID vs simulated selfie),srb_passport_26,srb_passport_26,srb_passport,0.9604084,False,True
+match (ID vs simulated selfie),srb_passport_27,srb_passport_27,srb_passport,0.92541957,False,True
+match (ID vs simulated selfie),srb_passport_28,srb_passport_28,srb_passport,0.93236387,False,True
+match (ID vs simulated selfie),srb_passport_29,srb_passport_29,srb_passport,0.9426919,False,True
+match (ID vs simulated selfie),srb_passport_30,srb_passport_30,srb_passport,0.92680925,False,True
+match (ID vs simulated selfie),srb_passport_31,srb_passport_31,srb_passport,0.9286926,False,True
+match (ID vs simulated selfie),srb_passport_32,srb_passport_32,srb_passport,0.93913543,False,True
+match (ID vs simulated selfie),srb_passport_33,srb_passport_33,srb_passport,0.9283798,False,True
+match (ID vs simulated selfie),srb_passport_34,srb_passport_34,srb_passport,0.9109603,False,True
+match (ID vs simulated selfie),srb_passport_35,srb_passport_35,srb_passport,0.954694,False,True
+match (ID vs simulated selfie),srb_passport_36,srb_passport_36,srb_passport,0.8683559,False,True
+match (ID vs simulated selfie),srb_passport_37,srb_passport_37,srb_passport,0.94371045,False,True
+match (ID vs simulated selfie),srb_passport_38,srb_passport_38,srb_passport,0.92436016,False,True
+match (ID vs simulated selfie),srb_passport_39,srb_passport_39,srb_passport,0.922709,False,True
+match (ID vs simulated selfie),srb_passport_40,srb_passport_40,srb_passport,0.9406576,False,True
+match (ID vs simulated selfie),srb_passport_41,srb_passport_41,srb_passport,0.92185885,False,True
+match (ID vs simulated selfie),srb_passport_42,srb_passport_42,srb_passport,0.95530236,False,True
+match (ID vs simulated selfie),srb_passport_43,srb_passport_43,srb_passport,0.9464002,False,True
+match (ID vs simulated selfie),srb_passport_44,srb_passport_44,srb_passport,0.9447808,False,True
+match (ID vs simulated selfie),srb_passport_45,srb_passport_45,srb_passport,0.95624936,False,True
+match (ID vs simulated selfie),srb_passport_46,srb_passport_46,srb_passport,0.97583526,False,True
+match (ID vs simulated selfie),srb_passport_47,srb_passport_47,srb_passport,0.9468031,False,True
+match (ID vs simulated selfie),srb_passport_48,srb_passport_48,srb_passport,0.9544735,False,True
+match (ID vs simulated selfie),srb_passport_49,srb_passport_49,srb_passport,0.96521103,False,True
+match (ID vs simulated selfie),srb_passport_50,srb_passport_50,srb_passport,0.9307178,False,True
+match (ID vs simulated selfie),srb_passport_51,srb_passport_51,srb_passport,0.9312148,False,True
+match (ID vs simulated selfie),srb_passport_52,srb_passport_52,srb_passport,0.9679985,False,True
+match (ID vs simulated selfie),srb_passport_53,srb_passport_53,srb_passport,0.9456554,False,True
+match (ID vs simulated selfie),srb_passport_54,srb_passport_54,srb_passport,0.9491461,False,True
+match (ID vs simulated selfie),srb_passport_55,srb_passport_55,srb_passport,0.8771108,False,True
+match (ID vs simulated selfie),srb_passport_56,srb_passport_56,srb_passport,0.9638523,False,True
+match (ID vs simulated selfie),srb_passport_57,srb_passport_57,srb_passport,0.9353198,False,True
+match (ID vs simulated selfie),srb_passport_58,srb_passport_58,srb_passport,0.93641424,False,True
+match (ID vs simulated selfie),srb_passport_59,srb_passport_59,srb_passport,0.9594536,False,True
+match (ID vs simulated selfie),srb_passport_60,srb_passport_60,srb_passport,0.9494351,False,True
+match (ID vs simulated selfie),srb_passport_61,srb_passport_61,srb_passport,0.95024204,False,True
+match (ID vs simulated selfie),srb_passport_62,srb_passport_62,srb_passport,0.90237224,False,True
+match (ID vs simulated selfie),srb_passport_63,srb_passport_63,srb_passport,0.9273679,False,True
+match (ID vs simulated selfie),srb_passport_64,srb_passport_64,srb_passport,0.93877804,False,True
+match (ID vs simulated selfie),srb_passport_65,srb_passport_65,srb_passport,0.94924253,False,True
+match (ID vs simulated selfie),srb_passport_66,srb_passport_66,srb_passport,0.8464255,False,True
+match (ID vs simulated selfie),srb_passport_67,srb_passport_67,srb_passport,0.93026966,False,True
+match (ID vs simulated selfie),srb_passport_68,srb_passport_68,srb_passport,0.95282793,False,True
+match (ID vs simulated selfie),srb_passport_69,srb_passport_69,srb_passport,0.9670778,False,True
+match (ID vs simulated selfie),srb_passport_70,srb_passport_70,srb_passport,0.9570406,False,True
+match (ID vs simulated selfie),srb_passport_71,srb_passport_71,srb_passport,0.939361,False,True
+match (ID vs simulated selfie),srb_passport_72,srb_passport_72,srb_passport,0.9273927,False,True
+match (ID vs simulated selfie),srb_passport_73,srb_passport_73,srb_passport,0.93674856,False,True
+match (ID vs simulated selfie),srb_passport_74,srb_passport_74,srb_passport,0.91954434,False,True
+match (ID vs simulated selfie),srb_passport_75,srb_passport_75,srb_passport,0.9387394,False,True
+match (ID vs simulated selfie),srb_passport_76,srb_passport_76,srb_passport,0.93023133,False,True
+match (ID vs simulated selfie),srb_passport_77,srb_passport_77,srb_passport,0.89138377,False,True
+match (ID vs simulated selfie),srb_passport_78,srb_passport_78,srb_passport,0.9291817,False,True
+match (ID vs simulated selfie),srb_passport_79,srb_passport_79,srb_passport,0.92821187,False,True
+match (ID vs simulated selfie),srb_passport_80,srb_passport_80,srb_passport,0.9482263,False,True
+match (ID vs simulated selfie),srb_passport_81,srb_passport_81,srb_passport,0.9458321,False,True
+match (ID vs simulated selfie),srb_passport_82,srb_passport_82,srb_passport,0.96018946,False,True
+match (ID vs simulated selfie),srb_passport_83,srb_passport_83,srb_passport,0.7672955,False,True
+match (ID vs simulated selfie),srb_passport_84,srb_passport_84,srb_passport,0.94043267,False,True
+match (ID vs simulated selfie),srb_passport_85,srb_passport_85,srb_passport,0.92309797,False,True
+match (ID vs simulated selfie),srb_passport_86,srb_passport_86,srb_passport,0.9226698,False,True
+match (ID vs simulated selfie),srb_passport_87,srb_passport_87,srb_passport,0.9622693,False,True
+match (ID vs simulated selfie),srb_passport_88,srb_passport_88,srb_passport,0.96431327,False,True
+match (ID vs simulated selfie),srb_passport_89,srb_passport_89,srb_passport,0.96523917,False,True
+match (ID vs simulated selfie),srb_passport_90,srb_passport_90,srb_passport,0.9488418,False,True
+match (ID vs simulated selfie),srb_passport_91,srb_passport_91,srb_passport,0.9147764,False,True
+match (ID vs simulated selfie),srb_passport_92,srb_passport_92,srb_passport,0.9518448,False,True
+match (ID vs simulated selfie),srb_passport_93,srb_passport_93,srb_passport,0.9520673,False,True
+match (ID vs simulated selfie),srb_passport_94,srb_passport_94,srb_passport,0.94254345,False,True
+match (ID vs simulated selfie),srb_passport_95,srb_passport_95,srb_passport,0.9684705,False,True
+match (ID vs simulated selfie),srb_passport_96,srb_passport_96,srb_passport,0.96173316,False,True
+match (ID vs simulated selfie),srb_passport_97,srb_passport_97,srb_passport,0.94952726,False,True
+match (ID vs simulated selfie),srb_passport_98,srb_passport_98,srb_passport,0.92712927,False,True
+match (ID vs simulated selfie),srb_passport_99,srb_passport_99,srb_passport,0.928931,False,True
+match (ID vs simulated selfie),svk_id_00,svk_id_00,svk_id,0.9424501,False,True
+match (ID vs simulated selfie),svk_id_01,svk_id_01,svk_id,0.77868384,False,True
+match (ID vs simulated selfie),svk_id_02,svk_id_02,svk_id,0.95967126,False,True
+match (ID vs simulated selfie),svk_id_03,svk_id_03,svk_id,0.8981615,False,True
+match (ID vs simulated selfie),svk_id_04,svk_id_04,svk_id,0.8537504,False,True
+match (ID vs simulated selfie),svk_id_05,svk_id_05,svk_id,0.872669,False,True
+match (ID vs simulated selfie),svk_id_06,svk_id_06,svk_id,0.93825984,False,True
+match (ID vs simulated selfie),svk_id_07,svk_id_07,svk_id,0.92755425,False,True
+match (ID vs simulated selfie),svk_id_08,svk_id_08,svk_id,0.9270279,False,True
+match (ID vs simulated selfie),svk_id_09,svk_id_09,svk_id,0.9557128,False,True
+match (ID vs simulated selfie),svk_id_10,svk_id_10,svk_id,0.95564353,False,True
+match (ID vs simulated selfie),svk_id_11,svk_id_11,svk_id,0.963494,False,True
+match (ID vs simulated selfie),svk_id_12,svk_id_12,svk_id,0.8965889,False,True
+match (ID vs simulated selfie),svk_id_13,svk_id_13,svk_id,0.8806946,False,True
+match (ID vs simulated selfie),svk_id_14,svk_id_14,svk_id,0.94024193,False,True
+match (ID vs simulated selfie),svk_id_15,svk_id_15,svk_id,0.74087846,False,True
+match (ID vs simulated selfie),svk_id_16,svk_id_16,svk_id,0.5830577,False,True
+match (ID vs simulated selfie),svk_id_17,svk_id_17,svk_id,0.75805414,False,True
+match (ID vs simulated selfie),svk_id_18,svk_id_18,svk_id,0.95987767,False,True
+match (ID vs simulated selfie),svk_id_19,svk_id_19,svk_id,0.9426645,False,True
+match (ID vs simulated selfie),svk_id_20,svk_id_20,svk_id,0.9264038,False,True
+match (ID vs simulated selfie),svk_id_21,svk_id_21,svk_id,0.9427806,False,True
+match (ID vs simulated selfie),svk_id_22,svk_id_22,svk_id,0.94375396,False,True
+match (ID vs simulated selfie),svk_id_23,svk_id_23,svk_id,0.7526356,False,True
+match (ID vs simulated selfie),svk_id_24,svk_id_24,svk_id,0.9460182,False,True
+match (ID vs simulated selfie),svk_id_25,svk_id_25,svk_id,0.9629054,False,True
+match (ID vs simulated selfie),svk_id_26,svk_id_26,svk_id,0.91350496,False,True
+match (ID vs simulated selfie),svk_id_27,svk_id_27,svk_id,0.9573355,False,True
+match (ID vs simulated selfie),svk_id_28,svk_id_28,svk_id,0.9312059,False,True
+match (ID vs simulated selfie),svk_id_29,svk_id_29,svk_id,0.93102777,False,True
+match (ID vs simulated selfie),svk_id_30,svk_id_30,svk_id,0.9609454,False,True
+match (ID vs simulated selfie),svk_id_31,svk_id_31,svk_id,0.9340954,False,True
+match (ID vs simulated selfie),svk_id_32,svk_id_32,svk_id,0.90683824,False,True
+match (ID vs simulated selfie),svk_id_33,svk_id_33,svk_id,0.8851068,False,True
+match (ID vs simulated selfie),svk_id_34,svk_id_34,svk_id,0.9589038,False,True
+match (ID vs simulated selfie),svk_id_35,svk_id_35,svk_id,0.9330429,False,True
+match (ID vs simulated selfie),svk_id_36,svk_id_36,svk_id,0.9385396,False,True
+match (ID vs simulated selfie),svk_id_37,svk_id_37,svk_id,0.97413886,False,True
+match (ID vs simulated selfie),svk_id_38,svk_id_38,svk_id,0.94624674,False,True
+match (ID vs simulated selfie),svk_id_39,svk_id_39,svk_id,0.9327571,False,True
+match (ID vs simulated selfie),svk_id_40,svk_id_40,svk_id,0.8422886,False,True
+match (ID vs simulated selfie),svk_id_41,svk_id_41,svk_id,0.87577283,False,True
+match (ID vs simulated selfie),svk_id_42,svk_id_42,svk_id,0.91517955,False,True
+match (ID vs simulated selfie),svk_id_43,svk_id_43,svk_id,0.81893015,False,True
+match (ID vs simulated selfie),svk_id_44,svk_id_44,svk_id,0.9606162,False,True
+match (ID vs simulated selfie),svk_id_45,svk_id_45,svk_id,0.93571764,False,True
+match (ID vs simulated selfie),svk_id_46,svk_id_46,svk_id,0.9175592,False,True
+match (ID vs simulated selfie),svk_id_47,svk_id_47,svk_id,0.9454708,False,True
+match (ID vs simulated selfie),svk_id_48,svk_id_48,svk_id,0.7940324,False,True
+match (ID vs simulated selfie),svk_id_49,svk_id_49,svk_id,0.7564446,False,True
+match (ID vs simulated selfie),svk_id_50,svk_id_50,svk_id,0.9182976,False,True
+match (ID vs simulated selfie),svk_id_51,svk_id_51,svk_id,0.9511071,False,True
+match (ID vs simulated selfie),svk_id_52,svk_id_52,svk_id,0.78399265,False,True
+match (ID vs simulated selfie),svk_id_53,svk_id_53,svk_id,0.9386545,False,True
+match (ID vs simulated selfie),svk_id_54,svk_id_54,svk_id,0.9669484,False,True
+match (ID vs simulated selfie),svk_id_55,svk_id_55,svk_id,0.9452132,False,True
+match (ID vs simulated selfie),svk_id_56,svk_id_56,svk_id,0.87854487,False,True
+match (ID vs simulated selfie),svk_id_57,svk_id_57,svk_id,0.9679482,False,True
+match (ID vs simulated selfie),svk_id_58,svk_id_58,svk_id,0.823705,False,True
+match (ID vs simulated selfie),svk_id_59,svk_id_59,svk_id,0.8639658,False,True
+match (ID vs simulated selfie),svk_id_60,svk_id_60,svk_id,0.9644048,False,True
+match (ID vs simulated selfie),svk_id_61,svk_id_61,svk_id,0.8906455,False,True
+match (ID vs simulated selfie),svk_id_62,svk_id_62,svk_id,0.9195086,False,True
+match (ID vs simulated selfie),svk_id_63,svk_id_63,svk_id,0.87722534,False,True
+match (ID vs simulated selfie),svk_id_64,svk_id_64,svk_id,0.9396678,False,True
+match (ID vs simulated selfie),svk_id_65,svk_id_65,svk_id,0.8011557,False,True
+match (ID vs simulated selfie),svk_id_66,svk_id_66,svk_id,0.9250602,False,True
+match (ID vs simulated selfie),svk_id_67,svk_id_67,svk_id,0.7549592,False,True
+match (ID vs simulated selfie),svk_id_68,svk_id_68,svk_id,0.90377927,False,True
+match (ID vs simulated selfie),svk_id_69,svk_id_69,svk_id,0.7123869,False,True
+match (ID vs simulated selfie),svk_id_70,svk_id_70,svk_id,0.9572138,False,True
+match (ID vs simulated selfie),svk_id_71,svk_id_71,svk_id,0.94127977,False,True
+match (ID vs simulated selfie),svk_id_72,svk_id_72,svk_id,0.93497676,False,True
+match (ID vs simulated selfie),svk_id_73,svk_id_73,svk_id,0.95663035,False,True
+match (ID vs simulated selfie),svk_id_74,svk_id_74,svk_id,0.9633716,False,True
+match (ID vs simulated selfie),svk_id_75,svk_id_75,svk_id,0.9191545,False,True
+match (ID vs simulated selfie),svk_id_76,svk_id_76,svk_id,0.95120174,False,True
+match (ID vs simulated selfie),svk_id_77,svk_id_77,svk_id,0.8454724,False,True
+match (ID vs simulated selfie),svk_id_78,svk_id_78,svk_id,0.9101236,False,True
+match (ID vs simulated selfie),svk_id_79,svk_id_79,svk_id,0.8564725,False,True
+match (ID vs simulated selfie),svk_id_80,svk_id_80,svk_id,0.8671782,False,True
+match (ID vs simulated selfie),svk_id_81,svk_id_81,svk_id,0.9276517,False,True
+match (ID vs simulated selfie),svk_id_82,svk_id_82,svk_id,0.9321716,False,True
+match (ID vs simulated selfie),svk_id_83,svk_id_83,svk_id,0.94703877,False,True
+match (ID vs simulated selfie),svk_id_84,svk_id_84,svk_id,0.8786901,False,True
+match (ID vs simulated selfie),svk_id_85,svk_id_85,svk_id,0.93513906,False,True
+match (ID vs simulated selfie),svk_id_86,svk_id_86,svk_id,0.95304024,False,True
+match (ID vs simulated selfie),svk_id_87,svk_id_87,svk_id,0.94997483,False,True
+match (ID vs simulated selfie),svk_id_88,svk_id_88,svk_id,0.9344552,False,True
+match (ID vs simulated selfie),svk_id_89,svk_id_89,svk_id,0.96785,False,True
+match (ID vs simulated selfie),svk_id_90,svk_id_90,svk_id,0.92559874,False,True
+match (ID vs simulated selfie),svk_id_91,svk_id_91,svk_id,0.8996292,False,True
+match (ID vs simulated selfie),svk_id_92,svk_id_92,svk_id,0.9055139,False,True
+match (ID vs simulated selfie),svk_id_93,svk_id_93,svk_id,0.9607479,False,True
+match (ID vs simulated selfie),svk_id_94,svk_id_94,svk_id,0.93255913,False,True
+match (ID vs simulated selfie),svk_id_95,svk_id_95,svk_id,0.94151044,False,True
+match (ID vs simulated selfie),svk_id_96,svk_id_96,svk_id,0.7877773,False,True
+match (ID vs simulated selfie),svk_id_97,svk_id_97,svk_id,0.9372213,False,True
+match (ID vs simulated selfie),svk_id_98,svk_id_98,svk_id,0.91744566,False,True
+match (ID vs simulated selfie),svk_id_99,svk_id_99,svk_id,0.8890423,False,True
+non-match (two documents),alb_id_00,aze_passport_57,alb_id,0.115292296,False,False
+non-match (two documents),alb_id_00,esp_id_87,alb_id,0.2525703,False,False
+non-match (two documents),alb_id_00,grc_passport_12,alb_id,0.3024458,False,True
+non-match (two documents),alb_id_00,svk_id_65,alb_id,0.23542982,False,False
+non-match (two documents),alb_id_01,esp_id_92,alb_id,0.1376982,False,False
+non-match (two documents),alb_id_01,rus_internalpassport_91,alb_id,0.39380956,False,True
+non-match (two documents),alb_id_01,srb_passport_50,alb_id,0.11715448,False,False
+non-match (two documents),alb_id_01,svk_id_27,alb_id,0.008322649,False,False
+non-match (two documents),alb_id_02,aze_passport_45,alb_id,0.20637946,False,False
+non-match (two documents),alb_id_02,lva_passport_24,alb_id,0.3382264,False,True
+non-match (two documents),alb_id_03,est_id_80,alb_id,0.26669118,False,True
+non-match (two documents),alb_id_03,grc_passport_00,alb_id,0.21401365,False,False
+non-match (two documents),alb_id_03,grc_passport_34,alb_id,0.19528791,False,False
+non-match (two documents),alb_id_03,grc_passport_97,alb_id,0.16784768,False,False
+non-match (two documents),alb_id_03,rus_internalpassport_97,alb_id,0.0999055,False,False
+non-match (two documents),alb_id_04,alb_id_47,alb_id,0.13949803,False,False
+non-match (two documents),alb_id_04,esp_id_79,alb_id,0.1081592,False,False
+non-match (two documents),alb_id_04,esp_id_85,alb_id,-0.006986961,False,False
+non-match (two documents),alb_id_04,est_id_99,alb_id,0.27147615,False,True
+non-match (two documents),alb_id_04,fin_id_18,alb_id,0.16918255,False,False
+non-match (two documents),alb_id_04,fin_id_83,alb_id,0.08788648,False,False
+non-match (two documents),alb_id_04,grc_passport_98,alb_id,0.118820384,False,False
+non-match (two documents),alb_id_04,srb_passport_95,alb_id,0.15436287,False,False
+non-match (two documents),alb_id_05,alb_id_53,alb_id,0.2452485,False,False
+non-match (two documents),alb_id_05,esp_id_11,alb_id,0.19333303,False,False
+non-match (two documents),alb_id_05,est_id_12,alb_id,0.2566498,False,False
+non-match (two documents),alb_id_05,lva_passport_00,alb_id,0.30208212,False,True
+non-match (two documents),alb_id_05,rus_internalpassport_62,alb_id,0.25324872,False,False
+non-match (two documents),alb_id_05,srb_passport_39,alb_id,-0.06922682,False,False
+non-match (two documents),alb_id_06,alb_id_42,alb_id,0.05185152,False,False
+non-match (two documents),alb_id_06,esp_id_67,alb_id,0.19056836,False,False
+non-match (two documents),alb_id_06,fin_id_64,alb_id,0.19790599,False,False
+non-match (two documents),alb_id_06,grc_passport_15,alb_id,0.22118273,False,False
+non-match (two documents),alb_id_06,srb_passport_83,alb_id,0.032649975,False,False
+non-match (two documents),alb_id_07,esp_id_81,alb_id,0.23340668,False,False
+non-match (two documents),alb_id_07,grc_passport_17,alb_id,0.3048334,False,True
+non-match (two documents),alb_id_07,grc_passport_30,alb_id,0.19692856,False,False
+non-match (two documents),alb_id_07,rus_internalpassport_22,alb_id,0.14794794,False,False
+non-match (two documents),alb_id_08,est_id_86,alb_id,0.23830947,False,False
+non-match (two documents),alb_id_08,fin_id_11,alb_id,0.2576079,False,False
+non-match (two documents),alb_id_08,fin_id_82,alb_id,0.3712759,False,True
+non-match (two documents),alb_id_08,lva_passport_43,alb_id,0.14983603,False,False
+non-match (two documents),alb_id_09,esp_id_07,alb_id,0.32849073,False,True
+non-match (two documents),alb_id_09,esp_id_91,alb_id,0.16887948,False,False
+non-match (two documents),alb_id_09,lva_passport_06,alb_id,0.64798975,False,True
+non-match (two documents),alb_id_09,rus_internalpassport_78,alb_id,0.37889293,False,True
+non-match (two documents),alb_id_09,srb_passport_64,alb_id,0.39297777,False,True
+non-match (two documents),alb_id_09,svk_id_66,alb_id,0.35189027,False,True
+non-match (two documents),alb_id_10,est_id_01,alb_id,0.30527616,False,True
+non-match (two documents),alb_id_10,est_id_47,alb_id,0.09694237,False,False
+non-match (two documents),alb_id_11,aze_passport_86,alb_id,0.164124,False,False
+non-match (two documents),alb_id_11,est_id_38,alb_id,0.1536649,False,False
+non-match (two documents),alb_id_11,est_id_69,alb_id,0.20649202,False,False
+non-match (two documents),alb_id_11,fin_id_25,alb_id,-0.0110919075,False,False
+non-match (two documents),alb_id_11,svk_id_43,alb_id,0.43171227,False,True
+non-match (two documents),alb_id_12,aze_passport_29,alb_id,0.15095723,False,False
+non-match (two documents),alb_id_12,est_id_07,alb_id,0.41027313,False,True
+non-match (two documents),alb_id_12,est_id_95,alb_id,0.24404746,False,False
+non-match (two documents),alb_id_12,srb_passport_97,alb_id,-0.037842356,False,False
+non-match (two documents),alb_id_13,esp_id_20,alb_id,0.18240303,False,False
+non-match (two documents),alb_id_13,est_id_79,alb_id,0.32182235,False,True
+non-match (two documents),alb_id_13,lva_passport_01,alb_id,0.17923082,False,False
+non-match (two documents),alb_id_13,svk_id_66,alb_id,-0.014239886,False,False
+non-match (two documents),alb_id_14,aze_passport_22,alb_id,0.47085166,False,True
+non-match (two documents),alb_id_14,esp_id_67,alb_id,0.085657485,False,False
+non-match (two documents),alb_id_14,fin_id_19,alb_id,-0.011852648,False,False
+non-match (two documents),alb_id_14,fin_id_96,alb_id,0.091228046,False,False
+non-match (two documents),alb_id_14,grc_passport_93,alb_id,0.24889861,False,False
+non-match (two documents),alb_id_14,lva_passport_08,alb_id,0.048221514,False,False
+non-match (two documents),alb_id_14,rus_internalpassport_95,alb_id,0.030096473,False,False
+non-match (two documents),alb_id_15,fin_id_18,alb_id,0.32866582,False,True
+non-match (two documents),alb_id_15,fin_id_52,alb_id,0.30610636,False,True
+non-match (two documents),alb_id_15,fin_id_64,alb_id,0.18276402,False,False
+non-match (two documents),alb_id_15,grc_passport_21,alb_id,0.19022553,False,False
+non-match (two documents),alb_id_15,grc_passport_25,alb_id,0.11256996,False,False
+non-match (two documents),alb_id_15,grc_passport_42,alb_id,0.0008269865,False,False
+non-match (two documents),alb_id_16,alb_id_20,alb_id,0.23727196,False,False
+non-match (two documents),alb_id_16,rus_internalpassport_97,alb_id,0.17795923,False,False
+non-match (two documents),alb_id_16,srb_passport_35,alb_id,0.18134545,False,False
+non-match (two documents),alb_id_16,svk_id_06,alb_id,0.21957344,False,False
+non-match (two documents),alb_id_16,svk_id_07,alb_id,0.17557558,False,False
+non-match (two documents),alb_id_16,svk_id_44,alb_id,0.11319424,False,False
+non-match (two documents),alb_id_17,alb_id_40,alb_id,0.010048151,False,False
+non-match (two documents),alb_id_17,est_id_69,alb_id,0.014922293,False,False
+non-match (two documents),alb_id_17,lva_passport_66,alb_id,0.06147478,False,False
+non-match (two documents),alb_id_17,rus_internalpassport_61,alb_id,0.016320722,False,False
+non-match (two documents),alb_id_17,svk_id_86,alb_id,0.18684793,False,False
+non-match (two documents),alb_id_18,esp_id_35,alb_id,0.11297357,False,False
+non-match (two documents),alb_id_18,fin_id_74,alb_id,0.17928305,False,False
+non-match (two documents),alb_id_18,grc_passport_64,alb_id,0.16290522,False,False
+non-match (two documents),alb_id_18,srb_passport_95,alb_id,0.3425889,False,True
+non-match (two documents),alb_id_18,svk_id_87,alb_id,0.11016023,False,False
+non-match (two documents),alb_id_19,grc_passport_13,alb_id,0.25453258,False,False
+non-match (two documents),alb_id_19,srb_passport_79,alb_id,0.32023153,False,True
+non-match (two documents),alb_id_19,svk_id_49,alb_id,0.22588195,False,False
+non-match (two documents),alb_id_20,alb_id_66,alb_id,0.13040917,False,False
+non-match (two documents),alb_id_20,esp_id_34,alb_id,0.30991262,False,True
+non-match (two documents),alb_id_20,fin_id_47,alb_id,0.25894493,False,False
+non-match (two documents),alb_id_20,fin_id_81,alb_id,0.26695186,False,True
+non-match (two documents),alb_id_21,alb_id_49,alb_id,0.23974097,False,False
+non-match (two documents),alb_id_21,aze_passport_76,alb_id,0.07908481,False,False
+non-match (two documents),alb_id_21,esp_id_27,alb_id,0.32307965,False,True
+non-match (two documents),alb_id_21,lva_passport_57,alb_id,0.096002966,False,False
+non-match (two documents),alb_id_21,srb_passport_63,alb_id,0.41820765,False,True
+non-match (two documents),alb_id_22,esp_id_15,alb_id,0.21365899,False,False
+non-match (two documents),alb_id_22,esp_id_94,alb_id,0.37548995,False,True
+non-match (two documents),alb_id_22,rus_internalpassport_46,alb_id,0.29563016,False,True
+non-match (two documents),alb_id_22,rus_internalpassport_93,alb_id,0.31869555,False,True
+non-match (two documents),alb_id_22,svk_id_59,alb_id,0.27610046,False,True
+non-match (two documents),alb_id_22,svk_id_64,alb_id,0.32659024,False,True
+non-match (two documents),alb_id_22,svk_id_71,alb_id,0.17904004,False,False
+non-match (two documents),alb_id_23,grc_passport_31,alb_id,0.08452025,False,False
+non-match (two documents),alb_id_23,lva_passport_95,alb_id,0.2064826,False,False
+non-match (two documents),alb_id_23,srb_passport_86,alb_id,0.17136127,False,False
+non-match (two documents),alb_id_23,svk_id_75,alb_id,0.23123898,False,False
+non-match (two documents),alb_id_24,alb_id_46,alb_id,0.12170069,False,False
+non-match (two documents),alb_id_24,aze_passport_41,alb_id,0.45040393,False,True
+non-match (two documents),alb_id_24,aze_passport_78,alb_id,0.0876211,False,False
+non-match (two documents),alb_id_24,esp_id_18,alb_id,0.18926996,False,False
+non-match (two documents),alb_id_24,est_id_09,alb_id,0.3173686,False,True
+non-match (two documents),alb_id_24,lva_passport_67,alb_id,0.09620748,False,False
+non-match (two documents),alb_id_24,lva_passport_90,alb_id,0.35268313,False,True
+non-match (two documents),alb_id_24,rus_internalpassport_25,alb_id,0.17044479,False,False
+non-match (two documents),alb_id_24,rus_internalpassport_47,alb_id,0.22890791,False,False
+non-match (two documents),alb_id_24,srb_passport_32,alb_id,0.32069698,False,True
+non-match (two documents),alb_id_24,srb_passport_88,alb_id,0.33742458,False,True
+non-match (two documents),alb_id_25,aze_passport_09,alb_id,0.3037073,False,True
+non-match (two documents),alb_id_25,esp_id_75,alb_id,0.24873227,False,False
+non-match (two documents),alb_id_25,svk_id_93,alb_id,0.21393478,False,False
+non-match (two documents),alb_id_26,alb_id_30,alb_id,0.07554636,False,False
+non-match (two documents),alb_id_26,esp_id_04,alb_id,0.20083943,False,False
+non-match (two documents),alb_id_26,rus_internalpassport_41,alb_id,0.18450677,False,False
+non-match (two documents),alb_id_27,esp_id_82,alb_id,0.29862157,False,True
+non-match (two documents),alb_id_27,est_id_08,alb_id,0.39246064,False,True
+non-match (two documents),alb_id_27,srb_passport_82,alb_id,0.40593207,False,True
+non-match (two documents),alb_id_28,alb_id_39,alb_id,0.30044177,False,True
+non-match (two documents),alb_id_28,aze_passport_17,alb_id,0.3917994,False,True
+non-match (two documents),alb_id_28,aze_passport_89,alb_id,0.2565906,False,False
+non-match (two documents),alb_id_28,fin_id_92,alb_id,0.14804111,False,False
+non-match (two documents),alb_id_28,lva_passport_26,alb_id,0.07934585,False,False
+non-match (two documents),alb_id_29,alb_id_35,alb_id,0.38063043,False,True
+non-match (two documents),alb_id_29,aze_passport_33,alb_id,0.2694918,False,True
+non-match (two documents),alb_id_29,aze_passport_96,alb_id,0.16921459,False,False
+non-match (two documents),alb_id_29,esp_id_09,alb_id,0.32547998,False,True
+non-match (two documents),alb_id_29,est_id_02,alb_id,0.2549932,False,False
+non-match (two documents),alb_id_29,fin_id_93,alb_id,0.16187902,False,False
+non-match (two documents),alb_id_29,grc_passport_40,alb_id,0.19988647,False,False
+non-match (two documents),alb_id_29,rus_internalpassport_46,alb_id,0.22694759,False,False
+non-match (two documents),alb_id_30,aze_passport_36,alb_id,0.08596328,False,False
+non-match (two documents),alb_id_30,aze_passport_64,alb_id,0.1970802,False,False
+non-match (two documents),alb_id_30,fin_id_68,alb_id,0.04449928,False,False
+non-match (two documents),alb_id_30,grc_passport_52,alb_id,0.11732284,False,False
+non-match (two documents),alb_id_30,grc_passport_93,alb_id,0.11554967,False,False
+non-match (two documents),alb_id_30,srb_passport_00,alb_id,0.081850834,False,False
+non-match (two documents),alb_id_30,srb_passport_66,alb_id,0.073119335,False,False
+non-match (two documents),alb_id_31,est_id_80,alb_id,0.18580069,False,False
+non-match (two documents),alb_id_31,fin_id_04,alb_id,0.12713054,False,False
+non-match (two documents),alb_id_31,fin_id_69,alb_id,0.09919924,False,False
+non-match (two documents),alb_id_31,lva_passport_37,alb_id,0.050183516,False,False
+non-match (two documents),alb_id_31,srb_passport_62,alb_id,0.04340909,False,False
+non-match (two documents),alb_id_31,svk_id_85,alb_id,-0.0022467338,False,False
+non-match (two documents),alb_id_31,svk_id_94,alb_id,0.24364956,False,False
+non-match (two documents),alb_id_32,alb_id_42,alb_id,0.20760417,False,False
+non-match (two documents),alb_id_32,fin_id_45,alb_id,0.1325332,False,False
+non-match (two documents),alb_id_33,srb_passport_59,alb_id,0.26690102,False,True
+non-match (two documents),alb_id_34,aze_passport_67,alb_id,0.105525605,False,False
+non-match (two documents),alb_id_34,est_id_19,alb_id,0.23660944,False,False
+non-match (two documents),alb_id_34,fin_id_26,alb_id,0.18145958,False,False
+non-match (two documents),alb_id_34,lva_passport_40,alb_id,0.10163359,False,False
+non-match (two documents),alb_id_34,svk_id_45,alb_id,0.2390824,False,False
+non-match (two documents),alb_id_35,aze_passport_59,alb_id,0.17518464,False,False
+non-match (two documents),alb_id_35,aze_passport_78,alb_id,0.2270171,False,False
+non-match (two documents),alb_id_35,esp_id_58,alb_id,0.32606062,False,True
+non-match (two documents),alb_id_36,aze_passport_28,alb_id,0.4762977,False,True
+non-match (two documents),alb_id_36,grc_passport_71,alb_id,0.2566892,False,False
+non-match (two documents),alb_id_36,srb_passport_19,alb_id,0.21968356,False,False
+non-match (two documents),alb_id_37,alb_id_86,alb_id,0.041419484,False,False
+non-match (two documents),alb_id_37,esp_id_63,alb_id,0.37824282,False,True
+non-match (two documents),alb_id_37,lva_passport_67,alb_id,0.47520563,False,True
+non-match (two documents),alb_id_37,rus_internalpassport_09,alb_id,0.092343956,False,False
+non-match (two documents),alb_id_37,rus_internalpassport_94,alb_id,0.17238458,False,False
+non-match (two documents),alb_id_37,srb_passport_00,alb_id,0.1558764,False,False
+non-match (two documents),alb_id_37,srb_passport_77,alb_id,0.099207416,False,False
+non-match (two documents),alb_id_38,esp_id_58,alb_id,0.25538912,False,False
+non-match (two documents),alb_id_38,grc_passport_64,alb_id,0.083724864,False,False
+non-match (two documents),alb_id_38,lva_passport_78,alb_id,0.48207167,False,True
+non-match (two documents),alb_id_38,rus_internalpassport_24,alb_id,0.10255654,False,False
+non-match (two documents),alb_id_38,rus_internalpassport_47,alb_id,0.25285077,False,False
+non-match (two documents),alb_id_38,rus_internalpassport_60,alb_id,0.19944102,False,False
+non-match (two documents),alb_id_39,aze_passport_71,alb_id,0.20959738,False,False
+non-match (two documents),alb_id_39,est_id_92,alb_id,0.10647008,False,False
+non-match (two documents),alb_id_39,est_id_96,alb_id,0.008558307,False,False
+non-match (two documents),alb_id_39,fin_id_96,alb_id,-0.074274376,False,False
+non-match (two documents),alb_id_39,grc_passport_08,alb_id,0.18793243,False,False
+non-match (two documents),alb_id_39,grc_passport_66,alb_id,0.48035097,False,True
+non-match (two documents),alb_id_39,lva_passport_39,alb_id,0.28647864,False,True
+non-match (two documents),alb_id_39,rus_internalpassport_41,alb_id,0.124330185,False,False
+non-match (two documents),alb_id_39,rus_internalpassport_49,alb_id,0.16932751,False,False
+non-match (two documents),alb_id_40,est_id_08,alb_id,0.32552564,False,True
+non-match (two documents),alb_id_40,lva_passport_74,alb_id,0.10508029,False,False
+non-match (two documents),alb_id_40,svk_id_18,alb_id,0.09687207,False,False
+non-match (two documents),alb_id_40,svk_id_87,alb_id,0.03517679,False,False
+non-match (two documents),alb_id_41,alb_id_75,alb_id,-0.013568049,False,False
+non-match (two documents),alb_id_41,aze_passport_28,alb_id,0.2648686,False,True
+non-match (two documents),alb_id_41,aze_passport_40,alb_id,0.53340864,False,True
+non-match (two documents),alb_id_41,aze_passport_87,alb_id,0.17863236,False,False
+non-match (two documents),alb_id_41,est_id_39,alb_id,0.4429201,False,True
+non-match (two documents),alb_id_41,grc_passport_64,alb_id,0.44735903,False,True
+non-match (two documents),alb_id_41,lva_passport_81,alb_id,0.19851108,False,False
+non-match (two documents),alb_id_41,srb_passport_04,alb_id,0.051152147,False,False
+non-match (two documents),alb_id_41,srb_passport_21,alb_id,0.20074698,False,False
+non-match (two documents),alb_id_41,svk_id_50,alb_id,0.26224202,False,True
+non-match (two documents),alb_id_42,aze_passport_05,alb_id,0.22973281,False,False
+non-match (two documents),alb_id_42,est_id_07,alb_id,0.35291797,False,True
+non-match (two documents),alb_id_42,lva_passport_85,alb_id,0.21273348,False,False
+non-match (two documents),alb_id_42,srb_passport_31,alb_id,0.31476593,False,True
+non-match (two documents),alb_id_42,svk_id_78,alb_id,0.21285692,False,False
+non-match (two documents),alb_id_43,aze_passport_66,alb_id,0.12063175,False,False
+non-match (two documents),alb_id_43,fin_id_10,alb_id,0.43629628,False,True
+non-match (two documents),alb_id_43,fin_id_70,alb_id,0.27996033,False,True
+non-match (two documents),alb_id_43,grc_passport_22,alb_id,0.60364664,False,True
+non-match (two documents),alb_id_43,grc_passport_32,alb_id,0.31093407,False,True
+non-match (two documents),alb_id_43,grc_passport_67,alb_id,0.3214118,False,True
+non-match (two documents),alb_id_43,srb_passport_16,alb_id,0.18125696,False,False
+non-match (two documents),alb_id_44,esp_id_70,alb_id,0.49723297,False,True
+non-match (two documents),alb_id_44,est_id_92,alb_id,0.33315265,False,True
+non-match (two documents),alb_id_44,fin_id_34,alb_id,0.4690074,False,True
+non-match (two documents),alb_id_44,rus_internalpassport_46,alb_id,0.32039118,False,True
+non-match (two documents),alb_id_44,srb_passport_58,alb_id,0.23983945,False,False
+non-match (two documents),alb_id_44,svk_id_04,alb_id,0.2613008,False,True
+non-match (two documents),alb_id_45,alb_id_67,alb_id,0.10024196,False,False
+non-match (two documents),alb_id_45,est_id_27,alb_id,-0.024514183,False,False
+non-match (two documents),alb_id_45,lva_passport_48,alb_id,0.23802647,False,False
+non-match (two documents),alb_id_45,svk_id_74,alb_id,0.08240675,False,False
+non-match (two documents),alb_id_46,fin_id_81,alb_id,0.14009504,False,False
+non-match (two documents),alb_id_46,grc_passport_67,alb_id,0.34907496,False,True
+non-match (two documents),alb_id_46,grc_passport_74,alb_id,0.20169497,False,False
+non-match (two documents),alb_id_46,lva_passport_76,alb_id,0.22800404,False,False
+non-match (two documents),alb_id_46,lva_passport_92,alb_id,0.17332315,False,False
+non-match (two documents),alb_id_46,rus_internalpassport_50,alb_id,0.08832502,False,False
+non-match (two documents),alb_id_46,srb_passport_15,alb_id,0.14602837,False,False
+non-match (two documents),alb_id_46,srb_passport_24,alb_id,0.26738858,False,True
+non-match (two documents),alb_id_46,srb_passport_60,alb_id,0.24204074,False,False
+non-match (two documents),alb_id_47,alb_id_64,alb_id,0.24942335,False,False
+non-match (two documents),alb_id_47,aze_passport_14,alb_id,0.19288148,False,False
+non-match (two documents),alb_id_47,aze_passport_65,alb_id,0.45724073,False,True
+non-match (two documents),alb_id_47,srb_passport_36,alb_id,0.061802875,False,False
+non-match (two documents),alb_id_47,svk_id_53,alb_id,0.02415789,False,False
+non-match (two documents),alb_id_48,aze_passport_86,alb_id,0.06509184,False,False
+non-match (two documents),alb_id_48,esp_id_86,alb_id,0.043846022,False,False
+non-match (two documents),alb_id_48,esp_id_98,alb_id,0.070017636,False,False
+non-match (two documents),alb_id_48,grc_passport_01,alb_id,0.12434724,False,False
+non-match (two documents),alb_id_48,grc_passport_72,alb_id,0.13792714,False,False
+non-match (two documents),alb_id_48,grc_passport_96,alb_id,0.33046275,False,True
+non-match (two documents),alb_id_48,rus_internalpassport_59,alb_id,0.16985849,False,False
+non-match (two documents),alb_id_48,srb_passport_48,alb_id,0.09993352,False,False
+non-match (two documents),alb_id_48,svk_id_36,alb_id,0.16060859,False,False
+non-match (two documents),alb_id_49,lva_passport_92,alb_id,0.089387454,False,False
+non-match (two documents),alb_id_49,rus_internalpassport_18,alb_id,0.18939665,False,False
+non-match (two documents),alb_id_49,rus_internalpassport_21,alb_id,0.10462043,False,False
+non-match (two documents),alb_id_49,rus_internalpassport_53,alb_id,0.1638744,False,False
+non-match (two documents),alb_id_50,est_id_25,alb_id,0.18141298,False,False
+non-match (two documents),alb_id_50,rus_internalpassport_92,alb_id,0.24421811,False,False
+non-match (two documents),alb_id_51,esp_id_29,alb_id,0.08960956,False,False
+non-match (two documents),alb_id_51,fin_id_47,alb_id,0.12124571,False,False
+non-match (two documents),alb_id_51,rus_internalpassport_34,alb_id,0.06715149,False,False
+non-match (two documents),alb_id_51,svk_id_72,alb_id,0.4559112,False,True
+non-match (two documents),alb_id_52,esp_id_19,alb_id,0.18206406,False,False
+non-match (two documents),alb_id_52,fin_id_53,alb_id,0.40368298,False,True
+non-match (two documents),alb_id_52,lva_passport_47,alb_id,0.11476241,False,False
+non-match (two documents),alb_id_52,srb_passport_99,alb_id,0.17036778,False,False
+non-match (two documents),alb_id_52,svk_id_26,alb_id,0.25370473,False,False
+non-match (two documents),alb_id_53,aze_passport_04,alb_id,0.2694855,False,True
+non-match (two documents),alb_id_53,esp_id_98,alb_id,0.183279,False,False
+non-match (two documents),alb_id_53,est_id_00,alb_id,0.14997199,False,False
+non-match (two documents),alb_id_53,est_id_04,alb_id,0.49019027,False,True
+non-match (two documents),alb_id_53,est_id_67,alb_id,-0.036478363,False,False
+non-match (two documents),alb_id_53,rus_internalpassport_45,alb_id,0.28418985,False,True
+non-match (two documents),alb_id_53,svk_id_63,alb_id,0.3477404,False,True
+non-match (two documents),alb_id_53,svk_id_92,alb_id,0.344175,False,True
+non-match (two documents),alb_id_54,alb_id_67,alb_id,0.046346284,False,False
+non-match (two documents),alb_id_54,esp_id_08,alb_id,0.4561323,False,True
+non-match (two documents),alb_id_54,esp_id_77,alb_id,0.31471103,False,True
+non-match (two documents),alb_id_54,est_id_18,alb_id,0.25288597,False,False
+non-match (two documents),alb_id_54,lva_passport_94,alb_id,0.39063734,False,True
+non-match (two documents),alb_id_55,aze_passport_08,alb_id,0.29566708,False,True
+non-match (two documents),alb_id_55,aze_passport_29,alb_id,0.12810242,False,False
+non-match (two documents),alb_id_55,aze_passport_51,alb_id,0.0153166875,False,False
+non-match (two documents),alb_id_55,aze_passport_77,alb_id,0.11466602,False,False
+non-match (two documents),alb_id_55,esp_id_85,alb_id,0.15752295,False,False
+non-match (two documents),alb_id_55,est_id_93,alb_id,0.14986236,False,False
+non-match (two documents),alb_id_55,grc_passport_82,alb_id,0.23740241,False,False
+non-match (two documents),alb_id_55,rus_internalpassport_85,alb_id,0.21026081,False,False
+non-match (two documents),alb_id_56,fin_id_77,alb_id,0.18760222,False,False
+non-match (two documents),alb_id_56,fin_id_93,alb_id,0.11195798,False,False
+non-match (two documents),alb_id_56,lva_passport_79,alb_id,0.36362374,False,True
+non-match (two documents),alb_id_56,srb_passport_78,alb_id,0.22556496,False,False
+non-match (two documents),alb_id_56,svk_id_74,alb_id,0.0077513615,False,False
+non-match (two documents),alb_id_57,esp_id_31,alb_id,0.00095864385,False,False
+non-match (two documents),alb_id_57,esp_id_47,alb_id,0.20313174,False,False
+non-match (two documents),alb_id_57,fin_id_34,alb_id,0.088940375,False,False
+non-match (two documents),alb_id_57,fin_id_37,alb_id,0.07302074,False,False
+non-match (two documents),alb_id_57,grc_passport_17,alb_id,0.15798575,False,False
+non-match (two documents),alb_id_57,lva_passport_05,alb_id,0.28834134,False,True
+non-match (two documents),alb_id_57,lva_passport_98,alb_id,0.55615735,False,True
+non-match (two documents),alb_id_57,lva_passport_99,alb_id,0.30187148,False,True
+non-match (two documents),alb_id_58,lva_passport_50,alb_id,0.17471917,False,False
+non-match (two documents),alb_id_58,srb_passport_11,alb_id,0.1526908,False,False
+non-match (two documents),alb_id_58,svk_id_09,alb_id,0.13630635,False,False
+non-match (two documents),alb_id_59,esp_id_67,alb_id,0.28554,False,True
+non-match (two documents),alb_id_59,esp_id_87,alb_id,0.2460118,False,False
+non-match (two documents),alb_id_59,lva_passport_08,alb_id,0.44580394,False,True
+non-match (two documents),alb_id_59,svk_id_63,alb_id,0.17494571,False,False
+non-match (two documents),alb_id_60,fin_id_08,alb_id,0.085852824,False,False
+non-match (two documents),alb_id_60,grc_passport_43,alb_id,0.20866384,False,False
+non-match (two documents),alb_id_61,esp_id_56,alb_id,0.3274976,False,True
+non-match (two documents),alb_id_61,srb_passport_30,alb_id,0.086788386,False,False
+non-match (two documents),alb_id_62,alb_id_84,alb_id,0.33111966,False,True
+non-match (two documents),alb_id_62,aze_passport_55,alb_id,0.10667889,False,False
+non-match (two documents),alb_id_62,aze_passport_83,alb_id,0.2342918,False,False
+non-match (two documents),alb_id_62,aze_passport_89,alb_id,0.081126854,False,False
+non-match (two documents),alb_id_62,est_id_33,alb_id,0.5320263,False,True
+non-match (two documents),alb_id_62,fin_id_24,alb_id,0.26080993,False,True
+non-match (two documents),alb_id_62,grc_passport_83,alb_id,0.1954888,False,False
+non-match (two documents),alb_id_63,alb_id_69,alb_id,-0.02407595,False,False
+non-match (two documents),alb_id_63,aze_passport_54,alb_id,0.686784,False,True
+non-match (two documents),alb_id_63,est_id_39,alb_id,0.42601407,False,True
+non-match (two documents),alb_id_63,lva_passport_06,alb_id,0.32094103,False,True
+non-match (two documents),alb_id_63,lva_passport_14,alb_id,0.2852651,False,True
+non-match (two documents),alb_id_63,svk_id_25,alb_id,0.21802151,False,False
+non-match (two documents),alb_id_63,svk_id_46,alb_id,0.14807002,False,False
+non-match (two documents),alb_id_63,svk_id_72,alb_id,0.30615976,False,True
+non-match (two documents),alb_id_64,alb_id_78,alb_id,0.26287103,False,True
+non-match (two documents),alb_id_64,esp_id_28,alb_id,0.20572662,False,False
+non-match (two documents),alb_id_64,esp_id_62,alb_id,0.34622365,False,True
+non-match (two documents),alb_id_64,esp_id_86,alb_id,0.12076452,False,False
+non-match (two documents),alb_id_64,est_id_96,alb_id,0.2900733,False,True
+non-match (two documents),alb_id_64,fin_id_55,alb_id,0.22278425,False,False
+non-match (two documents),alb_id_64,srb_passport_87,alb_id,0.2767983,False,True
+non-match (two documents),alb_id_64,svk_id_94,alb_id,0.42384648,False,True
+non-match (two documents),alb_id_65,est_id_07,alb_id,0.31796938,False,True
+non-match (two documents),alb_id_65,grc_passport_47,alb_id,0.19643939,False,False
+non-match (two documents),alb_id_65,srb_passport_52,alb_id,0.21986035,False,False
+non-match (two documents),alb_id_65,svk_id_81,alb_id,0.1627253,False,False
+non-match (two documents),alb_id_66,est_id_52,alb_id,0.15131517,False,False
+non-match (two documents),alb_id_66,fin_id_11,alb_id,0.14993723,False,False
+non-match (two documents),alb_id_66,fin_id_15,alb_id,0.2814673,False,True
+non-match (two documents),alb_id_66,fin_id_35,alb_id,0.13977833,False,False
+non-match (two documents),alb_id_66,rus_internalpassport_20,alb_id,0.15743038,False,False
+non-match (two documents),alb_id_67,est_id_23,alb_id,0.088490844,False,False
+non-match (two documents),alb_id_67,est_id_74,alb_id,0.06529305,False,False
+non-match (two documents),alb_id_68,esp_id_10,alb_id,0.27528423,False,True
+non-match (two documents),alb_id_68,grc_passport_66,alb_id,0.19268581,False,False
+non-match (two documents),alb_id_68,grc_passport_92,alb_id,0.25791815,False,False
+non-match (two documents),alb_id_68,rus_internalpassport_20,alb_id,0.100409344,False,False
+non-match (two documents),alb_id_69,aze_passport_49,alb_id,0.03975304,False,False
+non-match (two documents),alb_id_69,esp_id_81,alb_id,0.1623024,False,False
+non-match (two documents),alb_id_69,esp_id_82,alb_id,0.10296647,False,False
+non-match (two documents),alb_id_69,est_id_30,alb_id,0.07640598,False,False
+non-match (two documents),alb_id_69,fin_id_89,alb_id,0.15306117,False,False
+non-match (two documents),alb_id_70,fin_id_31,alb_id,0.20585379,False,False
+non-match (two documents),alb_id_70,grc_passport_02,alb_id,0.428763,False,True
+non-match (two documents),alb_id_70,grc_passport_52,alb_id,0.30657876,False,True
+non-match (two documents),alb_id_70,grc_passport_74,alb_id,0.3342691,False,True
+non-match (two documents),alb_id_70,grc_passport_80,alb_id,0.2032111,False,False
+non-match (two documents),alb_id_70,lva_passport_77,alb_id,0.22015426,False,False
+non-match (two documents),alb_id_70,srb_passport_41,alb_id,0.20767665,False,False
+non-match (two documents),alb_id_71,esp_id_38,alb_id,0.10682994,False,False
+non-match (two documents),alb_id_71,fin_id_93,alb_id,0.20046811,False,False
+non-match (two documents),alb_id_71,grc_passport_92,alb_id,0.29280728,False,True
+non-match (two documents),alb_id_71,lva_passport_29,alb_id,0.13322473,False,False
+non-match (two documents),alb_id_71,rus_internalpassport_21,alb_id,0.5662742,False,True
+non-match (two documents),alb_id_72,grc_passport_45,alb_id,0.14678186,False,False
+non-match (two documents),alb_id_72,lva_passport_07,alb_id,0.3013907,False,True
+non-match (two documents),alb_id_72,lva_passport_78,alb_id,0.107111625,False,False
+non-match (two documents),alb_id_72,svk_id_22,alb_id,0.1761134,False,False
+non-match (two documents),alb_id_72,svk_id_71,alb_id,0.21454263,False,False
+non-match (two documents),alb_id_73,esp_id_19,alb_id,0.12337805,False,False
+non-match (two documents),alb_id_73,esp_id_31,alb_id,0.72623193,False,True
+non-match (two documents),alb_id_73,est_id_35,alb_id,0.3565377,False,True
+non-match (two documents),alb_id_73,est_id_91,alb_id,0.2608985,False,True
+non-match (two documents),alb_id_73,fin_id_88,alb_id,0.1939064,False,False
+non-match (two documents),alb_id_73,grc_passport_00,alb_id,0.35889333,False,True
+non-match (two documents),alb_id_73,grc_passport_52,alb_id,0.5438392,False,True
+non-match (two documents),alb_id_73,rus_internalpassport_63,alb_id,0.31589484,False,True
+non-match (two documents),alb_id_74,aze_passport_77,alb_id,0.05050024,False,False
+non-match (two documents),alb_id_74,est_id_54,alb_id,0.29964298,False,True
+non-match (two documents),alb_id_74,rus_internalpassport_56,alb_id,0.08847504,False,False
+non-match (two documents),alb_id_74,srb_passport_01,alb_id,0.33313257,False,True
+non-match (two documents),alb_id_75,est_id_47,alb_id,0.174717,False,False
+non-match (two documents),alb_id_75,rus_internalpassport_43,alb_id,-0.0030785687,False,False
+non-match (two documents),alb_id_75,rus_internalpassport_75,alb_id,0.23178008,False,False
+non-match (two documents),alb_id_75,srb_passport_82,alb_id,0.18357635,False,False
+non-match (two documents),alb_id_75,svk_id_31,alb_id,0.06421988,False,False
+non-match (two documents),alb_id_76,alb_id_87,alb_id,0.17636918,False,False
+non-match (two documents),alb_id_76,esp_id_67,alb_id,0.15918422,False,False
+non-match (two documents),alb_id_76,esp_id_85,alb_id,0.08090457,False,False
+non-match (two documents),alb_id_76,est_id_75,alb_id,0.06515831,False,False
+non-match (two documents),alb_id_77,alb_id_93,alb_id,0.2583286,False,False
+non-match (two documents),alb_id_77,est_id_08,alb_id,0.34400558,False,True
+non-match (two documents),alb_id_77,fin_id_49,alb_id,0.07891365,False,False
+non-match (two documents),alb_id_77,fin_id_75,alb_id,0.2724327,False,True
+non-match (two documents),alb_id_77,lva_passport_42,alb_id,0.16227844,False,False
+non-match (two documents),alb_id_77,srb_passport_57,alb_id,0.21421862,False,False
+non-match (two documents),alb_id_77,svk_id_82,alb_id,0.121828325,False,False
+non-match (two documents),alb_id_78,est_id_29,alb_id,0.52036965,False,True
+non-match (two documents),alb_id_78,est_id_32,alb_id,0.15575278,False,False
+non-match (two documents),alb_id_78,lva_passport_64,alb_id,0.11553523,False,False
+non-match (two documents),alb_id_79,aze_passport_56,alb_id,0.19835687,False,False
+non-match (two documents),alb_id_79,esp_id_52,alb_id,0.017530177,False,False
+non-match (two documents),alb_id_79,fin_id_37,alb_id,0.2789848,False,True
+non-match (two documents),alb_id_79,grc_passport_13,alb_id,0.17625219,False,False
+non-match (two documents),alb_id_80,est_id_84,alb_id,0.2924673,False,True
+non-match (two documents),alb_id_80,lva_passport_01,alb_id,0.2620593,False,True
+non-match (two documents),alb_id_80,srb_passport_23,alb_id,0.13308221,False,False
+non-match (two documents),alb_id_80,srb_passport_88,alb_id,0.26847857,False,True
+non-match (two documents),alb_id_80,svk_id_53,alb_id,0.31384003,False,True
+non-match (two documents),alb_id_80,svk_id_64,alb_id,0.3512196,False,True
+non-match (two documents),alb_id_80,svk_id_94,alb_id,0.2601814,False,True
+non-match (two documents),alb_id_81,aze_passport_14,alb_id,0.11677467,False,False
+non-match (two documents),alb_id_81,esp_id_48,alb_id,0.21513496,False,False
+non-match (two documents),alb_id_81,est_id_82,alb_id,0.07409633,False,False
+non-match (two documents),alb_id_81,fin_id_39,alb_id,0.12534943,False,False
+non-match (two documents),alb_id_81,grc_passport_88,alb_id,0.15667492,False,False
+non-match (two documents),alb_id_81,rus_internalpassport_37,alb_id,0.11584692,False,False
+non-match (two documents),alb_id_81,srb_passport_14,alb_id,0.086747654,False,False
+non-match (two documents),alb_id_81,srb_passport_45,alb_id,0.16441508,False,False
+non-match (two documents),alb_id_81,svk_id_25,alb_id,0.30414128,False,True
+non-match (two documents),alb_id_82,grc_passport_17,alb_id,0.22728956,False,False
+non-match (two documents),alb_id_82,lva_passport_79,alb_id,0.12068587,False,False
+non-match (two documents),alb_id_82,srb_passport_15,alb_id,0.15597841,False,False
+non-match (two documents),alb_id_82,srb_passport_54,alb_id,0.20045528,False,False
+non-match (two documents),alb_id_83,esp_id_65,alb_id,0.084437124,False,False
+non-match (two documents),alb_id_83,grc_passport_26,alb_id,0.1419055,False,False
+non-match (two documents),alb_id_83,lva_passport_53,alb_id,0.10913768,False,False
+non-match (two documents),alb_id_83,rus_internalpassport_06,alb_id,0.18172023,False,False
+non-match (two documents),alb_id_83,srb_passport_38,alb_id,0.24063808,False,False
+non-match (two documents),alb_id_84,est_id_09,alb_id,0.3872534,False,True
+non-match (two documents),alb_id_84,est_id_38,alb_id,0.10700533,False,False
+non-match (two documents),alb_id_84,lva_passport_68,alb_id,0.061813932,False,False
+non-match (two documents),alb_id_84,rus_internalpassport_09,alb_id,0.2757616,False,True
+non-match (two documents),alb_id_84,rus_internalpassport_16,alb_id,0.1413523,False,False
+non-match (two documents),alb_id_85,esp_id_42,alb_id,0.24252957,False,False
+non-match (two documents),alb_id_85,est_id_88,alb_id,0.17316285,False,False
+non-match (two documents),alb_id_85,grc_passport_11,alb_id,0.166072,False,False
+non-match (two documents),alb_id_85,grc_passport_61,alb_id,0.15279561,False,False
+non-match (two documents),alb_id_85,lva_passport_23,alb_id,0.12609549,False,False
+non-match (two documents),alb_id_85,svk_id_41,alb_id,0.23174404,False,False
+non-match (two documents),alb_id_86,alb_id_89,alb_id,0.42844117,False,True
+non-match (two documents),alb_id_86,aze_passport_55,alb_id,0.20491694,False,False
+non-match (two documents),alb_id_86,aze_passport_62,alb_id,0.05181926,False,False
+non-match (two documents),alb_id_86,est_id_60,alb_id,-0.011150007,False,False
+non-match (two documents),alb_id_86,fin_id_82,alb_id,0.17721483,False,False
+non-match (two documents),alb_id_86,lva_passport_60,alb_id,-0.06336752,False,False
+non-match (two documents),alb_id_86,rus_internalpassport_44,alb_id,0.15497415,False,False
+non-match (two documents),alb_id_87,aze_passport_24,alb_id,0.1005831,False,False
+non-match (two documents),alb_id_87,est_id_43,alb_id,0.3309462,False,True
+non-match (two documents),alb_id_87,lva_passport_77,alb_id,0.21180867,False,False
+non-match (two documents),alb_id_87,rus_internalpassport_36,alb_id,0.106092975,False,False
+non-match (two documents),alb_id_87,srb_passport_27,alb_id,0.15375096,False,False
+non-match (two documents),alb_id_88,aze_passport_31,alb_id,0.08141051,False,False
+non-match (two documents),alb_id_88,aze_passport_44,alb_id,0.114797935,False,False
+non-match (two documents),alb_id_88,esp_id_25,alb_id,0.37223122,False,True
+non-match (two documents),alb_id_88,esp_id_50,alb_id,0.25881556,False,False
+non-match (two documents),alb_id_88,est_id_65,alb_id,0.06330992,False,False
+non-match (two documents),alb_id_88,fin_id_20,alb_id,0.3420565,False,True
+non-match (two documents),alb_id_88,fin_id_47,alb_id,0.26663962,False,True
+non-match (two documents),alb_id_88,grc_passport_34,alb_id,0.26255944,False,True
+non-match (two documents),alb_id_88,lva_passport_91,alb_id,0.36312303,False,True
+non-match (two documents),alb_id_88,srb_passport_91,alb_id,0.30708164,False,True
+non-match (two documents),alb_id_89,grc_passport_56,alb_id,-0.031617388,False,False
+non-match (two documents),alb_id_89,rus_internalpassport_39,alb_id,0.05046605,False,False
+non-match (two documents),alb_id_89,srb_passport_38,alb_id,0.46635944,False,True
+non-match (two documents),alb_id_90,esp_id_68,alb_id,0.09727309,False,False
+non-match (two documents),alb_id_90,svk_id_66,alb_id,0.16521671,False,False
+non-match (two documents),alb_id_91,aze_passport_37,alb_id,0.2597046,False,False
+non-match (two documents),alb_id_91,aze_passport_64,alb_id,0.39703086,False,True
+non-match (two documents),alb_id_91,lva_passport_26,alb_id,0.13137324,False,False
+non-match (two documents),alb_id_91,lva_passport_45,alb_id,0.08599819,False,False
+non-match (two documents),alb_id_91,rus_internalpassport_62,alb_id,0.3501125,False,True
+non-match (two documents),alb_id_91,rus_internalpassport_98,alb_id,0.04859291,False,False
+non-match (two documents),alb_id_92,esp_id_06,alb_id,0.05439027,False,False
+non-match (two documents),alb_id_92,esp_id_42,alb_id,0.30214888,False,True
+non-match (two documents),alb_id_92,esp_id_50,alb_id,0.18875763,False,False
+non-match (two documents),alb_id_92,esp_id_79,alb_id,0.03348594,False,False
+non-match (two documents),alb_id_92,lva_passport_55,alb_id,0.05584261,False,False
+non-match (two documents),alb_id_93,aze_passport_57,alb_id,0.10163332,False,False
+non-match (two documents),alb_id_93,est_id_11,alb_id,0.38827354,False,True
+non-match (two documents),alb_id_93,est_id_40,alb_id,0.27580184,False,True
+non-match (two documents),alb_id_93,svk_id_40,alb_id,0.4300462,False,True
+non-match (two documents),alb_id_94,aze_passport_03,alb_id,0.11474602,False,False
+non-match (two documents),alb_id_94,srb_passport_49,alb_id,0.120708935,False,False
+non-match (two documents),alb_id_94,svk_id_73,alb_id,0.3205753,False,True
+non-match (two documents),alb_id_95,svk_id_20,alb_id,0.18592219,False,False
+non-match (two documents),alb_id_96,esp_id_88,alb_id,0.16855288,False,False
+non-match (two documents),alb_id_96,est_id_61,alb_id,0.19982868,False,False
+non-match (two documents),alb_id_96,est_id_66,alb_id,0.11110881,False,False
+non-match (two documents),alb_id_96,lva_passport_17,alb_id,0.14306179,False,False
+non-match (two documents),alb_id_96,lva_passport_63,alb_id,0.14891407,False,False
+non-match (two documents),alb_id_96,svk_id_67,alb_id,0.07909908,False,False
+non-match (two documents),alb_id_96,svk_id_97,alb_id,0.31700662,False,True
+non-match (two documents),alb_id_97,fin_id_41,alb_id,0.045745775,False,False
+non-match (two documents),alb_id_97,fin_id_52,alb_id,0.063893184,False,False
+non-match (two documents),alb_id_97,lva_passport_74,alb_id,0.18619946,False,False
+non-match (two documents),alb_id_98,est_id_73,alb_id,0.037265286,False,False
+non-match (two documents),alb_id_98,fin_id_07,alb_id,0.1478712,False,False
+non-match (two documents),alb_id_98,grc_passport_16,alb_id,0.054198284,False,False
+non-match (two documents),alb_id_98,srb_passport_48,alb_id,-0.041576445,False,False
+non-match (two documents),alb_id_98,svk_id_06,alb_id,0.26185414,False,True
+non-match (two documents),alb_id_98,svk_id_21,alb_id,0.2465106,False,False
+non-match (two documents),alb_id_98,svk_id_27,alb_id,-0.0051836222,False,False
+non-match (two documents),alb_id_99,aze_passport_80,alb_id,0.3204299,False,True
+non-match (two documents),alb_id_99,esp_id_19,alb_id,0.10524157,False,False
+non-match (two documents),alb_id_99,est_id_54,alb_id,0.088277586,False,False
+non-match (two documents),alb_id_99,grc_passport_28,alb_id,-0.07863325,False,False
+non-match (two documents),alb_id_99,grc_passport_42,alb_id,0.13427648,False,False
+non-match (two documents),aze_passport_00,aze_passport_86,aze_passport,0.12580639,False,False
+non-match (two documents),aze_passport_00,aze_passport_98,aze_passport,0.16446751,False,False
+non-match (two documents),aze_passport_00,esp_id_96,aze_passport,0.19580248,False,False
+non-match (two documents),aze_passport_00,est_id_65,aze_passport,0.18970147,False,False
+non-match (two documents),aze_passport_00,lva_passport_74,aze_passport,0.218831,False,False
+non-match (two documents),aze_passport_00,rus_internalpassport_07,aze_passport,0.15855241,False,False
+non-match (two documents),aze_passport_00,srb_passport_90,aze_passport,0.105070904,False,False
+non-match (two documents),aze_passport_00,svk_id_23,aze_passport,0.406808,False,True
+non-match (two documents),aze_passport_00,svk_id_29,aze_passport,0.20650703,False,False
+non-match (two documents),aze_passport_00,svk_id_89,aze_passport,0.36048257,False,True
+non-match (two documents),aze_passport_01,aze_passport_16,aze_passport,0.14754403,False,False
+non-match (two documents),aze_passport_01,aze_passport_75,aze_passport,0.05752933,False,False
+non-match (two documents),aze_passport_01,esp_id_45,aze_passport,0.065263435,False,False
+non-match (two documents),aze_passport_01,est_id_75,aze_passport,0.02274644,False,False
+non-match (two documents),aze_passport_01,est_id_92,aze_passport,0.32466418,False,True
+non-match (two documents),aze_passport_01,fin_id_08,aze_passport,0.08073774,False,False
+non-match (two documents),aze_passport_01,rus_internalpassport_15,aze_passport,0.21513475,False,False
+non-match (two documents),aze_passport_01,rus_internalpassport_37,aze_passport,0.1400615,False,False
+non-match (two documents),aze_passport_01,srb_passport_06,aze_passport,0.067857996,False,False
+non-match (two documents),aze_passport_02,esp_id_32,aze_passport,0.08008957,False,False
+non-match (two documents),aze_passport_02,fin_id_96,aze_passport,0.18930244,False,False
+non-match (two documents),aze_passport_02,grc_passport_58,aze_passport,0.057357155,False,False
+non-match (two documents),aze_passport_02,lva_passport_81,aze_passport,0.37374827,False,True
+non-match (two documents),aze_passport_02,rus_internalpassport_29,aze_passport,0.18028656,False,False
+non-match (two documents),aze_passport_03,aze_passport_17,aze_passport,0.10327211,False,False
+non-match (two documents),aze_passport_03,aze_passport_56,aze_passport,0.16828492,False,False
+non-match (two documents),aze_passport_03,aze_passport_73,aze_passport,0.048457984,False,False
+non-match (two documents),aze_passport_03,aze_passport_90,aze_passport,0.33411124,False,True
+non-match (two documents),aze_passport_03,lva_passport_06,aze_passport,0.258398,False,False
+non-match (two documents),aze_passport_03,srb_passport_41,aze_passport,0.1411236,False,False
+non-match (two documents),aze_passport_03,svk_id_60,aze_passport,0.15096813,False,False
+non-match (two documents),aze_passport_04,est_id_56,aze_passport,0.13915677,False,False
+non-match (two documents),aze_passport_04,lva_passport_67,aze_passport,0.061062843,False,False
+non-match (two documents),aze_passport_04,rus_internalpassport_46,aze_passport,0.089000046,False,False
+non-match (two documents),aze_passport_04,srb_passport_41,aze_passport,0.22471371,False,False
+non-match (two documents),aze_passport_04,svk_id_19,aze_passport,0.1802019,False,False
+non-match (two documents),aze_passport_04,svk_id_53,aze_passport,0.27029985,False,True
+non-match (two documents),aze_passport_05,est_id_36,aze_passport,0.3816162,False,True
+non-match (two documents),aze_passport_05,est_id_76,aze_passport,-0.14900692,False,False
+non-match (two documents),aze_passport_05,grc_passport_19,aze_passport,0.25618458,False,False
+non-match (two documents),aze_passport_05,grc_passport_92,aze_passport,0.35646155,False,True
+non-match (two documents),aze_passport_05,lva_passport_44,aze_passport,0.023298312,False,False
+non-match (two documents),aze_passport_05,srb_passport_32,aze_passport,0.2263327,False,False
+non-match (two documents),aze_passport_05,srb_passport_49,aze_passport,0.25963476,False,False
+non-match (two documents),aze_passport_06,est_id_55,aze_passport,0.49968967,False,True
+non-match (two documents),aze_passport_06,fin_id_74,aze_passport,0.32560548,False,True
+non-match (two documents),aze_passport_06,lva_passport_82,aze_passport,0.18483265,False,False
+non-match (two documents),aze_passport_07,aze_passport_51,aze_passport,0.24376695,False,False
+non-match (two documents),aze_passport_07,est_id_71,aze_passport,0.25294983,False,False
+non-match (two documents),aze_passport_07,grc_passport_30,aze_passport,0.2962158,False,True
+non-match (two documents),aze_passport_07,grc_passport_95,aze_passport,0.2821911,False,True
+non-match (two documents),aze_passport_07,lva_passport_43,aze_passport,0.09999816,False,False
+non-match (two documents),aze_passport_07,rus_internalpassport_04,aze_passport,0.22229168,False,False
+non-match (two documents),aze_passport_07,srb_passport_02,aze_passport,0.074959315,False,False
+non-match (two documents),aze_passport_07,svk_id_08,aze_passport,0.2062056,False,False
+non-match (two documents),aze_passport_07,svk_id_17,aze_passport,0.22525051,False,False
+non-match (two documents),aze_passport_07,svk_id_21,aze_passport,0.27847385,False,True
+non-match (two documents),aze_passport_07,svk_id_72,aze_passport,0.20317844,False,False
+non-match (two documents),aze_passport_07,svk_id_89,aze_passport,0.4731077,False,True
+non-match (two documents),aze_passport_08,esp_id_52,aze_passport,0.3545701,False,True
+non-match (two documents),aze_passport_08,est_id_75,aze_passport,0.18451299,False,False
+non-match (two documents),aze_passport_08,lva_passport_87,aze_passport,0.28299466,False,True
+non-match (two documents),aze_passport_08,srb_passport_86,aze_passport,0.23643099,False,False
+non-match (two documents),aze_passport_09,aze_passport_35,aze_passport,0.3781409,False,True
+non-match (two documents),aze_passport_09,aze_passport_76,aze_passport,0.13227844,False,False
+non-match (two documents),aze_passport_09,est_id_46,aze_passport,0.32405442,False,True
+non-match (two documents),aze_passport_09,est_id_85,aze_passport,0.28014922,False,True
+non-match (two documents),aze_passport_09,fin_id_14,aze_passport,0.42518514,False,True
+non-match (two documents),aze_passport_09,rus_internalpassport_79,aze_passport,0.22471628,False,False
+non-match (two documents),aze_passport_09,srb_passport_14,aze_passport,0.3306874,False,True
+non-match (two documents),aze_passport_09,srb_passport_25,aze_passport,0.6346931,False,True
+non-match (two documents),aze_passport_10,esp_id_72,aze_passport,0.1654646,False,False
+non-match (two documents),aze_passport_10,esp_id_86,aze_passport,0.02386028,False,False
+non-match (two documents),aze_passport_10,est_id_54,aze_passport,0.21197382,False,False
+non-match (two documents),aze_passport_10,fin_id_02,aze_passport,0.27209964,False,True
+non-match (two documents),aze_passport_10,fin_id_89,aze_passport,-0.04641545,False,False
+non-match (two documents),aze_passport_10,lva_passport_21,aze_passport,0.28902555,False,True
+non-match (two documents),aze_passport_11,aze_passport_52,aze_passport,0.23096862,False,False
+non-match (two documents),aze_passport_11,esp_id_99,aze_passport,0.1514398,False,False
+non-match (two documents),aze_passport_11,grc_passport_05,aze_passport,0.16181105,False,False
+non-match (two documents),aze_passport_11,grc_passport_98,aze_passport,0.094286785,False,False
+non-match (two documents),aze_passport_11,rus_internalpassport_70,aze_passport,0.23975569,False,False
+non-match (two documents),aze_passport_11,srb_passport_18,aze_passport,0.047576305,False,False
+non-match (two documents),aze_passport_11,svk_id_50,aze_passport,0.30677444,False,True
+non-match (two documents),aze_passport_12,lva_passport_17,aze_passport,0.30382073,False,True
+non-match (two documents),aze_passport_12,rus_internalpassport_11,aze_passport,0.30954343,False,True
+non-match (two documents),aze_passport_12,rus_internalpassport_71,aze_passport,0.1541787,False,False
+non-match (two documents),aze_passport_13,fin_id_23,aze_passport,0.25727707,False,False
+non-match (two documents),aze_passport_13,lva_passport_96,aze_passport,0.14970614,False,False
+non-match (two documents),aze_passport_13,rus_internalpassport_20,aze_passport,0.090089515,False,False
+non-match (two documents),aze_passport_13,rus_internalpassport_28,aze_passport,0.0091970265,False,False
+non-match (two documents),aze_passport_14,esp_id_35,aze_passport,0.092252426,False,False
+non-match (two documents),aze_passport_14,esp_id_59,aze_passport,0.084745295,False,False
+non-match (two documents),aze_passport_14,est_id_46,aze_passport,0.17412697,False,False
+non-match (two documents),aze_passport_14,fin_id_82,aze_passport,0.23839249,False,False
+non-match (two documents),aze_passport_15,est_id_75,aze_passport,0.26411748,False,True
+non-match (two documents),aze_passport_15,fin_id_74,aze_passport,0.24094436,False,False
+non-match (two documents),aze_passport_16,esp_id_27,aze_passport,0.4133758,False,True
+non-match (two documents),aze_passport_16,est_id_21,aze_passport,0.27788758,False,True
+non-match (two documents),aze_passport_16,grc_passport_06,aze_passport,0.44521514,False,True
+non-match (two documents),aze_passport_16,grc_passport_18,aze_passport,0.30863774,False,True
+non-match (two documents),aze_passport_17,esp_id_89,aze_passport,0.27255026,False,True
+non-match (two documents),aze_passport_17,grc_passport_42,aze_passport,0.08000219,False,False
+non-match (two documents),aze_passport_17,rus_internalpassport_86,aze_passport,0.2358611,False,False
+non-match (two documents),aze_passport_18,fin_id_87,aze_passport,0.06826237,False,False
+non-match (two documents),aze_passport_18,grc_passport_38,aze_passport,0.16697091,False,False
+non-match (two documents),aze_passport_18,svk_id_16,aze_passport,0.3662405,False,True
+non-match (two documents),aze_passport_19,est_id_24,aze_passport,0.32255602,False,True
+non-match (two documents),aze_passport_19,est_id_42,aze_passport,0.21989222,False,False
+non-match (two documents),aze_passport_19,fin_id_38,aze_passport,0.3263586,False,True
+non-match (two documents),aze_passport_19,grc_passport_91,aze_passport,0.32025215,False,True
+non-match (two documents),aze_passport_19,lva_passport_15,aze_passport,0.4713637,False,True
+non-match (two documents),aze_passport_19,lva_passport_55,aze_passport,0.27885982,False,True
+non-match (two documents),aze_passport_20,aze_passport_38,aze_passport,-0.0088407695,False,False
+non-match (two documents),aze_passport_20,aze_passport_95,aze_passport,0.08421617,False,False
+non-match (two documents),aze_passport_20,aze_passport_99,aze_passport,0.0740056,False,False
+non-match (two documents),aze_passport_20,est_id_76,aze_passport,-0.048975885,False,False
+non-match (two documents),aze_passport_20,fin_id_28,aze_passport,0.03403361,False,False
+non-match (two documents),aze_passport_20,grc_passport_09,aze_passport,0.17000285,False,False
+non-match (two documents),aze_passport_20,grc_passport_75,aze_passport,0.15178333,False,False
+non-match (two documents),aze_passport_21,aze_passport_93,aze_passport,0.20102783,False,False
+non-match (two documents),aze_passport_21,esp_id_24,aze_passport,0.1648823,False,False
+non-match (two documents),aze_passport_21,esp_id_98,aze_passport,0.075832844,False,False
+non-match (two documents),aze_passport_21,est_id_25,aze_passport,0.26305294,False,True
+non-match (two documents),aze_passport_21,est_id_30,aze_passport,0.4057452,False,True
+non-match (two documents),aze_passport_21,grc_passport_96,aze_passport,0.40223098,False,True
+non-match (two documents),aze_passport_21,rus_internalpassport_47,aze_passport,0.22559813,False,False
+non-match (two documents),aze_passport_21,srb_passport_42,aze_passport,0.32974517,False,True
+non-match (two documents),aze_passport_21,svk_id_23,aze_passport,0.16900967,False,False
+non-match (two documents),aze_passport_22,esp_id_26,aze_passport,-0.024901453,False,False
+non-match (two documents),aze_passport_22,esp_id_73,aze_passport,0.16730005,False,False
+non-match (two documents),aze_passport_22,grc_passport_72,aze_passport,0.3197199,False,True
+non-match (two documents),aze_passport_22,rus_internalpassport_48,aze_passport,0.08894989,False,False
+non-match (two documents),aze_passport_23,esp_id_15,aze_passport,0.07493941,False,False
+non-match (two documents),aze_passport_23,esp_id_54,aze_passport,0.26163307,False,True
+non-match (two documents),aze_passport_23,esp_id_60,aze_passport,0.2043677,False,False
+non-match (two documents),aze_passport_23,fin_id_26,aze_passport,0.08836501,False,False
+non-match (two documents),aze_passport_23,fin_id_79,aze_passport,0.05009502,False,False
+non-match (two documents),aze_passport_23,grc_passport_70,aze_passport,0.38619792,False,True
+non-match (two documents),aze_passport_23,lva_passport_45,aze_passport,0.07688028,False,False
+non-match (two documents),aze_passport_23,srb_passport_76,aze_passport,0.014243485,False,False
+non-match (two documents),aze_passport_24,esp_id_20,aze_passport,0.41879967,False,True
+non-match (two documents),aze_passport_24,est_id_17,aze_passport,0.18256046,False,False
+non-match (two documents),aze_passport_24,fin_id_07,aze_passport,0.22779298,False,False
+non-match (two documents),aze_passport_24,fin_id_43,aze_passport,0.33840075,False,True
+non-match (two documents),aze_passport_24,fin_id_61,aze_passport,0.2659511,False,True
+non-match (two documents),aze_passport_24,fin_id_94,aze_passport,0.20980963,False,False
+non-match (two documents),aze_passport_24,grc_passport_63,aze_passport,0.4189174,False,True
+non-match (two documents),aze_passport_24,rus_internalpassport_53,aze_passport,0.42488813,False,True
+non-match (two documents),aze_passport_25,esp_id_61,aze_passport,0.22470905,False,False
+non-match (two documents),aze_passport_25,fin_id_68,aze_passport,0.3942174,False,True
+non-match (two documents),aze_passport_25,grc_passport_51,aze_passport,0.24860731,False,False
+non-match (two documents),aze_passport_25,grc_passport_58,aze_passport,0.25785583,False,False
+non-match (two documents),aze_passport_25,rus_internalpassport_60,aze_passport,0.14552794,False,False
+non-match (two documents),aze_passport_25,srb_passport_71,aze_passport,0.08243999,False,False
+non-match (two documents),aze_passport_26,esp_id_28,aze_passport,0.49460852,False,True
+non-match (two documents),aze_passport_26,esp_id_59,aze_passport,0.2485913,False,False
+non-match (two documents),aze_passport_26,fin_id_44,aze_passport,0.09334253,False,False
+non-match (two documents),aze_passport_26,fin_id_85,aze_passport,0.12647672,False,False
+non-match (two documents),aze_passport_26,srb_passport_53,aze_passport,0.10501024,False,False
+non-match (two documents),aze_passport_26,srb_passport_67,aze_passport,0.13397093,False,False
+non-match (two documents),aze_passport_27,aze_passport_74,aze_passport,0.16504551,False,False
+non-match (two documents),aze_passport_27,esp_id_36,aze_passport,0.119761854,False,False
+non-match (two documents),aze_passport_27,est_id_15,aze_passport,0.18850237,False,False
+non-match (two documents),aze_passport_27,grc_passport_31,aze_passport,0.049423695,False,False
+non-match (two documents),aze_passport_27,lva_passport_11,aze_passport,0.1734704,False,False
+non-match (two documents),aze_passport_27,lva_passport_80,aze_passport,0.0070746415,False,False
+non-match (two documents),aze_passport_27,rus_internalpassport_08,aze_passport,0.087080665,False,False
+non-match (two documents),aze_passport_27,rus_internalpassport_31,aze_passport,0.100867175,False,False
+non-match (two documents),aze_passport_28,aze_passport_56,aze_passport,0.33044776,False,True
+non-match (two documents),aze_passport_28,fin_id_01,aze_passport,0.1814563,False,False
+non-match (two documents),aze_passport_28,grc_passport_90,aze_passport,0.18055674,False,False
+non-match (two documents),aze_passport_28,lva_passport_14,aze_passport,0.17068434,False,False
+non-match (two documents),aze_passport_29,esp_id_89,aze_passport,0.27300674,False,True
+non-match (two documents),aze_passport_29,fin_id_21,aze_passport,0.124888904,False,False
+non-match (two documents),aze_passport_29,lva_passport_20,aze_passport,-0.024597568,False,False
+non-match (two documents),aze_passport_29,lva_passport_99,aze_passport,0.16068642,False,False
+non-match (two documents),aze_passport_29,srb_passport_37,aze_passport,0.3711917,False,True
+non-match (two documents),aze_passport_30,aze_passport_91,aze_passport,0.3802825,False,True
+non-match (two documents),aze_passport_30,svk_id_00,aze_passport,0.19902799,False,False
+non-match (two documents),aze_passport_30,svk_id_28,aze_passport,0.36680028,False,True
+non-match (two documents),aze_passport_31,esp_id_12,aze_passport,0.1458008,False,False
+non-match (two documents),aze_passport_31,lva_passport_17,aze_passport,0.021703467,False,False
+non-match (two documents),aze_passport_31,rus_internalpassport_96,aze_passport,0.17778091,False,False
+non-match (two documents),aze_passport_31,svk_id_69,aze_passport,-0.023769066,False,False
+non-match (two documents),aze_passport_32,aze_passport_42,aze_passport,0.22938563,False,False
+non-match (two documents),aze_passport_32,esp_id_18,aze_passport,0.33567253,False,True
+non-match (two documents),aze_passport_32,esp_id_40,aze_passport,0.44496468,False,True
+non-match (two documents),aze_passport_32,est_id_55,aze_passport,0.13234895,False,False
+non-match (two documents),aze_passport_32,est_id_66,aze_passport,0.22820202,False,False
+non-match (two documents),aze_passport_32,fin_id_91,aze_passport,0.137884,False,False
+non-match (two documents),aze_passport_32,grc_passport_91,aze_passport,0.30046767,False,True
+non-match (two documents),aze_passport_32,srb_passport_58,aze_passport,0.047827415,False,False
+non-match (two documents),aze_passport_32,svk_id_61,aze_passport,0.25690722,False,False
+non-match (two documents),aze_passport_33,aze_passport_60,aze_passport,-0.10652854,False,False
+non-match (two documents),aze_passport_33,aze_passport_76,aze_passport,0.114695236,False,False
+non-match (two documents),aze_passport_33,esp_id_81,aze_passport,0.21106379,False,False
+non-match (two documents),aze_passport_33,est_id_26,aze_passport,0.12918618,False,False
+non-match (two documents),aze_passport_33,est_id_45,aze_passport,0.104151905,False,False
+non-match (two documents),aze_passport_33,est_id_76,aze_passport,-0.07174682,False,False
+non-match (two documents),aze_passport_33,srb_passport_49,aze_passport,0.20168522,False,False
+non-match (two documents),aze_passport_33,srb_passport_57,aze_passport,0.059154134,False,False
+non-match (two documents),aze_passport_34,aze_passport_50,aze_passport,0.61927354,False,True
+non-match (two documents),aze_passport_34,est_id_97,aze_passport,0.28396535,False,True
+non-match (two documents),aze_passport_34,grc_passport_32,aze_passport,0.23305151,False,False
+non-match (two documents),aze_passport_34,lva_passport_19,aze_passport,0.24415177,False,False
+non-match (two documents),aze_passport_35,est_id_84,aze_passport,0.141767,False,False
+non-match (two documents),aze_passport_35,rus_internalpassport_39,aze_passport,0.12639302,False,False
+non-match (two documents),aze_passport_36,fin_id_71,aze_passport,0.3086979,False,True
+non-match (two documents),aze_passport_36,grc_passport_08,aze_passport,0.4478791,False,True
+non-match (two documents),aze_passport_36,grc_passport_23,aze_passport,0.17142282,False,False
+non-match (two documents),aze_passport_36,lva_passport_31,aze_passport,0.2866507,False,True
+non-match (two documents),aze_passport_36,srb_passport_84,aze_passport,0.20850398,False,False
+non-match (two documents),aze_passport_36,svk_id_05,aze_passport,0.317985,False,True
+non-match (two documents),aze_passport_37,aze_passport_47,aze_passport,0.32075566,False,True
+non-match (two documents),aze_passport_37,aze_passport_57,aze_passport,0.29644048,False,True
+non-match (two documents),aze_passport_37,aze_passport_72,aze_passport,0.26009285,False,True
+non-match (two documents),aze_passport_37,esp_id_17,aze_passport,0.164333,False,False
+non-match (two documents),aze_passport_37,fin_id_86,aze_passport,0.33313584,False,True
+non-match (two documents),aze_passport_37,grc_passport_18,aze_passport,0.49325475,False,True
+non-match (two documents),aze_passport_38,esp_id_66,aze_passport,0.34381878,False,True
+non-match (two documents),aze_passport_38,fin_id_59,aze_passport,0.27954882,False,True
+non-match (two documents),aze_passport_38,grc_passport_83,aze_passport,0.051660035,False,False
+non-match (two documents),aze_passport_38,rus_internalpassport_12,aze_passport,0.17737496,False,False
+non-match (two documents),aze_passport_38,rus_internalpassport_36,aze_passport,0.097762875,False,False
+non-match (two documents),aze_passport_38,rus_internalpassport_51,aze_passport,0.047753043,False,False
+non-match (two documents),aze_passport_39,est_id_67,aze_passport,0.31038785,False,True
+non-match (two documents),aze_passport_39,est_id_79,aze_passport,0.38579765,False,True
+non-match (two documents),aze_passport_39,fin_id_81,aze_passport,0.24902466,False,False
+non-match (two documents),aze_passport_39,rus_internalpassport_70,aze_passport,0.10822058,False,False
+non-match (two documents),aze_passport_40,esp_id_05,aze_passport,0.22858562,False,False
+non-match (two documents),aze_passport_40,esp_id_09,aze_passport,0.18860124,False,False
+non-match (two documents),aze_passport_40,est_id_39,aze_passport,0.35756475,False,True
+non-match (two documents),aze_passport_40,fin_id_08,aze_passport,0.09794815,False,False
+non-match (two documents),aze_passport_41,est_id_09,aze_passport,0.30487376,False,True
+non-match (two documents),aze_passport_41,est_id_15,aze_passport,0.16134377,False,False
+non-match (two documents),aze_passport_41,est_id_61,aze_passport,0.21067628,False,False
+non-match (two documents),aze_passport_41,lva_passport_52,aze_passport,0.534747,False,True
+non-match (two documents),aze_passport_41,rus_internalpassport_56,aze_passport,0.15198003,False,False
+non-match (two documents),aze_passport_41,svk_id_79,aze_passport,0.17820822,False,False
+non-match (two documents),aze_passport_42,esp_id_28,aze_passport,0.3422489,False,True
+non-match (two documents),aze_passport_42,esp_id_94,aze_passport,0.27094233,False,True
+non-match (two documents),aze_passport_42,fin_id_73,aze_passport,0.43089223,False,True
+non-match (two documents),aze_passport_42,grc_passport_36,aze_passport,-0.0030194744,False,False
+non-match (two documents),aze_passport_42,grc_passport_90,aze_passport,0.31378096,False,True
+non-match (two documents),aze_passport_42,rus_internalpassport_91,aze_passport,0.3798374,False,True
+non-match (two documents),aze_passport_43,aze_passport_98,aze_passport,0.19031358,False,False
+non-match (two documents),aze_passport_43,esp_id_22,aze_passport,0.46737993,False,True
+non-match (two documents),aze_passport_43,est_id_71,aze_passport,0.2194002,False,False
+non-match (two documents),aze_passport_43,fin_id_76,aze_passport,0.22023043,False,False
+non-match (two documents),aze_passport_43,rus_internalpassport_49,aze_passport,-0.07167989,False,False
+non-match (two documents),aze_passport_43,srb_passport_23,aze_passport,0.42672327,False,True
+non-match (two documents),aze_passport_44,esp_id_37,aze_passport,0.2273913,False,False
+non-match (two documents),aze_passport_44,lva_passport_33,aze_passport,0.24810407,False,False
+non-match (two documents),aze_passport_44,svk_id_26,aze_passport,0.16219416,False,False
+non-match (two documents),aze_passport_45,aze_passport_72,aze_passport,0.19350459,False,False
+non-match (two documents),aze_passport_45,est_id_98,aze_passport,0.048806857,False,False
+non-match (two documents),aze_passport_45,grc_passport_02,aze_passport,0.13046625,False,False
+non-match (two documents),aze_passport_45,lva_passport_80,aze_passport,-0.018779509,False,False
+non-match (two documents),aze_passport_45,rus_internalpassport_19,aze_passport,0.32530487,False,True
+non-match (two documents),aze_passport_45,rus_internalpassport_27,aze_passport,0.4321895,False,True
+non-match (two documents),aze_passport_45,srb_passport_26,aze_passport,0.058651373,False,False
+non-match (two documents),aze_passport_45,svk_id_50,aze_passport,0.108274624,False,False
+non-match (two documents),aze_passport_45,svk_id_74,aze_passport,0.050009865,False,False
+non-match (two documents),aze_passport_46,aze_passport_96,aze_passport,0.1836957,False,False
+non-match (two documents),aze_passport_46,esp_id_37,aze_passport,0.38733932,False,True
+non-match (two documents),aze_passport_46,fin_id_63,aze_passport,0.18054076,False,False
+non-match (two documents),aze_passport_46,rus_internalpassport_04,aze_passport,0.056685984,False,False
+non-match (two documents),aze_passport_47,fin_id_28,aze_passport,0.27150562,False,True
+non-match (two documents),aze_passport_47,lva_passport_47,aze_passport,0.38480017,False,True
+non-match (two documents),aze_passport_47,srb_passport_61,aze_passport,0.082964376,False,False
+non-match (two documents),aze_passport_47,svk_id_69,aze_passport,0.05829762,False,False
+non-match (two documents),aze_passport_48,esp_id_70,aze_passport,0.17400682,False,False
+non-match (two documents),aze_passport_48,grc_passport_84,aze_passport,0.20760325,False,False
+non-match (two documents),aze_passport_48,srb_passport_13,aze_passport,0.0895331,False,False
+non-match (two documents),aze_passport_49,aze_passport_70,aze_passport,0.20022333,False,False
+non-match (two documents),aze_passport_49,grc_passport_56,aze_passport,0.21900305,False,False
+non-match (two documents),aze_passport_49,rus_internalpassport_54,aze_passport,0.066678524,False,False
+non-match (two documents),aze_passport_49,srb_passport_55,aze_passport,-0.06421518,False,False
+non-match (two documents),aze_passport_49,svk_id_06,aze_passport,0.17347437,False,False
+non-match (two documents),aze_passport_50,est_id_97,aze_passport,0.15697578,False,False
+non-match (two documents),aze_passport_50,grc_passport_09,aze_passport,0.25008914,False,False
+non-match (two documents),aze_passport_50,rus_internalpassport_36,aze_passport,0.26782793,False,True
+non-match (two documents),aze_passport_50,srb_passport_65,aze_passport,0.17067987,False,False
+non-match (two documents),aze_passport_50,srb_passport_85,aze_passport,-0.070704244,False,False
+non-match (two documents),aze_passport_50,svk_id_53,aze_passport,0.037102655,False,False
+non-match (two documents),aze_passport_51,esp_id_22,aze_passport,0.29344445,False,True
+non-match (two documents),aze_passport_51,fin_id_84,aze_passport,0.14289752,False,False
+non-match (two documents),aze_passport_51,fin_id_88,aze_passport,0.13164145,False,False
+non-match (two documents),aze_passport_51,grc_passport_17,aze_passport,0.3597417,False,True
+non-match (two documents),aze_passport_51,rus_internalpassport_80,aze_passport,-0.0149195995,False,False
+non-match (two documents),aze_passport_52,grc_passport_52,aze_passport,0.40471885,False,True
+non-match (two documents),aze_passport_52,lva_passport_50,aze_passport,0.48566166,False,True
+non-match (two documents),aze_passport_52,rus_internalpassport_68,aze_passport,0.26843607,False,True
+non-match (two documents),aze_passport_53,grc_passport_42,aze_passport,0.026714634,False,False
+non-match (two documents),aze_passport_53,rus_internalpassport_63,aze_passport,0.13477868,False,False
+non-match (two documents),aze_passport_54,esp_id_74,aze_passport,0.1887989,False,False
+non-match (two documents),aze_passport_54,grc_passport_19,aze_passport,0.20231354,False,False
+non-match (two documents),aze_passport_54,grc_passport_60,aze_passport,0.25602275,False,False
+non-match (two documents),aze_passport_54,svk_id_12,aze_passport,0.259826,False,True
+non-match (two documents),aze_passport_54,svk_id_76,aze_passport,0.31204653,False,True
+non-match (two documents),aze_passport_55,fin_id_26,aze_passport,0.3403672,False,True
+non-match (two documents),aze_passport_55,lva_passport_26,aze_passport,0.15119423,False,False
+non-match (two documents),aze_passport_55,rus_internalpassport_27,aze_passport,0.24394488,False,False
+non-match (two documents),aze_passport_55,rus_internalpassport_39,aze_passport,0.07568997,False,False
+non-match (two documents),aze_passport_55,rus_internalpassport_61,aze_passport,0.12518944,False,False
+non-match (two documents),aze_passport_55,rus_internalpassport_93,aze_passport,0.0674812,False,False
+non-match (two documents),aze_passport_56,esp_id_03,aze_passport,0.2428796,False,False
+non-match (two documents),aze_passport_56,est_id_66,aze_passport,0.19573501,False,False
+non-match (two documents),aze_passport_56,lva_passport_73,aze_passport,0.1440602,False,False
+non-match (two documents),aze_passport_56,lva_passport_92,aze_passport,0.11573269,False,False
+non-match (two documents),aze_passport_56,srb_passport_70,aze_passport,0.10575812,False,False
+non-match (two documents),aze_passport_57,esp_id_34,aze_passport,0.1441541,False,False
+non-match (two documents),aze_passport_57,rus_internalpassport_25,aze_passport,0.2061443,False,False
+non-match (two documents),aze_passport_57,rus_internalpassport_49,aze_passport,0.18944168,False,False
+non-match (two documents),aze_passport_57,svk_id_18,aze_passport,0.13715215,False,False
+non-match (two documents),aze_passport_58,esp_id_07,aze_passport,0.18368562,False,False
+non-match (two documents),aze_passport_58,esp_id_87,aze_passport,0.100295514,False,False
+non-match (two documents),aze_passport_58,est_id_02,aze_passport,0.104937956,False,False
+non-match (two documents),aze_passport_58,est_id_83,aze_passport,0.065726094,False,False
+non-match (two documents),aze_passport_58,grc_passport_07,aze_passport,0.2003468,False,False
+non-match (two documents),aze_passport_58,lva_passport_09,aze_passport,0.18342867,False,False
+non-match (two documents),aze_passport_58,rus_internalpassport_31,aze_passport,0.088858,False,False
+non-match (two documents),aze_passport_58,rus_internalpassport_49,aze_passport,0.13408336,False,False
+non-match (two documents),aze_passport_58,svk_id_08,aze_passport,0.08233203,False,False
+non-match (two documents),aze_passport_58,svk_id_60,aze_passport,0.028664438,False,False
+non-match (two documents),aze_passport_59,est_id_27,aze_passport,-0.05746334,False,False
+non-match (two documents),aze_passport_59,lva_passport_67,aze_passport,0.11177789,False,False
+non-match (two documents),aze_passport_59,srb_passport_11,aze_passport,0.28886783,False,True
+non-match (two documents),aze_passport_59,srb_passport_30,aze_passport,-0.06589434,False,False
+non-match (two documents),aze_passport_59,srb_passport_80,aze_passport,0.2431364,False,False
+non-match (two documents),aze_passport_59,srb_passport_98,aze_passport,0.08057164,False,False
+non-match (two documents),aze_passport_59,svk_id_91,aze_passport,0.21711117,False,False
+non-match (two documents),aze_passport_60,esp_id_34,aze_passport,0.16758952,False,False
+non-match (two documents),aze_passport_60,fin_id_93,aze_passport,0.060797192,False,False
+non-match (two documents),aze_passport_60,grc_passport_85,aze_passport,0.15852515,False,False
+non-match (two documents),aze_passport_60,lva_passport_21,aze_passport,0.15850541,False,False
+non-match (two documents),aze_passport_60,lva_passport_88,aze_passport,0.049584202,False,False
+non-match (two documents),aze_passport_60,srb_passport_40,aze_passport,0.2577954,False,False
+non-match (two documents),aze_passport_60,srb_passport_95,aze_passport,0.048274294,False,False
+non-match (two documents),aze_passport_61,esp_id_31,aze_passport,0.1697754,False,False
+non-match (two documents),aze_passport_61,est_id_43,aze_passport,0.3673292,False,True
+non-match (two documents),aze_passport_61,grc_passport_14,aze_passport,0.32373497,False,True
+non-match (two documents),aze_passport_61,srb_passport_81,aze_passport,0.04434256,False,False
+non-match (two documents),aze_passport_61,srb_passport_85,aze_passport,0.119737014,False,False
+non-match (two documents),aze_passport_62,aze_passport_75,aze_passport,0.22440971,False,False
+non-match (two documents),aze_passport_62,fin_id_34,aze_passport,0.011096597,False,False
+non-match (two documents),aze_passport_62,svk_id_42,aze_passport,0.084383264,False,False
+non-match (two documents),aze_passport_62,svk_id_74,aze_passport,0.021573212,False,False
+non-match (two documents),aze_passport_63,aze_passport_85,aze_passport,0.14108562,False,False
+non-match (two documents),aze_passport_63,est_id_60,aze_passport,0.9365417,False,True
+non-match (two documents),aze_passport_63,est_id_76,aze_passport,0.11344631,False,False
+non-match (two documents),aze_passport_63,fin_id_13,aze_passport,0.16297294,False,False
+non-match (two documents),aze_passport_63,grc_passport_02,aze_passport,0.115126766,False,False
+non-match (two documents),aze_passport_63,srb_passport_36,aze_passport,0.05051461,False,False
+non-match (two documents),aze_passport_63,svk_id_71,aze_passport,0.12775016,False,False
+non-match (two documents),aze_passport_64,esp_id_80,aze_passport,0.23464127,False,False
+non-match (two documents),aze_passport_64,rus_internalpassport_40,aze_passport,0.22410046,False,False
+non-match (two documents),aze_passport_64,svk_id_99,aze_passport,0.16527084,False,False
+non-match (two documents),aze_passport_65,fin_id_16,aze_passport,0.14001407,False,False
+non-match (two documents),aze_passport_65,fin_id_42,aze_passport,0.14946085,False,False
+non-match (two documents),aze_passport_65,grc_passport_54,aze_passport,0.18649125,False,False
+non-match (two documents),aze_passport_65,grc_passport_97,aze_passport,0.23682104,False,False
+non-match (two documents),aze_passport_65,rus_internalpassport_13,aze_passport,0.073709466,False,False
+non-match (two documents),aze_passport_66,esp_id_50,aze_passport,-0.03844003,False,False
+non-match (two documents),aze_passport_66,est_id_21,aze_passport,0.12775949,False,False
+non-match (two documents),aze_passport_66,rus_internalpassport_48,aze_passport,-0.016803283,False,False
+non-match (two documents),aze_passport_67,aze_passport_99,aze_passport,0.32014045,False,True
+non-match (two documents),aze_passport_67,est_id_64,aze_passport,,True,False
+non-match (two documents),aze_passport_67,svk_id_24,aze_passport,0.13988033,False,False
+non-match (two documents),aze_passport_68,esp_id_01,aze_passport,0.053821027,False,False
+non-match (two documents),aze_passport_68,grc_passport_43,aze_passport,-0.06161621,False,False
+non-match (two documents),aze_passport_68,lva_passport_10,aze_passport,0.0780782,False,False
+non-match (two documents),aze_passport_68,lva_passport_21,aze_passport,0.17055488,False,False
+non-match (two documents),aze_passport_68,rus_internalpassport_57,aze_passport,0.016718104,False,False
+non-match (two documents),aze_passport_68,rus_internalpassport_70,aze_passport,0.015508473,False,False
+non-match (two documents),aze_passport_68,rus_internalpassport_74,aze_passport,0.08086834,False,False
+non-match (two documents),aze_passport_68,svk_id_33,aze_passport,-0.12550232,False,False
+non-match (two documents),aze_passport_68,svk_id_79,aze_passport,0.20014288,False,False
+non-match (two documents),aze_passport_69,est_id_00,aze_passport,0.17232129,False,False
+non-match (two documents),aze_passport_69,est_id_56,aze_passport,0.37400335,False,True
+non-match (two documents),aze_passport_69,fin_id_32,aze_passport,0.19097689,False,False
+non-match (two documents),aze_passport_70,grc_passport_08,aze_passport,0.20583776,False,False
+non-match (two documents),aze_passport_70,lva_passport_29,aze_passport,0.21938749,False,False
+non-match (two documents),aze_passport_70,svk_id_66,aze_passport,0.18462998,False,False
+non-match (two documents),aze_passport_71,esp_id_01,aze_passport,0.4156615,False,True
+non-match (two documents),aze_passport_71,lva_passport_38,aze_passport,0.16352573,False,False
+non-match (two documents),aze_passport_71,srb_passport_86,aze_passport,0.20030482,False,False
+non-match (two documents),aze_passport_71,svk_id_14,aze_passport,0.36557946,False,True
+non-match (two documents),aze_passport_72,esp_id_77,aze_passport,0.48944798,False,True
+non-match (two documents),aze_passport_72,est_id_66,aze_passport,0.40228993,False,True
+non-match (two documents),aze_passport_72,rus_internalpassport_95,aze_passport,0.018212873,False,False
+non-match (two documents),aze_passport_72,srb_passport_51,aze_passport,0.3229398,False,True
+non-match (two documents),aze_passport_73,rus_internalpassport_43,aze_passport,0.3691688,False,True
+non-match (two documents),aze_passport_73,srb_passport_63,aze_passport,0.07538247,False,False
+non-match (two documents),aze_passport_73,svk_id_67,aze_passport,0.12958735,False,False
+non-match (two documents),aze_passport_74,esp_id_36,aze_passport,0.053938888,False,False
+non-match (two documents),aze_passport_74,esp_id_37,aze_passport,0.24233645,False,False
+non-match (two documents),aze_passport_74,rus_internalpassport_50,aze_passport,0.42028955,False,True
+non-match (two documents),aze_passport_74,srb_passport_06,aze_passport,0.18003634,False,False
+non-match (two documents),aze_passport_74,srb_passport_24,aze_passport,0.31201684,False,True
+non-match (two documents),aze_passport_74,srb_passport_57,aze_passport,0.0434868,False,False
+non-match (two documents),aze_passport_74,svk_id_37,aze_passport,0.24608329,False,False
+non-match (two documents),aze_passport_74,svk_id_94,aze_passport,0.3857038,False,True
+non-match (two documents),aze_passport_75,esp_id_36,aze_passport,0.18089417,False,False
+non-match (two documents),aze_passport_75,esp_id_43,aze_passport,0.09379937,False,False
+non-match (two documents),aze_passport_75,est_id_30,aze_passport,0.25160253,False,False
+non-match (two documents),aze_passport_75,est_id_31,aze_passport,0.15822703,False,False
+non-match (two documents),aze_passport_75,est_id_58,aze_passport,0.27750495,False,True
+non-match (two documents),aze_passport_75,rus_internalpassport_90,aze_passport,0.25047323,False,False
+non-match (two documents),aze_passport_76,fin_id_42,aze_passport,0.14409146,False,False
+non-match (two documents),aze_passport_76,grc_passport_58,aze_passport,0.33879447,False,True
+non-match (two documents),aze_passport_76,grc_passport_85,aze_passport,0.11900157,False,False
+non-match (two documents),aze_passport_76,lva_passport_05,aze_passport,0.23296759,False,False
+non-match (two documents),aze_passport_76,lva_passport_23,aze_passport,0.15209998,False,False
+non-match (two documents),aze_passport_76,rus_internalpassport_29,aze_passport,0.30610168,False,True
+non-match (two documents),aze_passport_77,grc_passport_18,aze_passport,0.22992516,False,False
+non-match (two documents),aze_passport_77,grc_passport_32,aze_passport,0.107317984,False,False
+non-match (two documents),aze_passport_78,esp_id_17,aze_passport,0.03291665,False,False
+non-match (two documents),aze_passport_78,esp_id_73,aze_passport,0.101577714,False,False
+non-match (two documents),aze_passport_78,est_id_10,aze_passport,0.21400459,False,False
+non-match (two documents),aze_passport_78,est_id_21,aze_passport,0.25149813,False,False
+non-match (two documents),aze_passport_78,fin_id_44,aze_passport,0.049241595,False,False
+non-match (two documents),aze_passport_78,fin_id_66,aze_passport,0.18434218,False,False
+non-match (two documents),aze_passport_78,grc_passport_55,aze_passport,0.41250515,False,True
+non-match (two documents),aze_passport_78,rus_internalpassport_26,aze_passport,0.10904163,False,False
+non-match (two documents),aze_passport_78,svk_id_32,aze_passport,0.24785215,False,False
+non-match (two documents),aze_passport_79,aze_passport_82,aze_passport,0.1880778,False,False
+non-match (two documents),aze_passport_79,fin_id_48,aze_passport,0.18036792,False,False
+non-match (two documents),aze_passport_79,fin_id_72,aze_passport,0.1427171,False,False
+non-match (two documents),aze_passport_79,lva_passport_41,aze_passport,0.24347956,False,False
+non-match (two documents),aze_passport_79,srb_passport_44,aze_passport,0.096989885,False,False
+non-match (two documents),aze_passport_80,esp_id_59,aze_passport,0.12685347,False,False
+non-match (two documents),aze_passport_80,fin_id_82,aze_passport,0.41114938,False,True
+non-match (two documents),aze_passport_80,lva_passport_70,aze_passport,0.22794543,False,False
+non-match (two documents),aze_passport_80,srb_passport_42,aze_passport,0.17772438,False,False
+non-match (two documents),aze_passport_80,svk_id_96,aze_passport,0.41633675,False,True
+non-match (two documents),aze_passport_81,esp_id_74,aze_passport,0.25983763,False,True
+non-match (two documents),aze_passport_81,lva_passport_81,aze_passport,0.46394217,False,True
+non-match (two documents),aze_passport_81,rus_internalpassport_18,aze_passport,0.2300953,False,False
+non-match (two documents),aze_passport_81,rus_internalpassport_83,aze_passport,0.39541602,False,True
+non-match (two documents),aze_passport_81,svk_id_77,aze_passport,0.08341561,False,False
+non-match (two documents),aze_passport_81,svk_id_84,aze_passport,0.21646821,False,False
+non-match (two documents),aze_passport_82,lva_passport_40,aze_passport,0.075270295,False,False
+non-match (two documents),aze_passport_82,lva_passport_51,aze_passport,0.30364692,False,True
+non-match (two documents),aze_passport_82,rus_internalpassport_83,aze_passport,0.44420317,False,True
+non-match (two documents),aze_passport_82,rus_internalpassport_88,aze_passport,0.38518032,False,True
+non-match (two documents),aze_passport_83,esp_id_11,aze_passport,0.42940956,False,True
+non-match (two documents),aze_passport_83,esp_id_98,aze_passport,0.20809819,False,False
+non-match (two documents),aze_passport_83,grc_passport_61,aze_passport,0.4166594,False,True
+non-match (two documents),aze_passport_83,grc_passport_81,aze_passport,0.51254123,False,True
+non-match (two documents),aze_passport_83,lva_passport_07,aze_passport,0.12785299,False,False
+non-match (two documents),aze_passport_83,rus_internalpassport_16,aze_passport,0.20857175,False,False
+non-match (two documents),aze_passport_83,srb_passport_56,aze_passport,0.19869336,False,False
+non-match (two documents),aze_passport_83,svk_id_06,aze_passport,0.23644544,False,False
+non-match (two documents),aze_passport_84,aze_passport_99,aze_passport,0.15607888,False,False
+non-match (two documents),aze_passport_84,esp_id_19,aze_passport,0.15708944,False,False
+non-match (two documents),aze_passport_84,lva_passport_21,aze_passport,0.2470126,False,False
+non-match (two documents),aze_passport_84,lva_passport_34,aze_passport,0.2235617,False,False
+non-match (two documents),aze_passport_84,rus_internalpassport_67,aze_passport,0.12989329,False,False
+non-match (two documents),aze_passport_86,srb_passport_41,aze_passport,0.3432557,False,True
+non-match (two documents),aze_passport_87,lva_passport_03,aze_passport,0.05233406,False,False
+non-match (two documents),aze_passport_87,lva_passport_18,aze_passport,0.29741108,False,True
+non-match (two documents),aze_passport_87,rus_internalpassport_62,aze_passport,0.09418343,False,False
+non-match (two documents),aze_passport_87,srb_passport_70,aze_passport,0.26637113,False,True
+non-match (two documents),aze_passport_87,svk_id_85,aze_passport,0.4826891,False,True
+non-match (two documents),aze_passport_87,svk_id_88,aze_passport,0.39847755,False,True
+non-match (two documents),aze_passport_87,svk_id_91,aze_passport,0.19892122,False,False
+non-match (two documents),aze_passport_88,fin_id_00,aze_passport,0.3187438,False,True
+non-match (two documents),aze_passport_88,rus_internalpassport_51,aze_passport,0.31164813,False,True
+non-match (two documents),aze_passport_88,srb_passport_18,aze_passport,0.2873227,False,True
+non-match (two documents),aze_passport_88,srb_passport_19,aze_passport,0.16817123,False,False
+non-match (two documents),aze_passport_88,svk_id_28,aze_passport,0.38672146,False,True
+non-match (two documents),aze_passport_88,svk_id_90,aze_passport,0.3328277,False,True
+non-match (two documents),aze_passport_89,rus_internalpassport_51,aze_passport,0.26640418,False,True
+non-match (two documents),aze_passport_89,rus_internalpassport_86,aze_passport,0.30839854,False,True
+non-match (two documents),aze_passport_89,srb_passport_48,aze_passport,0.07710146,False,False
+non-match (two documents),aze_passport_90,fin_id_55,aze_passport,0.043250382,False,False
+non-match (two documents),aze_passport_90,lva_passport_43,aze_passport,0.104205415,False,False
+non-match (two documents),aze_passport_90,rus_internalpassport_13,aze_passport,0.27304512,False,True
+non-match (two documents),aze_passport_90,rus_internalpassport_77,aze_passport,-0.025734209,False,False
+non-match (two documents),aze_passport_91,esp_id_38,aze_passport,0.12040882,False,False
+non-match (two documents),aze_passport_91,grc_passport_00,aze_passport,0.39285797,False,True
+non-match (two documents),aze_passport_91,grc_passport_56,aze_passport,-0.0036316197,False,False

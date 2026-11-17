@@ -7,7 +7,7 @@ from __future__ import annotations
 
 import numpy as np
 import pandas as pd
-from sklearn.metrics import average_precision_score, precision_recall_curve, roc_auc_score
+from sklearn.metrics import average_precision_score, precision_recall_curve, roc_auc_score, roc_curve
 
 from ekyc.tiles import page_scores
 
@@ -234,3 +234,43 @@ def compression_history_check(tiles: pd.DataFrame, pages: pd.DataFrame, other_ge
             "mean genuine tile score": float(table.loc[genuine_tile, score_column].mean()),
         }
     return pd.DataFrame(columns)
+
+
+# =============================================================== face verification (Phase 4)
+# Convention: label 1 = the two faces show the same person (a "genuine" pair), 0 = two different people (an
+# "impostor" pair). A pair is ACCEPTED as the same person when score >= threshold.
+# FAR (false-accept rate) = share of impostor pairs accepted: the costly error in KYC (an impostor gets onboarded).
+# TAR (true-accept rate) = share of genuine pairs accepted; FRR (false-reject rate) = 1 - TAR.
+
+
+def threshold_at_far(y_true, scores, max_far: float = 0.01) -> dict:
+    """The threshold with the highest TAR among those whose FAR is still <= max_far.
+    Returns threshold, far and tar at that threshold (measured on the pairs given)."""
+    fpr, tpr, thresholds = roc_curve(y_true, scores, drop_intermediate=False)
+    i = np.flatnonzero(fpr <= max_far).max()  # fpr and tpr only grow along the curve: the last allowed point
+    return {"threshold": float(thresholds[i]), "far": float(fpr[i]), "tar": float(tpr[i])}
+
+
+def equal_error_rate(y_true, scores) -> dict:
+    """EER: the error rate at the threshold where FAR and FRR are (closest to) equal; their mean is reported."""
+    fpr, tpr, thresholds = roc_curve(y_true, scores, drop_intermediate=False)
+    i = int(np.argmin(np.abs((1 - tpr) - fpr)))
+    return {"eer": float((fpr[i] + 1 - tpr[i]) / 2), "threshold": float(thresholds[i])}
+
+
+def verification_report(y_true, scores, threshold: float) -> dict:
+    """Threshold-free metrics (ROC-AUC, EER, TAR at FAR 1 % and 0.1 %) and the rates at `threshold`."""
+    y_true, scores = np.asarray(y_true), np.asarray(scores, dtype=float)
+    accepted = scores >= threshold
+    return {
+        "roc_auc": float(roc_auc_score(y_true, scores)),
+        "eer": equal_error_rate(y_true, scores)["eer"],
+        "tar_at_far_1%": threshold_at_far(y_true, scores, 0.01)["tar"],
+        "tar_at_far_0.1%": threshold_at_far(y_true, scores, 0.001)["tar"],
+        "threshold": float(threshold),
+        "accuracy": float((accepted == (y_true == 1)).mean()),
+        "far": float(accepted[y_true == 0].mean()),
+        "frr": float((~accepted[y_true == 1]).mean()),
+        "impostor pairs": int((y_true == 0).sum()),
+        "genuine pairs": int((y_true == 1).sum()),
+    }
