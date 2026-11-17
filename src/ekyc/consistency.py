@@ -129,6 +129,15 @@ RULES = {  # name -> what it checks (shown to the officer)
     "date_order": "date of birth < date of issue < date of expiry",
 }
 MRZ_RULES = tuple(r for r in RULES if r.startswith("mrz_"))
+# How much a FAILED rule weighs for the decision engine (Phase 5 findings, CLAUDE.md). "strong": reliable even on
+# LLM-extracted fields (0-3.4 % false flags on genuine test passports): forgery-suspected-level evidence.
+# "review": names and MRZ format/birth date suffer from 7B reading errors (up to 27 % false flags): needs review.
+RULE_SEVERITY = {"mrz_check_document_number": "strong", "mrz_check_birth_date": "strong",
+                 "mrz_check_expiry_date": "strong", "mrz_check_composite": "strong", "mrz_vs_document_number": "strong",
+                 "mrz_vs_expiry_date": "strong", "date_order": "strong",
+                 "mrz_format": "review", "mrz_vs_surname": "review", "mrz_vs_given_names": "review",
+                 "mrz_vs_birth_date": "review", "dates_parseable": "review"}
+assert set(RULE_SEVERITY) == set(RULES)
 # Rules demoted to "info" for a document type because they false-flag > 5 % of GENUINE ground-truth documents
 # there (filled in from the validation in notebook 05; key = (rule, doc_type), or (rule, "*") for all types).
 RULE_LEVEL_OVERRIDES: dict[tuple[str, str], str] = {}
