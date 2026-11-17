@@ -1,0 +1,39 @@
+{
+  "version": "v3: tiles on compression-equalised hi-res templates",
+  "status": "passed all three validation stop rules",
+  "checkpoint": "forgery_v3_tiles_stage2.keras",
+  "page_preprocessing": "RGB; JPEG quality 75 save at the ORIGINAL size; resize so the longest side is exactly 1280 px (Lanczos, small pages enlarged); JPEG quality 75 save; decode (data.resize_to_cache with pre_quality, enlarge=True). Training applied the first save to genuine pages only, because forged pages already had it; for new uploads apply it to every page.",
+  "tile_size": 224,
+  "stride": 112,
+  "grid": "starts 0, stride, 2*stride, ... plus one last tile flush with the right/bottom edge (no padding)",
+  "tile_input": "float32 pixels 0-255 (EfficientNet rescales internally; do not divide by 255)",
+  "tile_output": "sigmoid probability that the tile shows an edited field",
+  "aggregation": "page score = highest tile score",
+  "decision_rule": "forged if page score >= threshold",
+  "thresholds": {
+    "recall_0.90": {
+      "threshold": 0.729,
+      "precision": 0.8351,
+      "recall": 0.905
+    },
+    "f1_optimal": {
+      "threshold": 0.857383,
+      "precision": 0.9294,
+      "recall": 0.8827,
+      "f1": 0.9054
+    },
+    "fix_note": "Phase 6: f1_optimal threshold corrected from 0.8574 to 0.857383 (exact validation value np.float64(0.8573834300041199)); 0.8574 had been rounded UP past it and dropped one validation page. Policy: >= 0.857383 forgery suspected, >= 0.729 needs review, below pass."
+  },
+  "scope": "trained and validated on SIDTD templates (flat scans) only; not validated on photos or video frames. Crop_and_Replace edits (pasted real text) are mostly missed: combine with field-consistency rules.",
+  "val": {
+    "doc_pr_auc": 0.9632,
+    "doc_roc_auc": 0.9391,
+    "tile_pr_auc": 0.8685,
+    "position_matched_control_auc": 0.4908,
+    "position_matched_control_auc_highest_type": {
+      "lva_passport": 0.5138
+    },
+    "edit_hidden_doc_roc_auc": 0.4034
+  },
+  "notes": "thresholds were chosen on validation and must be re-checked once on the test split"
+}

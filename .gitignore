@@ -5,7 +5,8 @@ data/
 .venv/
 
 # Trained model weights (large binaries, reproducible from notebooks)
-models/
+models/*
+!models/*.json
 
 # Secrets (cloud vision API key)
 .env

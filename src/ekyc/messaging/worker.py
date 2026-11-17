@@ -25,11 +25,11 @@ from collections import OrderedDict
 from dataclasses import dataclass, field
 from typing import Any
 
-from confluent_kafka import KafkaException
 from pydantic import BaseModel, ValidationError
 
 from ekyc.messaging import storage
 from ekyc.messaging.events import CheckResult, DeadLetter, Topics, make_event, parse_event
+from ekyc.messaging import kafka as kafka_helpers
 from ekyc.messaging.kafka import make_consumer, make_producer, publish
 from ekyc.messaging.retry import PermanentError, RetriesExhausted, RetryPolicy, run_with_retry
 from ekyc.messaging.settings import Settings, load_settings
@@ -119,12 +119,8 @@ class Worker(ABC):
         """Commit the offset (after the result is stored). A failed commit is NOT fatal: the result is already in
         Kafka; at worst the task is delivered again and its duplicate result is absorbed by the idempotent upsert.
         (Seen in Phase 6: under heavy memory pressure the group session lapsed -> "Waiting for coordinator".)"""
-        try:
-            self.consumer.commit(message=message, asynchronous=False)
-        except KafkaException as exc:
+        if not kafka_helpers.safe_commit(self.consumer, message, self.log):
             self.stats["commit_failures"] = self.stats.get("commit_failures", 0) + 1
-            self.log.warning("offset commit failed (%s); the task may be delivered again (results are idempotent)",
-                             exc.args[0] if exc.args else exc)
 
     def _request_stop(self, signum, frame) -> None:
         self.log.info("signal %s: finishing the current message, then stopping", signal.Signals(signum).name)
@@ -167,12 +163,7 @@ class Worker(ABC):
         Phase 6: the Docker VM paged out under memory pressure) is waited for, with a warning every 10 s, up to
         librdkafka's own delivery timeout (5 min). Only then does the worker give up (exception -> no commit, so
         the task is delivered again after a restart)."""
-        start = time.monotonic()
-        while (remaining := self.producer.flush(10)) > 0:
-            waited = time.monotonic() - start
-            if waited >= limit_s:
-                raise RuntimeError(f"{remaining} message(s) not acknowledged by Kafka after {waited:.0f} s")
-            self.log.warning("waiting for Kafka to acknowledge %d message(s) (%.0f s so far)", remaining, waited)
+        kafka_helpers.wait_delivered(self.producer, self.log, limit_s)
 
     def dead_letter(self, raw: bytes, error: str, attempts: int, application_id: str = "unknown") -> None:
         letter = DeadLetter(source_topic=self.task_topic, worker=self.name, error=error[:2000], attempts=attempts,

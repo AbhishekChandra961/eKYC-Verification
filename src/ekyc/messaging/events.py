@@ -38,6 +38,23 @@ class Topics:
 CheckType = Literal["doc", "forgery", "face", "extraction"]
 
 
+class SubmittedPayload(BaseModel):
+    """api -> orchestrator: a new application. Only object keys: the applicant's name and date of birth stay in
+    MongoDB (Kafka UI shows every message, so no personal data travels over Kafka)."""
+    model_config = ConfigDict(extra="forbid")
+    document_key: str = Field(min_length=1)
+    selfie_key: str = Field(min_length=1)
+
+
+class DecidedPayload(BaseModel):
+    """orchestrator -> api: the decision (codes only; the full reasons with evidence are in MongoDB)."""
+    model_config = ConfigDict(extra="forbid")
+    outcome: Literal["AUTO_APPROVED", "MANUAL_REVIEW", "RESUBMIT_REQUIRED"]
+    risk_level: Literal["low", "medium", "high"] | None
+    risk_score: float
+    reason_codes: list[str]
+
+
 class _Payload(BaseModel):
     model_config = ConfigDict(extra="forbid")  # an unexpected field is an error, not silently ignored
 
@@ -104,7 +121,8 @@ class Envelope(BaseModel, Generic[P]):
     payload: P
 
 
-EVENT_TYPES: dict[type[BaseModel], str] = {DocTask: "task.doc", ForgeryTask: "task.forgery", FaceTask: "task.face",
+EVENT_TYPES: dict[type[BaseModel], str] = {SubmittedPayload: "application.submitted",
+                                           DecidedPayload: "application.decided", DocTask: "task.doc", ForgeryTask: "task.forgery", FaceTask: "task.face",
                                            ExtractionTask: "task.extraction", CheckResult: "check.result",
                                            DeadLetter: "dead_letter"}
 TASK_TOPIC: dict[str, str] = {"doc": Topics.TASK_DOC, "forgery": Topics.TASK_FORGERY, "face": Topics.TASK_FACE,

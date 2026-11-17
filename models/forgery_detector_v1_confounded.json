@@ -1,0 +1,24 @@
+{
+  "warning": "v1: learned the clip recording style, not the edits (near chance on templates). Do not use in the pipeline.",
+  "model": "B2 (forgery_b2_stage2.keras)",
+  "input_size": 512,
+  "output": "sigmoid probability that the image is forged",
+  "decision_rule": "forged if score >= threshold",
+  "thresholds": {
+    "recall_0.90": {
+      "threshold": 0.8452,
+      "precision": 0.8906,
+      "recall": 0.901
+    },
+    "f1_optimal": {
+      "threshold": 0.7399,
+      "precision": 0.8457,
+      "recall": 0.9779,
+      "f1": 0.907
+    }
+  },
+  "preprocessing": "512 px RGB cache image (never the raw file: CMYK originals) -> tf.image.resize_with_pad(512, 512) -> float32 pixels 0-255; the model rescales internally; do not divide by 255",
+  "notes": "skip frames flagged is_empty; thresholds were chosen on validation and must be re-checked on test",
+  "val_pr_auc": 0.976,
+  "val_roc_auc": 0.9859
+}

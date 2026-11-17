@@ -175,6 +175,7 @@ class FaceVerifier:
         self.detector, self.recognizer = face.load_face_models()
         cfg = json.loads((model_dir / "face_config.json").read_text())
         self.threshold = float(cfg["decision"]["threshold"])  # 0.2597
+        self.match_from = float(cfg["decision"].get("review_below", FACE_MATCH_FROM))  # 0.556
         self.version = f"{file_version(config.YUNET_ONNX)}, {file_version(config.SFACE_ONNX)}"
 
     def _face(self, image_bytes: bytes):
@@ -195,8 +196,8 @@ class FaceVerifier:
         if id_embedding is not None and selfie_embedding is not None:
             score = round(face.compare(id_embedding, selfie_embedding), 4)
         missing = [name for name, e in (("id_document", id_embedding), ("selfie", selfie_embedding)) if e is None]
-        return {"score": score, "band": face_band(score, self.threshold),
-                "thresholds": {"mismatch_below": self.threshold, "match_from": FACE_MATCH_FROM},
+        return {"score": score, "band": face_band(score, self.threshold, self.match_from),
+                "thresholds": {"mismatch_below": self.threshold, "match_from": self.match_from},
                 "id_face": id_info, "selfie_face": selfie_info,
                 "reason": f"no face found on: {', '.join(missing)} (ask for a new photo or review)" if missing else None}
 

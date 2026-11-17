@@ -1,0 +1,35 @@
+{
+  "warning": "v2: residual compression-history cue (q92 vs q75 at original size survives on enlarged doc types); position-matched negative control 0.58 overall, 0.65 on est_id/fin_id/svk_id/grc_passport. Kept for comparison only; do not use in the pipeline (v3 = models/forgery_detector.keras).",
+  "version": "v2: tiles on hi-res templates",
+  "status": "passed both validation stop rules",
+  "checkpoint": "forgery_tiles_stage2.keras",
+  "page_preprocessing": "RGB; resize so the longest side is exactly 1280 px (Lanczos, small pages enlarged); save as JPEG quality 75; decode",
+  "tile_size": 224,
+  "stride": 112,
+  "grid": "starts 0, stride, 2*stride, ... plus one last tile flush with the right/bottom edge (no padding)",
+  "tile_input": "float32 pixels 0-255 (EfficientNet rescales internally; do not divide by 255)",
+  "tile_output": "sigmoid probability that the tile shows an edited field",
+  "aggregation": "page score = mean of the 3 highest tile scores",
+  "decision_rule": "forged if page score >= threshold",
+  "thresholds": {
+    "recall_0.90": {
+      "threshold": 0.7408,
+      "precision": 0.9702,
+      "recall": 0.9106
+    },
+    "f1_optimal": {
+      "threshold": 0.6646,
+      "precision": 0.954,
+      "recall": 0.9274,
+      "f1": 0.9405
+    }
+  },
+  "scope": "trained and validated on SIDTD templates (flat scans) only; not validated on photos or video frames",
+  "val": {
+    "doc_pr_auc": 0.9825,
+    "doc_roc_auc": 0.9737,
+    "tile_pr_auc": 0.8744,
+    "negative_control_auc": 0.4899
+  },
+  "notes": "thresholds were chosen on validation and must be re-checked once on the test split"
+}
