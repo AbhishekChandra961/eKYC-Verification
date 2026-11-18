@@ -1,0 +1,1608 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "eKYC verification API",
+    "description": "Customer onboarding (ID document + selfie) and the compliance officer's review queue. Log in via **POST /auth/login** (or the Authorize button), then try the endpoints.",
+    "version": "0.7.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Health",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "type": "object",
+                  "title": "Response Health Health Get"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login",
+        "operationId": "login_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_login_auth_login_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "My Applications",
+        "operationId": "my_applications_applications_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/ApplicationView"
+                  },
+                  "type": "array",
+                  "title": "Response My Applications Applications Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Submit an ID document and a selfie",
+        "operationId": "submit_applications_post",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_submit_applications_post"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmitResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ]
+      }
+    },
+    "/applications/{application_id}": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "My Application",
+        "operationId": "my_application_applications__application_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApplicationView"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/applications/{application_id}/events": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Server-Sent Events: one 'status' event per change, until a final status",
+        "operationId": "application_events_applications__application_id__events_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/officer/cases": {
+      "get": {
+        "tags": [
+          "officer"
+        ],
+        "summary": "The review queue, highest risk first",
+        "operationId": "cases_officer_cases_get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "SUBMITTED",
+                    "PROCESSING",
+                    "DECIDED",
+                    "APPROVED",
+                    "REJECTED"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "examples": [
+                "DECIDED"
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "outcome",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "AUTO_APPROVED",
+                    "MANUAL_REVIEW",
+                    "RESUBMIT_REQUIRED"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "examples": [
+                "MANUAL_REVIEW"
+              ],
+              "title": "Outcome"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 500,
+              "minimum": 1,
+              "default": 100,
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CaseRow"
+                  },
+                  "title": "Response Cases Officer Cases Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/officer/cases/{application_id}": {
+      "get": {
+        "tags": [
+          "officer"
+        ],
+        "summary": "Everything about one case, with short-lived image links",
+        "operationId": "case_officer_cases__application_id__get",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseDetail"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/officer/cases/{application_id}/decision": {
+      "post": {
+        "tags": [
+          "officer"
+        ],
+        "summary": "Approve or reject (reason required)",
+        "operationId": "officer_decision_officer_cases__application_id__decision_post",
+        "security": [
+          {
+            "OAuth2PasswordBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "application_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Application Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OfficerDecision"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OfficerDecisionResult"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Applicant": {
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "title": "Full Name"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "title": "Date Of Birth"
+          }
+        },
+        "type": "object",
+        "required": [
+          "full_name",
+          "date_of_birth"
+        ],
+        "title": "Applicant"
+      },
+      "ApplicationView": {
+        "properties": {
+          "application_id": {
+            "type": "string",
+            "title": "Application Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "SUBMITTED",
+              "PROCESSING",
+              "DECIDED",
+              "APPROVED",
+              "REJECTED"
+            ],
+            "title": "Status"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "AUTO_APPROVED",
+                  "MANUAL_REVIEW",
+                  "RESUBMIT_REQUIRED"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outcome"
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message"
+          },
+          "retake": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Retake",
+            "description": "what to photograph again (RESUBMIT_REQUIRED only)"
+          },
+          "progress": {
+            "$ref": "#/components/schemas/Progress"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "application_id",
+          "status",
+          "progress",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ApplicationView",
+        "description": "What a customer sees: status, outcome, a neutral message, progress and (only for RESUBMIT_REQUIRED) what to\nphotograph again. NEVER fraud signals: no forgery/face scores, rule flags, risk level or score (CLAUDE.md)."
+      },
+      "AuditEntry": {
+        "properties": {
+          "application_id": {
+            "type": "string",
+            "title": "Application Id"
+          },
+          "actor": {
+            "type": "string",
+            "title": "Actor",
+            "examples": [
+              "officer:u-ccb28e961558"
+            ]
+          },
+          "from_status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "SUBMITTED",
+                  "PROCESSING",
+                  "DECIDED",
+                  "APPROVED",
+                  "REJECTED"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "From Status"
+          },
+          "to_status": {
+            "type": "string",
+            "enum": [
+              "SUBMITTED",
+              "PROCESSING",
+              "DECIDED",
+              "APPROVED",
+              "REJECTED"
+            ],
+            "title": "To Status"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "application_id",
+          "actor",
+          "from_status",
+          "to_status",
+          "reason",
+          "at"
+        ],
+        "title": "AuditEntry"
+      },
+      "Body_login_auth_login_post": {
+        "properties": {
+          "grant_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^password$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Grant Type"
+          },
+          "username": {
+            "type": "string",
+            "title": "Username"
+          },
+          "password": {
+            "type": "string",
+            "format": "password",
+            "title": "Password"
+          },
+          "scope": {
+            "type": "string",
+            "title": "Scope",
+            "default": ""
+          },
+          "client_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Client Id"
+          },
+          "client_secret": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "format": "password",
+            "title": "Client Secret"
+          }
+        },
+        "type": "object",
+        "required": [
+          "username",
+          "password"
+        ],
+        "title": "Body_login_auth_login_post"
+      },
+      "Body_submit_applications_post": {
+        "properties": {
+          "full_name": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Full Name",
+            "examples": [
+              "Krsto Velimirovic"
+            ]
+          },
+          "date_of_birth": {
+            "type": "string",
+            "format": "date",
+            "title": "Date Of Birth",
+            "examples": [
+              "1974-08-15"
+            ]
+          },
+          "id_image": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "Id Image",
+            "description": "photo or scan of the ID document (JPEG/PNG)"
+          },
+          "selfie": {
+            "type": "string",
+            "contentMediaType": "application/octet-stream",
+            "title": "Selfie",
+            "description": "selfie (JPEG/PNG)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "full_name",
+          "date_of_birth",
+          "id_image",
+          "selfie"
+        ],
+        "title": "Body_submit_applications_post"
+      },
+      "CaseApplication": {
+        "properties": {
+          "application_id": {
+            "type": "string",
+            "title": "Application Id"
+          },
+          "customer_id": {
+            "type": "string",
+            "title": "Customer Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "SUBMITTED",
+              "PROCESSING",
+              "DECIDED",
+              "APPROVED",
+              "REJECTED"
+            ],
+            "title": "Status"
+          },
+          "applicant": {
+            "$ref": "#/components/schemas/Applicant"
+          },
+          "document_key": {
+            "type": "string",
+            "title": "Document Key"
+          },
+          "selfie_key": {
+            "type": "string",
+            "title": "Selfie Key"
+          },
+          "doc_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Doc Type"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "decision": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DecisionOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "officer_decision": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/OfficerDecisionRecord"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "application_id",
+          "customer_id",
+          "status",
+          "applicant",
+          "document_key",
+          "selfie_key",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "CaseApplication"
+      },
+      "CaseDetail": {
+        "properties": {
+          "application": {
+            "$ref": "#/components/schemas/CaseApplication"
+          },
+          "checks": {
+            "additionalProperties": {
+              "$ref": "#/components/schemas/CheckOut"
+            },
+            "type": "object",
+            "title": "Checks"
+          },
+          "decision": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DecisionOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary",
+            "description": "template summary: the official record"
+          },
+          "ai_note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ai Note",
+            "description": "optional LLM note; must be shown as AI-assisted"
+          },
+          "forgery_top_tile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TopTile"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "forgery_heatmap": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Heatmap"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "images": {
+            "$ref": "#/components/schemas/CaseImages"
+          },
+          "audit_trail": {
+            "items": {
+              "$ref": "#/components/schemas/AuditEntry"
+            },
+            "type": "array",
+            "title": "Audit Trail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "application",
+          "checks",
+          "images",
+          "audit_trail"
+        ],
+        "title": "CaseDetail"
+      },
+      "CaseImages": {
+        "properties": {
+          "document_url": {
+            "type": "string",
+            "title": "Document Url"
+          },
+          "selfie_url": {
+            "type": "string",
+            "title": "Selfie Url"
+          },
+          "expires_in": {
+            "type": "integer",
+            "title": "Expires In",
+            "description": "seconds the presigned links stay valid"
+          }
+        },
+        "type": "object",
+        "required": [
+          "document_url",
+          "selfie_url",
+          "expires_in"
+        ],
+        "title": "CaseImages"
+      },
+      "CaseRow": {
+        "properties": {
+          "application_id": {
+            "type": "string",
+            "title": "Application Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "SUBMITTED",
+              "PROCESSING",
+              "DECIDED",
+              "APPROVED",
+              "REJECTED"
+            ],
+            "title": "Status"
+          },
+          "doc_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Doc Type"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "AUTO_APPROVED",
+                  "MANUAL_REVIEW",
+                  "RESUBMIT_REQUIRED"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Outcome"
+          },
+          "risk_level": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Level"
+          },
+          "risk_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Score"
+          },
+          "reason_codes": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Reason Codes"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At"
+          },
+          "decided_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decided At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "application_id",
+          "status",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "CaseRow"
+      },
+      "CheckOut": {
+        "properties": {
+          "check_type": {
+            "type": "string",
+            "title": "Check Type"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "failed",
+              "timed_out",
+              "skipped"
+            ],
+            "title": "Status"
+          },
+          "outputs": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Outputs"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "latency_ms": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latency Ms"
+          },
+          "model_versions": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Model Versions"
+          },
+          "updated_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Updated At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "check_type",
+          "status"
+        ],
+        "title": "CheckOut"
+      },
+      "DecisionOut": {
+        "properties": {
+          "outcome": {
+            "type": "string",
+            "enum": [
+              "AUTO_APPROVED",
+              "MANUAL_REVIEW",
+              "RESUBMIT_REQUIRED"
+            ],
+            "title": "Outcome"
+          },
+          "risk_level": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Risk Level"
+          },
+          "risk_score": {
+            "type": "number",
+            "title": "Risk Score",
+            "default": 0.0
+          },
+          "reasons": {
+            "items": {
+              "$ref": "#/components/schemas/ReasonOut"
+            },
+            "type": "array",
+            "title": "Reasons"
+          },
+          "decided_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decided At"
+          },
+          "early": {
+            "type": "boolean",
+            "title": "Early",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "outcome"
+        ],
+        "title": "DecisionOut"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "Heatmap": {
+        "properties": {
+          "page_size_1280": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Page Size 1280",
+            "description": "width, height of the 1280 px page the tiles are placed on"
+          },
+          "original_size": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Original Size"
+          },
+          "tile_size": {
+            "type": "integer",
+            "title": "Tile Size",
+            "default": 224
+          },
+          "tiles": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TileGrid"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "None for results stored before the grid was added (Phase 8)"
+          },
+          "top_tile": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/TopTile"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "thresholds": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "number"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thresholds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "page_size_1280"
+        ],
+        "title": "Heatmap"
+      },
+      "OfficerDecision": {
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "approve",
+              "reject"
+            ],
+            "title": "Action"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 5,
+            "title": "Reason",
+            "examples": [
+              "Surname on the page differs from the MRZ; document edited."
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "action",
+          "reason"
+        ],
+        "title": "OfficerDecision"
+      },
+      "OfficerDecisionRecord": {
+        "properties": {
+          "action": {
+            "type": "string",
+            "enum": [
+              "approve",
+              "reject"
+            ],
+            "title": "Action"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "officer_id": {
+            "type": "string",
+            "title": "Officer Id"
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "action",
+          "reason",
+          "officer_id",
+          "at"
+        ],
+        "title": "OfficerDecisionRecord"
+      },
+      "OfficerDecisionResult": {
+        "properties": {
+          "application_id": {
+            "type": "string",
+            "title": "Application Id"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "SUBMITTED",
+              "PROCESSING",
+              "DECIDED",
+              "APPROVED",
+              "REJECTED"
+            ],
+            "title": "Status"
+          },
+          "audit_trail": {
+            "items": {
+              "$ref": "#/components/schemas/AuditEntry"
+            },
+            "type": "array",
+            "title": "Audit Trail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "application_id",
+          "status",
+          "audit_trail"
+        ],
+        "title": "OfficerDecisionResult"
+      },
+      "Progress": {
+        "properties": {
+          "completed": {
+            "type": "integer",
+            "title": "Completed",
+            "examples": [
+              2
+            ]
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "examples": [
+              4
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "completed",
+          "total"
+        ],
+        "title": "Progress",
+        "description": "How far the checks are, WITHOUT their results (customer-safe)."
+      },
+      "ReasonOut": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "examples": [
+              "forgery_suspected"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "default": ""
+          },
+          "effect": {
+            "type": "string",
+            "enum": [
+              "resubmit",
+              "high",
+              "medium",
+              "info"
+            ],
+            "title": "Effect"
+          },
+          "check_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Check Type"
+          },
+          "evidence": {
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Evidence"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "effect"
+        ],
+        "title": "ReasonOut"
+      },
+      "SubmitResponse": {
+        "properties": {
+          "application_id": {
+            "type": "string",
+            "title": "Application Id",
+            "examples": [
+              "app-3f2a9c1d7e4b5a60"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "SUBMITTED",
+              "PROCESSING",
+              "DECIDED",
+              "APPROVED",
+              "REJECTED"
+            ],
+            "title": "Status",
+            "examples": [
+              "SUBMITTED"
+            ]
+          },
+          "status_url": {
+            "type": "string",
+            "title": "Status Url"
+          },
+          "events_url": {
+            "type": "string",
+            "title": "Events Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "application_id",
+          "status",
+          "status_url",
+          "events_url"
+        ],
+        "title": "SubmitResponse"
+      },
+      "TileGrid": {
+        "properties": {
+          "size": {
+            "type": "integer",
+            "title": "Size",
+            "description": "tile side in px on the 1280 px page"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "xy": {
+            "items": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Xy",
+            "description": "top-left corner of every tile on the 1280 px page"
+          },
+          "scores": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Scores"
+          }
+        },
+        "type": "object",
+        "required": [
+          "size",
+          "count",
+          "xy",
+          "scores"
+        ],
+        "title": "TileGrid"
+      },
+      "Token": {
+        "properties": {
+          "access_token": {
+            "type": "string",
+            "title": "Access Token"
+          },
+          "token_type": {
+            "type": "string",
+            "title": "Token Type",
+            "default": "bearer"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "CUSTOMER",
+              "OFFICER"
+            ],
+            "title": "Role"
+          },
+          "expires_in": {
+            "type": "integer",
+            "title": "Expires In",
+            "description": "seconds"
+          }
+        },
+        "type": "object",
+        "required": [
+          "access_token",
+          "role",
+          "expires_in"
+        ],
+        "title": "Token"
+      },
+      "TopTile": {
+        "properties": {
+          "score": {
+            "type": "number",
+            "title": "Score"
+          },
+          "box_1280": {
+            "items": {
+              "type": "integer"
+            },
+            "type": "array",
+            "title": "Box 1280",
+            "description": "x, y, width, height on the page resized to 1280 px (longest side)"
+          },
+          "box_original": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "integer"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Box Original"
+          }
+        },
+        "type": "object",
+        "required": [
+          "score",
+          "box_1280"
+        ],
+        "title": "TopTile"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    },
+    "securitySchemes": {
+      "OAuth2PasswordBearer": {
+        "type": "oauth2",
+        "flows": {
+          "password": {
+            "scopes": {},
+            "tokenUrl": "/auth/login"
+          }
+        }
+      }
+    }
+  }
+}

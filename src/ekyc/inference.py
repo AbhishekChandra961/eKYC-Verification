@@ -148,7 +148,10 @@ class ForgeryScorer:
                 "thresholds": {"needs_review": self.review, "forgery_suspected": self.suspected},
                 "top_tile": {"score": round(page_score, 4), "box_1280": list(box),  # x, y, w, h on the 1280 px page
                              "box_original": [round(v) for v in tiles.scale_box(box, (width, height), original_size)]},
-                "tiles": len(xy), "page_size_1280": [width, height], "original_size": list(original_size)}
+                # every tile, for the officer's heatmap: (x, y) on the 1280 px page + score (~80 tiles, ~2 KB)
+                "tiles": {"size": self.tile, "count": len(xy), "xy": xy.tolist(),
+                          "scores": [round(float(s), 3) for s in scores]},
+                "page_size_1280": [width, height], "original_size": list(original_size)}
 
 
 # ---------------------------------------------------------------- face match

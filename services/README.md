@@ -1,7 +1,7 @@
-# Services: API, orchestrator, inference workers (Phases 6-7)
+# Services: frontend, API, orchestrator, inference workers (Phases 6-8)
 
 ```
-customer/officer --HTTP--> api --(kyc.submitted)--> orchestrator --(kyc.tasks.doc|face, then forgery|extraction)--> 4 workers
+browser (React, frontend/) --HTTP--> api --(kyc.submitted)--> orchestrator --(kyc.tasks.doc|face, then forgery|extraction)--> 4 workers
                     ^  SSE   |                         |  ^                                                          |
                     |        v                         v  +----------------------(kyc.results)-------------------------+
                     |    MongoDB <------------------- decision engine (src/ekyc/decision.py) --(kyc.decided)
@@ -14,14 +14,43 @@ customer/officer --HTTP--> api --(kyc.submitted)--> orchestrator --(kyc.tasks.do
 - **Services run on the host** as Python processes. Containerising them is Phase 9.
 - **Ollama always runs on the host** (Docker on macOS has no GPU).
 
-## Quick start (Phase 7)
+## Start the whole system (one place)
+
+One-time setup:
 
 ```bash
-docker compose up -d                      # infrastructure
-ollama serve                              # if not running (extraction)
-scripts/run_all.sh                        # orchestrator + API + 4 workers; logs in logs/services/
-open http://localhost:8000/docs           # interactive API docs; "Authorize" with a demo account from .env
-.venv/bin/python scripts/e2e_api_smoke.py # 4 applications end to end + officer flow + security checks
+cp .env.example .env                              # then fill in the secrets and the demo accounts
+(cd frontend && npm install)                      # frontend packages (~420 MB in frontend/node_modules)
+.venv/bin/python scripts/make_demo_samples.py     # demo_samples/: 6 synthetic test cases + what to type
+```
+
+Every time:
+
+```bash
+docker compose up -d        # Kafka, Kafka UI, MongoDB, S3 (RustFS)
+ollama serve                # if it is not already running (the extraction worker needs it)
+scripts/run_all.sh          # orchestrator + API + 4 workers + frontend; checks the above first; Ctrl+C stops all
+```
+
+| What | Where |
+|---|---|
+| Customer and officer portals | http://localhost:5173 (log in with `DEMO_CUSTOMER_*` / `DEMO_OFFICER_*` from `.env`) |
+| API docs (try every endpoint) | http://localhost:8000/docs |
+| Kafka UI | http://localhost:8080 |
+| Logs | `logs/services/<name>.log` |
+| Demo files and what to type | `demo_samples/README.md` |
+
+- **Workers need about 30 s** to load their models after `run_all.sh` starts.
+- **`EKYC_NO_FRONTEND=1 scripts/run_all.sh`** starts only the backend.
+- **Open the frontend as `localhost`, not `127.0.0.1`.** The API allows CORS from `http://localhost:5173` only.
+
+Tests:
+
+```bash
+.venv/bin/python -m pytest                          # Python: decision engine, orchestrator, API, workers
+.venv/bin/python scripts/e2e_api_smoke.py           # API end to end + officer flow + security checks
+cd frontend && npm run lint && npm run typecheck && npm test   # ESLint, TypeScript (strict), Vitest
+cd frontend && npm run e2e                          # Playwright (Chromium) through the UI; screenshots in reports/phase8/
 ```
 
 ### API (FastAPI, `services/api/app.py`): thin, no model ever runs here
@@ -30,16 +59,21 @@ open http://localhost:8000/docs           # interactive API docs; "Authorize" wi
 |---|---|---|---|
 | POST | `/auth/login` | - | form `username` (email) + `password` -> JWT (30 min) |
 | POST | `/applications` | CUSTOMER | multipart: `full_name`, `date_of_birth`, `id_image`, `selfie` (JPEG/PNG, <= 10 MB, checked with Pillow) -> S3 + MongoDB + `kyc.submitted` -> **202** with the id |
-| GET | `/applications`, `/applications/{id}` | CUSTOMER | own applications only (another customer's id -> 404); status, outcome, what to retake |
+| GET | `/applications`, `/applications/{id}` | CUSTOMER | own applications only (another customer's id -> 404); status, outcome, a neutral message, progress (checks completed / total, never their results), and what to retake (only for RESUBMIT_REQUIRED) |
 | GET | `/applications/{id}/events` | CUSTOMER | Server-Sent Events: one `status` event per change until a final status (`?token=` accepted, since browser EventSource cannot send headers) |
 | GET | `/officer/cases` | OFFICER | queue, filter `status` / `outcome`, highest risk score first |
-| GET | `/officer/cases/{id}` | OFFICER | applicant data, every check result, decision + reasons with evidence, official summary, forgery top tile, 5-minute presigned image URLs, audit trail |
+| GET | `/officer/cases/{id}` | OFFICER | applicant data, every check result, decision + reasons with evidence, official summary, forgery top tile and tile grid (`forgery_heatmap`), 5-minute presigned image URLs, audit trail |
 | POST | `/officer/cases/{id}/decision` | OFFICER | `{"action": "approve"\|"reject", "reason": "..."}` (reason mandatory); only from DECIDED (else 409); audited |
 | GET | `/health` | - | MongoDB, S3, Kafka reachable |
 
 - **Passwords and tokens:** passwords are hashed with argon2id (argon2-cffi); tokens are JWT (PyJWT, HS256).
 - **Status codes:** a wrong role gives 403; a missing, invalid or expired token gives 401.
 - **CORS:** allows `http://localhost:5173`.
+- **Typed responses:** every endpoint has a Pydantic response model, so the OpenAPI schema describes it exactly.
+  The frontend generates its TypeScript types from that schema (`cd frontend && npm run gen:api`, which runs
+  `scripts/export_openapi.py`; no server needed).
+- **Customers never see fraud signals.** `ApplicationView` has no scores, flags or risk fields; a test checks every
+  key of the customer responses, and the frontend checks it again (`frontend/src/customer/customerStatus.test.tsx`).
 - **Logs never contain names, dates of birth or document numbers.** They are masked (`K*** V***`), and
   `token=` is removed from access-log lines.
 
@@ -135,7 +169,7 @@ Ctrl+C stops them all. Each worker finishes its current message, leaves its cons
 | worker | topic | does | outputs (in `CheckResult.outputs`) |
 |---|---|---|---|
 | doc-worker | `kyc.tasks.doc` | blank-image gate, document classifier (reject below 0.77) | `doc_type`, `confidence`, `recognized`, `blank`, `top3` |
-| forgery-worker | `kyc.tasks.forgery` | exact preprocessing of `forgery_detector.json`, tile scores, page score | `score`, `band` (pass / needs_review / forgery_suspected), `top_tile` box |
+| forgery-worker | `kyc.tasks.forgery` | exact preprocessing of `forgery_detector.json`, tile scores, page score | `score`, `band` (pass / needs_review / forgery_suspected), `top_tile` box, `tiles` grid (every tile's position + score on the 1280 px page, ~2 KB; Phase 8, for the officer's heatmap) |
 | face-worker | `kyc.tasks.face` | largest face on the ID page vs the selfie (YuNet + SFace) | `score`, `band` (match / needs_review / mismatch / no_face_found) |
 | extraction-worker | `kyc.tasks.extraction` | Ollama qwen2.5vl:7b (prompt v2) + consistency rules | `fields`, `rules`, `strong_flags`, `review_flags` |
 

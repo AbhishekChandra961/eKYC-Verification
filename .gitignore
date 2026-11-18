@@ -26,3 +26,9 @@ __pycache__/
 CLAUDE.md
 CLAUDE.local.md
 logs/
+
+# Phase 8: frontend build/test output and the local demo set
+demo_samples/
+frontend/test-results/
+frontend/playwright-report/
+frontend/blob-report/
