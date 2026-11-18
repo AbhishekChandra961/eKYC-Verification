@@ -13,7 +13,7 @@ import os
 import time
 from contextlib import asynccontextmanager
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, datetime
 from typing import Annotated, Any, Literal
 
 import jwt
@@ -26,6 +26,7 @@ from PIL import Image, UnidentifiedImageError
 from pydantic import BaseModel, Field
 
 from ekyc import config, security, store
+from ekyc.decision import REQUIRED_CHECKS
 from ekyc.messaging import storage
 from ekyc.messaging.events import SubmittedPayload, Topics, make_event
 from ekyc.messaging.kafka import make_producer, publish, wait_delivered
@@ -60,6 +61,9 @@ def config_from_env() -> tuple[ApiConfig, dict]:
 
 # ---------------------------------------------------------------- response models (also the OpenAPI examples)
 
+Status = Literal["SUBMITTED", "PROCESSING", "DECIDED", "APPROVED", "REJECTED"]
+Outcome = Literal["AUTO_APPROVED", "MANUAL_REVIEW", "RESUBMIT_REQUIRED"]
+
 class Token(BaseModel):
     access_token: str
     token_type: str = "bearer"
@@ -69,25 +73,160 @@ class Token(BaseModel):
 
 class SubmitResponse(BaseModel):
     application_id: str = Field(examples=["app-3f2a9c1d7e4b5a60"])
-    status: str = Field(examples=["SUBMITTED"])
+    status: Status = Field(examples=["SUBMITTED"])
     status_url: str
     events_url: str
 
 
+class Progress(BaseModel):
+    """How far the checks are, WITHOUT their results (customer-safe)."""
+    completed: int = Field(examples=[2])
+    total: int = Field(examples=[4])
+
+
 class ApplicationView(BaseModel):
-    """What a customer sees: status and outcome, never the risk details."""
+    """What a customer sees: status, outcome, a neutral message, progress and (only for RESUBMIT_REQUIRED) what to
+    photograph again. NEVER fraud signals: no forgery/face scores, rule flags, risk level or score (CLAUDE.md)."""
     application_id: str
-    status: str
-    outcome: str | None = None
+    status: Status
+    outcome: Outcome | None = None
     message: str | None = None
-    retake: list[str] = Field(default_factory=list, description="what to photograph again (RESUBMIT_REQUIRED)")
-    created_at: Any
-    updated_at: Any
+    retake: list[str] = Field(default_factory=list, description="what to photograph again (RESUBMIT_REQUIRED only)")
+    progress: Progress
+    created_at: datetime
+    updated_at: datetime
 
 
 class OfficerDecision(BaseModel):
     action: Literal["approve", "reject"]
     reason: str = Field(min_length=5, max_length=1000, examples=["Surname on the page differs from the MRZ; document edited."])
+
+
+# Officer-side models. They mirror what MongoDB stores; they exist so the OpenAPI schema (and the TypeScript types
+# generated from it for the frontend, Phase 8) describe the responses exactly. Check `outputs` stay free-form
+# dictionaries: each worker has its own output shape (documented in services/README.md).
+RiskLevel = Literal["low", "medium", "high"]
+
+
+class ReasonOut(BaseModel):
+    code: str = Field(examples=["forgery_suspected"])
+    message: str = ""
+    effect: Literal["resubmit", "high", "medium", "info"]
+    check_type: str | None = None
+    evidence: dict[str, Any] = Field(default_factory=dict)
+
+
+class DecisionOut(BaseModel):
+    outcome: Outcome
+    risk_level: RiskLevel | None = None
+    risk_score: float = 0.0
+    reasons: list[ReasonOut] = Field(default_factory=list)
+    decided_at: datetime | None = None
+    early: bool = False
+
+
+class CheckOut(BaseModel):
+    check_type: str
+    status: Literal["ok", "failed", "timed_out", "skipped"]
+    outputs: dict[str, Any] = Field(default_factory=dict)
+    error: str | None = None
+    latency_ms: float | None = None
+    model_versions: dict[str, Any] = Field(default_factory=dict)
+    updated_at: datetime | None = None
+
+
+class AuditEntry(BaseModel):
+    application_id: str
+    actor: str = Field(examples=["officer:u-ccb28e961558"])
+    from_status: Status | None
+    to_status: Status
+    reason: str
+    at: datetime
+
+
+class Applicant(BaseModel):
+    full_name: str
+    date_of_birth: str
+
+
+class OfficerDecisionRecord(BaseModel):
+    action: Literal["approve", "reject"]
+    reason: str
+    officer_id: str
+    at: datetime
+
+
+class CaseApplication(BaseModel):
+    application_id: str
+    customer_id: str
+    status: Status
+    applicant: Applicant
+    document_key: str
+    selfie_key: str
+    doc_type: str | None = None
+    created_at: datetime
+    updated_at: datetime
+    decision: DecisionOut | None = None
+    officer_decision: OfficerDecisionRecord | None = None
+
+
+class TopTile(BaseModel):
+    score: float
+    box_1280: list[int] = Field(description="x, y, width, height on the page resized to 1280 px (longest side)")
+    box_original: list[int] | None = None
+
+
+class TileGrid(BaseModel):
+    size: int = Field(description="tile side in px on the 1280 px page")
+    count: int
+    xy: list[list[int]] = Field(description="top-left corner of every tile on the 1280 px page")
+    scores: list[float]
+
+
+class Heatmap(BaseModel):
+    page_size_1280: list[int] = Field(description="width, height of the 1280 px page the tiles are placed on")
+    original_size: list[int] | None = None
+    tile_size: int = 224
+    tiles: TileGrid | None = Field(None, description="None for results stored before the grid was added (Phase 8)")
+    top_tile: TopTile | None = None
+    thresholds: dict[str, float] | None = None
+
+
+class CaseImages(BaseModel):
+    document_url: str
+    selfie_url: str
+    expires_in: int = Field(description="seconds the presigned links stay valid")
+
+
+class CaseDetail(BaseModel):
+    application: CaseApplication
+    checks: dict[str, CheckOut]
+    decision: DecisionOut | None = None
+    summary: str | None = Field(None, description="template summary: the official record")
+    ai_note: str | None = Field(None, description="optional LLM note; must be shown as AI-assisted")
+    forgery_top_tile: TopTile | None = None
+    forgery_heatmap: Heatmap | None = None
+    images: CaseImages
+    audit_trail: list[AuditEntry]
+
+
+class CaseRow(BaseModel):
+    application_id: str
+    status: Status
+    doc_type: str | None = None
+    outcome: Outcome | None = None
+    risk_level: RiskLevel | None = None
+    risk_score: float | None = None
+    reason_codes: list[str] = Field(default_factory=list)
+    created_at: datetime
+    updated_at: datetime
+    decided_at: datetime | None = None
+
+
+class OfficerDecisionResult(BaseModel):
+    application_id: str
+    status: Status
+    audit_trail: list[AuditEntry]
 
 
 # ---------------------------------------------------------------- the app
@@ -233,12 +372,25 @@ def create_app(db=None, s3=None, producer=None, settings: Settings | None = None
                               status_url=f"/applications/{application_id}",
                               events_url=f"/applications/{application_id}/events")
 
+    def customer_progress(application: dict) -> Progress:
+        """Checks finished out of the checks needed: a count only, never which check found what."""
+        done = state["db"].check_results.count_documents({"application_id": application["application_id"]})
+        decision = application.get("decision") or {}
+        if application["status"] in FINAL:  # finished: an early decision needed fewer checks
+            total = done if decision.get("early") else max(done, len(REQUIRED_CHECKS))
+            return Progress(completed=total, total=total)
+        return Progress(completed=min(done, len(REQUIRED_CHECKS)), total=len(REQUIRED_CHECKS))
+
     def customer_view(application: dict) -> ApplicationView:
-        outcome = (application.get("decision") or {}).get("outcome")
+        decision = application.get("decision") or {}
+        outcome = decision.get("outcome")
         key = application["status"] if application["status"] in ("APPROVED", "REJECTED") else outcome
-        retake = [r["message"] for r in (application.get("decision") or {}).get("reasons", []) if r["effect"] == "resubmit"]
+        # only a resubmission tells the customer what to retake; a case under review says nothing about why
+        retake = ([r["message"] for r in decision.get("reasons", []) if r["effect"] == "resubmit"]
+                  if outcome == "RESUBMIT_REQUIRED" and application["status"] == "DECIDED" else [])
         return ApplicationView(application_id=application["application_id"], status=application["status"],
                                outcome=outcome, message=CUSTOMER_MESSAGES.get(key), retake=retake,
+                               progress=customer_progress(application),
                                created_at=application["created_at"], updated_at=application["updated_at"])
 
     @app.get("/applications", response_model=list[ApplicationView], tags=["customer"])
@@ -259,7 +411,7 @@ def create_app(db=None, s3=None, producer=None, settings: Settings | None = None
             last, started, last_ping = None, time.monotonic(), time.monotonic()
             while time.monotonic() - started < 600:
                 view = customer_view(store.get_application(state["db"], application_id))
-                current = (view.status, view.outcome)
+                current = (view.status, view.outcome, view.progress.completed)
                 if current != last:
                     last = current
                     yield f"event: status\ndata: {view.model_dump_json()}\n\n"
@@ -274,18 +426,21 @@ def create_app(db=None, s3=None, producer=None, settings: Settings | None = None
                                  headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"})
 
     # ------------------------------------------------------------ officer
-    @app.get("/officer/cases", tags=["officer"], summary="The review queue, highest risk first")
-    def cases(officer: Officer, status_filter: Annotated[str | None, Query(alias="status", examples=["DECIDED"])] = None,
-              outcome: Annotated[str | None, Query(examples=["MANUAL_REVIEW"])] = None,
-              limit: Annotated[int, Query(ge=1, le=500)] = 100) -> list[dict]:
-        return [{"application_id": c["application_id"], "status": c["status"], "doc_type": c.get("doc_type"),
-                 "outcome": (c.get("decision") or {}).get("outcome"), "risk_level": (c.get("decision") or {}).get("risk_level"),
-                 "risk_score": (c.get("decision") or {}).get("risk_score"),
-                 "reason_codes": [r["code"] for r in (c.get("decision") or {}).get("reasons", [])],
-                 "created_at": c["created_at"], "updated_at": c["updated_at"]}
-                for c in store.list_cases(state["db"], status_filter, outcome, limit)]
+    @app.get("/officer/cases", response_model=list[CaseRow], tags=["officer"],
+             summary="The review queue, highest risk first")
+    def cases(officer: Officer, status_filter: Annotated[Status | None, Query(alias="status", examples=["DECIDED"])] = None,
+              outcome: Annotated[Outcome | None, Query(examples=["MANUAL_REVIEW"])] = None,
+              limit: Annotated[int, Query(ge=1, le=500)] = 100) -> list[CaseRow]:
+        rows = []
+        for c in store.list_cases(state["db"], status_filter, outcome, limit):
+            d = c.get("decision") or {}
+            rows.append(CaseRow(application_id=c["application_id"], status=c["status"], doc_type=c.get("doc_type"),
+                                outcome=d.get("outcome"), risk_level=d.get("risk_level"), risk_score=d.get("risk_score"),
+                                reason_codes=[r["code"] for r in d.get("reasons", [])], created_at=c["created_at"],
+                                updated_at=c["updated_at"], decided_at=d.get("decided_at")))
+        return rows
 
-    @app.get("/officer/cases/{application_id}", tags=["officer"],
+    @app.get("/officer/cases/{application_id}", response_model=CaseDetail, tags=["officer"],
              summary="Everything about one case, with short-lived image links")
     def case(application_id: str, officer: Officer) -> dict:
         application = store.get_application(state["db"], application_id)
@@ -296,15 +451,22 @@ def create_app(db=None, s3=None, producer=None, settings: Settings | None = None
         presign = lambda key: state["s3"].generate_presigned_url(  # noqa: E731
             "get_object", Params={"Bucket": settings.s3_bucket, "Key": key}, ExpiresIn=api_config.presign_seconds)
         log.info("officer %s opened case %s", officer["user_id"], application_id)
+        heatmap = None
+        if forgery.get("page_size_1280"):  # tile positions are on the 1280 px page; the UI scales them to the image
+            grid = forgery.get("tiles") if isinstance(forgery.get("tiles"), dict) else None  # Phase 7 stored a count
+            heatmap = {"page_size_1280": forgery["page_size_1280"], "original_size": forgery.get("original_size"),
+                       "tile_size": (grid or {}).get("size", 224), "tiles": grid, "top_tile": forgery.get("top_tile"),
+                       "thresholds": forgery.get("thresholds")}
         return {"application": {k: v for k, v in application.items() if k not in ("pending",)},
                 "checks": checks, "decision": application.get("decision"), "summary": application.get("summary"),
                 "ai_note": application.get("ai_note"),
-                "forgery_top_tile": forgery.get("top_tile"),
+                "forgery_top_tile": forgery.get("top_tile"), "forgery_heatmap": heatmap,
                 "images": {"document_url": presign(application["document_key"]),
                            "selfie_url": presign(application["selfie_key"]), "expires_in": api_config.presign_seconds},
                 "audit_trail": store.audit_trail(state["db"], application_id)}
 
-    @app.post("/officer/cases/{application_id}/decision", tags=["officer"], summary="Approve or reject (reason required)")
+    @app.post("/officer/cases/{application_id}/decision", response_model=OfficerDecisionResult, tags=["officer"],
+              summary="Approve or reject (reason required)")
     def officer_decision(application_id: str, body: OfficerDecision, officer: Officer) -> dict:
         if store.get_application(state["db"], application_id) is None:
             raise HTTPException(status.HTTP_404_NOT_FOUND, "case not found")

@@ -204,3 +204,81 @@ def test_submission_is_logged_without_pii(env, caplog):
     lines = [r.getMessage() for r in caplog.records if r.name == "ekyc.api" and "submitted" in r.getMessage()]
     assert lines and "K*** V***" in lines[0] and "****-**-**" in lines[0]
     assert "Krsto" not in lines[0] and "1974" not in lines[0]
+
+
+FORBIDDEN = ("score", "risk", "flag", "band", "rule", "evidence", "forgery", "face", "confidence", "reason")
+
+
+def keys_of(value):
+    if isinstance(value, dict):
+        return set(value) | set().union(*(keys_of(v) for v in value.values()))
+    if isinstance(value, list):
+        return set().union(*(keys_of(v) for v in value)) if value else set()
+    return set()
+
+
+def test_customer_progress_and_no_fraud_signals(env):
+    client, db, *_ = env
+    customer = login(client, "CUSTOMER")
+    app_id = submit(client, customer).json()["application_id"]
+    assert client.get(f"/applications/{app_id}", headers=customer).json()["progress"] == {"completed": 0, "total": 4}
+    store.move(db, app_id, "PROCESSING", "test", "start")
+    store.upsert_check(db, app_id, "doc", "ok", {"doc_type": "srb_passport", "confidence": 0.99})
+    store.upsert_check(db, app_id, "face", "ok", {"score": 0.12, "band": "mismatch"})
+    assert client.get(f"/applications/{app_id}", headers=customer).json()["progress"] == {"completed": 2, "total": 4}
+    # a high-risk review that ALSO contains a retake reason: the customer learns nothing about it
+    store.move(db, app_id, "DECIDED", "test", "done", {"decision": {"outcome": "MANUAL_REVIEW", "risk_level": "high",
+               "risk_score": 100, "early": False, "reasons": [
+                   {"code": "no_face_found", "message": "No face found on the selfie", "effect": "resubmit",
+                    "check_type": "face", "evidence": {"selfie_faces": 0}},
+                   {"code": "forgery_suspected", "message": "Forgery suspected", "effect": "high",
+                    "check_type": "forgery", "evidence": {"score": 0.99}}]}})
+    view = client.get(f"/applications/{app_id}", headers=customer).json()
+    assert view["outcome"] == "MANUAL_REVIEW" and view["retake"] == [] and view["progress"] == {"completed": 4, "total": 4}
+    for body in (view, client.get("/applications", headers=customer).json()):
+        leaked = {k for k in keys_of(body) if any(word in k.lower() for word in FORBIDDEN)}
+        assert not leaked, leaked
+        assert "Forgery" not in str(body) and "0.99" not in str(body)
+
+
+def test_early_resubmit_progress_and_retake(env):
+    client, db, *_ = env
+    customer = login(client, "CUSTOMER")
+    app_id = submit(client, customer).json()["application_id"]
+    store.move(db, app_id, "PROCESSING", "test", "start")
+    store.upsert_check(db, app_id, "doc", "ok", {"blank": True})
+    store.move(db, app_id, "DECIDED", "test", "done", {"decision": {"outcome": "RESUBMIT_REQUIRED", "risk_level": None,
+               "risk_score": 0, "early": True, "reasons": [{"code": "image_unreadable", "effect": "resubmit",
+               "message": "Image unreadable: no document visible, please upload a new photo"}]}})
+    view = client.get(f"/applications/{app_id}", headers=customer).json()
+    assert view["progress"] == {"completed": 1, "total": 1} and view["retake"][0].startswith("Image unreadable")
+
+
+def test_officer_case_includes_the_forgery_heatmap(env):
+    client, db, *_ = env
+    customer, officer = login(client, "CUSTOMER"), login(client, "OFFICER")
+    app_id = submit(client, customer).json()["application_id"]
+    tiles = {"size": 224, "count": 2, "xy": [[0, 0], [112, 0]], "scores": [0.1, 0.97]}
+    store.upsert_check(db, app_id, "forgery", "ok", {"score": 0.97, "band": "forgery_suspected", "tiles": tiles,
+                       "page_size_1280": [1280, 806], "original_size": [2167, 1364],
+                       "top_tile": {"score": 0.97, "box_1280": [112, 0, 224, 224]}})
+    heatmap = client.get(f"/officer/cases/{app_id}", headers=officer).json()["forgery_heatmap"]
+    assert heatmap["tiles"] == tiles and heatmap["page_size_1280"] == [1280, 806] and heatmap["tile_size"] == 224
+    # a result stored before Phase 8 has only a tile count: the case still opens, with the top tile only
+    store.upsert_check(db, app_id, "forgery", "ok", {"score": 0.97, "tiles": 88, "page_size_1280": [1280, 806],
+                       "top_tile": {"score": 0.97, "box_1280": [112, 0, 224, 224]}})
+    heatmap = client.get(f"/officer/cases/{app_id}", headers=officer).json()["forgery_heatmap"]
+    assert heatmap["tiles"] is None and heatmap["top_tile"]["box_1280"] == [112, 0, 224, 224]
+
+
+def test_events_stream_reports_progress(env):
+    client, db, *_ = env
+    customer = login(client, "CUSTOMER")
+    app_id = submit(client, customer).json()["application_id"]
+    store.move(db, app_id, "PROCESSING", "test", "start")
+    store.upsert_check(db, app_id, "doc", "ok", {"doc_type": "srb_passport"})
+    store.move(db, app_id, "DECIDED", "test", "done", {"decision": {"outcome": "AUTO_APPROVED", "risk_level": "low",
+               "risk_score": 3, "early": False, "reasons": []}})
+    with client.stream("GET", f"/applications/{app_id}/events", headers=customer) as r:
+        events = [json.loads(line[6:]) for line in "".join(r.iter_text()).splitlines() if line.startswith("data: ")]
+    assert events[-1]["progress"] == {"completed": 4, "total": 4} and events[-1]["message"] == "Your identity has been verified."

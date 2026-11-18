@@ -70,6 +70,10 @@ def test_forgery_scorer_reproduces_the_evaluated_scores():
         assert out["score"] == pytest.approx(row.forgery_score, abs=1e-4)
         x, y, w, h = out["top_tile"]["box_1280"]
         assert w == h == 224 and 0 <= x <= out["page_size_1280"][0] - 224
+        grid = out["tiles"]  # the full grid for the officer's heatmap
+        assert grid["size"] == 224 and grid["count"] == len(grid["xy"]) == len(grid["scores"]) > 40
+        assert max(grid["scores"]) == pytest.approx(out["score"], abs=1e-3) and [x, y] in grid["xy"]
+        assert len(json.dumps(grid)) < 4000  # small enough to travel in every result event
 
 
 @needs_data
