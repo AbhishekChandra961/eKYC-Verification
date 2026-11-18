@@ -25,7 +25,9 @@ def _mongo_up() -> bool:
         return s.connect_ex((host, int(port))) == 0
 
 
-pytestmark = pytest.mark.skipif(not _mongo_up(), reason="MongoDB not running (docker compose up -d)")
+# marker "services": needs the running docker-compose stack; CI deselects it (pytest -m "not services ...")
+pytestmark = [pytest.mark.services,
+              pytest.mark.skipif(not _mongo_up(), reason="MongoDB not running (docker compose up -d)")]
 os.environ["EKYC_API_NO_AUTOCREATE"] = "1"
 _spec = importlib.util.spec_from_file_location("ekyc_api_app", config.PROJECT_ROOT / "services" / "api" / "app.py")
 api = importlib.util.module_from_spec(_spec)
@@ -150,13 +152,14 @@ def test_events_stream_ends_at_a_final_status(env):
     customer = login(client, "CUSTOMER")
     app_id = submit(client, customer).json()["application_id"]
     store.move(db, app_id, "PROCESSING", "test", "start")
-    store.move(db, app_id, "DECIDED", "test", "done", {"decision": {"outcome": "RESUBMIT_REQUIRED", "risk_level": None,
-               "risk_score": 0, "reasons": [{"code": "image_unreadable", "message": "Image unreadable", "effect": "resubmit"}]}})
+    store.move(db, app_id, "RESUBMIT_REQUESTED", "test", "done", {"decision": {"outcome": "RESUBMIT_REQUIRED",
+               "risk_level": None, "risk_score": 0,
+               "reasons": [{"code": "image_unreadable", "message": "Image unreadable", "effect": "resubmit"}]}})
     token = customer["Authorization"].split()[1]
     with client.stream("GET", f"/applications/{app_id}/events?token={token}") as r:  # the browser EventSource way
         body = "".join(r.iter_text())
     events = [json.loads(line[6:]) for line in body.splitlines() if line.startswith("data: ")]
-    assert events[-1]["status"] == "DECIDED" and events[-1]["outcome"] == "RESUBMIT_REQUIRED"
+    assert events[-1]["status"] == "RESUBMIT_REQUESTED" and events[-1]["outcome"] == "RESUBMIT_REQUIRED"
     assert events[-1]["retake"] == ["Image unreadable"]
 
 
@@ -247,7 +250,7 @@ def test_early_resubmit_progress_and_retake(env):
     app_id = submit(client, customer).json()["application_id"]
     store.move(db, app_id, "PROCESSING", "test", "start")
     store.upsert_check(db, app_id, "doc", "ok", {"blank": True})
-    store.move(db, app_id, "DECIDED", "test", "done", {"decision": {"outcome": "RESUBMIT_REQUIRED", "risk_level": None,
+    store.move(db, app_id, "RESUBMIT_REQUESTED", "test", "done", {"decision": {"outcome": "RESUBMIT_REQUIRED", "risk_level": None,
                "risk_score": 0, "early": True, "reasons": [{"code": "image_unreadable", "effect": "resubmit",
                "message": "Image unreadable: no document visible, please upload a new photo"}]}})
     view = client.get(f"/applications/{app_id}", headers=customer).json()
@@ -277,8 +280,36 @@ def test_events_stream_reports_progress(env):
     app_id = submit(client, customer).json()["application_id"]
     store.move(db, app_id, "PROCESSING", "test", "start")
     store.upsert_check(db, app_id, "doc", "ok", {"doc_type": "srb_passport"})
-    store.move(db, app_id, "DECIDED", "test", "done", {"decision": {"outcome": "AUTO_APPROVED", "risk_level": "low",
-               "risk_score": 3, "early": False, "reasons": []}})
+    store.move(db, app_id, "APPROVED", "system:orchestrator", "decision AUTO_APPROVED", {"decision": {
+               "outcome": "AUTO_APPROVED", "risk_level": "low", "risk_score": 3, "early": False, "reasons": []}})
     with client.stream("GET", f"/applications/{app_id}/events", headers=customer) as r:
         events = [json.loads(line[6:]) for line in "".join(r.iter_text()).splitlines() if line.startswith("data: ")]
     assert events[-1]["progress"] == {"completed": 4, "total": 4} and events[-1]["message"] == "Your identity has been verified."
+    assert events[-1]["status"] == "APPROVED"
+
+
+def test_officer_acts_only_on_cases_awaiting_an_officer(env):
+    """Phase 9 lifecycle: auto-approved and resubmit cases are closed by the system; only DECIDED (manual review)
+    waits for an officer. An officer can neither decide a closed case nor one whose checks are still running."""
+    client, db, *_ = env
+    customer, officer = login(client, "CUSTOMER"), login(client, "OFFICER")
+    auto, retake, running, review = [submit(client, customer).json()["application_id"] for _ in range(4)]
+    for app_id in (auto, retake, running, review):
+        store.move(db, app_id, "PROCESSING", "test", "start")
+    store.move(db, auto, "APPROVED", "system:orchestrator", "decision AUTO_APPROVED (risk low)",
+               {"decision": {"outcome": "AUTO_APPROVED", "risk_level": "low", "risk_score": 2, "reasons": []}})
+    store.move(db, retake, "RESUBMIT_REQUESTED", "system:orchestrator", "decision RESUBMIT_REQUIRED",
+               {"decision": {"outcome": "RESUBMIT_REQUIRED", "risk_level": None, "risk_score": 0, "reasons": []}})
+    store.move(db, review, "DECIDED", "system:orchestrator", "decision MANUAL_REVIEW (risk medium)",
+               {"decision": {"outcome": "MANUAL_REVIEW", "risk_level": "medium", "risk_score": 20, "reasons": []}})
+    body = {"action": "approve", "reason": "Checked the document by hand."}
+    for app_id in (auto, retake, running):
+        assert client.post(f"/officer/cases/{app_id}/decision", json=body, headers=officer).status_code == 409
+    queue = client.get("/officer/cases", params={"status": "DECIDED"}, headers=officer).json()
+    assert [c["application_id"] for c in queue] == [review]  # the default queue holds only work for an officer
+    assert client.post(f"/officer/cases/{review}/decision", json=body, headers=officer).status_code == 200
+    views = {a["application_id"]: a for a in client.get("/applications", headers=customer).json()}
+    assert views[auto]["message"] == "Your identity has been verified."
+    assert views[review]["status"] == "APPROVED"
+    assert views[review]["message"] == "Your identity has been verified by our compliance team."
+    assert views[retake]["status"] == "RESUBMIT_REQUESTED" and views[running]["status"] == "PROCESSING"

@@ -27,7 +27,7 @@ from typing import Any
 
 from pydantic import BaseModel, ValidationError
 
-from ekyc.messaging import storage
+from ekyc.messaging import health, storage
 from ekyc.messaging.events import CheckResult, DeadLetter, Topics, make_event, parse_event
 from ekyc.messaging import kafka as kafka_helpers
 from ekyc.messaging.kafka import make_consumer, make_producer, publish
@@ -94,6 +94,7 @@ class Worker(ABC):
         try:
             while not self._stop:
                 message = self.consumer.poll(1.0)
+                health.beat()  # liveness for the container healthcheck (no-op on the host)
                 if time.monotonic() - last_beat >= self.heartbeat_s:
                     self.log.info("heartbeat %s", self.stats)
                     last_beat = time.monotonic()

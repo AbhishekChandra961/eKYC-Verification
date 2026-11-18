@@ -208,8 +208,13 @@ class FaceVerifier:
 # ---------------------------------------------------------------- fields + consistency rules
 
 def ollama_runner_mb() -> float:
-    """Resident memory (MB) of Ollama's model runner processes (llama-server), 0 if none is running."""
-    out = subprocess.run(["ps", "-axo", "rss=,comm="], capture_output=True, text=True).stdout
+    """Resident memory (MB) of Ollama's model runner processes (llama-server), 0 if none is running.
+    Also 0 inside a container (Phase 9): there is no `ps` in the slim image, and Ollama runs on the host anyway, out
+    of the container's sight. The guard then never fires, and Ollama's own keep_alive still unloads the model."""
+    try:
+        out = subprocess.run(["ps", "-axo", "rss=,comm="], capture_output=True, text=True).stdout
+    except OSError:
+        return 0.0
     return sum(int(line.split()[0]) for line in out.splitlines() if line.strip().endswith("llama-server")) / 1024
 
 

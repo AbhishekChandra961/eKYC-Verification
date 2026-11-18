@@ -20,21 +20,24 @@ export function docTypeLabel(code: string | null | undefined): string {
   return code ? (DOC_TYPES[code] ?? code) : '–'
 }
 
+// Phase 9 lifecycle: DECIDED means "waiting for an officer" (manual review only). An auto-approval is closed as
+// APPROVED by the system, a retake request as RESUBMIT_REQUESTED.
 export const STATUS_LABELS: Record<ApplicationStatus, string> = {
   SUBMITTED: 'Submitted',
   PROCESSING: 'Processing',
-  DECIDED: 'Decided',
+  DECIDED: 'Awaiting officer',
   APPROVED: 'Approved',
   REJECTED: 'Rejected',
+  RESUBMIT_REQUESTED: 'Retake requested',
 }
 
-/** In the queue a DECIDED case means different things: only manual-review cases wait for an officer. */
+/** The statuses in which someone still has to act (the checks are running, or an officer must decide). */
+export const OPEN_STATUSES: ReadonlySet<ApplicationStatus> = new Set(['SUBMITTED', 'PROCESSING', 'DECIDED'])
+
+/** An APPROVED case was approved either by the system (auto) or by an officer after a manual review. */
 export function statusLabel(status: ApplicationStatus, outcome: Outcome | null | undefined): string {
-  if (status !== 'DECIDED') return STATUS_LABELS[status]
-  if (outcome === 'MANUAL_REVIEW') return 'Awaiting officer'
-  if (outcome === 'AUTO_APPROVED') return 'Auto-approved'
-  if (outcome === 'RESUBMIT_REQUIRED') return 'Sent back for retake'
-  return STATUS_LABELS.DECIDED
+  if (status === 'APPROVED') return outcome === 'AUTO_APPROVED' ? 'Auto-approved' : 'Approved by officer'
+  return STATUS_LABELS[status]
 }
 
 export const OUTCOME_LABELS: Record<Outcome, string> = {

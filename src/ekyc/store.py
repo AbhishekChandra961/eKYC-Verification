@@ -7,9 +7,16 @@ Collections:
 - check_results  one document per (application_id, check_type), UNIQUE: a result delivered twice is upserted
 - audit_log      append-only: every status change with actor, time, from/to status and reason
 
-Status lifecycle: SUBMITTED -> PROCESSING -> DECIDED -> (officer) APPROVED | REJECTED. A transition only happens
-from an allowed previous status (an atomic conditional update), so duplicate events cannot move an application
-twice; the audit entry of a transition has a deterministic id, so writing it again is harmless.
+Status lifecycle (Phase 9: only a case that needs a person stays open):
+
+    SUBMITTED -> PROCESSING -> APPROVED            AUTO_APPROVED: closed by the system
+                           -> RESUBMIT_REQUESTED  RESUBMIT_REQUIRED: closed; the customer starts a new application
+                           -> DECIDED             MANUAL_REVIEW: waits for an officer
+                                -> APPROVED | REJECTED   (officer, with a reason)
+
+A transition only happens from an allowed previous status (an atomic conditional update), so duplicate events
+cannot move an application twice; the audit entry of a transition has a deterministic id, so writing it again is
+harmless.
 """
 
 from __future__ import annotations
@@ -22,8 +29,16 @@ from pymongo.database import Database
 
 from ekyc.messaging.settings import Settings, load_settings
 
-STATUSES = ("SUBMITTED", "PROCESSING", "DECIDED", "APPROVED", "REJECTED")
-ALLOWED = {"PROCESSING": ("SUBMITTED",), "DECIDED": ("PROCESSING",), "APPROVED": ("DECIDED",), "REJECTED": ("DECIDED",)}
+STATUSES = ("SUBMITTED", "PROCESSING", "DECIDED", "APPROVED", "REJECTED", "RESUBMIT_REQUESTED")
+CLOSED = ("APPROVED", "REJECTED", "RESUBMIT_REQUESTED")  # nothing changes any more
+# to_status -> the statuses it may be reached from
+ALLOWED = {"PROCESSING": ("SUBMITTED",),
+           "DECIDED": ("PROCESSING",),  # MANUAL_REVIEW: now waits for an officer
+           "APPROVED": ("PROCESSING", "DECIDED"),  # the system (AUTO_APPROVED) or an officer (from DECIDED)
+           "REJECTED": ("DECIDED",),  # only an officer rejects
+           "RESUBMIT_REQUESTED": ("PROCESSING",)}  # RESUBMIT_REQUIRED
+# the system's outcome -> the status the orchestrator moves the application to
+STATUS_FOR_OUTCOME = {"AUTO_APPROVED": "APPROVED", "MANUAL_REVIEW": "DECIDED", "RESUBMIT_REQUIRED": "RESUBMIT_REQUESTED"}
 
 
 def now() -> datetime:
@@ -95,11 +110,16 @@ def get_application(db: Database, application_id: str) -> dict | None:
     return db.applications.find_one({"application_id": application_id}, projection={"_id": False})
 
 
-def move(db: Database, application_id: str, to_status: str, actor: str, reason: str, set_fields: dict | None = None) -> bool:
+def move(db: Database, application_id: str, to_status: str, actor: str, reason: str, set_fields: dict | None = None,
+         from_statuses: tuple[str, ...] | None = None) -> bool:
     """Move an application to `to_status` if its current status allows it (atomic), write the audit entry, and
-    return True. Returns False when the status did not allow it (e.g. a duplicate event after the move)."""
+    return True. Returns False when the status did not allow it (e.g. a duplicate event after the move).
+    from_statuses narrows ALLOWED further: an officer may approve only from DECIDED, never a case still PROCESSING."""
+    allowed = from_statuses or ALLOWED[to_status]
+    if not set(allowed) <= set(ALLOWED[to_status]):
+        raise ValueError(f"{allowed} -> {to_status} is not an allowed transition")
     updated = db.applications.find_one_and_update(
-        {"application_id": application_id, "status": {"$in": list(ALLOWED[to_status])}},
+        {"application_id": application_id, "status": {"$in": list(allowed)}},
         {"$set": {"status": to_status, "updated_at": now(), **(set_fields or {})}},
         projection={"status": True, "_id": False})  # the document BEFORE the update
     if updated is None:

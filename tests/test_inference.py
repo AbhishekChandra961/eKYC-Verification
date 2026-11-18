@@ -34,6 +34,7 @@ def test_rule_severities_match_the_phase5_policy():
     assert consistency.RULE_SEVERITY["mrz_vs_surname"] == consistency.RULE_SEVERITY["mrz_vs_given_names"] == "review"
 
 
+@pytest.mark.data
 @needs_data
 def test_worker_preprocessing_is_byte_identical_to_the_training_caches():
     m = pd.read_csv(MANIFEST)
@@ -60,6 +61,8 @@ SCORES = config.REPORTS_DIR / "phase5" / "forgery_v3_page_scores_valtest.csv"
 
 
 @needs_data
+@pytest.mark.models
+@pytest.mark.data
 @pytest.mark.skipif(not (MODELS / "forgery_detector.keras").exists() or not SCORES.exists(), reason="model or scores missing")
 def test_forgery_scorer_reproduces_the_evaluated_scores():
     scorer = inference.ForgeryScorer()
@@ -77,6 +80,8 @@ def test_forgery_scorer_reproduces_the_evaluated_scores():
 
 
 @needs_data
+@pytest.mark.models
+@pytest.mark.data
 @pytest.mark.skipif(not config.SFACE_ONNX.exists(), reason="face models not downloaded")
 def test_face_verifier_takes_the_portrait_not_the_ghost_image():
     m = pd.read_csv(MANIFEST)
@@ -93,6 +98,7 @@ def test_face_verifier_takes_the_portrait_not_the_ghost_image():
     assert inference.FaceVerifier().verify(page, blank.getvalue())["band"] == "no_face_found"
 
 
+@pytest.mark.models
 @pytest.mark.skipif(not (MODELS / "doc_classifier.keras").exists(), reason="model missing")
 def test_doc_classifier_blank_gate():
     buffer = io.BytesIO()
@@ -152,3 +158,11 @@ def test_failed_extraction_becomes_a_failed_result():
     worker.model, worker.fetch = fe, lambda key: jpeg()
     outcome = worker.handle(module.ExtractionTask(document_key="k", doc_type="srb_passport"))
     assert outcome.status == "failed" and "token repeat limit" in outcome.error
+
+
+def test_ollama_memory_guard_without_ps(monkeypatch):
+    """Phase 9: the slim container image has no `ps`; the guard must report 0 instead of failing every extraction."""
+    def no_ps(*args, **kwargs):
+        raise FileNotFoundError("ps")
+    monkeypatch.setattr(inference.subprocess, "run", no_ps)
+    assert inference.ollama_runner_mb() == 0.0

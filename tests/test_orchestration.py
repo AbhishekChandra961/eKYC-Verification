@@ -21,7 +21,9 @@ def _mongo_up() -> bool:
         return s.connect_ex((host, int(port))) == 0
 
 
-pytestmark = pytest.mark.skipif(not _mongo_up(), reason="MongoDB not running (docker compose up -d)")
+# marker "services": needs the running docker-compose stack; CI deselects it (pytest -m "not services ...")
+pytestmark = [pytest.mark.services,
+              pytest.mark.skipif(not _mongo_up(), reason="MongoDB not running (docker compose up -d)")]
 POLICY = decision.Policy(doc_min_confidence=0.77, forgery_review=0.729, forgery_suspected=0.857383,
                          face_mismatch_below=0.2597, face_review_below=0.556)
 APPLICANT = {"full_name": "Krsto Velimirovic", "date_of_birth": "1974-08-15"}
@@ -93,12 +95,15 @@ def test_full_flow_with_duplicates(setup):
         orch.on_result(app_id, result(check), f"e-{check}")
     orch.on_result(app_id, result("extraction"), "e-extraction-again")  # after the decision: harmless
     app = store.get_application(db, app_id)
-    assert app["status"] == "DECIDED" and app["decision"]["outcome"] == "AUTO_APPROVED"
+    # Phase 9: an auto-approval closes the application (APPROVED by the system); it never waits for an officer
+    assert app["status"] == "APPROVED" and app["decision"]["outcome"] == "AUTO_APPROVED"
+    assert app["officer_decision"] is None
     assert "auto approved" in app["summary"] and producer.topics().count(Topics.DECIDED) == 1
     assert db.check_results.count_documents({"application_id": app_id}) == 4  # one record per check
     trail = store.audit_trail(db, app_id)
     assert [(a["from_status"], a["to_status"]) for a in trail] == [(None, "SUBMITTED"), ("SUBMITTED", "PROCESSING"),
-                                                                   ("PROCESSING", "DECIDED")]
+                                                                   ("PROCESSING", "APPROVED")]
+    assert trail[2]["reason"] == "decision AUTO_APPROVED (risk low)"
     assert trail[0]["actor"] == "customer:u-1" and trail[2]["actor"] == "system:orchestrator"
 
 
@@ -107,10 +112,12 @@ def test_unusable_document_is_decided_early(setup):
     orch.on_submitted(app_id, SubmittedPayload(document_key="k/doc.jpg", selfie_key="k/selfie.jpg"))
     orch.on_result(app_id, result("doc", {"blank": True}), "e1")
     app = store.get_application(db, app_id)
-    assert app["status"] == "DECIDED" and app["decision"]["outcome"] == "RESUBMIT_REQUIRED" and app["decision"]["early"]
+    assert app["status"] == "RESUBMIT_REQUESTED" and app["decision"]["outcome"] == "RESUBMIT_REQUIRED"
+    assert app["decision"]["early"] and store.audit_trail(db, app_id)[-1]["to_status"] == "RESUBMIT_REQUESTED"
     assert Topics.TASK_FORGERY not in producer.topics() and Topics.TASK_EXTRACTION not in producer.topics()
     orch.on_result(app_id, result("face"), "e2")  # arrives later: stored, decision unchanged
     assert store.get_application(db, app_id)["decision"]["outcome"] == "RESUBMIT_REQUIRED"
+    assert store.get_application(db, app_id)["status"] == "RESUBMIT_REQUESTED"
 
 
 def test_sweeper_times_out_a_missing_check(setup):
@@ -149,3 +156,45 @@ def test_officer_transition_happens_once(setup):
     assert not store.move(db, app_id, "APPROVED", "officer:u-9", "changed my mind")  # only from DECIDED
     assert store.get_application(db, app_id)["status"] == "REJECTED"
     assert store.audit_trail(db, app_id)[-1]["reason"] == "document tampered"
+
+
+def test_manual_review_waits_for_an_officer_and_transitions_are_checked(setup):
+    """Only MANUAL_REVIEW stays open (DECIDED). The officer may close it; the system can never reject, and an officer
+    cannot approve a case that is still PROCESSING (from_statuses narrows the allowed transitions)."""
+    orch, db, producer, clock, app_id = setup
+    orch.on_submitted(app_id, SubmittedPayload(document_key="k/doc.jpg", selfie_key="k/selfie.jpg"))
+    assert not store.move(db, app_id, "APPROVED", "officer:u-9", "too early", from_statuses=("DECIDED",))
+    face_mismatch = {"score": 0.05, "band": "mismatch", "selfie_face": {"faces": 1}}
+    for check in ("doc", "forgery", "extraction"):
+        orch.on_result(app_id, result(check), f"e-{check}")
+    orch.on_result(app_id, result("face", face_mismatch), "e-face")
+    app = store.get_application(db, app_id)
+    assert app["status"] == "DECIDED" and app["decision"]["outcome"] == "MANUAL_REVIEW"
+    with pytest.raises(ValueError):
+        store.move(db, app_id, "REJECTED", "system:orchestrator", "not allowed", from_statuses=("PROCESSING",))
+    assert store.move(db, app_id, "APPROVED", "officer:u-9", "same person, old photo", from_statuses=("DECIDED",))
+    assert [a["to_status"] for a in store.audit_trail(db, app_id)][-2:] == ["DECIDED", "APPROVED"]
+
+
+def test_lifecycle_migration_closes_old_decided_applications(setup):
+    """scripts/migrate_lifecycle.py: Phase 7/8 left every decided application in DECIDED."""
+    import importlib.util
+    from ekyc import config
+    spec = importlib.util.spec_from_file_location("migrate_lifecycle", config.PROJECT_ROOT / "scripts" / "migrate_lifecycle.py")
+    migration = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(migration)
+    orch, db, producer, clock, app_id = setup
+    ids = {outcome: store.create_application(db, "u-1", APPLICANT, "d", "s")["application_id"]
+           for outcome in ("AUTO_APPROVED", "RESUBMIT_REQUIRED", "MANUAL_REVIEW")}
+    for outcome, application_id in ids.items():  # the old lifecycle: always DECIDED
+        db.applications.update_one({"application_id": application_id},
+                                   {"$set": {"status": "DECIDED", "decision": {"outcome": outcome}}})
+    assert migration.migrate(db, dry_run=True)["AUTO_APPROVED DECIDED -> APPROVED"] == 1
+    assert store.get_application(db, ids["AUTO_APPROVED"])["status"] == "DECIDED"  # a dry run changes nothing
+    counts = migration.migrate(db)
+    assert counts == {"AUTO_APPROVED DECIDED -> APPROVED": 1, "RESUBMIT_REQUIRED DECIDED -> RESUBMIT_REQUESTED": 1,
+                      "MANUAL_REVIEW stays DECIDED": 1}
+    assert {o: store.get_application(db, i)["status"] for o, i in ids.items()} == {
+        "AUTO_APPROVED": "APPROVED", "RESUBMIT_REQUIRED": "RESUBMIT_REQUESTED", "MANUAL_REVIEW": "DECIDED"}
+    assert store.audit_trail(db, ids["AUTO_APPROVED"])[-1]["actor"] == "system:migration"
+    assert migration.migrate(db)["AUTO_APPROVED DECIDED -> APPROVED"] == 0  # running it again is harmless

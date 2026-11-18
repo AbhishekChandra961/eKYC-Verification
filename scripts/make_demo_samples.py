@@ -18,7 +18,6 @@ inpaint-and-rewrite fakes the forgery model scores 1.0. This is a demo selection
 
 from __future__ import annotations
 
-import io
 import json
 import shutil
 from pathlib import Path
@@ -93,7 +92,7 @@ def main() -> None:
         samples.append({"name": f"genuine_{i}", "id_image": f"genuine_{i}_id.jpg", "selfie": f"genuine_{i}_selfie.jpg",
                         "full_name": f"{t.given_names} {t.surname}",
                         "date_of_birth": schemas.parse_date(t.birth_date, "birth_date"),
-                        "document": f"{doc_id} (genuine {row['doc_type']})", "expected": "AUTO_APPROVED (customer: Verified)"})
+                        "document": f"{doc_id} (genuine {row['doc_type']})", "expected": "AUTO_APPROVED -> APPROVED (customer: Verified)"})
 
     stranger = manifest_row(manifest, doc_id=STRANGER)
     stranger_selfie = selfie_jpeg(stranger["image_path"], STRANGER, boxes, seed=99)
@@ -111,7 +110,7 @@ def main() -> None:
     save_jpeg(np.full((630, 1000, 3), 4, np.uint8), OUT / "blank_id.jpg")
     samples.append({"name": "blank", "id_image": "blank_id.jpg", "selfie": "genuine_1_selfie.jpg",
                     "full_name": samples[0]["full_name"], "date_of_birth": samples[0]["date_of_birth"],
-                    "document": "an almost black image", "expected": "RESUBMIT_REQUIRED (customer: Please resubmit)"})
+                    "document": "an almost black image", "expected": "RESUBMIT_REQUIRED -> RESUBMIT_REQUESTED (customer: Please resubmit)"})
 
     (OUT / "manifest.json").write_text(json.dumps(samples, indent=2, ensure_ascii=False) + "\n")
     lines = ["# Demo samples (synthetic SIDTD test documents, not real people)", "",

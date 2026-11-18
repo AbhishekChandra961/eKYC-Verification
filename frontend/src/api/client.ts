@@ -21,8 +21,14 @@ export type Outcome = NonNullable<ApplicationView['outcome']>
 export type RiskLevel = NonNullable<CaseRow['risk_level']>
 export type OfficerAction = Schemas['OfficerDecision']['action']
 
+// The API address: set at container START by the Docker image (/config.js, from EKYC_API_URL), else at BUILD time
+// (VITE_API_URL, e.g. .env.local for the dev server), else the local default. One built image serves any address.
+declare global {
+  interface Window { EKYC_CONFIG?: { apiUrl?: string } }
+}
+const runtime = typeof window !== 'undefined' ? window.EKYC_CONFIG?.apiUrl?.trim() : undefined
 const configured = (import.meta.env.VITE_API_URL as string | undefined)?.trim()
-export const API_URL: string = (configured || 'http://127.0.0.1:8000').replace(/\/+$/, '')
+export const API_URL: string = (runtime || configured || 'http://127.0.0.1:8000').replace(/\/+$/, '')
 
 /** Every failed call throws this. status 0 = the server could not be reached. */
 export class ApiError extends Error {

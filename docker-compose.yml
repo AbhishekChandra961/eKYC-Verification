@@ -1,6 +1,12 @@
-# eKYC infrastructure (Phase 6): Kafka (KRaft), Kafka UI, MongoDB and an S3-compatible object store.
-# The workers run on the host (Metal GPU); Ollama also runs on the host. Settings come from .env
-# (copy .env.example). Start: docker compose up -d    Stop: docker compose down    (volumes are kept)
+# eKYC stack. Settings and secrets come from .env (copy .env.example).
+#
+# Default (Phase 6): only the INFRASTRUCTURE: Kafka (KRaft), Kafka UI, MongoDB, an S3-compatible store.
+#   docker compose up -d                  the services then run on the host: scripts/run_all.sh (lightweight mode)
+# Profile "app" (Phase 9): ALSO the application in containers: api, orchestrator, the 4 workers and the frontend.
+#   docker compose --profile app up -d --build     -> frontend http://localhost:3000, API http://localhost:8000
+#   docker compose --profile app down              (volumes are kept; never use -v unless you want to lose the data)
+# Ollama always stays on the host (no GPU inside Docker on macOS): containers reach it at host.docker.internal:11434.
+# Run EITHER the host services (run_all.sh) OR the app profile, not both: they share port 8000 and consumer groups.
 #
 # Images (pinned; all multi-arch with arm64 builds, checked on Docker Hub 2026-11-17):
 #   apache/kafka 4.4.0      official Apache image, KRaft mode (no ZooKeeper)
@@ -8,13 +14,59 @@
 #   mongo 8.0               official image
 #   rustfs/rustfs 1.0.6     S3-compatible store (Apache-2.0). MinIO's community Docker images stopped in
 #                           Oct 2025 and the project was archived in 2026, so it is no longer an option.
-# Memory (16 GB Mac, Docker VM 8 GB): Kafka heap 512 MB, MongoDB cache 0.25 GB, every container capped.
+# Memory: Kafka heap 512 MB, MongoDB cache 0.25 GB, every container capped. Measured in Phase 9 (reports/phase9/docker.md):
+# infra alone ~0.9 GB idle; with the app profile ~2.3 GB idle and ~3.3 GB at peak (forgery worker 1.33 GB while scoring).
+# Docker Desktop's default 4 GB VM ran OUT of memory with the app profile: give it 6 GB (Settings > Resources), or use
+# the lightweight host mode (scripts/run_all.sh) on a 16 GB Mac where Ollama also needs 6-8 GB.
 
 name: ekyc
 
 x-logging: &small-logs  # keep container logs from filling the disk
   driver: json-file
   options: {max-size: "10m", max-file: "2"}
+
+# ---------------------------------------------------------------- shared settings of the app containers (profile "app")
+x-app: &app
+  profiles: ["app"]
+  restart: unless-stopped
+  logging: *small-logs
+  extra_hosts: ["host.docker.internal:host-gateway"]  # Docker Desktop has it built in; this also covers Linux
+  depends_on: &app-deps
+    kafka: {condition: service_healthy}
+    mongo: {condition: service_healthy}
+    s3: {condition: service_healthy}
+    kafka-init: {condition: service_completed_successfully}
+    s3-init: {condition: service_completed_successfully}
+
+# Connection settings inside the Docker network (the host services use localhost and the EXTERNAL Kafka listener).
+# Each service gets only what it needs (never the whole .env): workers have no MongoDB credentials, the orchestrator
+# no S3 credentials, and only the API has the JWT secret.
+x-kafka-env: &kafka-env
+  KAFKA_BOOTSTRAP: kafka:9092
+x-mongo-env: &mongo-env
+  MONGO_HOST: mongo:27017
+  MONGO_DB: ${MONGO_DB:-ekyc}
+  MONGO_ROOT_USER: ${MONGO_ROOT_USER}
+  MONGO_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+x-s3-env: &s3-env
+  S3_ENDPOINT: http://s3:9000
+  S3_ACCESS_KEY: ${S3_ACCESS_KEY}
+  S3_SECRET_KEY: ${S3_SECRET_KEY}
+  S3_BUCKET: ${S3_BUCKET:-kyc-uploads}
+  S3_REGION: ${S3_REGION:-us-east-1}
+
+x-python-build: &python-build
+  context: .
+  dockerfile: services/Dockerfile
+
+x-worker: &worker
+  <<: *app
+  image: ekyc-worker:0.9.0
+  build: {<<: *python-build, target: worker}
+  environment:
+    <<: [*kafka-env, *s3-env]
+    OLLAMA_HOST: http://host.docker.internal:11434  # used by the extraction worker
+  volumes: ["./models:/app/models:ro"]  # weights mounted read-only, never baked into the image
 
 services:
   kafka:
@@ -104,7 +156,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD:?set MONGO_ROOT_PASSWORD in .env}
     ports: ["27017:27017"]
     volumes: [mongo-data:/data/db]
-    mem_limit: 768m
+    mem_limit: 1g  # Phase 9: at 768m the mongosh healthcheck was OOM-killed inside the limit (measured peak 766 MiB)
     healthcheck:
       test: ["CMD-SHELL", "mongosh --quiet --eval 'db.adminCommand(\"ping\").ok' | grep -q 1"]
       interval: 30s
@@ -154,6 +206,79 @@ services:
         case "$$code" in 200|409) exit 0;; *) exit 1;; esac
     restart: "no"
     logging: *small-logs
+
+  # ---------------------------------------------------------------- the application (profile "app", Phase 9)
+  api:
+    <<: *app
+    image: ekyc-api:0.9.0
+    container_name: ekyc-api
+    build: {<<: *python-build, target: api}
+    environment:
+      <<: [*kafka-env, *mongo-env, *s3-env]
+      # presigned image links are opened by the BROWSER: they must name the host's address of the S3 store
+      S3_PUBLIC_ENDPOINT: http://localhost:9000
+      JWT_SECRET: ${JWT_SECRET:?set JWT_SECRET in .env}
+      JWT_EXPIRE_MINUTES: ${JWT_EXPIRE_MINUTES:-30}
+      API_MAX_UPLOAD_MB: ${API_MAX_UPLOAD_MB:-10}
+      API_CORS_ORIGINS: http://localhost:3000,http://localhost:5173
+      DEMO_CUSTOMER_EMAIL: ${DEMO_CUSTOMER_EMAIL:-}
+      DEMO_CUSTOMER_PASSWORD: ${DEMO_CUSTOMER_PASSWORD:-}
+      DEMO_OFFICER_EMAIL: ${DEMO_OFFICER_EMAIL:-}
+      DEMO_OFFICER_PASSWORD: ${DEMO_OFFICER_PASSWORD:-}
+    ports: ["8000:8000"]
+    mem_limit: 384m
+
+  orchestrator:
+    <<: *app
+    image: ekyc-orchestrator:0.9.0
+    container_name: ekyc-orchestrator
+    build: {<<: *python-build, target: orchestrator}
+    environment:
+      <<: [*kafka-env, *mongo-env]
+      ORCHESTRATOR_LLM_NOTE: "false"
+    volumes: ["./models:/app/models:ro"]  # the decision thresholds are read from models/*.json
+    mem_limit: 256m
+
+  doc-worker:
+    <<: *worker
+    container_name: ekyc-doc-worker
+    command: ["python", "services/doc-worker/main.py"]
+    mem_limit: 1g
+
+  forgery-worker:
+    <<: *worker
+    container_name: ekyc-forgery-worker
+    command: ["python", "services/forgery-worker/main.py"]
+    mem_limit: 2g  # measured: 1.33 GB resident while scoring one page's ~88 tiles
+
+  face-worker:
+    <<: *worker
+    container_name: ekyc-face-worker
+    command: ["python", "services/face-worker/main.py"]
+    mem_limit: 1g  # measured peak 634 MiB
+
+  extraction-worker:
+    <<: *worker
+    container_name: ekyc-extraction-worker
+    command: ["python", "services/extraction-worker/main.py"]
+    mem_limit: 512m
+    healthcheck:  # one extraction may wait 3 x 180 s for Ollama (timeout per attempt): a longer heartbeat limit
+      test: ["CMD", "python", "-m", "ekyc.messaging.health", "900"]
+      interval: 30s
+      timeout: 5s
+      start_period: 120s
+      retries: 3
+
+  frontend:
+    <<: *app
+    image: ekyc-frontend:0.9.0
+    container_name: ekyc-frontend
+    build: {context: frontend}
+    depends_on: [api]
+    environment:
+      EKYC_API_URL: http://localhost:8000  # the address the BROWSER uses for the API (written to /config.js)
+    ports: ["3000:8080"]
+    mem_limit: 64m
 
 volumes:
   kafka-data:

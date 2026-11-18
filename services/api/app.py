@@ -7,7 +7,6 @@ role checks are FastAPI dependencies. Demo accounts come from .env (DEMO_CUSTOME
 
 
 import io
-import json
 import logging
 import os
 import time
@@ -34,11 +33,12 @@ from ekyc.messaging.settings import Settings, load_settings
 
 log = logging.getLogger("ekyc.api")
 ALLOWED_TYPES = {"image/jpeg": ".jpg", "image/png": ".png"}
-FINAL = ("DECIDED", "APPROVED", "REJECTED")
+# the checks are over: the SSE stream ends here (DECIDED = under review; the officer's decision comes later)
+FINAL = ("DECIDED", *store.CLOSED)
 CUSTOMER_MESSAGES = {"AUTO_APPROVED": "Your identity has been verified.",
                      "MANUAL_REVIEW": "Your application is being reviewed by our compliance team.",
                      "RESUBMIT_REQUIRED": "We could not complete the check. Please submit new photos.",
-                     "APPROVED": "Your identity has been verified by our compliance team.",
+                     "OFFICER_APPROVED": "Your identity has been verified by our compliance team.",
                      "REJECTED": "We could not verify your identity. Please contact support."}
 
 
@@ -55,13 +55,16 @@ def config_from_env() -> tuple[ApiConfig, dict]:
     env = {**dotenv_values(config.PROJECT_ROOT / ".env"), **os.environ}
     if not env.get("JWT_SECRET"):
         raise RuntimeError("JWT_SECRET is not set (see .env.example)")
+    origins = tuple(o.strip() for o in (env.get("API_CORS_ORIGINS") or "http://localhost:5173").split(",") if o.strip())
     return ApiConfig(jwt_secret=env["JWT_SECRET"], jwt_minutes=float(env.get("JWT_EXPIRE_MINUTES") or 30),
-                     max_upload_bytes=int(float(env.get("API_MAX_UPLOAD_MB") or 10) * 1024 * 1024)), env
+                     max_upload_bytes=int(float(env.get("API_MAX_UPLOAD_MB") or 10) * 1024 * 1024),
+                     cors_origins=origins), env
 
 
 # ---------------------------------------------------------------- response models (also the OpenAPI examples)
 
-Status = Literal["SUBMITTED", "PROCESSING", "DECIDED", "APPROVED", "REJECTED"]
+# DECIDED = waiting for an officer (MANUAL_REVIEW only); APPROVED, REJECTED and RESUBMIT_REQUESTED are closed
+Status = Literal["SUBMITTED", "PROCESSING", "DECIDED", "APPROVED", "REJECTED", "RESUBMIT_REQUESTED"]
 Outcome = Literal["AUTO_APPROVED", "MANUAL_REVIEW", "RESUBMIT_REQUIRED"]
 
 class Token(BaseModel):
@@ -238,11 +241,12 @@ def create_app(db=None, s3=None, producer=None, settings: Settings | None = None
     env = {}
     if api_config is None:
         api_config, env = config_from_env()
-    state = {"db": db, "s3": s3, "producer": producer}
+    state = {"db": db, "s3": s3, "producer": producer, "s3_public": s3}  # s3_public: presigns links for browsers
 
     def startup() -> None:
         state["db"] = state["db"] if state["db"] is not None else store.connect(settings)
         state["s3"] = state["s3"] or storage.s3_client(settings)
+        state["s3_public"] = state["s3_public"] or storage.s3_client(settings, public=True)
         state["producer"] = state["producer"] or make_producer("api", settings)
         accounts = seed if seed is not None else {"CUSTOMER": (env.get("DEMO_CUSTOMER_EMAIL"), env.get("DEMO_CUSTOMER_PASSWORD")),
                                                   "OFFICER": (env.get("DEMO_OFFICER_EMAIL"), env.get("DEMO_OFFICER_PASSWORD"))}
@@ -258,7 +262,7 @@ def create_app(db=None, s3=None, producer=None, settings: Settings | None = None
         startup()  # connections + demo accounts, once when the server starts
         yield
 
-    app = FastAPI(title="eKYC verification API", version="0.7.0", lifespan=lifespan,
+    app = FastAPI(title="eKYC verification API", version="0.9.0", lifespan=lifespan,
                   description="Customer onboarding (ID document + selfie) and the compliance officer's review queue. "
                               "Log in via **POST /auth/login** (or the Authorize button), then try the endpoints.")
     app.add_middleware(CORSMiddleware, allow_origins=list(api_config.cors_origins), allow_credentials=True,
@@ -381,15 +385,22 @@ def create_app(db=None, s3=None, producer=None, settings: Settings | None = None
             return Progress(completed=total, total=total)
         return Progress(completed=min(done, len(REQUIRED_CHECKS)), total=len(REQUIRED_CHECKS))
 
+    def message_key(application: dict) -> str | None:
+        status, outcome = application["status"], (application.get("decision") or {}).get("outcome")
+        if status == "REJECTED":
+            return "REJECTED"
+        if status == "APPROVED":  # by the system (auto) or by an officer after a review
+            return "OFFICER_APPROVED" if application.get("officer_decision") else "AUTO_APPROVED"
+        return outcome  # DECIDED -> MANUAL_REVIEW, RESUBMIT_REQUESTED -> RESUBMIT_REQUIRED, still running -> None
+
     def customer_view(application: dict) -> ApplicationView:
         decision = application.get("decision") or {}
         outcome = decision.get("outcome")
-        key = application["status"] if application["status"] in ("APPROVED", "REJECTED") else outcome
         # only a resubmission tells the customer what to retake; a case under review says nothing about why
         retake = ([r["message"] for r in decision.get("reasons", []) if r["effect"] == "resubmit"]
-                  if outcome == "RESUBMIT_REQUIRED" and application["status"] == "DECIDED" else [])
+                  if application["status"] == "RESUBMIT_REQUESTED" else [])
         return ApplicationView(application_id=application["application_id"], status=application["status"],
-                               outcome=outcome, message=CUSTOMER_MESSAGES.get(key), retake=retake,
+                               outcome=outcome, message=CUSTOMER_MESSAGES.get(message_key(application)), retake=retake,
                                progress=customer_progress(application),
                                created_at=application["created_at"], updated_at=application["updated_at"])
 
@@ -448,7 +459,7 @@ def create_app(db=None, s3=None, producer=None, settings: Settings | None = None
             raise HTTPException(status.HTTP_404_NOT_FOUND, "case not found")
         checks = store.get_checks(state["db"], application_id)
         forgery = (checks.get("forgery") or {}).get("outputs") or {}
-        presign = lambda key: state["s3"].generate_presigned_url(  # noqa: E731
+        presign = lambda key: state["s3_public"].generate_presigned_url(  # noqa: E731
             "get_object", Params={"Bucket": settings.s3_bucket, "Key": key}, ExpiresIn=api_config.presign_seconds)
         log.info("officer %s opened case %s", officer["user_id"], application_id)
         heatmap = None
@@ -473,9 +484,11 @@ def create_app(db=None, s3=None, producer=None, settings: Settings | None = None
         to_status = "APPROVED" if body.action == "approve" else "REJECTED"
         moved = store.move(state["db"], application_id, to_status, f"officer:{officer['user_id']}", body.reason,
                            {"officer_decision": {"action": body.action, "reason": body.reason,
-                                                 "officer_id": officer["user_id"], "at": store.now()}})
+                                                 "officer_id": officer["user_id"], "at": store.now()}},
+                           from_statuses=("DECIDED",))  # never a case that is still running or already closed
         if not moved:
-            raise HTTPException(status.HTTP_409_CONFLICT, "only a DECIDED case can be approved or rejected")
+            raise HTTPException(status.HTTP_409_CONFLICT,
+                                "only a case awaiting an officer (status DECIDED) can be approved or rejected")
         log.info("officer %s %sd case %s", officer["user_id"], body.action, application_id)
         return {"application_id": application_id, "status": to_status,
                 "audit_trail": store.audit_trail(state["db"], application_id)}

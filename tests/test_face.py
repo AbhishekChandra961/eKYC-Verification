@@ -101,6 +101,7 @@ def test_make_pair_dataset_shapes():
 
 
 # ------------------------------------------------------------------ YuNet + SFace (downloaded models)
+@pytest.mark.models
 @MODELS
 def test_detect_and_align_finds_no_face_on_a_blank_image():
     detector, recognizer = face.load_face_models()
@@ -109,6 +110,8 @@ def test_detect_and_align_finds_no_face_on_a_blank_image():
 
 
 @MODELS
+@pytest.mark.models
+@pytest.mark.data
 @pytest.mark.skipif(not LFW_IMAGE.exists(), reason="local LFW images not available")
 def test_same_face_scores_high_and_box_is_in_original_pixels():
     detector, recognizer = face.load_face_models()

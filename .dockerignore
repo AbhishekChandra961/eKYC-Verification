@@ -1,0 +1,32 @@
+# Build context of services/Dockerfile (the repository root). Docker sends everything NOT listed here to the
+# builder, so the big local folders must be excluded: data/ alone is ~30 GB.
+# The images need only: requirements*.txt, src/, services/ (models are mounted at run time, not copied).
+
+# data and model weights (mounted read-only by docker-compose instead)
+data/
+models/
+demo_samples/
+
+# environments, secrets, caches
+.venv/
+.env
+.env.*
+**/__pycache__/
+**/*.pyc
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.DS_Store
+
+# not needed by the Python images (the frontend has its own context and .dockerignore)
+frontend/
+notebooks/
+reports/
+dashboard/
+logs/
+tests/
+scripts/
+.git/
+.github/
+.claude/
+CLAUDE.md

@@ -1,4 +1,4 @@
-# SecureBank eKYC: frontend (Phase 8)
+# SecureBank eKYC: frontend (Phases 8-9)
 
 React 19 + Vite + TypeScript (strict) + MUI. Two portals in one app, chosen by the role in the login token:
 
@@ -21,8 +21,21 @@ npm install
 npm run dev            # http://localhost:5173 (the API must run on http://127.0.0.1:8000)
 ```
 
-- **API address:** `VITE_API_URL` sets it (see `.env.example`; copy it to `.env.local` to change it).
-- **CORS:** the API only allows the origin `http://localhost:5173`, so open the app as `localhost`.
+- **API address:** the first of these that is set wins:
+  1. `window.EKYC_CONFIG.apiUrl` from `/config.js`, written by the Docker image at container start from
+     `EKYC_API_URL`;
+  2. `VITE_API_URL` at build time (see `.env.example`; copy it to `.env.local` to change it);
+  3. `http://127.0.0.1:8000`.
+- **CORS:** the API allows the origins `http://localhost:5173` (dev server) and, in Docker,
+  `http://localhost:3000`. Open the app as `localhost`.
+
+**Docker (Phase 9):** `docker compose --profile app up -d --build` (from the repository root) serves the built
+app at http://localhost:3000.
+- `Dockerfile`: stage 1 runs `npm ci` and `npm run build` with Node 22; stage 2 serves `dist/` with
+  `nginx-unprivileged` (non-root, port 8080 inside; config in `docker/nginx.conf`).
+- Unknown paths fall back to `index.html` (client-side routes). Hashed assets are cached for a year, and
+  `config.js` is never cached.
+- `docker/40-ekyc-config.sh` writes `config.js` at container start. One image works for any API address.
 
 | Script | What it does |
 |---|---|
@@ -59,6 +72,13 @@ e2e/kyc-flow.spec.ts     Playwright end-to-end flow
   cookie set by the API is the better choice.** JavaScript (and so an XSS bug) cannot read such a cookie. Here it
   would need cookie handling plus CSRF protection in the API, which is out of scope for the demo.
 - **Auto-logout.** It happens on any 401 from the API, and also by a timer when the token expires (30 min).
+- **Statuses (Phase 9 lifecycle).**
+  - Only `DECIDED` waits for an officer (manual review). It is the officer queue's default filter, labelled
+    *Awaiting officer*.
+  - An auto-approval arrives as `APPROVED` (labelled *Auto-approved*; *Approved by officer* after a review).
+  - A retake request arrives as `RESUBMIT_REQUESTED`.
+  - The customer stream ends at any of these statuses; only `DECIDED` is polled afterwards, for the officer's
+    decision.
 - **Customers never see fraud signals.**
   - Every customer screen receives only a `CustomerStatus`. `toCustomerStatus()` builds it by copying a fixed
     whitelist of fields.
@@ -67,7 +87,7 @@ e2e/kyc-flow.spec.ts     Playwright end-to-end flow
     - the mapping is a whitelist;
     - a status page rendered with leaked fields shows none of them;
     - a scan finds no fraud-signal names in any customer source file.
-  - The *what to retake* text is shown only for RESUBMIT_REQUIRED.
+  - The *what to retake* text is shown only for RESUBMIT_REQUESTED.
 - **Live status uses Server-Sent Events** (`EventSource` with `?token=`, because browsers cannot add headers to it).
   - The stream is closed at a final status; otherwise EventSource would reconnect.
   - If the stream fails (network, expired token), the page polls instead.

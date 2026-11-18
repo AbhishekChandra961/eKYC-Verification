@@ -6,11 +6,16 @@
 # Why tensorflow==2.18.1: tensorflow-metal 1.2.0 (latest, Jan 2025) is built against TF 2.18.
 # The plugin does not declare a TF dependency, so pip would happily install a newer TF (2.19+)
 # that the Metal plugin was never built for. TF 2.18 in turn caps numpy below 2.1.
+#
+# Linux (Phase 9: CI and the Docker images): the macOS-only packages carry environment markers, so the same file
+# installs on Linux with plain TensorFlow 2.18.1 (CPU wheels exist for x86_64 and aarch64). The Docker images do not
+# install this whole file (it includes Jupyter etc.): they install requirements-api.txt / requirements-worker.txt
+# with THIS file as a constraints file (-c), so every package they share has exactly the version used on the Mac.
 absl-py==2.5.1
 annotated-doc==0.0.6
 annotated-types==0.8.0
 anyio==4.16.0
-appnope==1.0.0
+appnope==1.0.0; sys_platform == "darwin"
 argon2-cffi==25.1.0
 argon2-cffi-bindings==26.2.0
 arrow==1.4.0
@@ -146,7 +151,7 @@ tensorboard==2.18.0
 tensorboard-data-server==0.7.2
 tensorflow==2.18.1
 tensorflow-io-gcs-filesystem==0.37.1
-tensorflow-metal==1.2.0
+tensorflow-metal==1.2.0; sys_platform == "darwin"  # Apple GPU plugin: macOS only
 termcolor==3.3.0
 terminado==0.18.1
 threadpoolctl==3.8.0

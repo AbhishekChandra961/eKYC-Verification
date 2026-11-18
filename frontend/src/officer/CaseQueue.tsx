@@ -15,7 +15,8 @@ const REFRESH_MS = 10_000
 type StatusFilter = ApplicationStatus | 'ALL'
 type OutcomeFilter = Outcome | 'ALL'
 
-const STATUS_FILTERS: StatusFilter[] = ['DECIDED', 'PROCESSING', 'APPROVED', 'REJECTED', 'ALL']
+// the default view is the officer's work: cases awaiting a decision (DECIDED)
+const STATUS_FILTERS: StatusFilter[] = ['DECIDED', 'PROCESSING', 'APPROVED', 'REJECTED', 'RESUBMIT_REQUESTED', 'ALL']
 const OUTCOME_FILTERS: OutcomeFilter[] = ['ALL', 'MANUAL_REVIEW', 'AUTO_APPROVED', 'RESUBMIT_REQUIRED']
 
 export function CaseQueue() {
@@ -62,7 +63,7 @@ export function CaseQueue() {
         <FormControl size="small" sx={{ minWidth: 200 }}>
           <InputLabel id="status-filter-label">Status</InputLabel>
           <Select labelId="status-filter-label" label="Status" value={status} onChange={(e) => setStatus(e.target.value as StatusFilter)}>
-            {STATUS_FILTERS.map((s) => <MenuItem key={s} value={s}>{s === 'ALL' ? 'All statuses' : s === 'DECIDED' ? 'Decided (open)' : STATUS_LABELS[s]}</MenuItem>)}
+            {STATUS_FILTERS.map((s) => <MenuItem key={s} value={s}>{s === 'ALL' ? 'All statuses' : STATUS_LABELS[s]}</MenuItem>)}
           </Select>
         </FormControl>
         <FormControl size="small" sx={{ minWidth: 200 }}>

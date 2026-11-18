@@ -78,6 +78,7 @@ def _kafka_up() -> bool:
         return s.connect_ex((host, int(port))) == 0
 
 
+@pytest.mark.services
 @pytest.mark.skipif(not _kafka_up(), reason="Kafka not running (docker compose up -d)")
 def test_same_application_always_lands_on_the_same_partition():
     from confluent_kafka.admin import AdminClient, NewTopic

@@ -164,7 +164,7 @@ export interface components {
              * Status
              * @enum {string}
              */
-            status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED";
+            status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED" | "RESUBMIT_REQUESTED";
             /** Outcome */
             outcome?: ("AUTO_APPROVED" | "MANUAL_REVIEW" | "RESUBMIT_REQUIRED") | null;
             /** Message */
@@ -196,12 +196,12 @@ export interface components {
              */
             actor: string;
             /** From Status */
-            from_status: ("SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED") | null;
+            from_status: ("SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED" | "RESUBMIT_REQUESTED") | null;
             /**
              * To Status
              * @enum {string}
              */
-            to_status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED";
+            to_status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED" | "RESUBMIT_REQUESTED";
             /** Reason */
             reason: string;
             /**
@@ -268,7 +268,7 @@ export interface components {
              * Status
              * @enum {string}
              */
-            status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED";
+            status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED" | "RESUBMIT_REQUESTED";
             applicant: components["schemas"]["Applicant"];
             /** Document Key */
             document_key: string;
@@ -333,7 +333,7 @@ export interface components {
              * Status
              * @enum {string}
              */
-            status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED";
+            status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED" | "RESUBMIT_REQUESTED";
             /** Doc Type */
             doc_type?: string | null;
             /** Outcome */
@@ -470,7 +470,7 @@ export interface components {
              * Status
              * @enum {string}
              */
-            status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED";
+            status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED" | "RESUBMIT_REQUESTED";
             /** Audit Trail */
             audit_trail: components["schemas"]["AuditEntry"][];
         };
@@ -526,7 +526,7 @@ export interface components {
              * @example SUBMITTED
              * @enum {string}
              */
-            status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED";
+            status: "SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED" | "RESUBMIT_REQUESTED";
             /** Status Url */
             status_url: string;
             /** Events Url */
@@ -785,7 +785,7 @@ export interface operations {
     cases_officer_cases_get: {
         parameters: {
             query?: {
-                status?: ("SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED") | null;
+                status?: ("SUBMITTED" | "PROCESSING" | "DECIDED" | "APPROVED" | "REJECTED" | "RESUBMIT_REQUESTED") | null;
                 outcome?: ("AUTO_APPROVED" | "MANUAL_REVIEW" | "RESUBMIT_REQUIRED") | null;
                 limit?: number;
             };

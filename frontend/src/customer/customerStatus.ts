@@ -63,9 +63,9 @@ function outcomeOf(view: ApplicationView): CustomerOutcome {
       return 'verified'
     case 'REJECTED':
       return 'not_verified'
-    case 'DECIDED':
-      if (view.outcome === 'AUTO_APPROVED') return 'verified'
-      if (view.outcome === 'RESUBMIT_REQUIRED') return 'resubmit'
+    case 'RESUBMIT_REQUESTED':
+      return 'resubmit'
+    case 'DECIDED': // waiting for an officer
       return 'under_review'
   }
 }
