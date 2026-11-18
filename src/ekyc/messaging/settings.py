@@ -17,6 +17,7 @@ from ekyc import config
 class Settings:
     kafka_bootstrap: str = "localhost:9094"
     s3_endpoint: str = "http://localhost:9000"
+    s3_public_endpoint: str = ""  # what BROWSERS use for presigned links (containers: S3 at s3:9000 inside, localhost outside)
     s3_access_key: str = ""
     s3_secret_key: str = ""
     s3_bucket: str = "kyc-uploads"
@@ -39,7 +40,9 @@ def load_settings(env_file: Path = config.PROJECT_ROOT / ".env") -> Settings:
         return values.get(name) or default
 
     d = Settings()
-    return Settings(kafka_bootstrap=get("KAFKA_BOOTSTRAP", d.kafka_bootstrap), s3_endpoint=get("S3_ENDPOINT", d.s3_endpoint),
+    s3_endpoint = get("S3_ENDPOINT", d.s3_endpoint)
+    return Settings(kafka_bootstrap=get("KAFKA_BOOTSTRAP", d.kafka_bootstrap), s3_endpoint=s3_endpoint,
+                    s3_public_endpoint=get("S3_PUBLIC_ENDPOINT", s3_endpoint),
                     s3_access_key=get("S3_ACCESS_KEY", ""), s3_secret_key=get("S3_SECRET_KEY", ""),
                     s3_bucket=get("S3_BUCKET", d.s3_bucket), s3_region=get("S3_REGION", d.s3_region),
                     mongo_host=get("MONGO_HOST", d.mongo_host), mongo_user=get("MONGO_ROOT_USER", d.mongo_user),

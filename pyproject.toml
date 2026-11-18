@@ -16,5 +16,23 @@ build-backend = "setuptools.build_meta"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.ruff]
+# Python lint (Phase 9, also run in CI): uvx ruff@0.17.5 check
+line-length = 120
+target-version = "py311"
+extend-exclude = ["notebooks"]
+
+[tool.ruff.lint]
+# pyflakes (F: unused imports and variables, undefined names) + pycodestyle errors E4/E7/E9 (imports, statements,
+# syntax). Deliberately small: it catches mistakes without restyling code the owner has to explain line by line.
+select = ["E4", "E7", "E9", "F"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Tests that need something CI does not have are marked; CI runs: pytest -m "not services and not models and not data"
+markers = [
+    "services: needs the running docker-compose stack (MongoDB, Kafka)",
+    "models: needs trained model weights or downloaded model files in models/ (gitignored)",
+    "data: needs the SIDTD / LFW data or the processed caches in data/ (gitignored)",
+]
+addopts = "--strict-markers"

@@ -17,6 +17,7 @@ from dotenv import dotenv_values
 from pydantic import ValidationError
 
 from ekyc import config, decision, store
+from ekyc.messaging import health
 from ekyc.messaging.events import CheckResult, DeadLetter, SubmittedPayload, Topics, make_event, parse_event
 from ekyc.messaging.kafka import make_consumer, make_producer, publish, safe_commit, wait_delivered
 from ekyc.messaging.retry import RetriesExhausted, RetryPolicy, run_with_retry
@@ -55,6 +56,7 @@ def main() -> None:
                     log.exception("timeout sweep failed")
                 last_sweep = time.monotonic()
             message = consumer.poll(1.0)
+            health.beat()  # liveness for the container healthcheck (no-op on the host)
             if message is None:
                 continue
             if message.error():

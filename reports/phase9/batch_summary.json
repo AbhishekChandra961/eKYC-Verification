@@ -1,0 +1,88 @@
+{
+  "metrics": {
+    "applications": 150,
+    "fraud_caught (not auto-approved)": "67/68",
+    "fraud_missed (auto-approved)": 1,
+    "legitimate_auto_approved": "48/75",
+    "false_alarms (legitimate -> manual review)": 27,
+    "legitimate_asked_to_resubmit": 0,
+    "officer_decided": 66,
+    "officer_rejected": 56,
+    "still_awaiting_officer": 28
+  },
+  "outcome_mix": {
+    "MANUAL_REVIEW": 94,
+    "AUTO_APPROVED": 49,
+    "RESUBMIT_REQUIRED": 7
+  },
+  "status_mix": {
+    "APPROVED": 59,
+    "REJECTED": 56,
+    "DECIDED": 28,
+    "RESUBMIT_REQUESTED": 7
+  },
+  "confusion": {
+    "AUTO_APPROVED": {
+      "fraud_or_mismatch": 1,
+      "legitimate": 48,
+      "unusable": 0,
+      "total": 49
+    },
+    "MANUAL_REVIEW": {
+      "fraud_or_mismatch": 67,
+      "legitimate": 27,
+      "unusable": 0,
+      "total": 94
+    },
+    "RESUBMIT_REQUIRED": {
+      "fraud_or_mismatch": 0,
+      "legitimate": 0,
+      "unusable": 7,
+      "total": 7
+    },
+    "total": {
+      "fraud_or_mismatch": 68,
+      "legitimate": 75,
+      "unusable": 7,
+      "total": 150
+    }
+  },
+  "by_scenario": {
+    "AUTO_APPROVED": {
+      "forged_own_selfie": 0,
+      "forged_stranger": 0,
+      "genuine": 48,
+      "genuine_wrong_details": 0,
+      "stranger_selfie": 1,
+      "unreadable": 0,
+      "total": 49
+    },
+    "MANUAL_REVIEW": {
+      "forged_own_selfie": 38,
+      "forged_stranger": 7,
+      "genuine": 27,
+      "genuine_wrong_details": 12,
+      "stranger_selfie": 10,
+      "unreadable": 0,
+      "total": 94
+    },
+    "RESUBMIT_REQUIRED": {
+      "forged_own_selfie": 0,
+      "forged_stranger": 0,
+      "genuine": 0,
+      "genuine_wrong_details": 0,
+      "stranger_selfie": 0,
+      "unreadable": 7,
+      "total": 7
+    },
+    "total": {
+      "forged_own_selfie": 38,
+      "forged_stranger": 7,
+      "genuine": 75,
+      "genuine_wrong_details": 12,
+      "stranger_selfie": 11,
+      "unreadable": 7,
+      "total": 150
+    }
+  }
+}

@@ -1,20 +1,23 @@
-"""End-to-end test through the API only (Phase 7). Needs scripts/run_all.sh running (and the docker stack + Ollama).
-    .venv/bin/python scripts/e2e_api_smoke.py
+"""End-to-end test through the API only (Phase 7). Needs the system running (and Ollama), either as host processes
+(scripts/run_all.sh) or as containers (docker compose --profile app up -d, Phase 9): both serve the API on :8000.
+    .venv/bin/python scripts/e2e_api_smoke.py                 # results: reports/phase7/e2e_api_results.json
+    .venv/bin/python scripts/e2e_api_smoke.py --results reports/phase9/e2e_api_containers.json
 
 As the demo CUSTOMER: submit four applications and follow each one over Server-Sent Events until it is decided:
-  1. a genuine test passport + a simulated selfie of its own portrait + the right name/DOB  -> AUTO_APPROVED
-  2. a forged test passport + a stranger's selfie                                           -> MANUAL_REVIEW high
-  3. a blank (black) image as the ID document                                               -> RESUBMIT_REQUIRED
-  4. the genuine passport of case 1 with a wrong date of birth                              -> MANUAL_REVIEW
+  1. a genuine test passport + a simulated selfie of its own portrait + the right name/DOB  -> AUTO_APPROVED (APPROVED)
+  2. a forged test passport + a stranger's selfie                                           -> MANUAL_REVIEW high (DECIDED)
+  3. a blank (black) image as the ID document                        -> RESUBMIT_REQUIRED (RESUBMIT_REQUESTED)
+  4. the genuine passport of case 1 with a wrong date of birth                              -> MANUAL_REVIEW (DECIDED)
 As the demo OFFICER: list the queue (the forged case on top), open it, reject it with a reason, show its audit trail.
 Security: customer -> officer endpoint (403), another customer's application (404), invalid/expired token (401).
-Results: reports/phase7/e2e_api_results.json
 """
 
 from __future__ import annotations
 
+import argparse
 import io
 import json
+import os
 import sys
 import threading
 import time
@@ -28,9 +31,10 @@ from PIL import Image
 
 from ekyc import config, face, schemas, security, store
 
-API = "http://127.0.0.1:8000"
+API = os.environ.get("EKYC_API_URL", "http://127.0.0.1:8000")
 ENV = dotenv_values(config.PROJECT_ROOT / ".env")
-RESULTS = config.REPORTS_DIR / "phase7" / "e2e_api_results.json"
+FINAL = ("DECIDED", "APPROVED", "REJECTED", "RESUBMIT_REQUESTED")  # the SSE stream ends at these (Phase 9 lifecycle)
+EXPECTED_STATUS = {"AUTO_APPROVED": "APPROVED", "MANUAL_REVIEW": "DECIDED", "RESUBMIT_REQUIRED": "RESUBMIT_REQUESTED"}
 
 
 def jpeg_bytes(array: np.ndarray, quality: int = 92) -> bytes:
@@ -61,12 +65,15 @@ def follow(application_id: str, headers: dict, started: float, out: dict) -> Non
             if line.startswith("data: "):
                 view = json.loads(line[6:])
                 timeline.append((round(time.perf_counter() - started, 1), view["status"], view["outcome"]))
-                if view["status"] in ("DECIDED", "APPROVED", "REJECTED"):
+                if view["status"] in FINAL:
                     break
     out[application_id] = timeline
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--results", default="reports/phase7/e2e_api_results.json", help="where to save the results")
+    results_path = config.PROJECT_ROOT / parser.parse_args().results
     client = httpx.Client(base_url=API, timeout=60)
     for _ in range(60):  # wait for the API
         try:
@@ -125,8 +132,10 @@ def main() -> int:
         detail = client.get(f"/officer/cases/{app_id}", headers=officer).json()
         d = detail["decision"] or {}
         timeline = timelines.get(app_id, [])
-        rows.append({"case": name, "application_id": app_id, "outcome": d.get("outcome"), "risk": d.get("risk_level"),
-                     "score": d.get("risk_score"), "expected": expected, "ok": d.get("outcome") == expected,
+        status = detail["application"]["status"]
+        rows.append({"case": name, "application_id": app_id, "outcome": d.get("outcome"), "status": status,
+                     "risk": d.get("risk_level"), "score": d.get("risk_score"), "expected": expected,
+                     "ok": d.get("outcome") == expected and status == EXPECTED_STATUS[expected],
                      "seconds to decision": timeline[-1][0] if timeline else None,
                      "statuses seen (SSE)": " > ".join(s for _, s, _ in timeline),
                      "reasons": [f"[{r['effect']}] {r['code']}" for r in d.get("reasons", [])],
@@ -134,7 +143,8 @@ def main() -> int:
     pd.set_option("display.width", 250)
     pd.set_option("display.max_colwidth", 120)
     table = pd.DataFrame(rows)
-    print("\n" + table[["case", "outcome", "risk", "score", "expected", "ok", "seconds to decision", "statuses seen (SSE)"]]
+    print("\n" + table[["case", "outcome", "status", "risk", "score", "expected", "ok", "seconds to decision",
+                        "statuses seen (SSE)"]]
           .to_string(index=False))
     for row in rows:
         print(f"\n{row['case']}: {row['reasons']}\n   worker latency (ms): {row['latency per check ms']}")
@@ -181,10 +191,10 @@ def main() -> int:
 
     passed = all(r["ok"] for r in rows) and [c["application_id"] for c in queue][0] == forged_id \
         and reject.status_code == 200 and [c for c in security_checks.values()] == expected_codes
-    RESULTS.parent.mkdir(parents=True, exist_ok=True)
-    RESULTS.write_text(json.dumps({"cases": rows, "queue": queue, "security": security_checks,
+    results_path.parent.mkdir(parents=True, exist_ok=True)
+    results_path.write_text(json.dumps({"cases": rows, "queue": queue, "security": security_checks,
                                    "audit_trail": reject.json()["audit_trail"], "passed": passed}, indent=2, default=str))
-    print(f"\n{'ALL PASSED' if passed else 'SOMETHING FAILED'}  -> {RESULTS.relative_to(config.PROJECT_ROOT)}")
+    print(f"\n{'ALL PASSED' if passed else 'SOMETHING FAILED'}  -> {results_path.relative_to(config.PROJECT_ROOT)}")
     return 0 if passed else 1
 
 

@@ -1,4 +1,4 @@
-# Services: frontend, API, orchestrator, inference workers (Phases 6-8)
+# Services: frontend, API, orchestrator, inference workers (Phases 6-9)
 
 ```
 browser (React, frontend/) --HTTP--> api --(kyc.submitted)--> orchestrator --(kyc.tasks.doc|face, then forgery|extraction)--> 4 workers
@@ -11,7 +11,8 @@ browser (React, frontend/) --HTTP--> api --(kyc.submitted)--> orchestrator --(ky
 - **Infrastructure in Docker** (`docker-compose.yml`): Kafka 4.4 (KRaft, no ZooKeeper), Kafka UI (kafbat),
   MongoDB 8.0, and RustFS as the S3-compatible store. MinIO's community images stopped in 2025, and the project
   was archived in 2026.
-- **Services run on the host** as Python processes. Containerising them is Phase 9.
+- **The services run either on the host** as Python processes (`scripts/run_all.sh`, the lightweight mode)
+  **or in containers** (`docker compose --profile app`, Phase 9; see [Docker](#docker-phase-9)).
 - **Ollama always runs on the host** (Docker on macOS has no GPU).
 
 ## Start the whole system (one place)
@@ -63,12 +64,15 @@ cd frontend && npm run e2e                          # Playwright (Chromium) thro
 | GET | `/applications/{id}/events` | CUSTOMER | Server-Sent Events: one `status` event per change until a final status (`?token=` accepted, since browser EventSource cannot send headers) |
 | GET | `/officer/cases` | OFFICER | queue, filter `status` / `outcome`, highest risk score first |
 | GET | `/officer/cases/{id}` | OFFICER | applicant data, every check result, decision + reasons with evidence, official summary, forgery top tile and tile grid (`forgery_heatmap`), 5-minute presigned image URLs, audit trail |
-| POST | `/officer/cases/{id}/decision` | OFFICER | `{"action": "approve"\|"reject", "reason": "..."}` (reason mandatory); only from DECIDED (else 409); audited |
+| POST | `/officer/cases/{id}/decision` | OFFICER | `{"action": "approve"\|"reject", "reason": "..."}` (reason mandatory); only from DECIDED, i.e. a case awaiting an officer (else 409); audited |
 | GET | `/health` | - | MongoDB, S3, Kafka reachable |
 
 - **Passwords and tokens:** passwords are hashed with argon2id (argon2-cffi); tokens are JWT (PyJWT, HS256).
 - **Status codes:** a wrong role gives 403; a missing, invalid or expired token gives 401.
-- **CORS:** allows `http://localhost:5173`.
+- **CORS:** allows `http://localhost:5173` (the dev server); `API_CORS_ORIGINS` (comma-separated) overrides it.
+  The containers allow `http://localhost:3000` too.
+- **Presigned image links** use `S3_PUBLIC_ENDPOINT` (default: `S3_ENDPOINT`), because the browser opens them.
+  Inside Docker the API reaches the store at `s3:9000`, while the browser needs `localhost:9000`.
 - **Typed responses:** every endpoint has a Pydantic response model, so the OpenAPI schema describes it exactly.
   The frontend generates its TypeScript types from that schema (`cd frontend && npm run gen:api`, which runs
   `scripts/export_openapi.py`; no server needed).
@@ -86,12 +90,30 @@ cd frontend && npm run e2e                          # Playwright (Chromium) thro
      are skipped;
    - otherwise the forgery and extraction tasks are published, the latter with the classified `doc_type`.
 3. **Fan-in:** every result is upserted by `(application_id, check_type)`. When all four are in, the decision
-   engine runs, the decision and the template summary (the **official record**) are stored, the status goes to
-   DECIDED, and `kyc.decided` is published.
+   engine runs, the decision and the template summary (the **official record**) are stored, and `kyc.decided` is
+   published. The status depends on the outcome (Phase 9 lifecycle):
+
+   | Outcome | Status | Open? |
+   |---|---|---|
+   | AUTO_APPROVED | APPROVED (actor `system:orchestrator`) | closed |
+   | RESUBMIT_REQUIRED | RESUBMIT_REQUESTED | closed: the customer starts a new application |
+   | MANUAL_REVIEW | DECIDED | **open**: the only status that waits for an officer |
+
 4. **Timeouts:** a sweeper runs every 5 s and marks a check with no result as `timed_out` (extraction after 180 s,
    the others after 60 s). That leads to MANUAL_REVIEW.
 5. **Officer decision:** an officer then moves DECIDED -> APPROVED or REJECTED. Every transition is written to the
    append-only `audit_log` (actor, time, from/to status, reason).
+
+   ```
+   SUBMITTED -> PROCESSING -> APPROVED              (system, AUTO_APPROVED)
+                           -> RESUBMIT_REQUESTED    (system, RESUBMIT_REQUIRED)
+                           -> DECIDED -> APPROVED | REJECTED   (officer, with a reason)
+   ```
+
+   - **Before Phase 9 every decided application stayed DECIDED.** `scripts/migrate_lifecycle.py` moves those
+     documents to the new statuses (dry run: `--dry-run`), with an audit entry by `system:migration`.
+   - **The officer endpoint accepts only DECIDED** (`store.move(..., from_statuses=("DECIDED",))`), so an officer
+     can decide neither a running nor a closed case.
 6. **At-least-once delivery:**
    - offsets are committed after the database write;
    - transitions are conditional, so a duplicate event cannot move an application twice;
@@ -156,6 +178,15 @@ worker groups and their lag.
 
 Stop: `docker compose down` (data kept in named volumes); full reset: `docker compose down -v`.
 
+**Empty the demo data without deleting volumes** (Phase 9): stop the services first, then run
+`.venv/bin/python scripts/reset_demo_data.py`. It asks for confirmation (`--yes` skips the question) and then:
+- empties the applications, check_results, audit_log and users collections;
+- deletes every object in the bucket;
+- re-creates the 8 Kafka topics empty and deletes the consumer groups;
+- re-seeds the demo accounts.
+
+It never touches `data/` or `models/`.
+
 ## 2. Start only the workers
 
 ```bash
@@ -219,6 +250,64 @@ store.update_one({"application_id": app, "check_type": result.check_type},
 - **Retries and DLQ:** a failing task is retried 3 times (backoff 0.5 s, 1 s), then published to `kyc.dlq` with
   the error and the original event. An event that does not match its schema goes to the DLQ at once.
 
+## Simulated batch and dashboard data (Phase 9)
+
+```bash
+.venv/bin/python scripts/reset_demo_data.py --yes     # empty system (services stopped)
+scripts/run_all.sh                                    # or: docker compose --profile app up -d
+.venv/bin/python scripts/simulate_batch.py --new      # ~150 applications through the API, ~1.5 h; resumable
+.venv/bin/python scripts/export_dashboard_data.py     # tidy, PII-free CSVs -> dashboard/data/
+```
+
+- **The batch:** `simulate_batch.py` mixes genuine, forged, impostor, wrong-detail and unreadable submissions
+  from the TEST-split templates.
+- **The simulated officer** then decides about 70 % of the manual-review cases.
+- **Ground truth:** `data/processed/batch/ground_truth.csv` (local, no names or DOBs).
+- **Results:** `reports/phase9/batch_summary.md`.
+- **Dashboard docs:** `dashboard/DATA_DICTIONARY.md` (every column) and `dashboard/TABLEAU_GUIDE.md` (building the
+  three dashboards).
+
+## Docker (Phase 9)
+
+```bash
+# stop scripts/run_all.sh first (same port 8000, same Kafka consumer groups)
+ollama serve                                     # on the host, as always
+docker compose --profile app up -d --build       # infra + api, orchestrator, 4 workers, frontend
+docker compose --profile app ps                  # every app container "healthy" after ~1-2 min
+docker compose --profile app logs -f orchestrator
+docker compose --profile app stop                # stop (data kept)
+```
+
+| What | Where |
+|---|---|
+| Frontend (nginx, built files) | http://localhost:3000 |
+| Memory needed | Docker Desktop VM **6 GB** (the default 4 GB is too small: see `reports/phase9/docker.md`) |
+| API + docs | http://localhost:8000/docs |
+| Kafka UI | http://localhost:8080 |
+
+- **Images:** `services/Dockerfile` is one shared multi-stage build with three targets, all non-root (uid 10001),
+  on `python:3.11.18-slim-trixie`:
+  - `api` and `orchestrator`: the light dependencies, no TensorFlow;
+  - `worker`: TensorFlow 2.18.1 CPU + OpenCV headless. One image serves all four workers (chosen by the
+    container command).
+
+  `frontend/Dockerfile` builds with Node 22, then serves with `nginx-unprivileged` (port 8080 inside).
+- **Requirements on Linux:** `requirements.txt` stays the frozen Mac environment; its macOS-only packages
+  (`tensorflow-metal`, `appnope`) carry `sys_platform == "darwin"` markers. The images install
+  `requirements-api.txt` / `requirements-worker.txt` with `-c requirements.txt` as constraints, which gives the
+  Mac's exact versions with plain TensorFlow.
+- **Models** are mounted read-only from `./models` (`/app/models`), never baked into an image.
+- **Healthchecks:**
+  - the API: `GET /health`;
+  - the orchestrator and the workers: a heartbeat file that the consume loop touches every second
+    (`python -m ekyc.messaging.health 300`; 900 s for the extraction worker, whose Ollama call may take 3 x 180 s).
+- **The API address for the browser** is set at container start (`EKYC_API_URL` -> `/config.js`). One frontend
+  image works for any address.
+- **Secrets:** each container gets only the variables it needs from `.env`. The workers have no MongoDB
+  password, and only the API has the JWT secret.
+- **Build context:** the root `.dockerignore` excludes data/ (30 GB), .venv, models, reports, notebooks and the
+  frontend. The measured context is 323 kB for the Python images and 485 kB for the frontend.
+
 ## Robustness lessons from the Phase 6 smoke runs
 
 - **When the host is short of memory, macOS pages out Docker's VM, and the single Kafka node stalls.** It then
@@ -232,8 +321,15 @@ store.update_one({"application_id": app, "check_type": result.check_type},
 
 ## Memory (16 GB Mac)
 
-- **Container limits:** Kafka 1 GB (heap 512 MB), Kafka UI 512 MB, MongoDB 768 MB (WiredTiger cache 0.25 GB),
-  RustFS 512 MB.
+- **Container limits:** Kafka 1 GB (heap 512 MB), Kafka UI 512 MB, MongoDB 1 GB (WiredTiger cache 0.25 GB;
+  768 MB was too tight in Phase 9), RustFS 512 MB.
+- **App profile (Phase 9, measured):**
+  - the whole stack uses ~2.3 GB idle and ~3.3 GB at peak; the forgery worker alone reaches 1.33 GB while
+    scoring a page;
+  - **Docker Desktop's default 4 GB VM ran out of memory:** the kernel OOM-killed the forgery worker.
+    **Give Docker 6 GB** to run the app profile.
+  - On a 16 GB Mac with Ollama (6-8 GB) that is tight, so the host mode (`scripts/run_all.sh`) stays the
+    lightweight choice. Details: `reports/phase9/docker.md`.
 - **Measured idle:** about 0.9 GB for all four containers together.
 - **Docker Desktop's VM** keeps a file cache on top of that. Setting Settings → Resources → Memory to 4 GB is
   enough for this stack.

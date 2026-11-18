@@ -1,13 +1,13 @@
 // Sorting the officer's case queue (pure functions, unit-tested).
 import type { CaseRow } from '../api/client'
+import { OPEN_STATUSES } from './labels'
 
 export type SortKey = 'risk_score' | 'created_at' | 'waiting'
 
 /** How long the case has been open (from submission). Only cases still in progress or waiting for an officer
- *  are "waiting": approved/rejected cases, auto-approvals and retakes sent back to the customer are not. */
+ *  are "waiting"; closed cases (approved, rejected, retake requested) are not. */
 export function waitingMs(row: CaseRow, now: number): number | null {
-  if (row.status === 'APPROVED' || row.status === 'REJECTED') return null
-  if (row.status === 'DECIDED' && row.outcome !== 'MANUAL_REVIEW') return null
+  if (!OPEN_STATUSES.has(row.status)) return null
   return now - Date.parse(row.created_at)
 }
 

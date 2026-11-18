@@ -7,7 +7,8 @@ import path from 'node:path'
 
 const root = path.resolve(import.meta.dirname, '..', '..')
 const samplesDir = path.join(root, 'demo_samples')
-const shots = path.join(root, 'reports', 'phase8', 'screenshots')
+// EKYC_SCREENSHOTS: save elsewhere (e.g. a re-run that should not replace the Phase 8 report's screenshots)
+const shots = process.env.EKYC_SCREENSHOTS ?? path.join(root, 'reports', 'phase8', 'screenshots')
 
 interface Sample { name: string; id_image: string; selfie: string; full_name: string; date_of_birth: string }
 const samples: Record<string, Sample> = Object.fromEntries(
@@ -162,7 +163,7 @@ test('officer: opens the forged case, sees the heatmap and rejects it', async ({
   await shot(page, '15_reject_dialog', false)
   await dialog.getByRole('button', { name: 'Reject' }).click()
   await expect(dialog).toBeHidden()
-  await expect(page.getByText('Decided → Rejected')).toBeVisible()
+  await expect(page.getByText('Awaiting officer → Rejected')).toBeVisible()
   await expect(page.getByRole('button', { name: 'Approve' })).toHaveCount(0)
   await shot(page, '17_case_rejected_audit')
 })

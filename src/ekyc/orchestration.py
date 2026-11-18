@@ -4,7 +4,9 @@
     kyc.results   --> on_result: store the result (upsert by application_id + check_type), then
                       doc result unusable (blank / unrecognized) -> decide at once (RESUBMIT_REQUIRED);
                       doc result fine -> publish forgery + extraction tasks (with the classified doc_type);
-                      all required checks present -> decide, store, publish kyc.decided
+                      all required checks present -> decide, store, publish kyc.decided; the status becomes
+                      APPROVED (AUTO_APPROVED), RESUBMIT_REQUESTED (RESUBMIT_REQUIRED) or DECIDED (MANUAL_REVIEW,
+                      the only outcome that waits for an officer)
     every few s   --> sweep: a check without a result after its deadline becomes "timed_out" (-> MANUAL_REVIEW)
 
 Every handler is idempotent: a re-delivered event finds the status already moved or the result already stored.
@@ -116,16 +118,18 @@ class Orchestrator:
             from ekyc.extraction import summarize_case
             values["ai_note"] = summarize_case({"case_id": application_id, "decision": result.outcome,
                                                 "reasons": [r.message for r in result.reasons]}, self.ai_note)
+        # only a manual review stays open (DECIDED, for an officer); the other outcomes close the application
+        to_status = store.STATUS_FOR_OUTCOME[result.outcome]
         reason = f"decision {result.outcome}" + (f" (risk {result.risk_level})" if result.risk_level else "")
-        if not store.move(self.db, application_id, "DECIDED", ACTOR, reason + (" - early, document unusable" if early else ""),
-                          values):
+        if not store.move(self.db, application_id, to_status, ACTOR, reason + (" - early, document unusable" if early else ""),
+                          values, from_statuses=("PROCESSING",)):
             return False  # already decided (duplicate)
         self._send(Topics.DECIDED, application_id, DecidedPayload(outcome=result.outcome, risk_level=result.risk_level,
                                                                   risk_score=result.risk_score,
                                                                   reason_codes=[r.code for r in result.reasons]))
         wait_delivered(self.producer, log)
-        log.info("application %s: DECIDED %s (risk %s, score %s)", application_id, result.outcome, result.risk_level,
-                 result.risk_score)
+        log.info("application %s: %s, %s (risk %s, score %s)", application_id, to_status, result.outcome,
+                 result.risk_level, result.risk_score)
         return True
 
     # ------------------------------------------------------------------ timeouts

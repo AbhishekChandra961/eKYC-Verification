@@ -1,0 +1,18 @@
+# Runtime packages of the light image (Phase 9): the API and the orchestrator. No TensorFlow, no OpenCV.
+# Installed in services/Dockerfile with:  pip install -r requirements-api.txt -c requirements.txt
+# (requirements.txt is the frozen Mac environment, used as constraints: same versions everywhere).
+# numpy + pandas are needed because the decision engine imports ekyc.schemas.
+fastapi
+uvicorn
+python-multipart
+pyjwt
+argon2-cffi
+pymongo
+confluent-kafka
+boto3
+httpx
+pillow
+pydantic
+python-dotenv
+numpy
+pandas

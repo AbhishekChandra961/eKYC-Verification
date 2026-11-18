@@ -1,0 +1,9 @@
+# Runtime packages of the worker image (Phase 9): the four inference workers (doc, forgery, face, extraction).
+# Installed in services/Dockerfile with:  pip install -r requirements-worker.txt -c requirements.txt
+# Plain tensorflow 2.18.1 (CPU; Linux wheels for x86_64 and aarch64): tensorflow-metal is macOS-only.
+# OpenCV "headless": the same library without the GUI parts (no libGL needed in a slim image).
+-r requirements-api.txt
+tensorflow
+keras
+opencv-python-headless==5.0.0.93  # = opencv-python in requirements.txt
+tqdm  # imported by ekyc.data (via ekyc.inference)

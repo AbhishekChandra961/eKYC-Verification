@@ -71,7 +71,7 @@ export function CaseDetailPage() {
             </Typography>
             <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', rowGap: 1, alignItems: 'center' }}>
               <Chip label={statusLabel(application.status, decision?.outcome)} color={application.status === 'REJECTED' ? 'error'
-                : application.status === 'APPROVED' ? 'success' : 'default'} />
+                : application.status === 'APPROVED' ? 'success' : application.status === 'DECIDED' ? 'warning' : 'default'} />
               {decision?.risk_level && <ToneChip size="medium" tone={RISK[decision.risk_level].tone} label={RISK[decision.risk_level].label} />}
               <Typography color="text.secondary">
                 {application.applicant.full_name} · born {application.applicant.date_of_birth} · {docTypeLabel(application.doc_type)}

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { api, isAbort, messageOf, type ApiError, type ApplicationView } from '../api/client'
 
-const STREAM_ENDS = new Set(['DECIDED', 'APPROVED', 'REJECTED']) // the API closes the stream at these statuses
+// the API closes the stream at these statuses (the checks are over); only DECIDED can still change (officer)
+const STREAM_ENDS = new Set(['DECIDED', 'APPROVED', 'REJECTED', 'RESUBMIT_REQUESTED'])
 const FALLBACK_POLL_MS = 5_000 // stream lost (network, expired token): ask every 5 s instead
 const REVIEW_POLL_MS = 15_000 // under review: an officer's decision can come any time
 
 function waitingForOfficer(view: ApplicationView): boolean {
-  return view.status === 'DECIDED' && view.outcome === 'MANUAL_REVIEW'
+  return view.status === 'DECIDED' // Phase 9: DECIDED = manual review, waiting for an officer
 }
 
 function isDone(view: ApplicationView): boolean {

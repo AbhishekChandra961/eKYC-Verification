@@ -24,7 +24,6 @@ import io
 import json
 import sys
 import time
-import uuid
 from datetime import datetime, timezone
 
 import numpy as np
@@ -188,7 +187,7 @@ def main() -> int:
     record = store.find_one({"application_id": apps[1], "check_type": "doc"})
     checks = {
         "all 8 checks answered": expected <= {(a, r.check_type) for a, r, _, _ in received},
-        "broken task in kyc.dlq after 3 attempts": any(app == apps[3] and l.attempts == 3 for app, l, _ in letters),
+        "broken task in kyc.dlq after 3 attempts": any(app == apps[3] and letter.attempts == 3 for app, letter, _ in letters),
         "duplicate face event processed once": len(face_results) == 1,
         "re-sent doc task: 2 result events": len(doc_results) == 2,
         "... but 1 stored record (upsert)": store.count_documents({"application_id": apps[1], "check_type": "doc"}) == 1
@@ -203,7 +202,7 @@ def main() -> int:
     table.to_csv(REPORT_DIR / "e2e_smoke_results.csv", index=False)
     (REPORT_DIR / "e2e_smoke_summary.json").write_text(json.dumps({
         "run": RUN, "applications": apps, "cases": {c: v[2] for c, v in cases.items()}, "checks": checks,
-        "dead_letters": [{"application_id": a, "attempts": l.attempts, "error": l.error} for a, l, _ in letters],
+        "dead_letters": [{"application_id": a, "attempts": letter.attempts, "error": letter.error} for a, letter, _ in letters],
         "results": rows}, indent=2, default=str))
     return 0 if all(checks.values()) else 1
 

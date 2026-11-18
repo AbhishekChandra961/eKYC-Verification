@@ -1,0 +1,6 @@
+# CI (GitHub Actions, Phase 9): the worker image's packages + the test and lint tools, on Linux, with the Mac's
+# exact versions:  pip install -r requirements-ci.txt -c requirements.txt
+-r requirements-worker.txt
+pytest
+scikit-learn
+ruff==0.17.5

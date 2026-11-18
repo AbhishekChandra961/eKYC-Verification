@@ -9,9 +9,12 @@ from botocore.config import Config
 from ekyc.messaging.settings import Settings, load_settings
 
 
-def s3_client(settings: Settings | None = None):
+def s3_client(settings: Settings | None = None, public: bool = False):
+    """public=True: a client for presigning links that a BROWSER opens (S3_PUBLIC_ENDPOINT). Presigning needs no
+    connection; the endpoint is part of the signed URL, so it must be the address the browser can reach."""
     s = settings or load_settings()
-    return boto3.client("s3", endpoint_url=s.s3_endpoint, aws_access_key_id=s.s3_access_key,
+    endpoint = (s.s3_public_endpoint or s.s3_endpoint) if public else s.s3_endpoint
+    return boto3.client("s3", endpoint_url=endpoint, aws_access_key_id=s.s3_access_key,
                         aws_secret_access_key=s.s3_secret_key, region_name=s.s3_region,
                         # path-style URLs (http://host:9000/bucket/key): local stores have no per-bucket DNS names;
                         # boto3's own retries are kept low because the worker has its own retry + DLQ logic

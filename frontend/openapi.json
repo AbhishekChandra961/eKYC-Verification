@@ -3,7 +3,7 @@
   "info": {
     "title": "eKYC verification API",
     "description": "Customer onboarding (ID document + selfie) and the compliance officer's review queue. Log in via **POST /auth/login** (or the Authorize button), then try the endpoints.",
-    "version": "0.7.0"
+    "version": "0.9.0"
   },
   "paths": {
     "/health": {
@@ -271,7 +271,8 @@
                     "PROCESSING",
                     "DECIDED",
                     "APPROVED",
-                    "REJECTED"
+                    "REJECTED",
+                    "RESUBMIT_REQUESTED"
                   ],
                   "type": "string"
                 },
@@ -488,7 +489,8 @@
               "PROCESSING",
               "DECIDED",
               "APPROVED",
-              "REJECTED"
+              "REJECTED",
+              "RESUBMIT_REQUESTED"
             ],
             "title": "Status"
           },
@@ -574,7 +576,8 @@
                   "PROCESSING",
                   "DECIDED",
                   "APPROVED",
-                  "REJECTED"
+                  "REJECTED",
+                  "RESUBMIT_REQUESTED"
                 ]
               },
               {
@@ -590,7 +593,8 @@
               "PROCESSING",
               "DECIDED",
               "APPROVED",
-              "REJECTED"
+              "REJECTED",
+              "RESUBMIT_REQUESTED"
             ],
             "title": "To Status"
           },
@@ -732,7 +736,8 @@
               "PROCESSING",
               "DECIDED",
               "APPROVED",
-              "REJECTED"
+              "REJECTED",
+              "RESUBMIT_REQUESTED"
             ],
             "title": "Status"
           },
@@ -925,7 +930,8 @@
               "PROCESSING",
               "DECIDED",
               "APPROVED",
-              "REJECTED"
+              "REJECTED",
+              "RESUBMIT_REQUESTED"
             ],
             "title": "Status"
           },
@@ -1310,7 +1316,8 @@
               "PROCESSING",
               "DECIDED",
               "APPROVED",
-              "REJECTED"
+              "REJECTED",
+              "RESUBMIT_REQUESTED"
             ],
             "title": "Status"
           },
@@ -1419,7 +1426,8 @@
               "PROCESSING",
               "DECIDED",
               "APPROVED",
-              "REJECTED"
+              "REJECTED",
+              "RESUBMIT_REQUESTED"
             ],
             "title": "Status",
             "examples": [

@@ -4,6 +4,7 @@ import { fileProblem, dimensionProblem, dimensionWarning } from '../customer/ima
 import { validatePersonal } from '../customer/steps/personal'
 import { formatDuration } from '../format'
 import { heatCells, heatColor, heatOpacity, HEAT_RAMP } from './heatmap'
+import { statusLabel } from './labels'
 import { sortRows, waitingMs } from './queue'
 
 describe('forgery heatmap cells', () => {
@@ -54,9 +55,17 @@ describe('case queue sorting', () => {
   it('measures waiting time from submission, and not for closed cases', () => {
     expect(waitingMs({ ...rows[0], status: 'PROCESSING' }, now)).toBe(2 * 3600_000) // checks still running
     expect(waitingMs(row('e', 5, '2026-11-17T10:00:00Z', 'REJECTED'), now)).toBeNull()
-    expect(waitingMs({ ...rows[0], outcome: 'MANUAL_REVIEW' }, now)).toBe(2 * 3600_000) // waits for an officer
-    expect(waitingMs({ ...rows[0], outcome: 'AUTO_APPROVED' }, now)).toBeNull() // nobody needs to act
+    expect(waitingMs({ ...rows[0], outcome: 'MANUAL_REVIEW' }, now)).toBe(2 * 3600_000) // DECIDED: waits for an officer
+    expect(waitingMs({ ...rows[0], status: 'APPROVED', outcome: 'AUTO_APPROVED' }, now)).toBeNull() // closed by the system
+    expect(waitingMs({ ...rows[0], status: 'RESUBMIT_REQUESTED', outcome: 'RESUBMIT_REQUIRED' }, now)).toBeNull()
     expect(formatDuration(2 * 3600_000 + 5 * 60_000)).toBe('2 h 05 min')
+  })
+
+  it('labels the Phase 9 statuses', () => {
+    expect(statusLabel('DECIDED', 'MANUAL_REVIEW')).toBe('Awaiting officer')
+    expect(statusLabel('APPROVED', 'AUTO_APPROVED')).toBe('Auto-approved')
+    expect(statusLabel('APPROVED', 'MANUAL_REVIEW')).toBe('Approved by officer')
+    expect(statusLabel('RESUBMIT_REQUESTED', 'RESUBMIT_REQUIRED')).toBe('Retake requested')
   })
 })
 

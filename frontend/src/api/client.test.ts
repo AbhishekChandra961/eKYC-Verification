@@ -65,10 +65,10 @@ describe('API client', () => {
   })
 
   it('passes on the API detail of a 409', async () => {
-    mockFetch(jsonResponse(409, { detail: 'only a DECIDED case can be approved or rejected' }))
+    mockFetch(jsonResponse(409, { detail: 'only a case awaiting an officer (status DECIDED) can be approved or rejected' }))
     const error = await failure(api.officerDecision('app-1', 'reject', 'Edited surname'))
     expect(error.status).toBe(409)
-    expect(error.message).toBe('only a DECIDED case can be approved or rejected')
+    expect(error.message).toBe('only a case awaiting an officer (status DECIDED) can be approved or rejected')
     expect(onUnauthorized).not.toHaveBeenCalled()
   })
 

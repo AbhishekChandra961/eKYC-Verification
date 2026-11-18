@@ -1,0 +1,241 @@
+case_id,reason_code,reason_label,effect,check_type,system_outcome,risk_level
+C0002,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0003,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0004,name_mismatch,Name entered differs from the document,medium,applicant,MANUAL_REVIEW,medium
+C0005,name_mismatch,Name entered differs from the document,medium,applicant,MANUAL_REVIEW,medium
+C0005,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0007,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0008,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0008,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0009,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0010,name_mismatch,Name entered differs from the document,medium,applicant,MANUAL_REVIEW,medium
+C0010,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0011,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0012,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0013,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0015,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0015,name_mismatch,Name entered differs from the document,medium,applicant,MANUAL_REVIEW,medium
+C0015,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0016,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0017,image_unreadable,Image unreadable (no document visible),resubmit,doc,RESUBMIT_REQUIRED,none
+C0018,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0019,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0020,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0022,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0022,rule_mrz_check_document_number,Document data inconsistent: mrz check document number,high,extraction,MANUAL_REVIEW,high
+C0022,rule_mrz_check_birth_date,Document data inconsistent: mrz check birth date,high,extraction,MANUAL_REVIEW,high
+C0022,rule_mrz_check_expiry_date,Document data inconsistent: mrz check expiry date,high,extraction,MANUAL_REVIEW,high
+C0022,rule_mrz_check_composite,Document data inconsistent: mrz check composite,high,extraction,MANUAL_REVIEW,high
+C0022,rule_mrz_vs_birth_date,Document data inconsistent: mrz vs birth date,medium,extraction,MANUAL_REVIEW,high
+C0022,rule_mrz_vs_expiry_date,Document data inconsistent: mrz vs expiry date,high,extraction,MANUAL_REVIEW,high
+C0022,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0023,rule_dates_parseable,Document data inconsistent: dates parseable,medium,extraction,MANUAL_REVIEW,medium
+C0023,dob_unverified,Date of birth not readable,medium,applicant,MANUAL_REVIEW,medium
+C0023,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0024,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0024,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0025,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0025,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0026,face_uncertain,Face match uncertain,medium,face,MANUAL_REVIEW,high
+C0026,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0026,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0027,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0027,rule_date_order,Document data inconsistent: date order,high,extraction,MANUAL_REVIEW,high
+C0027,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0028,face_uncertain,Face match uncertain,medium,face,MANUAL_REVIEW,high
+C0028,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0028,rule_mrz_vs_surname,Document data inconsistent: mrz vs surname,medium,extraction,MANUAL_REVIEW,high
+C0028,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,high
+C0028,rule_mrz_vs_birth_date,Document data inconsistent: mrz vs birth date,medium,extraction,MANUAL_REVIEW,high
+C0028,name_mismatch,Name entered differs from the document,medium,applicant,MANUAL_REVIEW,high
+C0028,dob_mismatch,Date of birth entered differs,high,applicant,MANUAL_REVIEW,high
+C0028,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0029,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0030,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0031,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0032,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0034,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0034,rule_mrz_check_document_number,Document data inconsistent: mrz check document number,high,extraction,MANUAL_REVIEW,high
+C0034,rule_mrz_check_birth_date,Document data inconsistent: mrz check birth date,high,extraction,MANUAL_REVIEW,high
+C0034,rule_mrz_check_composite,Document data inconsistent: mrz check composite,high,extraction,MANUAL_REVIEW,high
+C0034,rule_mrz_vs_birth_date,Document data inconsistent: mrz vs birth date,medium,extraction,MANUAL_REVIEW,high
+C0034,rule_mrz_vs_expiry_date,Document data inconsistent: mrz vs expiry date,high,extraction,MANUAL_REVIEW,high
+C0034,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0035,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0035,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0036,face_mismatch,Selfie does not match the ID photo,high,face,MANUAL_REVIEW,high
+C0036,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0036,dob_mismatch,Date of birth entered differs,high,applicant,MANUAL_REVIEW,high
+C0037,forgery_uncertain,Possible document edit,medium,forgery,MANUAL_REVIEW,medium
+C0037,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0037,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0038,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0041,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0041,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0042,dob_mismatch,Date of birth entered differs,high,applicant,MANUAL_REVIEW,high
+C0042,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0043,name_mismatch,Name entered differs from the document,medium,applicant,MANUAL_REVIEW,medium
+C0044,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0046,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,high
+C0046,dob_mismatch,Date of birth entered differs,high,applicant,MANUAL_REVIEW,high
+C0046,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0047,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0047,rule_mrz_vs_surname,Document data inconsistent: mrz vs surname,medium,extraction,MANUAL_REVIEW,high
+C0047,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0048,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0048,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0049,dob_mismatch,Date of birth entered differs,high,applicant,MANUAL_REVIEW,high
+C0049,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0050,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0050,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0051,face_uncertain,Face match uncertain,medium,face,MANUAL_REVIEW,medium
+C0051,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0052,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0052,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0053,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0055,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0055,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0057,rule_mrz_vs_document_number,Document data inconsistent: mrz vs document number,high,extraction,MANUAL_REVIEW,high
+C0057,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0058,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0059,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0059,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0061,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0061,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0062,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0063,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0065,face_mismatch,Selfie does not match the ID photo,high,face,MANUAL_REVIEW,high
+C0066,forgery_uncertain,Possible document edit,medium,forgery,MANUAL_REVIEW,medium
+C0066,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0066,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0067,face_mismatch,Selfie does not match the ID photo,high,face,MANUAL_REVIEW,high
+C0067,forgery_uncertain,Possible document edit,medium,forgery,MANUAL_REVIEW,high
+C0067,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0068,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0068,name_mismatch,Name entered differs from the document,medium,applicant,MANUAL_REVIEW,high
+C0069,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0070,face_mismatch,Selfie does not match the ID photo,high,face,MANUAL_REVIEW,high
+C0071,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0072,rule_mrz_vs_surname,Document data inconsistent: mrz vs surname,medium,extraction,MANUAL_REVIEW,medium
+C0072,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0073,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0073,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0074,unrecognized_document,Unrecognized document,resubmit,doc,RESUBMIT_REQUIRED,none
+C0075,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0075,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0076,name_mismatch,Name entered differs from the document,medium,applicant,MANUAL_REVIEW,medium
+C0077,face_uncertain,Face match uncertain,medium,face,MANUAL_REVIEW,high
+C0077,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0077,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0078,forgery_uncertain,Possible document edit,medium,forgery,MANUAL_REVIEW,medium
+C0078,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0080,face_uncertain,Face match uncertain,medium,face,MANUAL_REVIEW,medium
+C0080,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0081,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0081,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0082,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0083,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0084,name_mismatch,Name entered differs from the document,medium,applicant,MANUAL_REVIEW,medium
+C0085,dob_mismatch,Date of birth entered differs,high,applicant,MANUAL_REVIEW,high
+C0085,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0086,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0087,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0088,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0088,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0089,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0090,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0091,image_unreadable,Image unreadable (no document visible),resubmit,doc,RESUBMIT_REQUIRED,none
+C0092,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0092,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0093,forgery_uncertain,Possible document edit,medium,forgery,MANUAL_REVIEW,high
+C0093,dob_mismatch,Date of birth entered differs,high,applicant,MANUAL_REVIEW,high
+C0093,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0094,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0095,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0095,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0096,face_mismatch,Selfie does not match the ID photo,high,face,MANUAL_REVIEW,high
+C0096,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,high
+C0096,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0097,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0098,rule_dates_parseable,Document data inconsistent: dates parseable,medium,extraction,MANUAL_REVIEW,medium
+C0098,dob_unverified,Date of birth not readable,medium,applicant,MANUAL_REVIEW,medium
+C0098,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0099,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0099,name_mismatch,Name entered differs from the document,medium,applicant,MANUAL_REVIEW,high
+C0099,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0100,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0101,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0101,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0102,rule_dates_parseable,Document data inconsistent: dates parseable,medium,extraction,MANUAL_REVIEW,medium
+C0102,dob_unverified,Date of birth not readable,medium,applicant,MANUAL_REVIEW,medium
+C0102,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0103,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0104,forgery_uncertain,Possible document edit,medium,forgery,MANUAL_REVIEW,medium
+C0104,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0105,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0106,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0107,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0108,image_unreadable,Image unreadable (no document visible),resubmit,doc,RESUBMIT_REQUIRED,none
+C0109,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0110,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0112,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0112,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,high
+C0113,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0114,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0114,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,high
+C0114,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0115,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0116,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0116,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0118,face_mismatch,Selfie does not match the ID photo,high,face,MANUAL_REVIEW,high
+C0118,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0119,forgery_uncertain,Possible document edit,medium,forgery,MANUAL_REVIEW,high
+C0119,dob_mismatch,Date of birth entered differs,high,applicant,MANUAL_REVIEW,high
+C0119,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0120,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0121,face_mismatch,Selfie does not match the ID photo,high,face,MANUAL_REVIEW,high
+C0121,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0123,forgery_uncertain,Possible document edit,medium,forgery,MANUAL_REVIEW,medium
+C0123,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0126,face_mismatch,Selfie does not match the ID photo,high,face,MANUAL_REVIEW,high
+C0126,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0127,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0127,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0128,forgery_uncertain,Possible document edit,medium,forgery,MANUAL_REVIEW,medium
+C0128,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0128,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0131,face_mismatch,Selfie does not match the ID photo,high,face,MANUAL_REVIEW,high
+C0131,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0132,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0133,forgery_timed_out,Forgery check timed out,medium,forgery,MANUAL_REVIEW,medium
+C0133,extraction_skipped,Extraction check skipped,medium,extraction,MANUAL_REVIEW,medium
+C0134,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0135,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0135,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0136,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0137,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0137,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0138,image_unreadable,Image unreadable (no document visible),resubmit,doc,RESUBMIT_REQUIRED,none
+C0139,image_unreadable,Image unreadable (no document visible),resubmit,doc,RESUBMIT_REQUIRED,none
+C0140,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0140,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0141,face_mismatch,Selfie does not match the ID photo,high,face,MANUAL_REVIEW,high
+C0141,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0142,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0142,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0143,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0143,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0144,face_mismatch,Selfie does not match the ID photo,high,face,MANUAL_REVIEW,high
+C0144,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0145,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0145,rule_mrz_vs_surname,Document data inconsistent: mrz vs surname,medium,extraction,MANUAL_REVIEW,high
+C0145,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0146,forgery_uncertain,Possible document edit,medium,forgery,MANUAL_REVIEW,medium
+C0146,rule_mrz_vs_given_names,Document data inconsistent: mrz vs given names,medium,extraction,MANUAL_REVIEW,medium
+C0146,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0147,forgery_suspected,Forgery suspected,high,forgery,MANUAL_REVIEW,high
+C0147,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,high
+C0148,document_expired,Document expired (informational),info,extraction,AUTO_APPROVED,low
+C0149,face_uncertain,Face match uncertain,medium,face,MANUAL_REVIEW,medium
+C0149,document_expired,Document expired (informational),info,extraction,MANUAL_REVIEW,medium
+C0150,image_unreadable,Image unreadable (no document visible),resubmit,doc,RESUBMIT_REQUIRED,none

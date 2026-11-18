@@ -1,5 +1,7 @@
 # Data (raw, interim, processed) — never commit
 data/
+# ...but the dashboard's exported CSVs are committed: synthetic, PII-free (Phase 9, dashboard/DATA_DICTIONARY.md)
+!dashboard/data/
 
 # Python virtual environment
 .venv/
@@ -32,3 +34,6 @@ demo_samples/
 frontend/test-results/
 frontend/playwright-report/
 frontend/blob-report/
+
+# Phase 9
+.ruff_cache/

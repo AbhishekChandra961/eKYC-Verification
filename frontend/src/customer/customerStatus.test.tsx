@@ -26,9 +26,9 @@ describe('customer status mapping', () => {
   it.each([
     ['SUBMITTED', null, 'submitted', 'pending', 'Application received', false],
     ['PROCESSING', null, 'verifying', 'pending', 'Verifying your identity', false],
-    ['DECIDED', 'AUTO_APPROVED', 'result', 'verified', 'Verified', true],
+    ['APPROVED', 'AUTO_APPROVED', 'result', 'verified', 'Verified', true],
     ['DECIDED', 'MANUAL_REVIEW', 'result', 'under_review', 'Under review by our team', false],
-    ['DECIDED', 'RESUBMIT_REQUIRED', 'result', 'resubmit', 'Please resubmit', true],
+    ['RESUBMIT_REQUESTED', 'RESUBMIT_REQUIRED', 'result', 'resubmit', 'Please resubmit', true],
     ['APPROVED', 'MANUAL_REVIEW', 'result', 'verified', 'Verified', true],
     ['REJECTED', 'MANUAL_REVIEW', 'result', 'not_verified', 'We could not verify your identity', true],
   ] as const)('%s / %s -> %s, %s', (status, outcome, stage, customerOutcome, title, final) => {
@@ -47,9 +47,9 @@ describe('customer status mapping', () => {
 
   it('shows what to retake only for a resubmission, never for a case under review', () => {
     const retake = ['No face found on the selfie: please retake the selfie']
-    expect(toCustomerStatus(applicationView({ status: 'DECIDED', outcome: 'RESUBMIT_REQUIRED', retake })).nextSteps).toEqual(retake)
+    expect(toCustomerStatus(applicationView({ status: 'RESUBMIT_REQUESTED', outcome: 'RESUBMIT_REQUIRED', retake })).nextSteps).toEqual(retake)
     expect(toCustomerStatus(applicationView({ status: 'DECIDED', outcome: 'MANUAL_REVIEW', retake })).nextSteps).toEqual([])
-    expect(toCustomerStatus(applicationView({ status: 'DECIDED', outcome: 'RESUBMIT_REQUIRED', retake: [] })).nextSteps[0])
+    expect(toCustomerStatus(applicationView({ status: 'RESUBMIT_REQUESTED', outcome: 'RESUBMIT_REQUIRED', retake: [] })).nextSteps[0])
       .toMatch(/take new photos/)
   })
 
@@ -81,7 +81,7 @@ describe('customer status page', () => {
   })
 
   it('offers "Start again" with the neutral instruction for a resubmission', () => {
-    renderStatus(applicationView({ status: 'DECIDED', outcome: 'RESUBMIT_REQUIRED', progress: { completed: 1, total: 1 },
+    renderStatus(applicationView({ status: 'RESUBMIT_REQUESTED', outcome: 'RESUBMIT_REQUIRED', progress: { completed: 1, total: 1 },
       retake: ['Image unreadable: no document visible, please upload a new photo'] }))
     expect(within(screen.getByRole('alert')).getByText('Please resubmit')).toBeInTheDocument()
     expect(screen.getByText(/please upload a new photo/)).toBeInTheDocument()
@@ -89,7 +89,7 @@ describe('customer status page', () => {
   })
 
   it('shows "Verified" for an approved application', () => {
-    renderStatus(applicationView({ status: 'DECIDED', outcome: 'AUTO_APPROVED', progress: { completed: 4, total: 4 } }))
+    renderStatus(applicationView({ status: 'APPROVED', outcome: 'AUTO_APPROVED', progress: { completed: 4, total: 4 } }))
     expect(within(screen.getByRole('alert')).getByText('Verified')).toBeInTheDocument()
   })
 })
