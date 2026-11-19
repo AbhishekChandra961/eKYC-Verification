@@ -24,6 +24,7 @@ FIELDS_GT_CSV = PROCESSED_DIR / "fields_ground_truth.csv"  # annotated text/phot
 CACHE_DIR = PROCESSED_DIR / "images"  # resized copies, mirroring data/interim's layout
 
 REPORTS_DIR = PROJECT_ROOT / "reports"
+MODELS_DIR = PROJECT_ROOT / "models"  # gitignored weights (only the small *.json configs are in git)
 
 # ---------------------------------------------------------------- dataset facts
 # The 10 SIDTD document types. Filenames are parsed against this list (not by splitting on "_"),
@@ -91,7 +92,31 @@ GENUINE_PRE_QUALITY = 75  # the quality the forged originals were saved at
 # Production path: OpenCV's YuNet detector + SFace recognizer, ONNX files from github.com/opencv/opencv_zoo
 # (YuNet: MIT licence, SFace: Apache 2.0; licence files next to the models). Showcase: a Keras Siamese network.
 LFW_DIR = RAW_DIR / "lfw"  # sklearn's data_home: lfw_home/ with the images and pairsDev{Train,Test}.txt (read-only)
-FACE_MODEL_DIR = PROJECT_ROOT / "models" / "face"
+FACE_MODEL_DIR = MODELS_DIR / "face"
 YUNET_ONNX = FACE_MODEL_DIR / "face_detection_yunet_2023mar.onnx"
 SFACE_ONNX = FACE_MODEL_DIR / "face_recognition_sface_2021dec.onnx"
 FACE_MAX_FAR = 0.01  # thresholds allow at most 1 % false accepts: accepting an impostor is the costly KYC error
+
+# ---------------------------------------------------------------- model weights release (Phase 10)
+# The trained models are ONE GitHub release asset (models/ is gitignored). scripts/build_model_release.py builds the
+# zip, scripts/download_models.py downloads it, checks the SHA-256 below and every file's line in the zip's
+# SHA256SUMS, and unpacks it into models/. A new release = a new version, file name and SHA-256 here.
+MODEL_RELEASE_VERSION = "v1.0.0"
+MODEL_RELEASE_FILE = "ekyc-models-v1.0.zip"
+MODEL_RELEASE_URL = (
+    "https://github.com/AbhishekChandra961/eKYC-Verification/releases/download/"
+    f"{MODEL_RELEASE_VERSION}/{MODEL_RELEASE_FILE}"
+)
+MODEL_RELEASE_SHA256 = "2d7fa258d41681553429245b60fc7eb3fe59e58887aa6c0cea0aba398959b1fc"
+MODEL_RELEASE_FILES = (  # paths inside models/ (and inside the zip)
+    "doc_classifier.keras",
+    "doc_classifier.json",
+    "forgery_detector.keras",  # v3, the accepted model
+    "forgery_detector.json",
+    "face_config.json",
+    "face_siamese.keras",  # showcase only, never used by the pipeline
+    "face/face_detection_yunet_2023mar.onnx",
+    "face/LICENSE_yunet_MIT.txt",
+    "face/face_recognition_sface_2021dec.onnx",
+    "face/LICENSE_sface_Apache-2.0.txt",
+)

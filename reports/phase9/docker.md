@@ -40,7 +40,8 @@ linux/arm64. Ollama ran on the host, as always.
 | frontend | 11 | 12 | 64 MiB |
 | **total** | **~2.3 GB** | **~3.3 GB** (2.67 GB highest sampled total + the forgery spike) | |
 
-**Verdict: Docker's 4 GB VM is too small for the full stack.**
+**Verdict: Docker's 4 GB VM is too small for the full stack.** (Re-run with 6 GB in Phase 10: all passed, see the
+last section.)
 - **What happened:** during the smoke test the VM kernel ran out of memory. It was a *global* OOM, not a
   container limit, and the kernel killed the forgery worker while it scored a page (1.33 GB resident). The worker
   restarted by itself (`restart: unless-stopped`).
@@ -86,3 +87,50 @@ Results: `reports/phase9/e2e_api_containers.json`.
 
 The same four cases passed in host mode in Phase 7 (`reports/phase7/e2e_api_results.json`). The Phase 9 lifecycle
 in host mode is covered by the Playwright run (4/4).
+
+## Re-run with a 6 GB VM (Phase 10, 19 Nov 2026): ALL PASSED
+
+Docker Desktop memory raised to 6 GB (`docker info`: 5.79 GiB, 10 CPUs), other apps closed, images rebuilt from the
+Phase 10 code, compose limits as in the table above (mongo 1 GiB, forgery 2 GiB, face 1 GiB). Ollama on the host.
+Results: `reports/phase9/e2e_api_containers_6gb.json`.
+
+| Case | Expected | Got | Seconds to decision |
+|---|---|---|---:|
+| 1 genuine + own selfie | AUTO_APPROVED → APPROVED | AUTO_APPROVED → APPROVED ✓ (risk low, score 6.4) | 30.6 |
+| 2 forged + stranger | MANUAL_REVIEW high | MANUAL_REVIEW high ✓ (score 100: face mismatch, forgery 0.9997, 2 MRZ name rules) | 52.2 |
+| 3 blank image | RESUBMIT_REQUIRED → RESUBMIT_REQUESTED | ✓ (`image_unreadable`) | 1.1 |
+| 4 genuine, wrong DOB | MANUAL_REVIEW | MANUAL_REVIEW high ✓, this time via `dob_mismatch` (no timeouts) | 68.5 |
+
+- **Security:** 6/6 checks passed (403 ×2, 404, 401 ×3).
+- **Officer flow:** the queue, the rejection with a reason (HTTP 200 → REJECTED) and the audit trail
+  `SUBMITTED → PROCESSING → DECIDED → REJECTED`.
+- **Presigned link:** HTTP 200 from the host.
+- **Worker latency (case 1):** doc 0.4 s, face 0.4 s, forgery 4.1 s, extraction 29.2 s (Ollama on the host).
+- **No OOM:** the VM kernel log has no out-of-memory line; no container restarted.
+
+Memory during the re-run (`docker stats` every ~2 s; idle = median of 20 samples after start-up, peak = 17 samples
+during the 79 s test):
+
+| Container | Idle (MiB) | Peak (MiB) | Limit |
+|---|---:|---:|---:|
+| kafka | 571 | 577 | 1 GiB |
+| kafka-ui | 350 | 351 | 512 MiB |
+| mongo | 334 | 334 | 1 GiB |
+| s3 (RustFS) | 137 | 153 | 512 MiB |
+| api | 121 | 131 | 384 MiB |
+| orchestrator | 99 | 100 | 256 MiB |
+| doc-worker | 395 | 508 | 1 GiB |
+| forgery-worker | 572 | **1,453** | 2 GiB |
+| face-worker | 399 | **791** | 1 GiB |
+| extraction-worker | 342 | 342 | 512 MiB |
+| frontend | 15 | 15 | 64 MiB |
+| **total** | **~3.3 GB** | **4.13 GB** highest sampled total (4.76 GB if every container peaked at once) | |
+
+- **Why idle is higher than the Phase 9 table:** this time the samples were taken right after start-up, with
+  freshly loaded models and the JVMs (Kafka, Kafka UI) still warm; the Phase 9 idle column was sampled later.
+  The peaks are what matter for sizing.
+- **The forgery worker's peak (1.45 GB) confirms the Phase 9 OOM:** it needs more than the old 1.5 GiB limit
+  under load; the 2 GiB limit fits.
+- **Verdict: 6 GB is enough for the full stack** (VM `free -m` during the test: 5,924 total, 1,704 available).
+- **Host cost:** with the 6 GB VM plus Ollama, macOS swap reached ~19.5 GB of 20 GB. Container mode works on this
+  16 GB Mac, but host mode (`scripts/run_all.sh`) stays the lighter choice for daily work and the demo.

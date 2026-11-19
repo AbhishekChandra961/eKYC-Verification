@@ -12,6 +12,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
+    "record": "playwright test --config playwright.record.config.ts",
     "gen:api": "../.venv/bin/python ../scripts/export_openapi.py openapi.json && openapi-typescript openapi.json -o src/api/schema.d.ts"
   },
   "dependencies": {
