@@ -10,6 +10,9 @@ As the demo CUSTOMER: submit four applications and follow each one over Server-S
   4. the genuine passport of case 1 with a wrong date of birth                              -> MANUAL_REVIEW (DECIDED)
 As the demo OFFICER: list the queue (the forged case on top), open it, reject it with a reason, show its audit trail.
 Security: customer -> officer endpoint (403), another customer's application (404), invalid/expired token (401).
+
+Needs only the SIDTD templates (README quickstart): the three test-split documents are fixed below (they are the ones
+the Phase 7 version picked from the manifest). If data/processed/manifest.csv exists, they are checked to be TEST-split.
 """
 
 from __future__ import annotations
@@ -29,12 +32,15 @@ import pandas as pd
 from dotenv import dotenv_values
 from PIL import Image
 
-from ekyc import config, face, schemas, security, store
+from ekyc import config, data, face, schemas, security, store
 
 API = os.environ.get("EKYC_API_URL", "http://127.0.0.1:8000")
 ENV = dotenv_values(config.PROJECT_ROOT / ".env")
 FINAL = ("DECIDED", "APPROVED", "REJECTED", "RESUBMIT_REQUESTED")  # the SSE stream ends at these (Phase 9 lifecycle)
 EXPECTED_STATUS = {"AUTO_APPROVED": "APPROVED", "MANUAL_REVIEW": "DECIDED", "RESUBMIT_REQUIRED": "RESUBMIT_REQUESTED"}
+GENUINE = "srb_passport_04"  # test split: the genuine applicant (cases 1, 3, 4)
+FORGED = "aze_passport_75_fake_3_39"  # test split: an inpaint-and-rewrite forgery (case 2)
+STRANGER = "lva_passport_09"  # test split: the stranger whose portrait becomes the fraudster's selfie (case 2)
 
 
 def jpeg_bytes(array: np.ndarray, quality: int = 92) -> bytes:
@@ -43,8 +49,7 @@ def jpeg_bytes(array: np.ndarray, quality: int = 92) -> bytes:
     return buffer.getvalue()
 
 
-def selfie_of(image_path: str, doc_id: str, seed: int) -> bytes:
-    boxes = pd.read_csv(config.FIELDS_GT_CSV).query("field_name == 'photo'").set_index("doc_id")
+def selfie_of(image_path: str, doc_id: str, seed: int, boxes: pd.DataFrame) -> bytes:
     with Image.open(config.PROJECT_ROOT / image_path) as image:
         page = np.asarray(image.convert("RGB"))
     crop = face.crop_with_margin(page, boxes.loc[doc_id, ["x", "y", "w", "h"]].to_numpy())
@@ -87,12 +92,14 @@ def main() -> int:
     officer = login(client, ENV["DEMO_OFFICER_EMAIL"], ENV["DEMO_OFFICER_PASSWORD"])
 
     # ---- the documents (test split; a functional test, not an evaluation)
-    m = pd.read_csv(config.MANIFEST_CSV)
-    t = m[(m["source"] == "template") & (m["split"] == "test")]
-    truth = schemas.ground_truth_table(pd.read_csv(config.FIELDS_GT_CSV))
-    genuine = t[(t["label"] == 0) & (t["doc_type"] == "srb_passport")].iloc[0]
-    forged = t[t["fake_name"] == "aze_passport_75_fake_3_39"].iloc[0]
-    stranger = t[(t["label"] == 0) & (t["doc_type"] == "lva_passport")].iloc[0]
+    fields = data.parse_ground_truth()  # annotated values and boxes of the genuine templates
+    boxes = fields.query("field_name == 'photo'").set_index("doc_id")
+    truth = schemas.ground_truth_table(fields)
+    genuine = data.template_record(doc_id=GENUINE)
+    forged = data.template_record(fake_name=FORGED)
+    stranger = data.template_record(doc_id=STRANGER)
+    if not data.check_test_split([genuine.doc_id, forged.doc_id, stranger.doc_id]):
+        print("note: no manifest, test-split check skipped (the documents are fixed above)")
     g = truth.loc[genuine.doc_id]
     f = truth.loc[forged.doc_id]  # what the fraudster types: the original holder's data
     # typed in lower case, without diacritics and in a different order: the fuzzy name match must still accept it
@@ -100,11 +107,11 @@ def main() -> int:
     genuine_dob = schemas.parse_date(g.birth_date, "birth_date")
     wrong_dob = (date.fromisoformat(genuine_dob) + timedelta(days=400)).isoformat()
     genuine_doc = (config.PROJECT_ROOT / genuine.image_path).read_bytes()
-    genuine_selfie = selfie_of(genuine.image_path, genuine.doc_id, seed=1)
+    genuine_selfie = selfie_of(genuine.image_path, genuine.doc_id, seed=1, boxes=boxes)
     cases = [
         ("1 genuine + own selfie", genuine_doc, genuine_selfie, genuine_name, genuine_dob, "AUTO_APPROVED"),
         ("2 forged + stranger", (config.PROJECT_ROOT / forged.image_path).read_bytes(),
-         selfie_of(stranger.image_path, stranger.doc_id, seed=2), f"{f.given_names} {f.surname}",
+         selfie_of(stranger.image_path, stranger.doc_id, seed=2, boxes=boxes), f"{f.given_names} {f.surname}",
          schemas.parse_date(f.birth_date, "birth_date"), "MANUAL_REVIEW"),
         ("3 blank image", jpeg_bytes(np.full((630, 1000, 3), 4, np.uint8)), genuine_selfie, genuine_name, genuine_dob,
          "RESUBMIT_REQUIRED"),

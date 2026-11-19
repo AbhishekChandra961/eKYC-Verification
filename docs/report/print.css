@@ -1,0 +1,25 @@
+/* Print style for REPORT.pdf (pandoc -> HTML -> Chromium "print to PDF", see build.sh). */
+@page { size: A4; margin: 20mm 18mm 20mm 18mm; }
+html { font-size: 10.5pt; }
+body { font-family: "Charter", "Georgia", "Times New Roman", serif; line-height: 1.45; color: #111; max-width: none; margin: 0; }
+h1, h2, h3, .title, .subtitle { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; color: #0b2e59; }
+header#title-block-header { text-align: center; margin: 30mm 0 12mm 0; page-break-after: always; }
+.title { border-bottom: none; font-size: 20pt; line-height: 1.25; margin-bottom: 6mm; }
+.subtitle { font-size: 13pt; font-weight: normal; color: #333; }
+.author, .date { font-size: 11pt; color: #333; margin: 2mm 0; }
+nav#TOC { page-break-after: always; }
+nav#TOC ul { list-style: none; padding-left: 1.2em; }
+nav#TOC > ul { padding-left: 0; }
+h1 { font-size: 15pt; margin-top: 9mm; border-bottom: 1px solid #c8d3e0; padding-bottom: 1mm; }
+h2 { font-size: 12.5pt; margin-top: 6mm; }
+h3 { font-size: 11pt; margin-top: 5mm; }
+h1, h2, h3 { page-break-after: avoid; }
+p, li { orphans: 3; widows: 3; }
+table { border-collapse: collapse; width: 100%; margin: 3mm 0 5mm 0; font-size: 9pt; page-break-inside: avoid; }
+th, td { border: 1px solid #c8d3e0; padding: 1.2mm 2mm; vertical-align: top; }
+th { background: #eef2f7; text-align: left; }
+figure { margin: 4mm 0 6mm 0; text-align: center; page-break-inside: avoid; }
+figure img { max-width: 100%; }
+figcaption { font-size: 9pt; color: #333; margin-top: 2mm; }
+code { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 8.8pt; }
+a { color: #0b4a8b; text-decoration: none; }

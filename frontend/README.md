@@ -44,6 +44,7 @@ app at http://localhost:3000.
 | `npm run typecheck` | `tsc -b` in strict mode |
 | `npm test` | Vitest (jsdom): route guards, API client errors, customer status mapping, heatmap, queue, upload checks |
 | `npm run e2e` | Playwright, Chromium (headless shell only): the full flow against the running system |
+| `npm run record` | The same flow in a visible, slowed-down browser with video on: backup footage for the demo video (`playwright.record.config.ts`; videos in `reports/phase10/video/`; needs `npx playwright install chromium`, ~380 MB) |
 | `npm run gen:api` | Regenerate `src/api/schema.d.ts` from the API's OpenAPI schema (`openapi.json`, written by `scripts/export_openapi.py`; no server needed) |
 
 The e2e test needs the following, and saves screenshots to `reports/phase8/screenshots/`:

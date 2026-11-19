@@ -1,0 +1,167 @@
+{
+  "cases": [
+    {
+      "case": "1 genuine + own selfie",
+      "application_id": "app-70a8b7dcf85c62b4",
+      "outcome": "AUTO_APPROVED",
+      "status": "APPROVED",
+      "risk": "low",
+      "score": 6.4,
+      "expected": "AUTO_APPROVED",
+      "ok": true,
+      "seconds to decision": 30.6,
+      "statuses seen (SSE)": "SUBMITTED > PROCESSING > PROCESSING > APPROVED",
+      "reasons": [
+        "[info] document_expired"
+      ],
+      "latency per check ms": {
+        "doc": 435.9,
+        "extraction": 29190.4,
+        "face": 389.7,
+        "forgery": 4067.9
+      }
+    },
+    {
+      "case": "2 forged + stranger",
+      "application_id": "app-ed463b81007101fb",
+      "outcome": "MANUAL_REVIEW",
+      "status": "DECIDED",
+      "risk": "high",
+      "score": 100.0,
+      "expected": "MANUAL_REVIEW",
+      "ok": true,
+      "seconds to decision": 52.2,
+      "statuses seen (SSE)": "PROCESSING > PROCESSING > PROCESSING > PROCESSING > DECIDED",
+      "reasons": [
+        "[high] face_mismatch",
+        "[high] forgery_suspected",
+        "[medium] rule_mrz_vs_surname",
+        "[medium] rule_mrz_vs_given_names"
+      ],
+      "latency per check ms": {
+        "doc": 478.1,
+        "extraction": 21547.2,
+        "face": 310.7,
+        "forgery": 3804.3
+      }
+    },
+    {
+      "case": "3 blank image",
+      "application_id": "app-d19ac19c31e85f9d",
+      "outcome": "RESUBMIT_REQUIRED",
+      "status": "RESUBMIT_REQUESTED",
+      "risk": null,
+      "score": 0.0,
+      "expected": "RESUBMIT_REQUIRED",
+      "ok": true,
+      "seconds to decision": 1.1,
+      "statuses seen (SSE)": "PROCESSING > RESUBMIT_REQUESTED",
+      "reasons": [
+        "[resubmit] image_unreadable"
+      ],
+      "latency per check ms": {
+        "doc": 32.0,
+        "face": 122.7
+      }
+    },
+    {
+      "case": "4 genuine, wrong DOB",
+      "application_id": "app-b9dfdc452e3cb5a5",
+      "outcome": "MANUAL_REVIEW",
+      "status": "DECIDED",
+      "risk": "high",
+      "score": 56.4,
+      "expected": "MANUAL_REVIEW",
+      "ok": true,
+      "seconds to decision": 68.5,
+      "statuses seen (SSE)": "PROCESSING > PROCESSING > PROCESSING > DECIDED",
+      "reasons": [
+        "[high] dob_mismatch",
+        "[info] document_expired"
+      ],
+      "latency per check ms": {
+        "doc": 1132.9,
+        "extraction": 16045.1,
+        "face": 1007.2,
+        "forgery": 6121.9
+      }
+    }
+  ],
+  "queue": [
+    {
+      "application_id": "app-ed463b81007101fb",
+      "status": "DECIDED",
+      "doc_type": "aze_passport",
+      "outcome": "MANUAL_REVIEW",
+      "risk_level": "high",
+      "risk_score": 100.0,
+      "reason_codes": [
+        "face_mismatch",
+        "forgery_suspected",
+        "rule_mrz_vs_surname",
+        "rule_mrz_vs_given_names"
+      ],
+      "created_at": "2026-11-19T08:30:53.099000Z",
+      "updated_at": "2026-11-19T08:31:44.712000Z",
+      "decided_at": "2026-11-19T08:31:44.707000Z"
+    },
+    {
+      "application_id": "app-b9dfdc452e3cb5a5",
+      "status": "DECIDED",
+      "doc_type": "srb_passport",
+      "outcome": "MANUAL_REVIEW",
+      "risk_level": "high",
+      "risk_score": 56.4,
+      "reason_codes": [
+        "dob_mismatch",
+        "document_expired"
+      ],
+      "created_at": "2026-11-19T08:30:53.226000Z",
+      "updated_at": "2026-11-19T08:32:01.011000Z",
+      "decided_at": "2026-11-19T08:32:01.010000Z"
+    }
+  ],
+  "security": {
+    "customer -> GET /officer/cases (403)": 403,
+    "customer -> POST officer decision (403)": 403,
+    "another customer -> GET this application (404)": 404,
+    "no token (401)": 401,
+    "invalid token (401)": 401,
+    "expired token (401)": 401
+  },
+  "audit_trail": [
+    {
+      "application_id": "app-ed463b81007101fb",
+      "actor": "customer:u-a2926683f1e6",
+      "from_status": null,
+      "to_status": "SUBMITTED",
+      "reason": "application submitted",
+      "at": "2026-11-19T08:30:53.099000Z"
+    },
+    {
+      "application_id": "app-ed463b81007101fb",
+      "actor": "system:orchestrator",
+      "from_status": "SUBMITTED",
+      "to_status": "PROCESSING",
+      "reason": "checks started: doc, face",
+      "at": "2026-11-19T08:30:53.137000Z"
+    },
+    {
+      "application_id": "app-ed463b81007101fb",
+      "actor": "system:orchestrator",
+      "from_status": "PROCESSING",
+      "to_status": "DECIDED",
+      "reason": "decision MANUAL_REVIEW (risk high)",
+      "at": "2026-11-19T08:31:44.733000Z"
+    },
+    {
+      "application_id": "app-ed463b81007101fb",
+      "actor": "officer:u-ac31247ed68c",
+      "from_status": "DECIDED",
+      "to_status": "REJECTED",
+      "reason": "Forgery suspected and the selfie does not match the portrait.",
+      "at": "2026-11-19T08:32:03.038000Z"
+    }
+  ],
+  "passed": true
+}

@@ -14,6 +14,7 @@ from ekyc.data import (
     assert_splits_unchanged,
     assign_groups,
     blank_frame_stats,
+    check_test_split,
     estimate_jpeg_quality,
     evenly_spaced_indices,
     image_format,
@@ -23,6 +24,7 @@ from ekyc.data import (
     parse_template_fake,
     parse_template_real,
     split_groups,
+    template_record,
 )
 
 
@@ -208,3 +210,38 @@ def test_png_with_jpg_extension_is_detected(tmp_path):
     path = tmp_path / "frame.jpg"  # SIDTD's forged clip frames look like this: PNG content, .jpg name
     Image.new("RGB", (8, 8)).save(path, format="PNG")
     assert image_format(path) == "PNG" and estimate_jpeg_quality(path) is None
+
+
+# ------------------------------------------------------------------ templates without the manifest (Phase 10)
+def fake_templates(root):
+    """A miniature SIDTD templates folder (note the dataset's mixed folder-name case)."""
+    (root / "Images" / "reals").mkdir(parents=True)
+    (root / "Images" / "fakes").mkdir(parents=True)
+    (root / "Annotations" / "fakes").mkdir(parents=True)
+    Image.new("RGB", (8, 8)).save(root / "Images" / "reals" / "alb_id_00.jpg")
+    Image.new("RGB", (8, 8)).save(root / "Images" / "fakes" / "alb_id_00_fake_6_25.jpg")
+    # the filename names alb_id_00, but the JSON's src says the fake IS alb_id_07 (the Crop_and_Replace naming trap)
+    (root / "Annotations" / "fakes" / "alb_id_00_fake_6_25.json").write_text(
+        '{"ctype": "Crop_and_Replace", "src": "alb_id_07.jpg", "field": "surname", '
+        '"second_src": "alb_id_00.jpg", "second_field": "surname"}')
+    return root
+
+
+def test_template_record_reads_templates_without_the_manifest(tmp_path):
+    root = fake_templates(tmp_path / "templates")
+    real = template_record(doc_id="alb_id_00", templates_dir=root)
+    assert real["doc_type"] == "alb_id" and real["image_path"].endswith("Images/reals/alb_id_00.jpg")
+    fake = template_record(fake_name="alb_id_00_fake_6_25", templates_dir=root)
+    assert fake["doc_id"] == "alb_id_07"  # from the JSON's src, never the filename
+    assert fake["altered_field"] == "surname" and fake["ctype"] == "Crop_and_Replace"
+    with pytest.raises(FileNotFoundError, match="SIDTD templates"):
+        template_record(doc_id="alb_id_99", templates_dir=root)
+
+
+def test_check_test_split(tmp_path):
+    manifest = tmp_path / "manifest.csv"
+    assert check_test_split(["alb_id_00"], manifest) is False  # no manifest: nothing to check
+    pd.DataFrame({"doc_id": ["alb_id_00", "alb_id_01"], "split": ["test", "train"]}).to_csv(manifest, index=False)
+    assert check_test_split(["alb_id_00"], manifest) is True
+    with pytest.raises(ValueError, match="alb_id_01"):
+        check_test_split(["alb_id_00", "alb_id_01"], manifest)

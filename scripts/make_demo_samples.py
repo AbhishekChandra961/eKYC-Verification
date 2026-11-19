@@ -14,6 +14,9 @@ How the genuine documents were chosen: test-split templates whose saved Phase 3 
 saved Phase 5 extraction passes every consistency rule and matches the true name and date of birth (73 of 147
 qualify); one each of three document types, preferring documents that have not expired. The forged ones are
 inpaint-and-rewrite fakes the forgery model scores 1.0. This is a demo selection, not an evaluation.
+
+Needs only the SIDTD templates in data/interim/templates (README quickstart), not the clips or the Phase 2 manifest:
+the sample ids are fixed below. If data/processed/manifest.csv exists, the script also checks they are TEST-split.
 """
 
 from __future__ import annotations
@@ -26,7 +29,7 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 
-from ekyc import config, face, schemas
+from ekyc import config, data, face, schemas
 
 OUT = config.PROJECT_ROOT / "demo_samples"
 GENUINE = ["srb_passport_16", "alb_id_81", "lva_passport_41"]
@@ -34,12 +37,19 @@ FORGED = ["aze_passport_75_fake_3_39", "esp_id_14_fake_2_85"]
 STRANGER = "grc_passport_72"  # the "stranger" whose portrait becomes the selfie for the forged documents
 
 
-def manifest_row(manifest: pd.DataFrame, doc_id: str | None = None, fake_name: str | None = None) -> pd.Series:
-    rows = manifest[(manifest["source"] == "template") & (manifest["split"] == "test")]
-    rows = rows[rows["fake_name"] == fake_name] if fake_name else rows[(rows["doc_id"] == doc_id) & (rows["label"] == 0)]
-    if len(rows) != 1:
-        raise SystemExit(f"expected one test template for {doc_id or fake_name}, found {len(rows)}")
-    return rows.iloc[0]
+def template(doc_id: str | None = None, fake_name: str | None = None) -> pd.Series:
+    """One template straight from data/interim/templates (ekyc.data.template_record), with a clear message if missing."""
+    try:
+        return data.template_record(doc_id=doc_id, fake_name=fake_name)
+    except FileNotFoundError as error:
+        raise SystemExit(str(error))
+
+
+def check_test_split() -> None:
+    """The samples must come from the TEST split (never trained or tuned on). Checked when the manifest exists."""
+    docs = GENUINE + [STRANGER] + [template(fake_name=f)["doc_id"] for f in FORGED]
+    if not data.check_test_split(docs):
+        print("note: data/processed/manifest.csv not found, test-split check skipped (the ids are fixed above)")
 
 
 def selfie_jpeg(image_path: str, doc_id: str, boxes: pd.DataFrame, seed: int) -> np.ndarray:
@@ -72,8 +82,8 @@ def write_y4m(selfie: np.ndarray, path: Path, frames: int = 5, size: tuple[int, 
 
 
 def main() -> None:
-    manifest = pd.read_csv(config.MANIFEST_CSV)
-    fields = pd.read_csv(config.FIELDS_GT_CSV)
+    check_test_split()
+    fields = data.parse_ground_truth()  # the annotated boxes and values (what data/processed/fields_ground_truth.csv holds)
     boxes = fields.query("field_name == 'photo'").set_index("doc_id")
     truth = schemas.ground_truth_table(fields)
     if OUT.exists():
@@ -82,7 +92,7 @@ def main() -> None:
 
     samples = []
     for i, doc_id in enumerate(GENUINE, start=1):
-        row = manifest_row(manifest, doc_id=doc_id)
+        row = template(doc_id=doc_id)
         t = truth.loc[doc_id]
         shutil.copyfile(config.PROJECT_ROOT / row["image_path"], OUT / f"genuine_{i}_id.jpg")
         selfie = selfie_jpeg(row["image_path"], doc_id, boxes, seed=i)
@@ -94,10 +104,10 @@ def main() -> None:
                         "date_of_birth": schemas.parse_date(t.birth_date, "birth_date"),
                         "document": f"{doc_id} (genuine {row['doc_type']})", "expected": "AUTO_APPROVED -> APPROVED (customer: Verified)"})
 
-    stranger = manifest_row(manifest, doc_id=STRANGER)
+    stranger = template(doc_id=STRANGER)
     stranger_selfie = selfie_jpeg(stranger["image_path"], STRANGER, boxes, seed=99)
     for i, fake_name in enumerate(FORGED, start=1):
-        row = manifest_row(manifest, fake_name=fake_name)
+        row = template(fake_name=fake_name)
         t = truth.loc[row["doc_id"]]  # the fraudster types the original holder's details
         shutil.copyfile(config.PROJECT_ROOT / row["image_path"], OUT / f"forged_{i}_id.jpg")
         save_jpeg(stranger_selfie, OUT / f"forged_{i}_selfie_stranger.jpg")

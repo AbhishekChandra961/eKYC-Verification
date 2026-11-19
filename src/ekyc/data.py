@@ -380,6 +380,39 @@ def parse_ground_truth(annotations_dir: Path | None = None) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def template_record(doc_id: str | None = None, fake_name: str | None = None,
+                    templates_dir: Path = config.TEMPLATES_DIR) -> pd.Series:
+    """One SIDTD template read straight from data/interim/templates, without the Phase 2 manifest (Phase 10: the demo
+    and smoke-test scripts need only the 1.3 GB templates download, not the 28.5 GB clips the manifest needs).
+    Returns image_path (relative to the project root when possible), doc_id and doc_type; a fake also gets its JSON
+    annotation (ctype, altered_field, ...), and its doc_id is the JSON's src, never the file name."""
+    kind, name = ("fakes", fake_name) if fake_name else ("reals", doc_id)
+    path = find_dir(templates_dir, "images", kind) / f"{name}.jpg"
+    if not path.is_file():
+        raise FileNotFoundError(f"{path} not found: download and unzip the SIDTD templates first (README, Quickstart)")
+    try:
+        image_path = str(path.relative_to(config.PROJECT_ROOT))
+    except ValueError:
+        image_path = str(path)
+    row = {"image_path": image_path, "doc_id": doc_id}
+    if fake_name:
+        row |= read_fake_annotation(find_dir(templates_dir, "annotations", "fakes") / f"{fake_name}.json")
+    row["doc_type"] = doc_type_of(row["doc_id"])
+    return pd.Series(row)
+
+
+def check_test_split(doc_ids: list[str], manifest_csv: Path = config.MANIFEST_CSV) -> bool:
+    """Demo and smoke-test documents must come from the TEST split (never trained or tuned on). Checked against the
+    manifest when it exists (returns True); without it (templates-only setup) nothing can be checked (returns False)."""
+    if not manifest_csv.exists():
+        return False
+    split = pd.read_csv(manifest_csv, usecols=["doc_id", "split"]).drop_duplicates().set_index("doc_id")["split"]
+    wrong = [d for d in doc_ids if split.get(d) != "test"]
+    if wrong:
+        raise ValueError(f"not in the test split: {wrong}")
+    return True
+
+
 # =============================================================== 6. resized image cache
 def cache_path_for(image_path: str, cache_dir: Path = config.CACHE_DIR) -> str:
     """Mirror data/interim/... under `cache_dir` (default data/processed/images/...), relative to the project root."""
