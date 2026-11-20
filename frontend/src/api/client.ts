@@ -1,7 +1,14 @@
 // The one module that talks to the eKYC API. Every response type comes from schema.d.ts, which is generated from
 // the API's OpenAPI schema (npm run gen:api), so a backend change that breaks the frontend fails the type check.
+// Demo mode (Phase 11, VITE_DEMO_MODE=true): `api` is the fixture-backed demo client instead, with the same EkycApi
+// interface, so every page works unchanged. __DEMO_MODE__ is a build-time constant (vite.config.ts): a normal build
+// drops the demo client and its fixtures entirely.
 import { readSession } from '../auth/session'
+import { demoApi } from '../demo/client'
+import { ApiError, isAbort } from './errors'
 import type { components } from './schema'
+
+export { ApiError, isAbort, messageOf } from './errors'
 
 type Schemas = components['schemas']
 export type Token = Schemas['Token']
@@ -29,17 +36,6 @@ declare global {
 const runtime = typeof window !== 'undefined' ? window.EKYC_CONFIG?.apiUrl?.trim() : undefined
 const configured = (import.meta.env.VITE_API_URL as string | undefined)?.trim()
 export const API_URL: string = (runtime || configured || 'http://127.0.0.1:8000').replace(/\/+$/, '')
-
-/** Every failed call throws this. status 0 = the server could not be reached. */
-export class ApiError extends Error {
-  readonly status: number
-
-  constructor(status: number, message: string) {
-    super(message)
-    this.name = 'ApiError'
-    this.status = status
-  }
-}
 
 let getToken: () => string | null = () => readSession()?.token ?? null
 let onUnauthorized: () => void = () => {}
@@ -125,7 +121,32 @@ export interface NewApplication {
   selfie: Blob
 }
 
-export const api = {
+/** Live status of one application: the callbacks of watchApplication. */
+export interface StatusHandlers {
+  onOpen: () => void
+  onStatus: (view: ApplicationView) => void
+  onLost: () => void // the stream gave up (network, expired token): the caller polls instead
+}
+
+/** Everything the pages can ask of the backend. Implemented by the HTTP client below and by the demo client. */
+export interface EkycApi {
+  login(email: string, password: string): Promise<Token>
+  submitApplication(input: NewApplication): Promise<SubmitResponse>
+  myApplications(signal?: AbortSignal): Promise<ApplicationView[]>
+  myApplication(applicationId: string, signal?: AbortSignal): Promise<ApplicationView>
+  /** Follow one application until stopped; returns the function that stops it. */
+  watchApplication(applicationId: string, handlers: StatusHandlers): () => void
+  officerCases(filters: { status?: ApplicationStatus; outcome?: Outcome }, signal?: AbortSignal): Promise<CaseRow[]>
+  officerCase(applicationId: string, signal?: AbortSignal): Promise<CaseDetail>
+  officerDecision(applicationId: string, action: OfficerAction, reason: string): Promise<OfficerDecisionResult>
+}
+
+/** Server-Sent Events URL. The token goes in the query string: the browser's EventSource cannot send headers. */
+export function applicationEventsUrl(applicationId: string): string {
+  return `${API_URL}/applications/${encodeURIComponent(applicationId)}/events?token=${encodeURIComponent(getToken() ?? '')}`
+}
+
+const httpApi: EkycApi = {
   login(email: string, password: string): Promise<Token> {
     const form = new URLSearchParams({ username: email, password })
     return request<Token>('/auth/login', { method: 'POST', body: form, auth: false })
@@ -146,9 +167,16 @@ export const api = {
   myApplication(applicationId: string, signal?: AbortSignal): Promise<ApplicationView> {
     return request<ApplicationView>(`/applications/${encodeURIComponent(applicationId)}`, { signal })
   },
-  /** Server-Sent Events URL. The token goes in the query string: the browser's EventSource cannot send headers. */
-  applicationEventsUrl(applicationId: string): string {
-    return `${API_URL}/applications/${encodeURIComponent(applicationId)}/events?token=${encodeURIComponent(getToken() ?? '')}`
+  /** One 'status' event per change until the API ends the stream. EventSource reconnects by itself after a network
+   *  blip; when it gives up (readyState CLOSED, e.g. the token expired), onLost tells the caller to poll instead. */
+  watchApplication(applicationId: string, { onOpen, onStatus, onLost }: StatusHandlers): () => void {
+    const source = new EventSource(applicationEventsUrl(applicationId))
+    source.onopen = () => onOpen()
+    source.addEventListener('status', (event) => onStatus(JSON.parse((event as MessageEvent<string>).data) as ApplicationView))
+    source.onerror = () => {
+      if (source.readyState === EventSource.CLOSED) onLost()
+    }
+    return () => source.close() // otherwise EventSource would reconnect when the server ends the stream
   },
 
   // ---- officer
@@ -168,11 +196,4 @@ export const api = {
   },
 }
 
-/** A request cancelled by its AbortController (checked by name: not every runtime's DOMException is an Error). */
-export function isAbort(error: unknown): boolean {
-  return typeof error === 'object' && error !== null && (error as { name?: unknown }).name === 'AbortError'
-}
-
-export function messageOf(error: unknown): string {
-  return error instanceof Error ? error.message : 'Something went wrong. Please try again.'
-}
+export const api: EkycApi = __DEMO_MODE__ ? demoApi : httpApi

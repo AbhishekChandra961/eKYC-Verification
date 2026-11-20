@@ -1,9 +1,9 @@
 import { CssBaseline, ThemeProvider } from '@mui/material'
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router'
-import { AppRoutes } from './AppRoutes'
+import { AppRouter, AppRoutes } from './AppRoutes'
 import { AuthProvider } from './auth/AuthProvider'
+import { DemoBanner } from './demo/DemoBanner'
 import { theme } from './theme'
 
 createRoot(document.getElementById('root')!).render(
@@ -11,9 +11,10 @@ createRoot(document.getElementById('root')!).render(
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AuthProvider>
-        <BrowserRouter>
+        <AppRouter>
+          {__DEMO_MODE__ && <DemoBanner />}
           <AppRoutes />
-        </BrowserRouter>
+        </AppRouter>
       </AuthProvider>
     </ThemeProvider>
   </StrictMode>,

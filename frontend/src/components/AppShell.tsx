@@ -3,6 +3,7 @@ import { AppBar, Box, Button, Chip, Container, Link, Stack, Toolbar, Typography 
 import { NavLink, Outlet, Link as RouterLink } from 'react-router'
 import { useAuth } from '../auth/AuthContext'
 import { homeFor } from '../auth/session'
+import { DemoAttribution } from '../demo/DemoBanner'
 import { BrandLogo } from './BrandLogo'
 
 const NAV = {
@@ -55,6 +56,7 @@ export function AppShell() {
         <Typography variant="caption">
           SecureBank is a fictional bank (data science capstone demo). Synthetic test documents only.
         </Typography>
+        {__DEMO_MODE__ && <DemoAttribution />}
       </Box>
     </Box>
   )

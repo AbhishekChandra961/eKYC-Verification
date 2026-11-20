@@ -1,6 +1,10 @@
 # eKYC Verification Pipeline
 
 [![CI](https://github.com/AbhishekChandra961/eKYC-Verification/actions/workflows/ci.yml/badge.svg)](https://github.com/AbhishekChandra961/eKYC-Verification/actions/workflows/ci.yml)
+[![Pages](https://github.com/AbhishekChandra961/eKYC-Verification/actions/workflows/pages.yml/badge.svg)](https://github.com/AbhishekChandra961/eKYC-Verification/actions/workflows/pages.yml)
+
+**Live demo: <https://abhishekchandra961.github.io/eKYC-Verification/>**: replays of real pipeline runs in your browser,
+no install (see [Live demo](#live-demo) for what it is and isn't).
 
 A digital **Know-Your-Customer (KYC)** onboarding system for a fictional bank, "SecureBank". The customer uploads a
 photo of an identity document and takes a selfie. Four independent AI checks then run in parallel:
@@ -17,6 +21,43 @@ benchmark (LFW).
 
 > **Capstone project** for a postgraduate programme in data science. A research and teaching prototype: not validated
 > on real identity documents, and not for real KYC decisions.
+
+## Live demo
+
+**<https://abhishekchandra961.github.io/eKYC-Verification/>**: the real React frontend, built in *demo mode* and
+hosted free on GitHub Pages. Click **Try as customer** or **Try as officer**; no account or password is needed.
+
+| | |
+|---|---|
+| <img src="reports/phase11/screenshots/01_demo_landing.png" width="420" alt="Demo site landing page with one-click logins"> | <img src="reports/phase11/screenshots/06_demo_officer_case.png" width="420" alt="Demo site: officer case with the forgery heatmap"> |
+
+**What it is:**
+- **Real results, replayed.** The six demo samples (3 genuine, 2 forged, 1 unusable photo) were run through the full
+  system on 19 Nov 2026 (`scripts/export_demo_fixtures.py`).
+  - As the customer, you pick one and watch its recorded status updates replay at their real relative times, sped up
+    so that a case finishes in about 10 s. The status page says which real run it is and how much it is sped up.
+  - As the officer, you see 15 cases exactly as the API returned them: the six samples and nine applications from the
+    Phase 9 batch. Each has its forgery heatmap, face match, extracted fields, reasons with evidence, summaries and
+    audit trail. Their "Waiting" times are shown at the time of recording, so they do not grow with today's date.
+- **The same pages as the real app.** A second implementation of the same typed API client serves fixtures instead of
+  HTTP (`frontend/src/demo/`), so every screen is the production component.
+- **Honest by construction.**
+  - A banner on every page says it is a replay.
+  - The demo client never calls the network and never computes or invents a result.
+  - Vitest and a Playwright run against the built site test all of this.
+
+**What it isn't:**
+- **Not the running system.** No Kafka, workers, models or LLM run in the browser; nothing is computed. The full system
+  runs locally ([Quickstart](#quickstart)) and in the demo video.
+- **No uploads.** Your own photos are refused with a message, and the camera is never switched on: there is no real run
+  to replay for them.
+- **Decisions are not saved.** Officer approve/reject works in your browser tab only and is gone on reload (it is
+  labelled as such in the dialog and in the audit trail).
+
+Build it yourself: `cd frontend && npm run build:demo` (output in `dist-demo/`, served under `/eKYC-Verification/`),
+`npm run preview:demo` to serve it locally, and `npm run e2e:demo` for the browser test. Deployment:
+[`.github/workflows/pages.yml`](.github/workflows/pages.yml) builds, tests and publishes the site on every push to
+`main`.
 
 ## Highlights
 
@@ -45,8 +86,8 @@ benchmark (LFW).
   - only synthetic documents are used.
 - **Engineering hygiene:**
   - leakage-safe group splits; every test set was used once;
-  - 250 pytest tests, 65 Vitest tests and 4 Playwright end-to-end tests;
-  - GitHub Actions CI; non-root Docker images; deterministic, checksum-verified model release.
+  - 257 pytest tests, 80 Vitest tests, 4 Playwright end-to-end tests on the live system and 5 on the demo site;
+  - GitHub Actions CI and Pages deployment; non-root Docker images; deterministic, checksum-verified model release.
 
 ## Architecture
 
@@ -368,25 +409,27 @@ docker compose --profile app up -d --build    # + API, orchestrator, 4 workers, 
 ### Tests
 
 ```bash
-.venv/bin/python -m pytest                       # 250 tests; tests needing services, weights or data skip themselves if missing
+.venv/bin/python -m pytest                       # 257 tests; tests needing services, weights or data skip themselves if missing
 uvx ruff@0.17.5 check                            # lint
-cd frontend && npm run lint && npm run typecheck && npm test   # ESLint, tsc, 65 Vitest tests
+cd frontend && npm run lint && npm run typecheck && npm test   # ESLint, tsc, 80 Vitest tests
 cd frontend && npm run e2e                       # Playwright: the whole system in host mode must be running
+cd frontend && npm run e2e:demo                  # Playwright against the static demo build (no backend needed)
 .venv/bin/python scripts/e2e_api_smoke.py        # API-level end-to-end smoke test (4 cases + 6 security checks)
 ```
 
 CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs ruff, the pytest tests that need no services,
-weights or data, and the frontend lint, typecheck and unit tests on every push.
+weights or data, and the frontend lint, typecheck and unit tests on every push. The Pages workflow
+([`.github/workflows/pages.yml`](.github/workflows/pages.yml)) also runs the demo-site browser test before it deploys.
 
 ## Repository layout
 
 ```
 src/ekyc/            shared package: config, data + splits, models, decision engine, store, messaging, inference
 services/            api/, orchestrator/, {doc,forgery,face,extraction}-worker/, Dockerfile, README (operations)
-frontend/            React app (customer + officer), Dockerfile (nginx), Playwright e2e
+frontend/            React app (customer + officer), Dockerfile (nginx), Playwright e2e; src/demo/ = the static demo site
 notebooks/           01 manifest + splits, 02 doc classifier, 03 forgery v1, 03b forgery tiles v3, 04 face, 05 extraction
-scripts/             run_all.sh, download_models.py, make_demo_samples.py, simulate_batch.py, export_dashboard_data.py, ...
-reports/phase2-9/    metrics (JSON/CSV), plots, screenshots, batch and Docker reports
+scripts/             run_all.sh, download_models.py, make_demo_samples.py, simulate_batch.py, export_demo_fixtures.py, ...
+reports/phase2-11/   metrics (JSON/CSV), plots, screenshots, batch and Docker reports
 dashboard/           data/*.csv (pseudonymous exports), DATA_DICTIONARY.md, TABLEAU_GUIDE.md
 docs/                report/ (REPORT.md + DOCX/PDF), VIVA_PREP.md, DEMO_SCRIPT.md, RELEASE_NOTES_v1.0.0.md
 tests/               pytest (markers: services, models, data)
@@ -456,8 +499,10 @@ tests/               pytest (markers: services, models, data)
 | **EfficientNetB0** ImageNet weights (Keras Applications) | Backbone of the document and forgery models | Apache 2.0 |
 | **Qwen2.5-VL 7B** (via Ollama) | Field extraction | Apache 2.0 |
 
-The SIDTD templates are downloaded by each user from the dataset's server; this repository contains only
-derived figures and screenshots of synthetic documents. The trained weights in the release are derived from the
+The SIDTD templates are downloaded by each user from the dataset's server. This repository contains only
+derived figures and screenshots of synthetic documents, plus, for the demo site, 26 small web copies of SIDTD-derived
+documents and simulated selfies of their generated portraits (`frontend/src/demo/fixtures/images/`, CC BY-SA 4.0,
+credited on the site). The trained weights in the release are derived from the
 sources above and are shared for research and education.
 
 ## More documentation

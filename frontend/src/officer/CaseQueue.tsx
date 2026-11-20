@@ -6,6 +6,7 @@ import {
 import { useEffect, useMemo, useState } from 'react'
 import { Link as RouterLink, useNavigate } from 'react-router'
 import { api, isAbort, messageOf, type ApplicationStatus, type CaseRow, type Outcome } from '../api/client'
+import { demoRecordedAt } from '../demo/client'
 import { formatDateTime, formatDuration, formatTime } from '../format'
 import { OUTCOME_LABELS, RISK, STATUS_LABELS, docTypeLabel, statusLabel } from './labels'
 import { sortRows, waitingMs, type SortKey } from './queue'
@@ -28,6 +29,11 @@ export function CaseQueue() {
   const [loadedAt, setLoadedAt] = useState<number | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [version, setVersion] = useState(0)
+  const [recordedAt, setRecordedAt] = useState<number | null>(null) // demo mode only: when the fixtures were recorded
+
+  useEffect(() => {
+    if (__DEMO_MODE__) demoRecordedAt().then(setRecordedAt).catch(() => undefined)
+  }, [])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -40,7 +46,10 @@ export function CaseQueue() {
     return () => { controller.abort(); window.clearInterval(timer) }
   }, [status, outcome, version])
 
-  const sorted = useMemo(() => (rows && loadedAt ? sortRows(rows, sort.key, sort.direction, loadedAt) : []), [rows, sort, loadedAt])
+  // "Waiting" counts up to now; on the demo site, up to the time of recording (it must not grow with today's date)
+  const waitingNow = __DEMO_MODE__ ? recordedAt : loadedAt
+  const sorted = useMemo(() => (rows && waitingNow ? sortRows(rows, sort.key, sort.direction, waitingNow) : []),
+    [rows, sort, waitingNow])
 
   function sortBy(key: SortKey) {
     setSort((current) => ({ key, direction: current.key === key && current.direction === 'desc' ? 'asc' : 'desc' }))
@@ -75,6 +84,8 @@ export function CaseQueue() {
         <Box sx={{ flexGrow: 1 }} />
         <Typography variant="body2" color="text.secondary" aria-live="polite">
           {loadedAt ? `${rows?.length ?? 0} cases · updated ${formatTime(new Date(loadedAt).toISOString())}` : ''}
+          {__DEMO_MODE__ && recordedAt
+            ? ` · waiting times at time of recording (${formatDateTime(new Date(recordedAt).toISOString())})` : ''}
         </Typography>
         <Button variant="outlined" startIcon={<RefreshIcon />} onClick={() => setVersion((v) => v + 1)}>Refresh</Button>
       </Stack>
@@ -96,12 +107,17 @@ export function CaseQueue() {
                 <TableCell align="right" sortDirection={sort.key === 'risk_score' ? sort.direction : false}>{header('risk_score', 'Score')}</TableCell>
                 <TableCell>Document</TableCell>
                 <TableCell sortDirection={sort.key === 'created_at' ? sort.direction : false}>{header('created_at', 'Submitted')}</TableCell>
-                <TableCell sortDirection={sort.key === 'waiting' ? sort.direction : false}>{header('waiting', 'Waiting')}</TableCell>
+                <TableCell sortDirection={sort.key === 'waiting' ? sort.direction : false}>
+                  {header('waiting', 'Waiting')}
+                  {__DEMO_MODE__ && (
+                    <Typography variant="caption" component="div" color="text.secondary">at time of recording</Typography>
+                  )}
+                </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {sorted.map((row) => {
-                const waiting = loadedAt ? waitingMs(row, loadedAt) : null
+                const waiting = waitingNow ? waitingMs(row, waitingNow) : null
                 return (
                   <TableRow key={row.application_id} hover sx={{ cursor: 'pointer' }} data-testid="case-row"
                     onClick={() => navigate(`/officer/cases/${row.application_id}`)}>

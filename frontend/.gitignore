@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Phase 11: the static demo build (GitHub Pages)
+dist-demo

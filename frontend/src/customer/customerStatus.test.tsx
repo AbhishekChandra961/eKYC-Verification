@@ -95,13 +95,16 @@ describe('customer status page', () => {
 })
 
 describe('customer source code', () => {
-  // Every customer file, as text (Vite's raw import). Comments are removed first: they may explain the rule.
-  const sources = import.meta.glob(['./**/*.{ts,tsx}', '!./**/*.test.{ts,tsx}'], { query: '?raw', import: 'default', eager: true }) as Record<string, string>
+  // Every customer file, as text (Vite's raw import), plus the demo site's customer screens (Phase 11). Comments are
+  // removed first: they may explain the rule.
+  const sources = import.meta.glob(['./**/*.{ts,tsx}', '../demo/customer/*.{ts,tsx}', '!./**/*.test.{ts,tsx}'],
+    { query: '?raw', import: 'default', eager: true }) as Record<string, string>
   const forbidden = [/\bscores?\b/i, /risk/i, /forgery/i, /\bbands?\b/i, /\bflags?\b/i, /evidence/i, /confidence/i,
     /reason_codes/i, /heatmap/i, /\btiles?\b/i, /officer_decision/i, /\bdecision\b/i]
 
   it('covers the customer portal files', () => {
     expect(Object.keys(sources).length).toBeGreaterThanOrEqual(10)
+    expect(Object.keys(sources).filter((f) => f.startsWith('../demo/customer/'))).toHaveLength(3)
   })
 
   it.each(Object.entries(sources))('%s never mentions a fraud-signal field', (_, source) => {

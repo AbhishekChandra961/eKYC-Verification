@@ -1,5 +1,6 @@
 import { Alert, Skeleton, Stack } from '@mui/material'
 import { useParams } from 'react-router'
+import { DemoReplayNote } from '../demo/customer/DemoReplayNote'
 import { NotFound } from '../pages/NotFound'
 import { CustomerStatusView } from './CustomerStatusView'
 import { toCustomerStatus } from './customerStatus'
@@ -20,5 +21,10 @@ export function StatusPage() {
       </Stack>
     )
   }
-  return <CustomerStatusView status={toCustomerStatus(view)} live={live} />
+  return (
+    <Stack spacing={2}>
+      {__DEMO_MODE__ && <DemoReplayNote applicationId={applicationId} />}
+      <CustomerStatusView status={toCustomerStatus(view)} live={live} />
+    </Stack>
+  )
 }

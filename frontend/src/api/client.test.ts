@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { jsonResponse } from '../test/fixtures'
-import { API_URL, ApiError, api, configureClient } from './client'
+import { API_URL, ApiError, api, applicationEventsUrl, configureClient } from './client'
 
 let token: string | null = 'token-123'
 const onUnauthorized = vi.fn()
@@ -93,7 +93,36 @@ describe('API client', () => {
 
   it('puts the token in the SSE URL (EventSource cannot send headers)', () => {
     token = 'a.b/c'
-    expect(api.applicationEventsUrl('app-1')).toBe(`${API_URL}/applications/app-1/events?token=a.b%2Fc`)
+    expect(applicationEventsUrl('app-1')).toBe(`${API_URL}/applications/app-1/events?token=a.b%2Fc`)
+  })
+
+  it('follows an application over Server-Sent Events and reports a stream that gave up', () => {
+    const sources: { url: string; closed: boolean; readyState: number; onopen?: () => void; onerror?: () => void;
+      listeners: Record<string, (event: MessageEvent<string>) => void> }[] = []
+    class FakeEventSource {
+      static CLOSED = 2
+      url: string; closed = false; readyState = 1; onopen?: () => void; onerror?: () => void
+      listeners: Record<string, (event: MessageEvent<string>) => void> = {}
+      constructor(url: string) { this.url = url; sources.push(this) }
+      addEventListener(name: string, listener: (event: MessageEvent<string>) => void) { this.listeners[name] = listener }
+      close() { this.closed = true }
+    }
+    vi.stubGlobal('EventSource', FakeEventSource)
+    const handlers = { onOpen: vi.fn(), onStatus: vi.fn(), onLost: vi.fn() }
+    const stop = api.watchApplication('app-1', handlers)
+    const source = sources[0]
+    expect(source.url).toBe(applicationEventsUrl('app-1'))
+    source.onopen?.()
+    source.listeners.status(new MessageEvent('status', { data: JSON.stringify({ status: 'PROCESSING' }) }))
+    expect(handlers.onOpen).toHaveBeenCalledOnce()
+    expect(handlers.onStatus).toHaveBeenCalledWith({ status: 'PROCESSING' })
+    source.onerror?.() // still connecting: EventSource retries by itself
+    expect(handlers.onLost).not.toHaveBeenCalled()
+    source.readyState = FakeEventSource.CLOSED
+    source.onerror?.()
+    expect(handlers.onLost).toHaveBeenCalledOnce()
+    stop()
+    expect(source.closed).toBe(true)
   })
 
   it('submits the application as multipart form data', async () => {
