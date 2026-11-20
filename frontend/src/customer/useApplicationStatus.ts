@@ -14,9 +14,9 @@ function isDone(view: ApplicationView): boolean {
   return STREAM_ENDS.has(view.status) && !waitingForOfficer(view)
 }
 
-/** Follows one application: first a normal GET (shows the page at once and checks access), then live updates over
- *  Server-Sent Events until the API closes the stream. EventSource reconnects by itself after a network blip; if
- *  it gives up (e.g. the token expired), polling takes over, and a 401 there logs the user out. */
+/** Follows one application: first a normal GET (shows the page at once and checks access), then live updates
+ *  (api.watchApplication: Server-Sent Events) until the API closes the stream. If the stream gives up (e.g. the token
+ *  expired), polling takes over, and a 401 there logs the user out. */
 export function useApplicationStatus(applicationId: string) {
   const [view, setView] = useState<ApplicationView | null>(null)
   const [error, setError] = useState<{ status: number; message: string } | null>(null)
@@ -24,7 +24,7 @@ export function useApplicationStatus(applicationId: string) {
 
   useEffect(() => {
     let stopped = false
-    let source: EventSource | null = null
+    let stopWatching: (() => void) | null = null
     let timer: number | undefined
     const controller = new AbortController()
 
@@ -50,23 +50,21 @@ export function useApplicationStatus(applicationId: string) {
         afterStream(first)
         return
       }
-      source = new EventSource(api.applicationEventsUrl(applicationId))
-      source.onopen = () => setLive(true)
-      source.addEventListener('status', (event) => {
-        const next = JSON.parse((event as MessageEvent<string>).data) as ApplicationView
-        setView(next)
-        if (STREAM_ENDS.has(next.status)) {
-          source?.close() // otherwise EventSource would reconnect when the server ends the stream
-          setLive(false)
-          afterStream(next)
-        }
-      })
-      source.onerror = () => {
-        if (source?.readyState === EventSource.CLOSED) {
+      stopWatching = api.watchApplication(applicationId, {
+        onOpen: () => setLive(true),
+        onStatus: (next) => {
+          setView(next)
+          if (STREAM_ENDS.has(next.status)) {
+            stopWatching?.()
+            setLive(false)
+            afterStream(next)
+          }
+        },
+        onLost: () => {
           setLive(false)
           poll(FALLBACK_POLL_MS)
-        }
-      }
+        },
+      })
     }).catch((err: unknown) => {
       if (stopped || isAbort(err)) return
       setError({ status: (err as ApiError).status ?? 0, message: messageOf(err) })
@@ -75,7 +73,7 @@ export function useApplicationStatus(applicationId: string) {
     return () => {
       stopped = true
       controller.abort()
-      source?.close()
+      stopWatching?.()
       window.clearInterval(timer)
     }
   }, [applicationId])

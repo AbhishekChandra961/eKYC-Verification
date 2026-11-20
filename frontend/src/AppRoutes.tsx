@@ -1,10 +1,11 @@
 import { LinearProgress } from '@mui/material'
-import { lazy, Suspense } from 'react'
-import { Navigate, Outlet, Route, Routes } from 'react-router'
+import { lazy, Suspense, type ReactNode } from 'react'
+import { BrowserRouter, HashRouter, Navigate, Outlet, Route, Routes } from 'react-router'
 import { useAuth } from './auth/AuthContext'
 import { RequireRole } from './auth/RequireRole'
 import { homeFor } from './auth/session'
 import { AppShell } from './components/AppShell'
+import { DemoLoginPage } from './demo/DemoLoginPage'
 import { LoginPage } from './pages/LoginPage'
 import { NotFound } from './pages/NotFound'
 
@@ -28,11 +29,18 @@ function Home() {
   return <Navigate to={session ? homeFor(session.role) : '/login'} replace />
 }
 
+/** The static demo site (GitHub Pages) can only serve files, so it uses hash URLs (.../#/officer): a reload or a shared
+ *  link never asks the server for a path it does not have. The real app keeps normal URLs. */
+export function AppRouter({ children }: { children: ReactNode }) {
+  return __DEMO_MODE__ ? <HashRouter>{children}</HashRouter> : <BrowserRouter>{children}</BrowserRouter>
+}
+
 /** Two portals in one app: /customer/* for customers and /officer/* for compliance officers. */
 export function AppRoutes() {
   return (
     <Routes>
-      <Route path="/login" element={<LoginPage />} />
+      {/* demo mode: one-click logins and project links instead of the password form */}
+      <Route path="/login" element={__DEMO_MODE__ ? <DemoLoginPage /> : <LoginPage />} />
       <Route element={<AppShell />}>
         <Route index element={<Home />} />
         <Route path="customer" element={<Portal allow="CUSTOMER" />}>

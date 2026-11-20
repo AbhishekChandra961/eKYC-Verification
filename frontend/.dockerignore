@@ -1,6 +1,7 @@
 # Build context of the frontend image: only the sources are needed (npm ci installs the packages inside the build).
 node_modules
 dist
+dist-demo
 test-results
 playwright-report
 blob-report

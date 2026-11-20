@@ -43,6 +43,11 @@ export function DecisionDialog({ action, applicationId, onClose, onConfirm }: Pr
             : 'The customer will see "We could not verify your identity" and be asked to contact support. They will not see your reason.'}
           {' '}Case <code>{applicationId}</code>. Your reason is stored in the audit log.
         </DialogContentText>
+        {__DEMO_MODE__ && (
+          <Alert severity="info" sx={{ mb: 2 }}>
+            Demo mode: your decision is kept in this browser tab only and is gone when you reload. Nothing is sent anywhere.
+          </Alert>
+        )}
         {error && <Alert severity="error" sx={{ mb: 2 }} role="alert">{error}</Alert>}
         {/* WAI-ARIA dialog pattern: focus moves to the first field when the dialog opens */}
         {/* eslint-disable-next-line jsx-a11y/no-autofocus */}

@@ -1,0 +1,64 @@
+# GitHub Pages (Phase 11): builds the static demo site (the frontend in demo mode: replays of real pipeline runs, no
+# backend), tests it in a browser, and publishes it at https://abhishekchandra961.github.io/eKYC-Verification/
+# on every push to main. One-time setup: repository Settings -> Pages -> Build and deployment -> Source: GitHub Actions.
+# The demo links (video, dashboards) can be set without code changes as repository variables (Settings -> Secrets and
+# variables -> Actions -> Variables): DEMO_VIDEO_URL, DEMO_DASHBOARDS_URL.
+
+name: Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:  # or run it by hand from the Actions tab
+
+permissions:
+  contents: read
+
+concurrency:  # one deployment at a time; a newer push waits instead of cancelling a deployment halfway
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build and test the demo site
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      VITE_DEMO_VIDEO_URL: ${{ vars.DEMO_VIDEO_URL }}
+      VITE_DEMO_DASHBOARDS_URL: ${{ vars.DEMO_DASHBOARDS_URL }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install (exactly package-lock.json)
+        run: npm ci --no-audit --no-fund
+      - name: Unit tests (Vitest, incl. the demo client and its fixtures)
+        run: npm test
+      - name: Browser for the end-to-end test (Chromium headless shell)
+        run: npx playwright install --with-deps --only-shell chromium
+      - name: Build the demo site (dist-demo/) and test it in the browser
+        run: npm run e2e:demo
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: frontend/dist-demo
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-24.04
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
