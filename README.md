@@ -86,7 +86,7 @@ Build it yourself: `cd frontend && npm run build:demo` (output in `dist-demo/`, 
   - only synthetic documents are used.
 - **Engineering hygiene:**
   - leakage-safe group splits; every test set was used once;
-  - 257 pytest tests, 80 Vitest tests, 4 Playwright end-to-end tests on the live system and 5 on the demo site;
+  - 262 pytest tests, 80 Vitest tests, 4 Playwright end-to-end tests on the live system and 5 on the demo site;
   - GitHub Actions CI and Pages deployment; non-root Docker images; deterministic, checksum-verified model release.
 
 ## Architecture
@@ -409,7 +409,7 @@ docker compose --profile app up -d --build    # + API, orchestrator, 4 workers, 
 ### Tests
 
 ```bash
-.venv/bin/python -m pytest                       # 257 tests; tests needing services, weights or data skip themselves if missing
+.venv/bin/python -m pytest                       # 262 tests; tests needing services, weights or data skip themselves if missing
 uvx ruff@0.17.5 check                            # lint
 cd frontend && npm run lint && npm run typecheck && npm test   # ESLint, tsc, 80 Vitest tests
 cd frontend && npm run e2e                       # Playwright: the whole system in host mode must be running
@@ -430,7 +430,8 @@ frontend/            React app (customer + officer), Dockerfile (nginx), Playwri
 notebooks/           01 manifest + splits, 02 doc classifier, 03 forgery v1, 03b forgery tiles v3, 04 face, 05 extraction
 scripts/             run_all.sh, download_models.py, make_demo_samples.py, simulate_batch.py, export_demo_fixtures.py, ...
 reports/phase2-11/   metrics (JSON/CSV), plots, screenshots, batch and Docker reports
-dashboard/           data/*.csv (pseudonymous exports), DATA_DICTIONARY.md, TABLEAU_GUIDE.md
+dashboard/           data/*.csv (pseudonymous exports), data/tableau/*.csv (pre-joined, quick path), DATA_DICTIONARY.md,
+                     TABLEAU_GUIDE.md
 docs/                report/ (REPORT.md + DOCX/PDF), VIVA_PREP.md, DEMO_SCRIPT.md, RELEASE_NOTES_v1.0.0.md
 tests/               pytest (markers: services, models, data)
 ```

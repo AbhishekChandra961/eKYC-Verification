@@ -2,7 +2,12 @@
 
 `scripts/export_dashboard_data.py` writes five CSV files to `dashboard/data/`. They are built from MongoDB, the
 batch ground truth (`data/processed/batch/ground_truth.csv`, written by `scripts/simulate_batch.py`) and the saved
-model reports in `reports/`.
+model reports in `reports/`. It also writes three pre-joined files to `dashboard/data/tableau/`, built from those
+five, for the *Quick path* of `TABLEAU_GUIDE.md` ([last section](#tableau-pre-joined-files-for-the-quick-path)).
+
+**Which applications.** Only the simulated batch (the applications in the ground-truth file), so the numbers match
+`reports/phase9/batch_summary.md`. MongoDB also holds test runs (end-to-end and smoke tests, the demo-site
+recordings): `--all` adds them, with `in_batch` false and `truth_class` `not_in_batch`.
 
 **Privacy.** Tableau Public publishes every workbook publicly, so the files contain no personal data:
 - **Left out:** names, dates of birth, document numbers, extracted fields, customer and user ids, e-mail
@@ -41,8 +46,8 @@ model reports in `reports/`.
 | `officer_action` | text | `approve`, `reject`, or `none` (no officer decision; an auto-approval or a resubmission never gets one). |
 | `officer_wait_min` | number | Minutes from the system decision to the officer's decision (officer-decided cases only). |
 | `awaiting_officer` | true/false | True when the case is in the officer queue right now (`final_status = DECIDED`). |
-| `queue_age_min` | number | For waiting cases: minutes since the system decision, measured **at export time**. |
-| `in_batch` | true/false | True for applications of the simulated batch (they have ground truth); false for e.g. manual demo submissions. |
+| `queue_age_min` | number | For waiting cases: minutes since the system decision, measured at the **latest event recorded in the export** (a submission or status change; `Data as of (UTC)` in `tableau/operations.csv`), not at export time. A re-export of unchanged data gives the same values. |
+| `in_batch` | true/false | True for applications of the simulated batch (they have ground truth). Always true in the default export; `--all` adds the others (test runs, manual demo submissions) as false. |
 | `doc_latency_ms` | number | Processing time of the document-classifier worker (model + image download), in ms. |
 | `face_latency_ms` | number | Processing time of the face-matching worker, in ms. |
 | `forgery_latency_ms` | number | Processing time of the forgery-detection worker, in ms. |
@@ -117,3 +122,61 @@ Shortcut checks (forgery): the **position-matched control AUC** compares tiles a
 and forged pages, with the edit tiles left out; ~0.5 means no hidden cue. The **edit-hidden ROC-AUC** scores the
 documents with the edit tiles removed; ~0.5 or lower means the model needs the edit itself. v1's "localisation" is
 the Grad-CAM pointing score (0 of 179); v2/v3 use "the top tile touches the edit".
+
+## tableau/: pre-joined files for the Quick path
+
+One file per dashboard, each its own data source (no relationships). They are built only from the five files above,
+so they hold nothing more; the privacy guard also checks their column names.
+
+Conventions:
+- **Friendly values:** codes become readable labels, e.g. `AUTO_APPROVED` → *Auto-approved*, `high` → *High*,
+  `fraud_or_mismatch` → *Fraud or mismatch*, `forged_own_selfie` → *Forged, own selfie*.
+- **`(0/1)` columns:** 1 = yes, 0 = no, empty = does not apply. Their average is a rate and their sum a count
+  (Tableau skips empty cells).
+- **`Applications`** is 1 per application: its sum counts applications.
+- **Durations** carry their unit in the name, e.g. `Time to decision (s)`.
+
+### operations.csv: one row per application (dashboard 1)
+
+| Column | From (`applications.csv` unless noted) |
+|---|---|
+| `Case`, `Submitted (UTC)`, `Decided by the system (UTC)`, `Closed (UTC)`, `Document type` | `case_id`, `submitted_at`, `decided_at`, `closed_at`, `doc_type_label` |
+| `System outcome`, `Risk level`, `Scenario (truth)`, `Officer decision` | `system_outcome`, `risk_level`, `truth_scenario`, `officer_action`, as readable labels |
+| `Outcome` | The guide's *Outcome (readable)*: Auto-approved, Approved by officer, Rejected by officer, Awaiting officer, Retake requested, In progress. |
+| `Applications` | 1. |
+| `Auto-approved (0/1)`, `Manual review (0/1)`, `Resubmit required (0/1)` | 1 when `system_outcome` is that outcome. The averages are the outcome rates. |
+| `Time to decision (s)` | `time_to_decision_s`. |
+| `Doc check (s)`, `Face check (s)`, `Forgery check (s)`, `Extraction check (s)` | `*_latency_ms` / 1000 (the guide's *Latency (s)*); empty when the check did not run. |
+| `Funnel 1 Submitted` … `Funnel 5 Rejected by an officer` | The funnel steps, 1 or 0: every case; decided by the system; `MANUAL_REVIEW`; any officer decision; an officer rejection. |
+| `Officer wait (min)` | `officer_wait_min`. |
+| `Waiting for an officer (0/1)`, `Queue age (min)` | `awaiting_officer`, `queue_age_min`. |
+| `Data as of (UTC)` | The moment the queue ages are measured at (the latest recorded event); the same on every row. |
+
+### risk_fraud.csv: one row per decision reason (dashboard 2)
+
+A case without any reason gets one row with `Reason` = *No reason*, so that every case is present. A case's labels
+repeat on all its rows (so every filter works); **its numbers sit on its first row only** (empty on the others),
+so sums and averages count each application once.
+
+| Column | Meaning |
+|---|---|
+| `Case`, `Submitted (UTC)`, `Document type`, `System outcome`, `Outcome`, `Risk level` | As in `operations.csv`. |
+| `Risk score band` | `risk_score` rounded down to a multiple of 10 (0, 10, … 100): the guide's `risk_score (bin)`. |
+| `Truth class`, `Scenario (truth)`, `Forgery method (truth)` | `truth_class`, `truth_scenario` (readable), `truth_forgery_type`. |
+| `System vs truth` | The guide's *System vs truth*, e.g. *Caught: sent to review*, *False alarm: sent to review*, *Missed: auto-approved*. |
+| `Officer decision` | Approved, Rejected or No officer decision. |
+| `Reason`, `Reason effect`, `Raised by` | `reasons.csv`: `reason_label`, `effect` (High, Medium, Resubmit, Info only) and `check_type` (Document classifier, Face match, Forgery detector, Field extraction, Typed details). |
+| `Cases with this reason` | 1 on a reason row, empty on a *No reason* row: its sum is the guide's reason count. |
+| `Applications`, `Risk score` | First row of the case only: 1, and `risk_score`. |
+| `Fraud caught (0/1)`, `Missed fraud (0/1)` | For frauds and mismatches only (`truth_class = fraud_or_mismatch`): not auto-approved, or auto-approved. |
+| `False alarm (0/1)` | For legitimate cases only: sent to manual review. |
+| `Officer confirmed the flag (0/1)` | For officer-decided cases only: the officer rejected. |
+| `Officer agrees with truth (0/1)` | For officer-decided cases with ground truth: rejected a fraud, mismatch or unusable image, or approved a legitimate case (100 % by construction, see above). |
+
+### model_performance.csv: one row per metric (dashboard 3)
+
+| Column | Meaning |
+|---|---|
+| `Model`, `Version`, `Version order`, `Split`, `Metric`, `Value`, `Note`, `Source` | As in `model_metrics.csv`. |
+| `Used in chart` | Which chart of the guide's §6 draws the row: *Forgery story* (val; document PR-AUC, localisation, position-matched control), *Face verification* (LFW test; ROC-AUC, TAR at FAR 1 %, equal error rate), *Extraction per field*, or *Metrics table only*. |
+| `Field`, `Match type` | Per-field extraction rows only: the field (e.g. `surname`) and *Exact* or *Normalized*. |
