@@ -558,12 +558,31 @@ tests/               pytest (markers: services, models, data)
 - Learn the risk weights from officer decisions (with a human in the loop), and monitor drift per document type.
 - Scale-out: several extraction workers or a GPU inference server, Kafka with replication, and Kubernetes.
 
+## License
+
+- **Code:** MIT, see [`LICENSE`](LICENSE).
+- **Trained model weights** (the `.keras` files of the
+  [v1.0.0 release](https://github.com/AbhishekChandra961/eKYC-Verification/releases/tag/v1.0.0): document classifier,
+  forgery detector, Siamese network): **CC BY-SA 4.0**.
+  - The reason: they were trained on SIDTD, which is CC BY-SA licensed (ShareAlike).
+  - They also contain the EfficientNetB0 ImageNet weights (Apache 2.0).
+  - "Research and education" in the release notes is the intended use (the models are not validated on real
+    documents), not an extra licence condition.
+- **Third-party models keep their own licences:** YuNet (MIT) and SFace (Apache 2.0). Their licence files ship inside
+  the model zip.
+- **Datasets are not included in the repo:**
+  - SIDTD and MIDV-2020, which it is built on: CC BY-SA (the SIDTD paper gives CC BY-SA 2.5 for both);
+  - LFW: its own terms.
+- **Not covered by the MIT licence:**
+  - the SIDTD-derived demo images in `frontend/src/demo/fixtures/images/` (CC BY-SA 4.0);
+  - figures and screenshots that show dataset images.
+
 ## Credits and licences
 
 | Resource | Use here | Licence / terms |
 |---|---|---|
 | **SIDTD**: Boned et al., *Synthetic dataset of ID and Travel Documents*, Scientific Data 11 (2024), CVC-UAB | Training and evaluation of all document models | Creative Commons Attribution-ShareAlike (the paper states CC BY-SA 2.5, as MIDV-2020; the data record, DOI 10.34810/DATA1815, lists CC BY-SA 4.0) |
-| **MIDV-2020**: Bulatov et al., Computer Optics 46(2) (2022) | The genuine documents SIDTD is built on (faces are generated) | Citation required; licence accepted on access |
+| **MIDV-2020**: Bulatov et al., Computer Optics 46(2) (2022) | The genuine documents SIDTD is built on (faces are generated) | CC BY-SA 2.5 according to the SIDTD paper; the licence is accepted on download, and citation is required |
 | **LFW**: Huang et al., *Labeled Faces in the Wild*, UMass Amherst (2007) | Face verification training and evaluation (via scikit-learn) | Research benchmark; the dataset is not redistributed (a few example faces appear in report figures) |
 | **YuNet** face detector, OpenCV Zoo (`face_detection_yunet_2023mar.onnx`) | Face detection | MIT (licence file shipped with the model) |
 | **SFace** face recognizer, OpenCV Zoo (`face_recognition_sface_2021dec.onnx`) | Face embeddings | Apache 2.0 (licence file shipped with the model) |
@@ -574,7 +593,8 @@ The SIDTD templates are downloaded by each user from the dataset's server. This 
 derived figures and screenshots of synthetic documents, plus, for the demo site, 26 small web copies of SIDTD-derived
 documents and simulated selfies of their generated portraits (`frontend/src/demo/fixtures/images/`, CC BY-SA 4.0,
 credited on the site). The trained weights in the release are derived from the
-sources above and are shared for research and education.
+sources above and licensed CC BY-SA 4.0 (see [License](#license)). They are meant for research and education: they are
+not validated on real identity documents.
 
 ## More documentation
 
