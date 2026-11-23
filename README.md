@@ -15,8 +15,8 @@ photo of an identity document and takes a selfie. Four independent AI checks the
 
 A rule-based decision engine combines them into *auto-approve*, *manual review* or *resubmit*, and **never rejects on its
 own**: only a bank officer can reject, with a mandatory reason, and every step is audited. Everything is built in
-Python and TypeScript as event-driven microservices over Kafka, with a React frontend, Docker packaging, CI and a Tableau
-dashboard. The models are trained and evaluated only on synthetic identity documents (SIDTD) and on a public face
+Python and TypeScript as event-driven microservices over Kafka, with a React frontend, analytics dashboards, Docker
+packaging and CI. The models are trained and evaluated only on synthetic identity documents (SIDTD) and on a public face
 benchmark (LFW).
 
 > **Capstone project** for a postgraduate programme in data science. A research and teaching prototype: not validated
@@ -25,7 +25,9 @@ benchmark (LFW).
 ## Live demo
 
 **<https://abhishekchandra961.github.io/eKYC-Verification/>**: the real React frontend, built in *demo mode* and
-hosted free on GitHub Pages. Click **Try as customer** or **Try as officer**; no account or password is needed.
+hosted free on GitHub Pages. Click **Try as customer** or **Try as officer**; no account or password is needed. The
+[**Dashboards**](https://abhishekchandra961.github.io/eKYC-Verification/#/dashboards) (operations, risk & fraud,
+model performance) are public too: see [Dashboards](#dashboards).
 
 | | |
 |---|---|
@@ -150,7 +152,7 @@ flowchart TB
 | Decision engine | `src/ekyc/decision.py` | A pure function: four check results + typed details → outcome, risk score, reasons with evidence | Python |
 | Frontend | `frontend/` | Customer wizard and status, officer queue and case detail | React 19, TypeScript, Vite, MUI |
 | Infrastructure | `docker-compose.yml` | Kafka (KRaft), Kafka UI, MongoDB 8, RustFS (S3-compatible) | Docker Compose |
-| Dashboard | `dashboard/` | Operations, risk & fraud, model performance | Tableau Public, from pseudonymous CSV exports |
+| Dashboards | `frontend/src/dashboards/` | Operations, risk & fraud, model performance over the batch | MUI X Charts, from a JSON snapshot of pseudonymous CSV exports (`dashboard/`) |
 
 **Status lifecycle:**
 - `SUBMITTED → PROCESSING`, then one of:
@@ -169,7 +171,7 @@ flowchart TB
 | Backend | Python 3.11, FastAPI, confluent-kafka (Apache Kafka 4.4, KRaft), pymongo (MongoDB 8), boto3 (RustFS S3), JWT + argon2 |
 | Frontend | React 19, TypeScript 5.9, Vite 8, MUI 9, React Router 7, Vitest, Playwright, types generated from OpenAPI |
 | Ops | Docker (multi-stage, non-root, healthchecks), Docker Compose profiles, GitHub Actions (ruff, pytest, ESLint, tsc, Vitest) |
-| Analytics | pandas, matplotlib, Jupyter, Tableau Public |
+| Analytics | pandas, matplotlib, Jupyter; in-app dashboards with MUI X Charts (the CSVs also work in Tableau Public) |
 
 ## Results
 
@@ -262,6 +264,73 @@ decision engine therefore never trusts it alone.
 - **Officer step:** a simulated officer then decided 66 high-risk cases: 56 rejected, 10 approved.
 - **Latency:** median time to decision 77 s under heavy memory pressure (extraction median 29 s).
 - **Details:** [`reports/phase9/batch_summary.md`](reports/phase9/batch_summary.md).
+
+## Dashboards
+
+Three dashboards over the Phase 9 batch, built into the frontend: public on the
+[demo site](https://abhishekchandra961.github.io/eKYC-Verification/#/dashboards) (no login), and the **Analytics** tab
+of the officer portal in the real app (`/officer/analytics`). Every dashboard says that the data is **synthetic**, a
+**batch snapshot** (not live), and **as of** when (the latest event recorded in the batch).
+
+| Operations | Risk & fraud |
+|---|---|
+| <img src="reports/phase12/01_dashboard_operations.png" width="420" alt="Operations dashboard: KPI tiles, funnel, processing time, outcomes by document type, queue age"> | <img src="reports/phase12/02_dashboard_risk_fraud.png" width="420" alt="Risk and fraud dashboard: KPI tiles, system vs truth highlight table, officer agreement, decision reasons, risk-score distribution"> |
+| **Model performance** | **On a phone** |
+| <img src="reports/phase12/03_dashboard_model_performance.png" width="420" alt="Model performance dashboard: forgery v1 to v3 story, face verification, extraction per field, metrics table"> | <img src="reports/phase12/04_dashboard_risk_fraud_phone.png" width="200" alt="Risk and fraud dashboard at phone width"> |
+
+- **Operations:**
+  - KPI tiles: applications, auto-approval, manual-review and resubmit rates, median time to decision;
+  - the outcome funnel and the system outcome per document type;
+  - the median and 95th-percentile processing time per check;
+  - the officer queue age.
+- **Risk & fraud:**
+  - the system decision against the ground truth, as a highlight table;
+  - the decision reasons by effect;
+  - the risk-score distribution;
+  - officer agreement by risk level.
+- **Model performance:**
+  - the forgery v1 → v2 → v3 shortcut story, with one line per version;
+  - SFace against the Siamese network;
+  - extraction accuracy per field;
+  - every offline metric in one table.
+- **Filters** (document type, outcome) sit in one row above the charts and apply to every chart of the dashboard.
+- **Accessible:**
+  - colour sets checked for colour-blind separation;
+  - a legend or labels on every chart;
+  - tooltips, and a **Table** button on every chart that shows the same numbers;
+  - keyboard navigation;
+  - phone width without sideways scrolling.
+
+**Data flow:** `scripts/export_dashboard_data.py` (MongoDB → pseudonymous, PII-free CSVs in `dashboard/data/`) →
+`scripts/export_dashboard_snapshot.py` (`dashboard/data/tableau/*.csv` → `frontend/src/dashboards/snapshot.json`, 90 KB,
+8 KB gzipped, with the same privacy guard) → the dashboards. The browser only adds up and averages the pre-computed
+columns (`src/dashboards/transforms.ts`). A case with several decision reasons has several rows in
+`risk_fraud.csv`, so every case-level chart uses only each case's first row and counts it once.
+
+**Self-check:** a Vitest test computes the headline numbers from the bundled snapshot with the same functions the charts
+use, and compares them with `reports/phase9/batch_summary.json`:
+- 150 applications;
+- auto-approval 32.7 %, manual review 62.7 %, resubmit 4.7 %;
+- 67 of 68 frauds caught, 27 false alarms;
+- the funnel and the full system-vs-truth table.
+
+A pytest test fails if the snapshot is out of date with the CSVs.
+
+**Why in the app and not Tableau:**
+- **Built from code, so reproducible.** Tableau Desktop is a GUI: the workbooks could not be generated reliably
+  (its file format is undocumented, and a generated file was rejected), and Power BI Desktop runs only on Windows.
+- **Tested.** The numbers are checked by tests on every push.
+- **Hosted with the demo.** The dashboards deploy with the demo site, with no extra account.
+
+The CSVs and [`dashboard/TABLEAU_GUIDE.md`](dashboard/TABLEAU_GUIDE.md) remain an optional way to rebuild the dashboards
+in Tableau Public.
+
+**Chart library:** [MUI X Charts](https://mui.com/x/react-charts/) (`@mui/x-charts`, MIT):
+- **Same stack:** made by the MUI team for the MUI version the app already uses (MUI 9, React 19), so it takes the
+  app's theme, typography and components.
+- **Built in:** legends, tooltips and keyboard navigation of the bars.
+- **Only loaded when needed:** the dashboards are a separate chunk of 132 KB gzipped (the chart library, the data and
+  the dashboard code), fetched only when a dashboard opens. Every other page loads as before (+0.3 KB).
 
 ## Screenshots
 
@@ -409,9 +478,9 @@ docker compose --profile app up -d --build    # + API, orchestrator, 4 workers, 
 ### Tests
 
 ```bash
-.venv/bin/python -m pytest                       # 262 tests; tests needing services, weights or data skip themselves if missing
+.venv/bin/python -m pytest                       # 267 tests; tests needing services, weights or data skip themselves if missing
 uvx ruff@0.17.5 check                            # lint
-cd frontend && npm run lint && npm run typecheck && npm test   # ESLint, tsc, 80 Vitest tests
+cd frontend && npm run lint && npm run typecheck && npm test   # ESLint, tsc, 104 Vitest tests
 cd frontend && npm run e2e                       # Playwright: the whole system in host mode must be running
 cd frontend && npm run e2e:demo                  # Playwright against the static demo build (no backend needed)
 .venv/bin/python scripts/e2e_api_smoke.py        # API-level end-to-end smoke test (4 cases + 6 security checks)
@@ -426,12 +495,13 @@ weights or data, and the frontend lint, typecheck and unit tests on every push. 
 ```
 src/ekyc/            shared package: config, data + splits, models, decision engine, store, messaging, inference
 services/            api/, orchestrator/, {doc,forgery,face,extraction}-worker/, Dockerfile, README (operations)
-frontend/            React app (customer + officer), Dockerfile (nginx), Playwright e2e; src/demo/ = the static demo site
+frontend/            React app (customer + officer), Dockerfile (nginx), Playwright e2e; src/demo/ = the static demo site;
+                     src/dashboards/ = the analytics dashboards (+ snapshot.json, their data)
 notebooks/           01 manifest + splits, 02 doc classifier, 03 forgery v1, 03b forgery tiles v3, 04 face, 05 extraction
 scripts/             run_all.sh, download_models.py, make_demo_samples.py, simulate_batch.py, export_demo_fixtures.py, ...
-reports/phase2-11/   metrics (JSON/CSV), plots, screenshots, batch and Docker reports
-dashboard/           data/*.csv (pseudonymous exports), data/tableau/*.csv (pre-joined, quick path), DATA_DICTIONARY.md,
-                     TABLEAU_GUIDE.md
+reports/phase2-12/   metrics (JSON/CSV), plots, screenshots, batch and Docker reports
+dashboard/           data/*.csv (pseudonymous exports), data/tableau/*.csv (pre-joined: the dashboards' source),
+                     DATA_DICTIONARY.md, TABLEAU_GUIDE.md (optional: the same dashboards in Tableau Public)
 docs/                report/ (REPORT.md + DOCX/PDF), VIVA_PREP.md, DEMO_SCRIPT.md, RELEASE_NOTES_v1.0.0.md
 tests/               pytest (markers: services, models, data)
 ```
@@ -515,5 +585,6 @@ sources above and are shared for research and education.
 | [`docs/DEMO_SCRIPT.md`](docs/DEMO_SCRIPT.md) | The narrated 4-5 minute demo with a shot list |
 | [`services/README.md`](services/README.md) | Running and operating the backend: topics, lifecycle, reset, batch, Docker |
 | [`frontend/README.md`](frontend/README.md) | The React app: screens, API types, tests |
-| [`dashboard/TABLEAU_GUIDE.md`](dashboard/TABLEAU_GUIDE.md) | How to build the three Tableau dashboards |
+| [`dashboard/DATA_DICTIONARY.md`](dashboard/DATA_DICTIONARY.md) | Every column of the dashboard data |
+| [`dashboard/TABLEAU_GUIDE.md`](dashboard/TABLEAU_GUIDE.md) | Optional: building the same three dashboards in Tableau Public |
 | [`reports/phase3/summary.md`](reports/phase3/summary.md) | The forgery shortcut story with every number |

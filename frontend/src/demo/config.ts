@@ -7,10 +7,9 @@ const REPO = 'https://github.com/AbhishekChandra961/eKYC-Verification'
 export const DEMO_LINKS = {
   repo: (env.VITE_DEMO_REPO_URL as string | undefined) || REPO,
   report: (env.VITE_DEMO_REPORT_URL as string | undefined) || `${REPO}/blob/main/docs/report/REPORT.pdf`,
-  // PLACEHOLDERS: empty until the video is published and the Tableau Public dashboards exist. An empty link is shown
-  // as "coming soon", never as a broken link. Set VITE_DEMO_VIDEO_URL / VITE_DEMO_DASHBOARDS_URL, or edit them here.
+  // PLACEHOLDER: empty until the video is published. An empty link is shown as "coming soon", never as a broken
+  // link. Set VITE_DEMO_VIDEO_URL, or edit it here. (The dashboards are part of this site since Phase 12: /dashboards.)
   video: (env.VITE_DEMO_VIDEO_URL as string | undefined) || '',
-  dashboards: (env.VITE_DEMO_DASHBOARDS_URL as string | undefined) || '',
 }
 
 /** The one-click demo logins. No passwords: there is no server and nothing to protect. */

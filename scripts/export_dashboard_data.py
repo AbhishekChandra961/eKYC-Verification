@@ -1,4 +1,4 @@
-"""Export tidy, PII-free CSVs for the Tableau dashboard (Phase 9) to dashboard/data/.
+"""Export tidy, PII-free CSVs for the dashboards (Phase 9) to dashboard/data/.
 
     .venv/bin/python scripts/export_dashboard_data.py          # the simulated batch only (the default)
     .venv/bin/python scripts/export_dashboard_data.py --all    # every application in MongoDB
@@ -20,6 +20,9 @@ above, so they cannot contain anything those do not):
   operations.csv         one row per application (KPIs, funnel, outcomes by document type, latency, queue age)
   risk_fraud.csv         one row per decision reason, application-level numbers on each case's first row only
   model_performance.csv  model_metrics.csv plus the chart each row belongs to
+
+The in-app dashboards (Phase 12) read these three files: scripts/export_dashboard_snapshot.py bundles them with the
+frontend (frontend/src/dashboards/snapshot.json). Run it after every export.
 
 WHICH APPLICATIONS: by default only the simulated batch (the applications in the ground-truth file), so the numbers
 match reports/phase9/batch_summary.md. MongoDB also holds test runs (end-to-end and smoke tests, the demo-site
@@ -474,7 +477,7 @@ def write(folder, tables: dict[str, pd.DataFrame], show_columns: bool = False) -
 
 
 def main(argv: list[str] | None = None) -> None:
-    parser = argparse.ArgumentParser(description="Export PII-free CSVs for the Tableau dashboard.")
+    parser = argparse.ArgumentParser(description="Export PII-free CSVs for the dashboards.")
     parser.add_argument("--all", action="store_true", help="also export the applications without ground truth "
                         "(end-to-end and smoke tests, demo-site recordings, manual submissions)")
     args = parser.parse_args(argv)

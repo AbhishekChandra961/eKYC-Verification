@@ -5,6 +5,10 @@ batch ground truth (`data/processed/batch/ground_truth.csv`, written by `scripts
 model reports in `reports/`. It also writes three pre-joined files to `dashboard/data/tableau/`, built from those
 five, for the *Quick path* of `TABLEAU_GUIDE.md` ([last section](#tableau-pre-joined-files-for-the-quick-path)).
 
+**The in-app dashboards (Phase 12)** read these three pre-joined files. `scripts/export_dashboard_snapshot.py` bundles
+the columns they use, renamed to short keys, as `frontend/src/dashboards/snapshot.json`; the renaming is listed in the
+script. Re-run it after every export. The same privacy guard runs there.
+
 **Which applications.** Only the simulated batch (the applications in the ground-truth file), so the numbers match
 `reports/phase9/batch_summary.md`. MongoDB also holds test runs (end-to-end and smoke tests, the demo-site
 recordings): `--all` adds them, with `in_batch` false and `truth_class` `not_in_batch`.

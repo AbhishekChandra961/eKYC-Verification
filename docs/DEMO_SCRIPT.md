@@ -21,8 +21,8 @@ The narration is written to be spoken; about 140 words a minute.
   - for a webcam selfie that *matches* the ID, start Chrome with the fake webcam (command in
     `demo_samples/README.md`); otherwise use **Upload a photo instead**.
 - [ ] **Tabs ready:** http://localhost:5173 (customer), a second browser profile or private window for the officer,
-      http://localhost:8080 (Kafka UI), the Tableau Public dashboards, and `docs/report/figures/architecture.png`
-      full screen.
+      http://localhost:8080 (Kafka UI), the dashboards (officer portal → **Analytics**, or the demo site's
+      `#/dashboards`), and `docs/report/figures/architecture.png` full screen.
 - [ ] Recorder: QuickTime (File → New Screen Recording) or OBS, 1080p, with the microphone checked.
 - [ ] **Waiting times:** the genuine case takes about 30-45 s and the forged one up to about 80 s. Record the waits
       and **cut them** in editing, or speed them up, keeping the live progress steps visible.
@@ -39,7 +39,7 @@ The narration is written to be spoken; about 140 words a minute.
 | 5 | 2:30-3:05 | Case detail + heatmap | Open the forged case: ID and selfie side by side, the check results, the **forgery heatmap** toggle with its top tile overlapping the edited surname line, face score below the threshold, MRZ name rule flags | "The officer sees all the evidence. The forgery model scores the page tile by tile: the highest-scoring tile overlaps the surname line that was edited. Tiles are 224 pixels, so it marks the area, not the exact word. The face match fails, and the name in the machine-readable zone disagrees with the printed name." |
 | 6 | 3:05-3:30 | Reject + audit trail | **Reject** → type a reason ("Surname edited and selfie does not match") → confirm → the audit trail: SUBMITTED → PROCESSING → DECIDED → REJECTED, with actors and times | "Rejecting requires a written reason, and every step is in an append-only audit trail: who did what, and when. That is what a regulator or a complaints team needs." |
 | 7 | 3:30-3:50 | Kafka UI | http://localhost:8080 → Topics: `kyc.submitted`, `kyc.tasks.*`, `kyc.results`, `kyc.decided`, `kyc.dlq` → open a message in `kyc.submitted` → consumer groups with lag 0 | "Under the hood, everything flows through Kafka. Events carry only storage keys, never the images: the claim-check pattern. Each check is its own worker. Failures are retried, then parked in a dead-letter queue, and a sweeper sends any late check to manual review." |
-| 8 | 3:50-4:20 | Tableau dashboard | The **Risk & fraud** dashboard (system vs truth), then a glance at **Operations** and **Model performance** | "I ran 150 applications through the live system. 67 of the 68 frauds and mismatches were stopped, and every forged document went to review. The honest cost: a third of genuine customers also went to review, mostly because of model false alarms and misread passport codes. That's the next thing to improve." |
+| 8 | 3:50-4:20 | Analytics dashboards | Officer portal → **Analytics** → the **Risk & fraud** dashboard (system vs truth), then a glance at **Operations** and **Model performance** | "I ran 150 applications through the live system. 67 of the 68 frauds and mismatches were stopped, and every forged document went to review. The honest cost: a third of genuine customers also went to review, mostly because of model false alarms and misread passport codes. That's the next thing to improve." |
 | 9 | 4:20-4:45 | Architecture + close | `docs/report/figures/architecture.png` full screen | "To sum up: four layered checks, an explainable decision engine and a human in the loop, built on Kafka, FastAPI and React, with a privacy-first local LLM. My biggest lesson: my first forgery model scored 98 % but had learned how the files were saved, not the forgeries. Proving *what* a model learned matters as much as the score. Thank you." |
 
 ## Backup footage (recorded with Playwright)

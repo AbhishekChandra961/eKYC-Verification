@@ -425,6 +425,8 @@ so two officers cannot both decide a case. Each transition is appended to an aud
   by Server-Sent Events;
 - **officer:** a queue sorted by risk and a case detail page with the images, a forgery heatmap overlay, every check,
   approve or reject, and the audit trail;
+- **analytics:** three dashboards (operations, risk & fraud, model performance), the officer portal's *Analytics* tab,
+  and public on the demo site (see *Operations* below);
 - the API's TypeScript types are generated from its OpenAPI schema.
 
 **Docker:**
@@ -434,8 +436,13 @@ so two officers cannot both decide a case. Each transition is appended to an aud
 
 **Operations:**
 - **CI:** GitHub Actions runs linting and the unit tests of both code bases.
-- **Dashboard:** a script exports pseudonymous CSV tables for three Tableau dashboards (operations, risk & fraud, model
-  performance).
+- **Dashboards:** a script exports pseudonymous, PII-free CSV tables of the batch, and a second script bundles them
+  with the frontend as a 90 KB JSON snapshot.
+  - Three dashboards built into the app with MUI X Charts show it: operations, risk & fraud, and model performance.
+    They are filterable by document type and outcome, and each chart has a table view.
+  - Tests check that the numbers match `reports/` exactly.
+  - Tableau Public was dropped: it is GUI-only and could not be automated or tested (the CSVs and a build guide
+    remain).
 - **Model release:** the trained weights are published as one checksum-verified release.
 
 # 5. Evaluation
@@ -555,10 +562,15 @@ approved 10. Because the simulated officer used the ground truth, this demonstra
 times were 1.5 s for the document check, 1.6 s for face, 6.4 s for forgery and 29.4 s for extraction. A Kafka stall
 of about 60 s caused timeouts in 2 applications, which went to manual review as designed.
 
+![Figure 7. The Risk & fraud dashboard over the batch (synthetic data): Table 6 as a highlight table, officer agreement by risk level, decision reasons by effect and the risk-score distribution.](../../reports/phase12/02_dashboard_risk_fraud.png){width=90%}
+
 ## 5.6 Engineering verification
 
-- **Python tests:** 250, of which 218 run in CI without services, model weights or data.
-- **Frontend:** 65 Vitest unit tests and 4 Playwright end-to-end tests that drive the real system.
+- **Python tests:** 267, of which 235 run in CI without services, model weights or data.
+- **Frontend:**
+  - 104 Vitest unit tests, including the dashboard self-check against `reports/phase9/batch_summary.json`;
+  - 4 Playwright end-to-end tests that drive the real system;
+  - 10 that run against the static demo site, 5 of them for the dashboards.
 - **API smoke test:** 4 cases plus 6 security checks (wrong role ×2, another customer's application, missing,
   invalid and expired tokens).
 
@@ -680,5 +692,5 @@ The next steps are therefore:
 | 3.2, 5.2 Forgery | `reports/phase3/forgery_metrics_val.json` (v1), `forgery_breakdown_source_val.csv`, `forgery_v2_metrics_val.json`, `forgery_v3_vs_v2_val.csv`, `forgery_v3_metrics_test.json`, `summary.md` |
 | 3.3, 5.3 Face | `reports/phase4/face_metrics.json` |
 | 3.4, 5.4 Extraction | `reports/phase5/phase5_metrics.json`, notebook `05_field_extraction` |
-| 5.5 Batch | `reports/phase9/batch_summary.{md,json}`, `dashboard/data/*.csv` |
+| 5.5 Batch | `reports/phase9/batch_summary.{md,json}`, `dashboard/data/*.csv`, `frontend/src/dashboards/snapshot.json` |
 | 5.6 Containers | `reports/phase9/docker.md`, `e2e_api_containers_6gb.json` |

@@ -1,5 +1,9 @@
 # Building the eKYC dashboard in Tableau Public (step by step)
 
+> **Optional since Phase 12.** The three dashboards are built into the app: the officer portal's *Analytics* tab, and
+> public on the demo site at `#/dashboards`. They are drawn from the same CSVs (see `frontend/README.md`, *Analytics
+> dashboards*). This guide remains for anyone who wants the same dashboards in Tableau Public.
+
 This guide assumes you have never used Tableau. You build three dashboards from the CSV files in `dashboard/data/`:
 
 1. **Operations:** how much work the system does, and how fast.
