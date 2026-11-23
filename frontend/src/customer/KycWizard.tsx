@@ -28,6 +28,7 @@ export function KycWizard() {
   const navigate = useNavigate()
   const [today] = useState(todayIso)
   const [step, setStep] = useState(0)
+  const [direction, setDirection] = useState<'forward' | 'back'>('forward') // which way the next step slides in
   const [details, setDetails] = useState<PersonalDetails>({ fullName: '', dateOfBirth: '' })
   const [showErrors, setShowErrors] = useState(false)
   const [consent, setConsent] = useState(false)
@@ -63,6 +64,7 @@ export function KycWizard() {
   function goTo(next: number) {
     setShowErrors(false)
     setSubmitError(null)
+    setDirection(next >= step ? 'forward' : 'back')
     setStep(next)
   }
 
@@ -89,19 +91,29 @@ export function KycWizard() {
   }
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3} className="ekyc-fade-up">
       <Box>
         <Typography variant="h1" sx={{ mb: 0.5 }}>Verify your identity</Typography>
         <Typography color="text.secondary">Four short steps. Have your passport or ID card ready.</Typography>
       </Box>
-      <Stepper activeStep={step} alternativeLabel aria-label="Verification steps">
-        {STEPS.map((s) => <Step key={s.label}><StepLabel>{s.label}</StepLabel></Step>)}
-      </Stepper>
+      <Box>
+        <Stepper activeStep={step} alternativeLabel aria-label="Verification steps"
+          sx={{ '& .MuiStepIcon-root.Mui-active': { animation: 'ekyc-pop 420ms both' } }}>
+          {STEPS.map((s) => <Step key={s.label}><StepLabel>{s.label}</StepLabel></Step>)}
+        </Stepper>
+        {/* decorative progress bar under the stepper (the stepper itself tells screen readers the step) */}
+        <Box aria-hidden sx={{ mt: 2, mx: { xs: 1, sm: 6 }, height: 4, borderRadius: 999, bgcolor: '#e3eaf4', overflow: 'hidden' }}>
+          <Box sx={{ height: '100%', width: `${(step / (STEPS.length - 1)) * 100}%`, borderRadius: 999,
+            backgroundImage: (theme) => `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+            transition: 'width 450ms cubic-bezier(0.22, 1, 0.36, 1)' }} />
+        </Box>
+      </Box>
       <Paper component="section" aria-labelledby="step-title" sx={{ p: { xs: 2, sm: 3 } }}>
         <Typography id="step-title" variant="h2" component="h2" ref={headingRef} tabIndex={-1} sx={{ mb: 2, outline: 'none' }}>
           Step {step + 1} of {STEPS.length}: {STEPS[step].title}
         </Typography>
 
+        <Box key={step} className={direction === 'forward' ? 'ekyc-step-forward' : 'ekyc-step-back'}>
         {step === 0 && (__DEMO_MODE__ ? (
           <DemoSampleStep chosen={demoSample} error={showErrors ? detailsProblem : null} onChoose={chooseSample} />
         ) : (
@@ -125,6 +137,7 @@ export function KycWizard() {
           <ReviewStep details={details} documentUrl={documentImage.picked.url} selfieUrl={selfieImage.picked.url}
             consent={consent} consentError={showErrors && !consent} onConsent={setConsent} onEdit={goTo} />
         )}
+        </Box>
 
         {showErrors && problem && step > 0 && step < 3 && <Alert severity="error" sx={{ mt: 2 }} role="alert">{problem}</Alert>}
         {submitError && <Alert severity="error" sx={{ mt: 2 }} role="alert">{submitError}</Alert>}

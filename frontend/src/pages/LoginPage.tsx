@@ -5,6 +5,7 @@ import { messageOf } from '../api/client'
 import { useAuth } from '../auth/AuthContext'
 import { homeFor, type Role } from '../auth/session'
 import { BrandLogo } from '../components/BrandLogo'
+import { DotField } from '../motion/DotField'
 
 /** After login, go back to the page the user asked for if it belongs to their role; otherwise to their home. */
 function target(from: unknown, role: Role): string {
@@ -38,8 +39,10 @@ export function LoginPage() {
   }
 
   return (
-    <Box component="main" sx={{ minHeight: '100vh', display: 'grid', placeItems: 'center', p: 2, bgcolor: 'background.default' }}>
-      <Paper sx={{ width: '100%', maxWidth: 420, p: { xs: 3, sm: 4 } }}>
+    <Box component="main" sx={{ position: 'relative', minHeight: '100vh', display: 'grid', placeItems: 'center', p: 2 }}>
+      <DotField />
+      <Paper className="ekyc-fade-up" sx={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 420, p: { xs: 3, sm: 4 },
+        backgroundColor: 'rgba(255, 255, 255, 0.94)', backdropFilter: 'blur(6px)' }}>
         <Stack spacing={3} component="form" onSubmit={submit} noValidate aria-labelledby="login-title">
           <BrandLogo />
           <Box>

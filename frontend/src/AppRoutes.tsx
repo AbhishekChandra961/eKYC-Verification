@@ -7,6 +7,7 @@ import { homeFor } from './auth/session'
 import { AppShell } from './components/AppShell'
 import { DemoLoginPage } from './demo/DemoLoginPage'
 import { LoginPage } from './pages/LoginPage'
+import { MotionLevelContext } from './motion/motionLevel'
 import { NotFound } from './pages/NotFound'
 
 // Each portal's pages are loaded on demand (code splitting): a customer's browser never downloads the officer code.
@@ -25,7 +26,10 @@ const loading = <LinearProgress aria-label="Loading the page" />
 function Portal({ allow }: { allow: 'CUSTOMER' | 'OFFICER' }) {
   return (
     <RequireRole allow={allow}>
-      <Suspense fallback={loading}><Outlet /></Suspense>
+      {/* Phase 14: the officer portal is a work tool, so its motion is restrained (hover lifts, no tilt) */}
+      <MotionLevelContext.Provider value={allow === 'OFFICER' ? 'restrained' : 'full'}>
+        <Suspense fallback={loading}><Outlet /></Suspense>
+      </MotionLevelContext.Provider>
     </RequireRole>
   )
 }

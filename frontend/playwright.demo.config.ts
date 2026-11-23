@@ -21,6 +21,7 @@ export default defineConfig({
     ...devices['Desktop Chrome'],
     baseURL: site,
     viewport: { width: 1366, height: 900 },
+    reducedMotion: 'reduce', // Phase 14: motion off (prefers-reduced-motion), so screens are deterministic
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     permissions: ['camera'],

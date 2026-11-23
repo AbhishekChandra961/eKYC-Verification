@@ -62,7 +62,7 @@ export function CaseDetailPage() {
   }
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3} className="ekyc-fade-up">
       <Box>
         <Button component={RouterLink} to="/officer" startIcon={<ArrowBackIcon />} sx={{ mb: 1 }}>Case queue</Button>
         <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ justifyContent: 'space-between', alignItems: { md: 'flex-end' } }}>

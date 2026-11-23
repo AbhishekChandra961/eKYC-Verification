@@ -1,12 +1,12 @@
 // The demo site's "Try the camera check" page (Phase 13): the real smart selfie camera (guidance + head-turn
 // challenge) running entirely in this browser. Nothing is uploaded or stored: there is no server behind the demo site,
 // and the frames are discarded when the visitor leaves. The rest of the demo stays replay-only.
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import ReplayIcon from '@mui/icons-material/Replay'
 import { Alert, Box, Button, Grid, Paper, Stack, Typography } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { WebcamCapture, type CameraFrames } from '../customer/WebcamCapture'
+import { AnimatedCheck } from '../motion/AnimatedCheck'
 
 const TITLES = { neutral: 'Looking at the camera', left: 'Turned left', right: 'Turned right' } as const
 
@@ -27,7 +27,7 @@ export function CameraCheckPage() {
   }
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3} className="ekyc-fade-up">
       <Box>
         <Typography variant="h1" sx={{ mb: 0.5 }}>Try the camera check</Typography>
         <Typography color="text.secondary">
@@ -43,7 +43,8 @@ export function CameraCheckPage() {
       <Paper sx={{ p: { xs: 2, sm: 3 } }}>
         {urls ? (
           <Stack spacing={2}>
-            <Alert severity="success" icon={<CheckCircleIcon />} data-testid="camera-check-done">
+            <Alert severity="success" icon={<AnimatedCheck size={24} color="#1e6b34" />} data-testid="camera-check-done"
+              className="ekyc-fade-up">
               Liveness challenge completed (browser preview; the real system verifies on the server).
             </Alert>
             <Grid container spacing={2}>

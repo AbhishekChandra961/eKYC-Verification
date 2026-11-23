@@ -33,6 +33,10 @@ async function login(page: Page, role: 'CUSTOMER' | 'OFFICER') {
   await page.getByLabel('Password').fill(password)
   await page.getByRole('button', { name: 'Log in' }).click()
   await expect(page).toHaveURL(role === 'OFFICER' ? /\/officer$/ : /\/customer$/)
+  // wait for the home page itself: clicking on while the login page is still finishing its own redirect can lose the
+  // click (seen on a heavily loaded laptop, Phase 14)
+  await expect(page.getByRole('heading', { level: 1, name: role === 'OFFICER' ? 'Case queue' : 'My applications' }))
+    .toBeVisible({ timeout: 60_000 })
 }
 
 async function fillDetailsAndDocument(page: Page, sample: Sample, screenshots: boolean) {

@@ -35,7 +35,7 @@ camera and its head-turn challenge, running in your browser with nothing uploade
 
 | | |
 |---|---|
-| <img src="reports/phase11/screenshots/01_demo_landing.png" width="420" alt="Demo site landing page with one-click logins"> | <img src="reports/phase11/screenshots/06_demo_officer_case.png" width="420" alt="Demo site: officer case with the forgery heatmap"> |
+| <img src="reports/phase14/after/01_landing.png" width="420" alt="Demo site landing page with one-click logins"> | <img src="reports/phase14/after/10_officer_case.png" width="420" alt="Demo site: officer case with the forgery heatmap"> |
 
 **What it is:**
 - **Real results, replayed.** The six demo samples (3 genuine, 2 forged, 1 unusable photo) were run through the full
@@ -100,7 +100,7 @@ Build it yourself: `cd frontend && npm run build:demo` (output in `dist-demo/`, 
   - only synthetic documents are used.
 - **Engineering hygiene:**
   - leakage-safe group splits; every test set was used once;
-  - 317 pytest tests, 124 Vitest tests, 4 Playwright end-to-end tests on the live system and 12 on the demo site;
+  - 317 pytest tests, 129 Vitest tests, 4 Playwright end-to-end tests on the live system and 13 on the demo site;
   - GitHub Actions CI and Pages deployment; non-root Docker images; deterministic, checksum-verified model release.
 
 ## Architecture
@@ -181,7 +181,7 @@ flowchart TB
 | Machine learning | TensorFlow 2.18.1 / Keras 3.15.1 (EfficientNetB0 transfer learning, tensorflow-metal on Apple Silicon), scikit-learn, OpenCV 5 (YuNet, SFace) |
 | Generative AI | Ollama + qwen2.5-VL 7B (local vision LLM), Pydantic-validated JSON with retry, ICAO 9303 MRZ rules |
 | Backend | Python 3.11, FastAPI, confluent-kafka (Apache Kafka 4.4, KRaft), pymongo (MongoDB 8), boto3 (RustFS S3), JWT + argon2 |
-| Frontend | React 19, TypeScript 5.9, Vite 8, MUI 9, React Router 7, Vitest, Playwright, types generated from OpenAPI |
+| Frontend | React 19, TypeScript 5.9, Vite 8, MUI 9, React Router 7, Vitest, Playwright, types generated from OpenAPI; motion in CSS + canvas (no animation library) |
 | Ops | Docker (multi-stage, non-root, healthchecks), Docker Compose profiles, GitHub Actions (ruff, pytest, ESLint, tsc, Vitest) |
 | Analytics | pandas, matplotlib, Jupyter; in-app dashboards with MUI X Charts (the CSVs also work in Tableau Public) |
 
@@ -376,17 +376,35 @@ in Tableau Public.
 
 ## Screenshots
 
-| Customer: details | Customer: smart camera (head-turn challenge, Phase 13) |
+The current look (Phase 14: a richer palette, soft depth and subtle motion), from the demo build, where the real
+pipeline's recorded results are replayed (`reports/phase14/after/`):
+
+| Landing page (animated dot field) | Log in (real app) |
 |---|---|
-| <img src="reports/phase8/screenshots/03_wizard_1_details.png" width="420" alt="Customer wizard, step 1: personal details"> | <img src="reports/phase13/e2e/05_wizard_3_selfie_camera.png" width="420" alt="Customer wizard, step 3: the smart camera asking the customer to turn their head left"> |
-| **Customer: verified** | **Customer: please resubmit** |
-| <img src="reports/phase8/screenshots/08_status_verified.png" width="420" alt="Status page: verified"> | <img src="reports/phase8/screenshots/10_status_resubmit.png" width="420" alt="Status page: resubmit request"> |
+| <img src="reports/phase14/after/01_landing.png" width="420" alt="Demo landing page over the animated dot-field background"> | <img src="reports/phase14/after/02_login.png" width="420" alt="Login page over the dot-field background"> |
+| **Customer: choose a sample** | **Customer: verified (a brief celebration)** |
+| <img src="reports/phase14/after/03_wizard_step1.png" width="420" alt="Customer wizard, step 1 with its progress bar"> | <img src="reports/phase14/after/06a_status_celebration.png" width="420" alt="Status page: verified, with confetti"> |
+| **Smart camera: turn left (progress ring per step)** | **Camera check completed** |
+| <img src="reports/phase14/after/07_camera_turn_left.png" width="420" alt="Smart camera asking the person to turn their head to the left"> | <img src="reports/phase14/after/08_camera_done.png" width="420" alt="Camera check completed: the three captured frames and a drawn checkmark"> |
 | **Officer: risk-sorted queue** | **Officer: case detail** |
-| <img src="reports/phase8/screenshots/12_officer_queue.png" width="420" alt="Officer case queue sorted by risk"> | <img src="reports/phase8/screenshots/13_case_detail.png" width="420" alt="Officer case detail with check results"> |
+| <img src="reports/phase14/after/09_officer_queue.png" width="420" alt="Officer case queue sorted by risk"> | <img src="reports/phase14/after/10_officer_case.png" width="420" alt="Officer case detail with the forgery heatmap"> |
+| **Dashboards: operations** | **Phone: landing page** |
+| <img src="reports/phase14/after/11_dashboard_operations.png" width="420" alt="Operations dashboard"> | <img src="reports/phase14/after/12_landing_phone.png" width="200" alt="Landing page at phone width"> |
+
+**Before / after Phase 14** (`reports/phase14/before/`, `after/`):
+
+| Before | After |
+|---|---|
+| <img src="reports/phase14/before/01_landing.png" width="420" alt="Landing page before Phase 14"> | <img src="reports/phase14/after/01_landing.png" width="420" alt="Landing page after Phase 14"> |
+| <img src="reports/phase14/before/07_camera_turn_left.png" width="420" alt="Smart camera before Phase 14"> | <img src="reports/phase14/after/07_camera_turn_left.png" width="420" alt="Smart camera after Phase 14"> |
+
+From the real system (the whole pipeline running locally; Phase 14 run, `reports/phase14/e2e/`):
+
+| Customer: smart camera (real system) | Customer: please resubmit |
+|---|---|
+| <img src="reports/phase14/e2e/05_wizard_3_selfie_camera.png" width="420" alt="Customer wizard, step 3: the smart camera asking the customer to turn their head left"> | <img src="reports/phase14/e2e/10_status_resubmit.png" width="420" alt="Status page: resubmit request"> |
 | **Officer: forgery heatmap** | **Officer: rejection and audit trail** |
-| <img src="reports/phase8/screenshots/14_case_heatmap.png" width="420" alt="Forgery heatmap over the ID document"> | <img src="reports/phase8/screenshots/17_case_rejected_audit.png" width="420" alt="Rejected case with its audit trail"> |
-| **Smart camera: the head-turn challenge (Phase 13)** | **Camera check completed (demo site, in the browser)** |
-| <img src="reports/phase13/01_camera_check_turn_left.png" width="420" alt="Smart selfie camera asking the person to turn their head to the left"> | <img src="reports/phase13/02_camera_check_done.png" width="420" alt="Camera check completed: the three captured frames"> |
+| <img src="reports/phase14/e2e/14_case_heatmap.png" width="420" alt="Forgery heatmap over the ID document"> | <img src="reports/phase14/e2e/17_case_rejected_audit.png" width="420" alt="Rejected case with its audit trail"> |
 
 ## Quickstart
 
@@ -526,7 +544,7 @@ docker compose --profile app up -d --build    # + API, orchestrator, 4 workers, 
 ```bash
 .venv/bin/python -m pytest                       # 317 tests; tests needing services, weights or data skip themselves if missing
 uvx ruff@0.17.5 check                            # lint
-cd frontend && npm run lint && npm run typecheck && npm test   # ESLint, tsc, 124 Vitest tests
+cd frontend && npm run lint && npm run typecheck && npm test   # ESLint, tsc, 129 Vitest tests
 cd frontend && npm run e2e                       # Playwright: the whole system in host mode must be running
 cd frontend && npm run e2e:demo                  # Playwright against the static demo build (no backend needed)
 .venv/bin/python scripts/e2e_api_smoke.py        # API-level end-to-end smoke test (7 cases incl. 3 liveness + 6 security checks)

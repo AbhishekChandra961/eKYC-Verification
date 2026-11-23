@@ -55,7 +55,8 @@ export function DashboardsPage({ basePath }: { basePath: string }) {
         </Tabs>
       </Box>
 
-      <Stack spacing={2} role="tabpanel" id={panelId} aria-labelledby={`dashboard-tab-${current}`} data-testid={`dashboard-${info.slug || 'operations'}`}>
+      <Stack key={current} className="ekyc-fade-up" spacing={2} role="tabpanel" id={panelId}
+        aria-labelledby={`dashboard-tab-${current}`} data-testid={`dashboard-${info.slug || 'operations'}`}>
         <Box>
           <Typography variant="h2">{info.title}</Typography>
           <Typography color="text.secondary" sx={{ mb: 1 }}>{info.intro}</Typography>

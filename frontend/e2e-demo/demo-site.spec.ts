@@ -139,3 +139,22 @@ test('officer: "Waiting" is shown at the time of recording, whatever today\'s da
   // recorded the same day as the run: seconds, minutes or hours, never the ~4.5 years to the fake "today"
   await expect(waiting).toHaveText(/^(\d+ s|\d+ min|\d+ h \d{2} min)$/)
 })
+
+test('keyboard focus is always visible (Phase 14 theme)', async ({ page }) => {
+  await page.goto('./')
+  const ring = async () => page.evaluate(() => {
+    const el = document.activeElement as HTMLElement | null
+    const style = el ? getComputedStyle(el) : null
+    return { tag: el?.tagName, text: el?.textContent?.trim().slice(0, 30), style: style?.outlineStyle, width: parseFloat(style?.outlineWidth ?? '0') }
+  })
+  const seen: string[] = []
+  for (let i = 0; i < 8; i++) { // tab through the first controls: each focused one draws a ring of 2 px or more
+    await page.keyboard.press('Tab')
+    const focused = await ring()
+    if (focused.tag === 'BODY') continue
+    expect(focused.style, `focus ring on ${focused.tag} "${focused.text}"`).not.toBe('none')
+    expect(focused.width).toBeGreaterThanOrEqual(2)
+    seen.push(focused.text ?? '')
+  }
+  expect(seen.some((t) => t.includes('Try as customer'))).toBe(true)
+})

@@ -9,6 +9,7 @@ import {
   TableContainer, TableHead, TableRow, Typography,
 } from '@mui/material'
 import { useId, useState, type ReactNode } from 'react'
+import { useTilt } from '../motion/useTilt'
 import { formatDataAsOf } from './format'
 import type { Filters } from './transforms'
 
@@ -24,8 +25,9 @@ export function DashboardMeta({ dataAsOf, synthetic }: { dataAsOf: string; synth
 }
 
 export function KpiTile({ label, value, detail }: { label: string; value: string; detail?: string }) {
+  const tilt = useTilt<HTMLDivElement>()
   return (
-    <Paper sx={{ p: 2, height: '100%' }} data-testid="kpi">
+    <Paper ref={tilt} className="ekyc-lift" sx={{ p: 2, height: '100%' }} data-testid="kpi">
       <Typography variant="body2" color="text.secondary" component="h3">{label}</Typography>
       <Typography sx={{ fontSize: '1.75rem', fontWeight: 650, color: 'primary.main', lineHeight: 1.3 }}>{value}</Typography>
       {detail && <Typography variant="caption" color="text.secondary">{detail}</Typography>}

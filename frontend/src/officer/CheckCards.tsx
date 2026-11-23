@@ -17,7 +17,7 @@ function Field({ label, children }: { label: string; children: ReactNode }) {
 export function CheckCard({ title, check, children }: { title: string; check: CheckOut | undefined; children: ReactNode }) {
   const status = check ? (CHECK_STATUS[check.status] ?? CHECK_STATUS.failed) : { label: 'Missing', tone: 'neutral' as const }
   return (
-    <Card component="section" aria-label={`${title} check`} sx={{ height: '100%' }}>
+    <Card component="section" aria-label={`${title} check`} className="ekyc-lift" sx={{ height: '100%' }}>
       <CardContent>
         <Stack direction="row" spacing={1} sx={{ justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
           <Typography variant="h3" component="h3">{title}</Typography>

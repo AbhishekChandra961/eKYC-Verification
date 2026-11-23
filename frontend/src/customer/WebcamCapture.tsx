@@ -6,6 +6,8 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import VideocamIcon from '@mui/icons-material/Videocam'
 import { Box, Button, Chip, CircularProgress, Stack, Typography } from '@mui/material'
 import { useCallback, useEffect, useRef, useState } from 'react'
+import { ProgressRing } from '../motion/ProgressRing'
+import { brand } from '../theme'
 import type { FaceFinder } from '../vision/faceDetector'
 import { cameraProblem, type CameraProblem } from './camera'
 import {
@@ -23,13 +25,23 @@ interface Props {
 
 type CameraState = 'idle' | 'starting' | 'live'
 type GuideState = 'loading' | 'ready' | 'unavailable'
-interface View { step: Step; problem: Problem | null; slow: boolean }
+// progress: display only (Phase 14), how close the current step is to its capture, 0-1: the "hold still" count for
+// the first pose, then how far the head has turned towards the turn the browser asks for
+interface View { step: Step; problem: Problem | null; slow: boolean; progress: number }
 
 const POSES: { pose: Pose; label: string }[] = [
   { pose: 'neutral', label: 'Look at the camera' }, { pose: 'left', label: 'Turn left' }, { pose: 'right', label: 'Turn right' },
 ]
 const DETECT_EVERY_MS = 100 // about 10 checks a second: enough for guidance, light on the CPU
-const START: View = { step: 'neutral', problem: null, slow: false }
+const START: View = { step: 'neutral', problem: null, slow: false, progress: 0 }
+
+/** View-only: how far the current step is towards its capture (rounded, so the view changes at most ~10 times). */
+function stepProgress(state: ChallengeState, yaw: number | null): number {
+  if (state.step === 'neutral') return Math.round((10 * state.streak) / GUIDE.neutralHold) / 10
+  if (state.step === 'done' || yaw === null || state.neutralYaw === null) return state.step === 'done' ? 1 : 0
+  const turn = state.step === 'left' ? yaw - state.neutralYaw : state.neutralYaw - yaw
+  return Math.round(10 * Math.max(0, Math.min(1, turn / GUIDE.turnDeg))) / 10
+}
 
 /** An unmirrored JPEG of the current video frame, at most `maxSide` px. */
 function grab(video: HTMLVideoElement, maxSide: number, quality: number): Promise<Blob | null> {
@@ -124,8 +136,9 @@ export function WebcamCapture({ onComplete, onProblem }: Props) {
       challenge.current = result.state
       if (result.capture) void keep(result.capture)
       const slow = now - result.state.stepStartedAt > GUIDE.stepTimeoutMs
-      setView((v) => (v.step === result.state.step && v.problem === problem && v.slow === slow ? v
-        : { step: result.state.step, problem, slow }))
+      const progress = stepProgress(result.state, yaw)
+      setView((v) => (v.step === result.state.step && v.problem === problem && v.slow === slow && v.progress === progress ? v
+        : { step: result.state.step, problem, slow, progress }))
     }
 
     import('../vision/faceDetector').then((m) => m.loadFaceFinder()).then((loaded) => {
@@ -171,7 +184,7 @@ export function WebcamCapture({ onComplete, onProblem }: Props) {
   function takeNow() { // the manual fallback: capture the current step's pose as it is
     const result = capture(challenge.current, lastYaw.current, performance.now())
     challenge.current = result.state
-    setView({ step: result.state.step, problem: null, slow: false })
+    setView({ step: result.state.step, problem: null, slow: false, progress: 0 })
     if (result.capture) void keep(result.capture)
   }
 
@@ -208,10 +221,13 @@ export function WebcamCapture({ onComplete, onProblem }: Props) {
       <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: 'wrap', justifyContent: 'center' }} aria-label="Camera steps">
         {POSES.map((p, i) => {
           const finished = view.step === 'done' || i < doneIndex
+          const current = p.pose === step && !finished
+          let icon = <RadioButtonUncheckedIcon />
+          if (finished) icon = <CheckCircleIcon className="ekyc-pop" />
+          else if (current) icon = <ProgressRing value={view.progress} color="#ffffff" track="rgba(255, 255, 255, 0.35)" />
           return (
-            <Chip key={p.pose} size="small" variant={p.pose === step && !finished ? 'filled' : 'outlined'}
-              color={finished ? 'success' : p.pose === step ? 'primary' : 'default'}
-              icon={finished ? <CheckCircleIcon /> : <RadioButtonUncheckedIcon />}
+            <Chip key={p.pose} size="small" variant={current ? 'filled' : 'outlined'}
+              color={finished ? 'success' : current ? 'primary' : 'default'} icon={icon}
               label={`${i + 1}. ${p.label}`} />
           )
         })}
@@ -219,18 +235,26 @@ export function WebcamCapture({ onComplete, onProblem }: Props) {
       <Box sx={{ position: 'relative', width: '100%', maxWidth: 560, borderRadius: 2, overflow: 'hidden', bgcolor: '#000' }}>
         <Box component="video" ref={videoRef} autoPlay playsInline muted aria-label="Camera preview"
           sx={{ display: 'block', width: '100%', transform: 'scaleX(-1)' }} />
-        {/* face guide: an oval to centre the face in; green when the frame is good */}
-        <Box component="svg" viewBox="0 0 100 75" preserveAspectRatio="none" aria-hidden
-          sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-          <ellipse cx="50" cy="37" rx="17" ry="27" fill="none" stroke={good ? '#0ca30c' : '#fff'}
-            strokeWidth={good ? 1.2 : 0.6} strokeDasharray={good ? undefined : '2 1.5'} />
+        {/* face guide: an oval to centre the face in. It pulses gently while it searches, and turns solid green with
+            a soft glow when the frame is good (Phase 14; static for reduced motion) */}
+        <Box component="svg" viewBox="0 0 100 75" preserveAspectRatio="none" aria-hidden data-guide={good ? 'good' : 'searching'}
+          sx={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none',
+            filter: good ? `drop-shadow(0 0 6px ${brand.good})` : 'none', transition: 'filter 300ms ease' }}>
+          <ellipse cx="50" cy="37" rx="17" ry="27" fill="none" stroke={good ? brand.good : '#fff'}
+            strokeWidth={good ? 1.2 : 0.6} strokeDasharray={good ? undefined : '2 1.5'}
+            style={{ transition: 'stroke 300ms ease, stroke-width 300ms ease',
+              animation: good ? 'none' : 'ekyc-pulse 1.6s ease-in-out infinite' }} />
         </Box>
       </Box>
       <Box role="status" aria-live="polite" sx={{ textAlign: 'center' }}>
         <Stack direction="row" spacing={1} sx={{ alignItems: 'center', justifyContent: 'center' }}>
-          {step === 'left' && <ArrowBackIcon color="primary" aria-hidden />}
+          {step === 'left' && view.step !== 'done' && (
+            <ArrowBackIcon color="primary" aria-hidden sx={{ animation: 'ekyc-nudge-left 1.2s ease-in-out infinite' }} />
+          )}
           <Typography variant="h3" component="p" data-testid="camera-prompt">{PROMPTS[view.step]}</Typography>
-          {step === 'right' && <ArrowForwardIcon color="primary" aria-hidden />}
+          {step === 'right' && view.step !== 'done' && (
+            <ArrowForwardIcon color="primary" aria-hidden sx={{ animation: 'ekyc-nudge-right 1.2s ease-in-out infinite' }} />
+          )}
         </Stack>
         <Typography variant="body2" color={blocking ? 'warning.main' : 'text.secondary'} data-testid="camera-hint">
           {hint}

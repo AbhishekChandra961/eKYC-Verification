@@ -14,6 +14,8 @@ import { messageOf } from '../api/client'
 import { useAuth } from '../auth/AuthContext'
 import { homeFor, type Role } from '../auth/session'
 import { BrandLogo } from '../components/BrandLogo'
+import { DotField } from '../motion/DotField'
+import { useTilt } from '../motion/useTilt'
 import { DemoAttribution } from './DemoBanner'
 import { DEMO_ACCOUNTS, DEMO_LINKS } from './config'
 
@@ -23,6 +25,12 @@ const ROLES: { role: Role; label: string; icon: ReactNode; text: string }[] = [
   { role: 'OFFICER', label: 'Try as officer', icon: <GavelIcon />,
     text: 'Work the review queue: forgery heatmaps, face match, extracted fields, reasons with evidence, audit trail.' },
 ]
+
+/** One of the two "Try as ..." cards: lifts and tilts slightly towards the mouse (Phase 14). */
+function RoleCard({ children }: { children: ReactNode }) {
+  const tilt = useTilt<HTMLDivElement>()
+  return <Paper ref={tilt} className="ekyc-lift" variant="outlined" sx={{ p: 2, height: '100%' }}>{children}</Paper>
+}
 
 function ResourceLink({ href, icon, label, detail }: { href: string; icon: ReactNode; label: string; detail: string }) {
   if (!href) { // a placeholder link in config.ts: say so instead of showing a broken link
@@ -65,8 +73,10 @@ export function DemoLoginPage() {
   }
 
   return (
-    <Box component="main" sx={{ display: 'grid', placeItems: 'center', p: 2, py: { xs: 3, sm: 6 }, bgcolor: 'background.default' }}>
-      <Paper sx={{ width: '100%', maxWidth: 880, p: { xs: 3, sm: 4 } }}>
+    <Box component="main" sx={{ position: 'relative', display: 'grid', placeItems: 'center', p: 2, py: { xs: 3, sm: 6 } }}>
+      <DotField />
+      <Paper className="ekyc-fade-up" sx={{ position: 'relative', zIndex: 1, width: '100%', maxWidth: 880, p: { xs: 3, sm: 4 },
+        backgroundColor: 'rgba(255, 255, 255, 0.94)', backdropFilter: 'blur(6px)' }}>
         <Stack spacing={3}>
           <BrandLogo />
           <Box>
@@ -81,7 +91,7 @@ export function DemoLoginPage() {
           <Grid container spacing={2}>
             {ROLES.map((r) => (
               <Grid key={r.role} size={{ xs: 12, sm: 6 }}>
-                <Paper variant="outlined" sx={{ p: 2, height: '100%' }}>
+                <RoleCard>
                   <Stack spacing={1.5} sx={{ height: '100%' }}>
                     <Typography sx={{ flexGrow: 1 }}>{r.text}</Typography>
                     <Button variant="contained" size="large" startIcon={r.icon} disabled={busy !== null}
@@ -89,7 +99,7 @@ export function DemoLoginPage() {
                       {busy === r.role ? 'Opening…' : r.label}
                     </Button>
                   </Stack>
-                </Paper>
+                </RoleCard>
               </Grid>
             ))}
           </Grid>

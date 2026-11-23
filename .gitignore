@@ -41,3 +41,4 @@ frontend/blob-report/
 # Phase 10: the model weights zip (published as a GitHub release asset, not committed) and demo-video footage
 release/
 reports/phase10/video/
+reports/phase14/video/

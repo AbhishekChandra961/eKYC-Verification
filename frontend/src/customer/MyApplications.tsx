@@ -26,7 +26,7 @@ export function MyApplications() {
   }, [])
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3} className="ekyc-fade-up">
       <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ justifyContent: 'space-between', alignItems: { sm: 'center' } }}>
         <Box>
           <Typography variant="h1" sx={{ mb: 0.5 }}>My applications</Typography>
