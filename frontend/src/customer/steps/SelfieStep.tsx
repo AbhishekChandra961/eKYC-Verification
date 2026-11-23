@@ -1,27 +1,31 @@
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ReplayIcon from '@mui/icons-material/Replay'
-import { Alert, Box, Button, Grid, Stack, Typography } from '@mui/material'
+import { Alert, Box, Button, Chip, Grid, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
 import { ImageDropzone } from '../ImageDropzone'
 import type { PickedImage } from '../usePickedImage'
-import { WebcamCapture } from '../WebcamCapture'
+import { WebcamCapture, type CameraFrames } from '../WebcamCapture'
 import { TipList } from './DocumentStep'
 
 const TIPS = [
   'Face the camera with a neutral expression and your eyes open.',
+  'When asked, turn your head slowly to the left, then to the right, and back.',
   'Stand in good light, with no strong light behind you.',
   'Remove sunglasses, hats and anything covering your face.',
-  'Make sure you are the only person in the photo.',
+  'Make sure you are the only person in the picture.',
 ]
 
 interface Props {
   picked: PickedImage | null
-  onCapture: (photo: Blob) => void
+  headTurns: boolean // the camera's head-turn photos were taken (Phase 13)
+  onCapture: (frames: CameraFrames) => void
   onFile: (file: File) => void
   onClear: () => void
 }
 
-/** Camera first; uploading a photo is the fallback (no camera, permission denied) and is always available. */
-export function SelfieStep({ picked, onCapture, onFile, onClear }: Props) {
+/** Camera first (the smart camera: guidance, then look / turn left / turn right); uploading a photo is the fallback
+ *  (no camera, permission denied) and is always available. */
+export function SelfieStep({ picked, headTurns, onCapture, onFile, onClear }: Props) {
   const [mode, setMode] = useState<'camera' | 'upload'>('camera')
   const [cameraMessage, setCameraMessage] = useState<string | null>(null)
 
@@ -37,13 +41,14 @@ export function SelfieStep({ picked, onCapture, onFile, onClear }: Props) {
       <Stack spacing={2} sx={{ alignItems: 'center' }}>
         <Box component="img" src={picked.url} alt="Your selfie"
           sx={{ width: '100%', maxWidth: 420, borderRadius: 2, boxShadow: 1 }} />
+        {headTurns && <Chip color="success" variant="outlined" icon={<CheckCircleIcon />} label="Head-turn photos taken" />}
         {picked.error && <Alert severity="error" role="alert">{picked.error}</Alert>}
         <Button variant="outlined" startIcon={<ReplayIcon />} onClick={retake}>Retake photo</Button>
       </Stack>
     )
   } else if (mode === 'camera') {
     body = (
-      <WebcamCapture onCapture={onCapture} onProblem={(problem) => {
+      <WebcamCapture onComplete={onCapture} onProblem={(problem) => {
         setCameraMessage(problem.message)
         setMode('upload')
       }} />

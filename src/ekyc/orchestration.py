@@ -58,8 +58,9 @@ class Orchestrator:
         if app["status"] != "SUBMITTED":
             return  # duplicate event: the checks were already started
         self._send(Topics.TASK_DOC, application_id, DocTask(document_key=payload.document_key))
-        self._send(Topics.TASK_FACE, application_id, FaceTask(document_key=payload.document_key,
-                                                              selfie_key=payload.selfie_key))
+        self._send(Topics.TASK_FACE, application_id, FaceTask(  # + the head-turn frames, if any (Phase 13)
+            document_key=payload.document_key, selfie_key=payload.selfie_key,
+            liveness_left_key=payload.liveness_left_key, liveness_right_key=payload.liveness_right_key))
         wait_delivered(self.producer, log)  # tasks stored in Kafka before the status says so
         store.move(self.db, application_id, "PROCESSING", ACTOR, "checks started: doc, face",
                    self._deadlines(["doc", "face"]))

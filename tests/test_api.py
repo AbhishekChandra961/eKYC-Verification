@@ -313,3 +313,61 @@ def test_officer_acts_only_on_cases_awaiting_an_officer(env):
     assert views[review]["status"] == "APPROVED"
     assert views[review]["message"] == "Your identity has been verified by our compliance team."
     assert views[retake]["status"] == "RESUBMIT_REQUESTED" and views[running]["status"] == "PROCESSING"
+
+
+# ------------------------------------------------------------------ Phase 13: head-turn frames for active liveness
+def turn_frames():
+    return {"liveness_left": ("left.jpg", jpeg(value=90), "image/jpeg"),
+            "liveness_right": ("right.jpg", jpeg(value=160), "image/jpeg")}
+
+
+def test_head_turn_frames_are_stored_and_published(env):
+    client, db, s3, producer = env
+    customer, officer = login(client, "CUSTOMER"), login(client, "OFFICER")
+    r = submit(client, customer, **turn_frames())
+    assert r.status_code == 202
+    app_id = r.json()["application_id"]
+    keys = {"left": f"{app_id}/liveness_left.jpg", "right": f"{app_id}/liveness_right.jpg"}
+    assert store.get_application(db, app_id)["liveness_keys"] == keys
+    assert set(s3.objects) == {f"{app_id}/document.jpg", f"{app_id}/selfie.jpg", *keys.values()}
+    (_, event), = producer.sent
+    assert event["payload"]["liveness_left_key"] == keys["left"] and event["payload"]["liveness_right_key"] == keys["right"]
+    case = client.get(f"/officer/cases/{app_id}", headers=officer).json()
+    assert case["application"]["liveness_keys"] == keys
+    assert case["images"]["liveness_left_url"].startswith(f"http://s3.test/{keys['left']}")
+    assert case["images"]["liveness_right_url"].startswith(f"http://s3.test/{keys['right']}")
+
+
+def test_photo_upload_has_no_head_turn_frames(env):
+    client, db, _, producer = env
+    customer, officer = login(client, "CUSTOMER"), login(client, "OFFICER")
+    app_id = submit(client, customer).json()["application_id"]
+    assert store.get_application(db, app_id)["liveness_keys"] is None
+    (_, event), = producer.sent
+    assert event["payload"]["liveness_left_key"] is None and event["payload"]["liveness_right_key"] is None
+    images = client.get(f"/officer/cases/{app_id}", headers=officer).json()["images"]
+    assert images["liveness_left_url"] is None and images["liveness_right_url"] is None
+
+
+@pytest.mark.parametrize("change, code", [
+    ({"liveness_left": turn_frames()["liveness_left"]}, 422),  # one turn frame without the other
+    ({"liveness_right": turn_frames()["liveness_right"]}, 422),
+    ({**turn_frames(), "liveness_left": ("l.gif", b"GIF89a....", "image/gif")}, 415),
+    ({**turn_frames(), "liveness_right": ("r.jpg", jpeg(size=(60, 60)), "image/jpeg")}, 422),  # too small
+])
+def test_head_turn_frame_validation(env, change, code):
+    client, _, s3, producer = env
+    assert submit(client, login(client, "CUSTOMER"), **change).status_code == code
+    assert s3.objects == {} and producer.sent == []  # nothing stored or published for a refused submission
+
+
+def test_a_client_side_liveness_verdict_is_ignored(env):
+    """The browser sends only images; a form field claiming the check passed changes nothing."""
+    client, db, _, producer = env
+    r = submit(client, login(client, "CUSTOMER"), data={"liveness": "passed", "liveness_result": "passed"})
+    assert r.status_code == 202
+    application = store.get_application(db, r.json()["application_id"])
+    assert application["liveness_keys"] is None and "liveness" not in application
+    payload = producer.sent[0][1]["payload"]
+    assert set(payload) == {"document_key", "selfie_key", "liveness_left_key", "liveness_right_key"}
+    assert payload["liveness_left_key"] is None and payload["liveness_right_key"] is None

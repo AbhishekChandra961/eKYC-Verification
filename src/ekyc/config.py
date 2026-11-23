@@ -97,6 +97,15 @@ YUNET_ONNX = FACE_MODEL_DIR / "face_detection_yunet_2023mar.onnx"
 SFACE_ONNX = FACE_MODEL_DIR / "face_recognition_sface_2021dec.onnx"
 FACE_MAX_FAR = 0.01  # thresholds allow at most 1 % false accepts: accepting an impostor is the costly KYC error
 
+# ---------------------------------------------------------------- active liveness (Phase 13)
+# The browser captures three frames (looking at the camera = the selfie, head turned to the customer's left, then
+# right); the face-worker checks them with YuNet landmarks and SFace (src/ekyc/liveness.py). Defaults below; each can
+# be overridden with an environment variable / .env entry of the same name prefixed EKYC_ (e.g.
+# EKYC_LIVENESS_MIN_TURN_DEG=25). The same-person threshold is the face check's own (models/face_config.json, 0.2597).
+LIVENESS_MIN_TURN_DEG = 20.0  # each turn, relative to the frame looking at the camera (a tilted flat photo: <= ~16)
+LIVENESS_MAX_NEUTRAL_YAW_DEG = 15.0  # the frame "looking at the camera" must be roughly frontal
+LIVENESS_NOSE_DEPTH = 0.5  # nose tip in front of the eyes/mouth, as a share of the eye distance (yaw formula)
+
 # ---------------------------------------------------------------- model weights release (Phase 10)
 # The trained models are ONE GitHub release asset (models/ is gitignored). scripts/build_model_release.py builds the
 # zip, scripts/download_models.py downloads it, checks the SHA-256 below and every file's line in the zip's

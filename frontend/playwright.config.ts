@@ -1,6 +1,8 @@
 // End-to-end test against the WHOLE running system (scripts/run_all.sh: API, orchestrator, workers, Ollama, Docker
-// infrastructure). Chromium only. Its fake webcam plays demo_samples/camera/genuine_1.y4m, so the webcam path is
-// tested with a face that matches the ID. Run: npm run e2e (after scripts/make_demo_samples.py).
+// infrastructure). Chromium only. Its fake webcam plays demo_samples/camera/genuine_1_head_turn.y4m (Phase 13: the
+// genuine_1 selfie looking at the camera, then SYNTHETICALLY turned left and right), so the smart camera, its head-turn
+// challenge and the server's liveness check are tested with a face that matches the ID.
+// Run: npm run e2e (after scripts/make_demo_samples.py).
 import { defineConfig, devices } from '@playwright/test'
 import path from 'node:path'
 
@@ -29,7 +31,7 @@ export default defineConfig({
       args: [
         '--use-fake-ui-for-media-stream',
         '--use-fake-device-for-media-stream',
-        `--use-file-for-fake-video-capture=${path.join(root, 'demo_samples', 'camera', 'genuine_1.y4m')}`,
+        `--use-file-for-fake-video-capture=${path.join(root, 'demo_samples', 'camera', 'genuine_1_head_turn.y4m')}`,
       ],
     },
   },

@@ -15,7 +15,7 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Generic, Literal, TypeVar
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from ekyc import config
 
@@ -38,7 +38,20 @@ class Topics:
 CheckType = Literal["doc", "forgery", "face", "extraction"]
 
 
-class SubmittedPayload(BaseModel):
+class _LivenessKeys(BaseModel):
+    """Phase 13: the S3 keys of the two head-turn frames (the selfie is the third, "looking at the camera" frame).
+    Both or neither: None = the customer uploaded a photo instead of using the camera (no liveness check)."""
+    liveness_left_key: str | None = Field(None, min_length=1)
+    liveness_right_key: str | None = Field(None, min_length=1)
+
+    @model_validator(mode="after")
+    def _both_or_neither(self):
+        if (self.liveness_left_key is None) != (self.liveness_right_key is None):
+            raise ValueError("liveness_left_key and liveness_right_key come together (or neither)")
+        return self
+
+
+class SubmittedPayload(_LivenessKeys):
     """api -> orchestrator: a new application. Only object keys: the applicant's name and date of birth stay in
     MongoDB (Kafka UI shows every message, so no personal data travels over Kafka)."""
     model_config = ConfigDict(extra="forbid")
@@ -67,7 +80,7 @@ class ForgeryTask(_Payload):
     document_key: str = Field(min_length=1)
 
 
-class FaceTask(_Payload):
+class FaceTask(_Payload, _LivenessKeys):
     document_key: str = Field(min_length=1)
     selfie_key: str = Field(min_length=1)
 

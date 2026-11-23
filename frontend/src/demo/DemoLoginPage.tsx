@@ -4,6 +4,7 @@ import CodeIcon from '@mui/icons-material/Code'
 import GavelIcon from '@mui/icons-material/Gavel'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutlined'
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutlined'
+import VideocamOutlinedIcon from '@mui/icons-material/VideocamOutlined'
 import {
   Alert, Box, Button, Divider, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Typography,
 } from '@mui/material'
@@ -100,6 +101,14 @@ export function DemoLoginPage() {
                 detail="Python microservices over Kafka, TensorFlow models, React frontend; how to run it locally" />
               <ResourceLink href={DEMO_LINKS.video} icon={<PlayCircleOutlineIcon />} label="Demo video"
                 detail="The full system running locally, end to end" />
+              <ListItem disablePadding>
+                {/* on this site (no login): the smart selfie camera, in the browser only */}
+                <ListItemButton component={RouterLink} to="/camera-check">
+                  <ListItemIcon><VideocamOutlinedIcon /></ListItemIcon>
+                  <ListItemText primary="Try the camera check"
+                    secondary="Face guidance and the head-turn challenge, in your browser: nothing is uploaded" />
+                </ListItemButton>
+              </ListItem>
               <ListItem disablePadding>
                 {/* on this site (no login): the analytics dashboards over the bundled batch snapshot */}
                 <ListItemButton component={RouterLink} to="/dashboards">

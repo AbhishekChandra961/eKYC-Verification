@@ -6,9 +6,16 @@ Synthetic SIDTD documents from the TEST split only (no real people):
   genuine_1..3  a genuine template + a simulated selfie of its own portrait  -> expected AUTO_APPROVED
   forged_1..2   a forged template (inpaint-and-rewrite) + a stranger's selfie  -> expected MANUAL_REVIEW (high)
   blank         an almost black image as the ID document                        -> expected RESUBMIT_REQUIRED
-plus README.md (what to type for each sample), manifest.json (the same, for the Playwright test) and
-camera/genuine_1.y4m: a "fake webcam" video for Chromium (--use-file-for-fake-video-capture), so the webcam path can
-be tested with a face that matches the ID.
+plus README.md (what to type for each sample), manifest.json (the same, for the Playwright test) and, for the smart
+selfie camera (Phase 13):
+  camera/genuine_1_head_turn.y4m  a "fake webcam" video for Chromium (--use-file-for-fake-video-capture): the genuine_1
+                                  selfie looking at the camera, then turned left, then right (looped), so the camera
+                                  path, its head-turn challenge and the server's liveness check can be tested with a
+                                  face that matches the ID. The turns are SYNTHETIC (ekyc.liveness_sim, +-25 degrees):
+                                  no real head-turn video of these synthetic faces exists.
+  genuine_1_camera_{neutral,left,right}.jpg  the same three frames as images (for scripts/e2e_api_smoke.py)
+  ../frontend/e2e-demo/fixtures/camera/{neutral,left,right}.jpg  the same frames, committed for the demo site's
+                                  Playwright test (CI has no SIDTD data; e2e-demo/fakeCamera.ts turns them into a video)
 
 How the genuine documents were chosen: test-split templates whose saved Phase 3 forgery score is below 0.6 and whose
 saved Phase 5 extraction passes every consistency rule and matches the true name and date of birth (73 of 147
@@ -29,9 +36,12 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 
-from ekyc import config, data, face, schemas
+from ekyc import config, data, face, liveness_sim, schemas
 
 OUT = config.PROJECT_ROOT / "demo_samples"
+E2E_DEMO_CAMERA = config.PROJECT_ROOT / "frontend" / "e2e-demo" / "fixtures" / "camera"
+HEAD_TURN_DEG = 35.0  # the fake webcam's synthetic turn: measured ~22 degrees in the browser (it asks for 20) and
+# +35 / -28 on the server (it needs 20), same-person similarity ~0.35 (needs 0.2597)
 GENUINE = ["srb_passport_16", "alb_id_81", "lva_passport_41"]
 FORGED = ["aze_passport_75_fake_3_39", "esp_id_14_fake_2_85"]
 STRANGER = "grc_passport_72"  # the "stranger" whose portrait becomes the selfie for the forged documents
@@ -64,21 +74,36 @@ def save_jpeg(array: np.ndarray, path: Path, quality: int = 92) -> None:
     Image.fromarray(array).save(path, format="JPEG", quality=quality)
 
 
-def write_y4m(selfie: np.ndarray, path: Path, frames: int = 5, size: tuple[int, int] = (640, 480)) -> None:
-    """A tiny Y4M video (I420): the selfie centred on a grey background, repeated. Chromium loops it as a webcam."""
+def camera_frame(selfie: np.ndarray, size: tuple[int, int] = (640, 480)) -> np.ndarray:
+    """What the fake webcam shows: the selfie centred on a grey background."""
     width, height = size
     canvas = Image.new("RGB", size, (128, 128, 128))
     photo = Image.fromarray(selfie)
     photo.thumbnail((width, height - 40))
     canvas.paste(photo, ((width - photo.width) // 2, (height - photo.height) // 2))
-    ycbcr = np.asarray(canvas.convert("YCbCr"))
-    y = ycbcr[:, :, 0]
-    u = ycbcr[::2, ::2, 1]  # 4:2:0 chroma subsampling
-    v = ycbcr[::2, ::2, 2]
+    return np.asarray(canvas)
+
+
+def head_turn_frames(frame: np.ndarray) -> dict[str, np.ndarray]:
+    """The frame looking at the camera, then with the head synthetically turned left and right (liveness_sim)."""
+    detector, recognizer = face.load_face_models()
+    _, info = face.detect_and_align(frame, detector, recognizer, pick="largest")
+    if info["landmarks"] is None:
+        raise SystemExit("no face found on the genuine_1 camera frame")
+    return {"neutral": frame, "left": liveness_sim.synthetic_head_turn(frame, info["landmarks"], HEAD_TURN_DEG),
+            "right": liveness_sim.synthetic_head_turn(frame, info["landmarks"], -HEAD_TURN_DEG)}
+
+
+def write_y4m(frames: list[np.ndarray], path: Path, fps: int = 5, seconds_each: float = 2.0) -> None:
+    """A Y4M video (I420): each frame held for `seconds_each`, in order. Chromium loops it as a webcam."""
+    height, width = frames[0].shape[:2]
     with path.open("wb") as handle:
-        handle.write(f"YUV4MPEG2 W{width} H{height} F30:1 Ip A1:1 C420jpeg\n".encode())
-        for _ in range(frames):
-            handle.write(b"FRAME\n" + y.tobytes() + u.tobytes() + v.tobytes())
+        handle.write(f"YUV4MPEG2 W{width} H{height} F{fps}:1 Ip A1:1 C420jpeg\n".encode())
+        for frame in frames:
+            ycbcr = np.asarray(Image.fromarray(frame).convert("YCbCr"))
+            planes = ycbcr[:, :, 0].tobytes() + ycbcr[::2, ::2, 1].tobytes() + ycbcr[::2, ::2, 2].tobytes()  # 4:2:0
+            for _ in range(round(fps * seconds_each)):
+                handle.write(b"FRAME\n" + planes)
 
 
 def main() -> None:
@@ -98,11 +123,18 @@ def main() -> None:
         selfie = selfie_jpeg(row["image_path"], doc_id, boxes, seed=i)
         save_jpeg(selfie, OUT / f"genuine_{i}_selfie.jpg")
         if i == 1:
-            write_y4m(selfie, OUT / "camera" / "genuine_1.y4m")
+            turns = head_turn_frames(camera_frame(selfie))
+            write_y4m([turns["neutral"], turns["left"], turns["right"]], OUT / "camera" / "genuine_1_head_turn.y4m")
+            E2E_DEMO_CAMERA.mkdir(parents=True, exist_ok=True)
+            for pose, frame in turns.items():
+                save_jpeg(frame, OUT / f"genuine_1_camera_{pose}.jpg")
+                save_jpeg(frame, E2E_DEMO_CAMERA / f"{pose}.jpg", quality=85)
         samples.append({"name": f"genuine_{i}", "id_image": f"genuine_{i}_id.jpg", "selfie": f"genuine_{i}_selfie.jpg",
                         "full_name": f"{t.given_names} {t.surname}",
                         "date_of_birth": schemas.parse_date(t.birth_date, "birth_date"),
-                        "document": f"{doc_id} (genuine {row['doc_type']})", "expected": "AUTO_APPROVED -> APPROVED (customer: Verified)"})
+                        "document": f"{doc_id} (genuine {row['doc_type']})",
+                        "expected": "with the camera's head-turn frames: AUTO_APPROVED -> APPROVED (customer: Verified); "
+                                    "with an uploaded photo: MANUAL_REVIEW, medium risk (no head-turn check)"})
 
     stranger = template(doc_id=STRANGER)
     stranger_selfie = selfie_jpeg(stranger["image_path"], STRANGER, boxes, seed=99)
@@ -125,18 +157,22 @@ def main() -> None:
     (OUT / "manifest.json").write_text(json.dumps(samples, indent=2, ensure_ascii=False) + "\n")
     lines = ["# Demo samples (synthetic SIDTD test documents, not real people)", "",
              "Generated by `scripts/make_demo_samples.py`. Not committed (gitignored).", "",
-             "Log in as the demo customer, click **Verify my identity**, type the name and date of birth below, upload "
-             "the ID image, and for the selfie choose **Upload a photo instead** (your own face will not match a "
-             "synthetic ID; it would go to manual review).", "",
+             "Log in as the demo customer, click **Verify my identity**, type the name and date of birth below and upload "
+             "the ID image. For the selfie, use the fake webcam below (your own face will not match a synthetic ID; it "
+             "would go to manual review), or choose **Upload a photo instead**.", "",
              "| Sample | ID image | Selfie | Full name to type | Date of birth | Expected |", "|---|---|---|---|---|---|"]
     lines += [f"| {s['name']} | `{s['id_image']}` | `{s['selfie']}` | {s['full_name']} | {s['date_of_birth']} | {s['expected']} |"
               for s in samples]
     lines += ["", "Documents: " + "; ".join(f"{s['name']} = {s['document']}" for s in samples), "",
               "## Webcam with a matching face (Chromium)", "",
-              "`camera/genuine_1.y4m` is a fake webcam showing the genuine_1 selfie. Start Chrome with:", "",
+              "`camera/genuine_1_head_turn.y4m` is a fake webcam: the genuine_1 selfie looking at the camera, then turned "
+              f"left, then right (a SYNTHETIC +-{HEAD_TURN_DEG:.0f} degree turn, looped every 6 s), so the smart camera's "
+              "head-turn challenge completes by itself and the server's liveness check passes. Start Chrome with:", "",
               "```bash", "open -na 'Google Chrome' --args --user-data-dir=/tmp/ekyc-demo-chrome "
               "--use-fake-ui-for-media-stream --use-fake-device-for-media-stream "
-              f"--use-file-for-fake-video-capture={OUT / 'camera' / 'genuine_1.y4m'} http://localhost:5173", "```", ""]
+              f"--use-file-for-fake-video-capture={OUT / 'camera' / 'genuine_1_head_turn.y4m'} http://localhost:5173",
+              "```", "", "Uploading a photo instead works too, but then there is no head-turn check, and even a genuine "
+              "sample goes to a medium-risk manual review (Phase 13).", ""]
     (OUT / "README.md").write_text("\n".join(lines))
     print(f"wrote {len(list(OUT.rglob('*')))} files to {OUT.relative_to(config.PROJECT_ROOT)}/")
     for s in samples:

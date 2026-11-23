@@ -3,11 +3,16 @@
     .venv/bin/python scripts/e2e_api_smoke.py                 # results: reports/phase7/e2e_api_results.json
     .venv/bin/python scripts/e2e_api_smoke.py --results reports/phase9/e2e_api_containers.json
 
-As the demo CUSTOMER: submit four applications and follow each one over Server-Sent Events until it is decided:
-  1. a genuine test passport + a simulated selfie of its own portrait + the right name/DOB  -> AUTO_APPROVED (APPROVED)
-  2. a forged test passport + a stranger's selfie                                           -> MANUAL_REVIEW high (DECIDED)
+As the demo CUSTOMER: submit seven applications (in waves of three) and follow each over Server-Sent Events until decided:
+  1. a genuine test passport + a simulated selfie of its own portrait + the right name/DOB, with the camera's two
+     head-turn frames (Phase 13; SYNTHETIC turns of that selfie, ekyc.liveness_sim)          -> AUTO_APPROVED (APPROVED)
+  2. a forged test passport + a stranger's selfie (uploaded photo)                           -> MANUAL_REVIEW high (DECIDED)
   3. a blank (black) image as the ID document                        -> RESUBMIT_REQUIRED (RESUBMIT_REQUESTED)
   4. the genuine passport of case 1 with a wrong date of birth                              -> MANUAL_REVIEW (DECIDED)
+  Phase 13, active liveness (the genuine passport and selfie of case 1 each time):
+  5. a photo uploaded instead of the camera (no head-turn frames)    -> MANUAL_REVIEW medium, liveness_not_provided
+  6. a static photo: the selfie three times (no head turn)           -> RESUBMIT_REQUIRED, liveness_failed
+  7. head-turn frames of ANOTHER person (the stranger, turned)       -> MANUAL_REVIEW high, liveness_different_person
 As the demo OFFICER: list the queue (the forged case on top), open it, reject it with a reason, show its audit trail.
 Security: customer -> officer endpoint (403), another customer's application (404), invalid/expired token (401).
 
@@ -32,12 +37,13 @@ import pandas as pd
 from dotenv import dotenv_values
 from PIL import Image
 
-from ekyc import config, data, face, schemas, security, store
+from ekyc import config, data, face, liveness_sim, schemas, security, store
 
 API = os.environ.get("EKYC_API_URL", "http://127.0.0.1:8000")
 ENV = dotenv_values(config.PROJECT_ROOT / ".env")
 FINAL = ("DECIDED", "APPROVED", "REJECTED", "RESUBMIT_REQUESTED")  # the SSE stream ends at these (Phase 9 lifecycle)
 EXPECTED_STATUS = {"AUTO_APPROVED": "APPROVED", "MANUAL_REVIEW": "DECIDED", "RESUBMIT_REQUIRED": "RESUBMIT_REQUESTED"}
+WAVE = 3  # applications submitted together (see the submission loop)
 GENUINE = "srb_passport_04"  # test split: the genuine applicant (cases 1, 3, 4)
 FORGED = "aze_passport_75_fake_3_39"  # test split: an inpaint-and-rewrite forgery (case 2)
 STRANGER = "lva_passport_09"  # test split: the stranger whose portrait becomes the fraudster's selfie (case 2)
@@ -54,6 +60,14 @@ def selfie_of(image_path: str, doc_id: str, seed: int, boxes: pd.DataFrame) -> b
         page = np.asarray(image.convert("RGB"))
     crop = face.crop_with_margin(page, boxes.loc[doc_id, ["x", "y", "w", "h"]].to_numpy())
     return jpeg_bytes(face.simulate_selfie(crop, np.random.default_rng(seed))[0])
+
+
+def head_turns(selfie: bytes, degrees: float = 30.0) -> tuple[bytes, bytes]:
+    """The selfie with the head SYNTHETICALLY turned left and right (liveness_sim): what the camera would capture."""
+    rgb = np.asarray(Image.open(io.BytesIO(selfie)).convert("RGB"))
+    detector, recognizer = face.load_face_models()
+    _, info = face.detect_and_align(rgb, detector, recognizer)
+    return tuple(jpeg_bytes(liveness_sim.synthetic_head_turn(rgb, info["landmarks"], d)) for d in (degrees, -degrees))
 
 
 def login(client: httpx.Client, email: str, password: str) -> dict:
@@ -108,25 +122,44 @@ def main() -> int:
     wrong_dob = (date.fromisoformat(genuine_dob) + timedelta(days=400)).isoformat()
     genuine_doc = (config.PROJECT_ROOT / genuine.image_path).read_bytes()
     genuine_selfie = selfie_of(genuine.image_path, genuine.doc_id, seed=1, boxes=boxes)
+    stranger_selfie = selfie_of(stranger.image_path, stranger.doc_id, seed=2, boxes=boxes)
+    turns = head_turns(genuine_selfie)  # Phase 13: what the camera sends besides the selfie
+    # (name, document, selfie, head-turn frames or None, full name, date of birth, outcome, risk, a reason code it needs)
     cases = [
-        ("1 genuine + own selfie", genuine_doc, genuine_selfie, genuine_name, genuine_dob, "AUTO_APPROVED"),
-        ("2 forged + stranger", (config.PROJECT_ROOT / forged.image_path).read_bytes(),
-         selfie_of(stranger.image_path, stranger.doc_id, seed=2, boxes=boxes), f"{f.given_names} {f.surname}",
-         schemas.parse_date(f.birth_date, "birth_date"), "MANUAL_REVIEW"),
-        ("3 blank image", jpeg_bytes(np.full((630, 1000, 3), 4, np.uint8)), genuine_selfie, genuine_name, genuine_dob,
-         "RESUBMIT_REQUIRED"),
-        ("4 genuine, wrong DOB", genuine_doc, genuine_selfie, genuine_name, wrong_dob, "MANUAL_REVIEW"),
+        ("1 genuine + own selfie + head turns", genuine_doc, genuine_selfie, turns, genuine_name, genuine_dob,
+         "AUTO_APPROVED", "low", None),
+        ("2 forged + stranger", (config.PROJECT_ROOT / forged.image_path).read_bytes(), stranger_selfie, None,
+         f"{f.given_names} {f.surname}", schemas.parse_date(f.birth_date, "birth_date"), "MANUAL_REVIEW", "high", None),
+        ("3 blank image", jpeg_bytes(np.full((630, 1000, 3), 4, np.uint8)), genuine_selfie, turns, genuine_name,
+         genuine_dob, "RESUBMIT_REQUIRED", None, "image_unreadable"),
+        ("4 genuine, wrong DOB", genuine_doc, genuine_selfie, turns, genuine_name, wrong_dob, "MANUAL_REVIEW", "high",
+         "dob_mismatch"),
+        ("5 genuine, photo uploaded", genuine_doc, genuine_selfie, None, genuine_name, genuine_dob, "MANUAL_REVIEW",
+         "medium", "liveness_not_provided"),
+        ("6 genuine, static photo", genuine_doc, genuine_selfie, (genuine_selfie, genuine_selfie), genuine_name,
+         genuine_dob, "RESUBMIT_REQUIRED", None, "liveness_failed"),
+        ("7 genuine, turns of another person", genuine_doc, genuine_selfie, head_turns(stranger_selfie), genuine_name,
+         genuine_dob, "MANUAL_REVIEW", "high", "liveness_different_person"),
     ]
 
-    # ---- submit all four, then follow them in parallel
+    # ---- submit in waves of WAVE, following each wave's applications in parallel until they are decided: one local
+    # LLM and one forgery worker take applications one at a time, and seven at once overran their check deadlines
+    # (forgery 60 s, extraction 180 s) on this 16 GB laptop (Phase 13 run: timeouts, then review, as designed)
     submitted, timelines, threads = [], {}, []
-    for name, doc, selfie, full_name, dob, expected in cases:
+    for i, (name, doc, selfie, frames, full_name, dob, *expected) in enumerate(cases):
+        if i and i % WAVE == 0:
+            for thread in threads:
+                thread.join(timeout=600)
         started = time.perf_counter()
+        files = {"id_image": ("id.jpg", doc, "image/jpeg"), "selfie": ("selfie.jpg", selfie, "image/jpeg")}
+        if frames:
+            files |= {"liveness_left": ("left.jpg", frames[0], "image/jpeg"),
+                      "liveness_right": ("right.jpg", frames[1], "image/jpeg")}
         r = client.post("/applications", headers=customer, data={"full_name": full_name, "date_of_birth": dob},
-                        files={"id_image": ("id.jpg", doc, "image/jpeg"), "selfie": ("selfie.jpg", selfie, "image/jpeg")})
+                        files=files)
         assert r.status_code == 202, r.text
         app_id = r.json()["application_id"]
-        submitted.append((name, app_id, expected, started))
+        submitted.append((name, app_id, tuple(expected), started))
         thread = threading.Thread(target=follow, args=(app_id, customer, started, timelines))
         thread.start()
         threads.append(thread)
@@ -135,14 +168,19 @@ def main() -> int:
         thread.join(timeout=600)
 
     rows = []
-    for name, app_id, expected, _ in submitted:
+    for name, app_id, (expected, risk, needed_code), _ in submitted:
         detail = client.get(f"/officer/cases/{app_id}", headers=officer).json()
         d = detail["decision"] or {}
         timeline = timelines.get(app_id, [])
         status = detail["application"]["status"]
+        codes = [r["code"] for r in d.get("reasons", [])]
+        live = ((detail["checks"].get("face") or {}).get("outputs") or {}).get("liveness") or {}
         rows.append({"case": name, "application_id": app_id, "outcome": d.get("outcome"), "status": status,
-                     "risk": d.get("risk_level"), "score": d.get("risk_score"), "expected": expected,
-                     "ok": d.get("outcome") == expected and status == EXPECTED_STATUS[expected],
+                     "risk": d.get("risk_level"), "score": d.get("risk_score"), "expected": f"{expected} {risk or ''}",
+                     "ok": (d.get("outcome") == expected and status == EXPECTED_STATUS[expected]
+                            and d.get("risk_level") == risk and (needed_code is None or needed_code in codes)),
+                     "liveness": live.get("status"), "turns": live.get("turn_deg"),
+                     "same person": live.get("same_person_cosine"),
                      "seconds to decision": timeline[-1][0] if timeline else None,
                      "statuses seen (SSE)": " > ".join(s for _, s, _ in timeline),
                      "reasons": [f"[{r['effect']}] {r['code']}" for r in d.get("reasons", [])],
@@ -154,7 +192,8 @@ def main() -> int:
                         "statuses seen (SSE)"]]
           .to_string(index=False))
     for row in rows:
-        print(f"\n{row['case']}: {row['reasons']}\n   worker latency (ms): {row['latency per check ms']}")
+        print(f"\n{row['case']}: {row['reasons']}\n   liveness: {row['liveness']} turns {row['turns']} "
+              f"same person {row['same person']}\n   worker latency (ms): {row['latency per check ms']}")
 
     # ---- officer: queue, case, rejection, audit trail
     ours = {app_id for _, app_id, _, _ in submitted}
@@ -165,7 +204,7 @@ def main() -> int:
         print(f"   {c['application_id']}  {c['outcome']:<17} risk {c['risk_level']!s:<6} score {c['risk_score']}  {c['reason_codes']}")
     forged_id = submitted[1][1]
     detail = client.get(f"/officer/cases/{forged_id}", headers=officer).json()
-    image = httpx.get(detail["images"]["document_url"], timeout=10)
+    image = httpx.get(detail["images"]["document_url"], timeout=60)  # the S3 store can be slow under memory pressure
     print(f"\ncase {forged_id}: top forgery tile {detail['forgery_top_tile']}; presigned document URL -> HTTP "
           f"{image.status_code}, {len(image.content)} bytes; summary: {detail['summary'][:160]}...")
     reject = client.post(f"/officer/cases/{forged_id}/decision", headers=officer,

@@ -29,7 +29,8 @@ POLICY = decision.Policy(doc_min_confidence=0.77, forgery_review=0.729, forgery_
 APPLICANT = {"full_name": "Krsto Velimirovic", "date_of_birth": "1974-08-15"}
 GOOD = {
     "doc": {"doc_type": "srb_passport", "confidence": 0.99, "blank": False},
-    "face": {"score": 0.92, "band": "match", "selfie_face": {"faces": 1}},
+    "face": {"score": 0.92, "band": "match", "selfie_face": {"faces": 1},
+             "liveness": {"status": "passed", "failures": [], "turn_deg": {"left": 28.0, "right": -27.0}}},
     "forgery": {"score": 0.40, "band": "pass"},
     "extraction": {"fields": {"surname": "VELIMIROVIĆ", "given_names": "KRSTO", "birth_date": "15.08.1974",
                               "expiry_date": "12.08.2030"}, "flags": []},
@@ -74,6 +75,18 @@ def setup():
 def result(check, outputs=None, status="ok"):
     return CheckResult(check_type=check, status=status, outputs=outputs if outputs is not None else GOOD[check],
                        latency_ms=10, task_event_id=uuid.uuid4(), worker=f"{check}-worker")
+
+
+def test_head_turn_frames_reach_the_face_task(setup):
+    """Phase 13: the orchestrator passes the two head-turn frame keys on to the face-worker (the others need none)."""
+    orch, _, producer, _, app_id = setup
+    orch.on_submitted(app_id, SubmittedPayload(document_key="k/doc.jpg", selfie_key="k/selfie.jpg",
+                                               liveness_left_key="k/liveness_left.jpg",
+                                               liveness_right_key="k/liveness_right.jpg"))
+    face_task = [e for t, e in producer.sent if t == Topics.TASK_FACE][0]["payload"]
+    assert (face_task["liveness_left_key"], face_task["liveness_right_key"]) == ("k/liveness_left.jpg", "k/liveness_right.jpg")
+    doc_task = [e for t, e in producer.sent if t == Topics.TASK_DOC][0]["payload"]
+    assert set(doc_task) == {"document_key"}
 
 
 def test_full_flow_with_duplicates(setup):

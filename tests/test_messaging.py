@@ -38,6 +38,20 @@ def test_invalid_events_are_rejected(change, payload_type):
         parse_event(json.dumps(data), payload_type)
 
 
+def test_head_turn_frame_keys_come_together():
+    """Phase 13: both head-turn frame keys or neither (None = photo uploaded); older events without them still parse."""
+    both = FaceTask(document_key="d", selfie_key="s", liveness_left_key="l", liveness_right_key="r")
+    assert parse_event(events.to_json(make_event("app-1", both)), FaceTask).payload.liveness_right_key == "r"
+    assert FaceTask(document_key="d", selfie_key="s").liveness_left_key is None
+    with pytest.raises(ValidationError):
+        FaceTask(document_key="d", selfie_key="s", liveness_left_key="l")
+    with pytest.raises(ValidationError):
+        events.SubmittedPayload(document_key="d", selfie_key="s", liveness_right_key="r")
+    old = {"event_id": str(uuid.uuid4()), "application_id": "app-1", "event_type": "task.face", "schema_version": 1,
+           "created_at": "2026-11-18T08:00:00Z", "payload": {"document_key": "d", "selfie_key": "s"}}  # before Phase 13
+    assert parse_event(json.dumps(old), FaceTask).payload.liveness_left_key is None
+
+
 def test_extraction_task_needs_a_known_doc_type():
     assert ExtractionTask(document_key="k", doc_type="srb_passport").doc_type == "srb_passport"
     with pytest.raises(ValidationError):

@@ -166,3 +166,35 @@ def test_ollama_memory_guard_without_ps(monkeypatch):
         raise FileNotFoundError("ps")
     monkeypatch.setattr(inference.subprocess, "run", no_ps)
     assert inference.ollama_runner_mb() == 0.0
+
+
+@needs_data
+@pytest.mark.models
+@pytest.mark.data
+@pytest.mark.skipif(not config.SFACE_ONNX.exists(), reason="face models not downloaded")
+def test_face_verifier_liveness_on_simulated_frames():
+    """Phase 13, with the real YuNet + SFace: a synthetic left/right head turn of one SIDTD portrait passes, three
+    identical frames (a static photo) fail, no turn frames = not provided. The verdict comes from the images alone."""
+    from ekyc import face, liveness_sim
+
+    m = pd.read_csv(MANIFEST)
+    row = m[(m["source"] == "template") & (m["label"] == 0) & (m["split"] == "test")].iloc[0]
+    box = pd.read_csv(config.FIELDS_GT_CSV).query("field_name == 'photo' and doc_id == @row.doc_id")[["x", "y", "w", "h"]].iloc[0]
+    page = np.asarray(Image.open(config.PROJECT_ROOT / row.image_path).convert("RGB"))
+    portrait = face.crop_with_margin(page, box.to_numpy(), margin=0.4)
+    verifier = inference.FaceVerifier()
+    _, info = face.detect_and_align(portrait, verifier.detector, verifier.recognizer)
+
+    def jpeg(array):
+        buffer = io.BytesIO()
+        Image.fromarray(array).save(buffer, "JPEG", quality=90)
+        return buffer.getvalue()
+
+    neutral = jpeg(portrait)
+    left, right = (jpeg(liveness_sim.synthetic_head_turn(portrait, info["landmarks"], d)) for d in (28, -28))
+    passed = verifier.liveness(neutral, left, right)
+    assert passed["status"] == "passed", passed
+    assert passed["turn_deg"]["left"] >= 20 and passed["turn_deg"]["right"] <= -20
+    static = verifier.liveness(neutral, neutral, neutral)
+    assert static["status"] == "failed" and static["failures"] == ["no_left_turn", "no_right_turn"]
+    assert verifier.liveness(neutral, None, None) == {"status": "not_provided"}

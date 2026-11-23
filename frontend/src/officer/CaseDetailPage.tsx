@@ -15,6 +15,7 @@ import { DecisionDialog } from './DecisionDialog'
 import { DecisionPanel, SummaryPanel } from './DecisionPanel'
 import { ExtractionPanel } from './ExtractionPanel'
 import { ForgeryHeatmap } from './ForgeryHeatmap'
+import { LivenessPanel } from './LivenessPanel'
 import { RISK, docTypeLabel, statusLabel } from './labels'
 import { ToneChip } from './ToneChip'
 
@@ -113,6 +114,8 @@ export function CaseDetailPage() {
             </CardContent>
           </Card>
         </Grid>
+
+        <Grid size={{ xs: 12 }}><LivenessPanel check={checks.face} images={detail.images} /></Grid>
 
         <Grid size={{ xs: 12, md: 6 }}><DecisionPanel detail={detail} /></Grid>
         <Grid size={{ xs: 12, md: 6 }}><SummaryPanel detail={detail} /></Grid>

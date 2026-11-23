@@ -36,6 +36,7 @@ export function KycWizard() {
   const [submitError, setSubmitError] = useState<string | null>(null)
   const documentImage = usePickedImage('document')
   const selfieImage = usePickedImage('selfie')
+  const [headTurns, setHeadTurns] = useState<{ left: Blob; right: Blob } | null>(null) // camera only (Phase 13)
   const headingRef = useRef<HTMLHeadingElement>(null)
 
   useEffect(() => { headingRef.current?.focus() }, [step]) // screen readers announce the new step
@@ -79,7 +80,7 @@ export function KycWizard() {
     setSubmitError(null)
     try {
       const created = await api.submitApplication({ fullName: details.fullName.trim(), dateOfBirth: details.dateOfBirth,
-        idImage: documentImage.picked.blob, selfie: selfieImage.picked.blob })
+        idImage: documentImage.picked.blob, selfie: selfieImage.picked.blob, headTurns: headTurns ?? undefined })
       navigate(`/customer/applications/${created.application_id}`)
     } catch (err) {
       setSubmitError(messageOf(err))
@@ -112,9 +113,13 @@ export function KycWizard() {
             onFile={(file) => void documentImage.pick(file, file.name)} />
         ))}
         {step === 2 && (__DEMO_MODE__ ? <DemoImageStep kind="selfie" picked={selfieImage.picked} /> : (
-          <SelfieStep picked={selfieImage.picked} onClear={selfieImage.clear}
-            onCapture={(photo) => void selfieImage.pick(photo, 'Camera photo')}
-            onFile={(file) => void selfieImage.pick(file, file.name)} />
+          <SelfieStep picked={selfieImage.picked} headTurns={headTurns !== null}
+            onClear={() => { selfieImage.clear(); setHeadTurns(null) }}
+            onCapture={(frames) => {
+              void selfieImage.pick(frames.neutral, 'Camera photo')
+              setHeadTurns({ left: frames.left, right: frames.right })
+            }}
+            onFile={(file) => { void selfieImage.pick(file, file.name); setHeadTurns(null) }} />
         ))}
         {step === 3 && documentImage.picked && selfieImage.picked && (
           <ReviewStep details={details} documentUrl={documentImage.picked.url} selfieUrl={selfieImage.picked.url}
