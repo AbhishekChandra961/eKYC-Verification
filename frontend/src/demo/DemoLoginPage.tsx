@@ -8,7 +8,7 @@ import {
   Alert, Box, Button, Divider, Grid, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper, Stack, Typography,
 } from '@mui/material'
 import { useState, type ReactNode } from 'react'
-import { Navigate, useNavigate } from 'react-router'
+import { Navigate, Link as RouterLink, useNavigate } from 'react-router'
 import { messageOf } from '../api/client'
 import { useAuth } from '../auth/AuthContext'
 import { homeFor, type Role } from '../auth/session'
@@ -100,8 +100,14 @@ export function DemoLoginPage() {
                 detail="Python microservices over Kafka, TensorFlow models, React frontend; how to run it locally" />
               <ResourceLink href={DEMO_LINKS.video} icon={<PlayCircleOutlineIcon />} label="Demo video"
                 detail="The full system running locally, end to end" />
-              <ResourceLink href={DEMO_LINKS.dashboards} icon={<BarChartIcon />} label="Tableau dashboards"
-                detail="Outcomes, latency and model performance over a 150-application batch" />
+              <ListItem disablePadding>
+                {/* on this site (no login): the analytics dashboards over the bundled batch snapshot */}
+                <ListItemButton component={RouterLink} to="/dashboards">
+                  <ListItemIcon><BarChartIcon /></ListItemIcon>
+                  <ListItemText primary="Dashboards"
+                    secondary="Operations, risk & fraud and model performance over a 150-application batch" />
+                </ListItemButton>
+              </ListItem>
               <ResourceLink href={DEMO_LINKS.report} icon={<ArticleOutlinedIcon />} label="Project report (PDF)"
                 detail="Data, models, evaluation, architecture, limitations and ethics" />
             </List>

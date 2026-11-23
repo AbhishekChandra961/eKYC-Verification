@@ -1,6 +1,7 @@
-"""Export tidy, PII-free CSVs for the Tableau dashboard (Phase 9) to dashboard/data/.
+"""Export tidy, PII-free CSVs for the dashboards (Phase 9) to dashboard/data/.
 
-    .venv/bin/python scripts/export_dashboard_data.py
+    .venv/bin/python scripts/export_dashboard_data.py          # the simulated batch only (the default)
+    .venv/bin/python scripts/export_dashboard_data.py --all    # every application in MongoDB
 
 Reads MongoDB (applications, check_results, audit_log), the batch ground truth (data/processed/batch/
 ground_truth.csv, written by scripts/simulate_batch.py) and the saved model metrics in reports/. Writes:
@@ -12,6 +13,24 @@ ground_truth.csv, written by scripts/simulate_batch.py) and the saved model metr
   officer_actions.csv  one row per officer decision (action, waiting time, system risk, ground truth)
   model_metrics.csv    the offline model evaluations (doc classifier, forgery v1/v2/v3, face, extraction)
 
+and, for the "Quick path" of dashboard/TABLEAU_GUIDE.md, one pre-joined file per dashboard in dashboard/data/tableau/
+(friendly column names, the guide's calculated fields already computed as columns; built only from the five tables
+above, so they cannot contain anything those do not):
+
+  operations.csv         one row per application (KPIs, funnel, outcomes by document type, latency, queue age)
+  risk_fraud.csv         one row per decision reason, application-level numbers on each case's first row only
+  model_performance.csv  model_metrics.csv plus the chart each row belongs to
+
+The in-app dashboards (Phase 12) read these three files: scripts/export_dashboard_snapshot.py bundles them with the
+frontend (frontend/src/dashboards/snapshot.json). Run it after every export.
+
+WHICH APPLICATIONS: by default only the simulated batch (the applications in the ground-truth file), so the numbers
+match reports/phase9/batch_summary.md. MongoDB also holds test runs (end-to-end and smoke tests, the demo-site
+recordings); --all includes them, marked "not_in_batch". Without a ground-truth file every application is exported.
+
+WAITING TIMES (queue_age_min) are measured at the latest event recorded in the exported data, not at the time of the
+export: re-exporting unchanged data gives identical files, and old waiting cases do not grow older with every export.
+
 PRIVACY (Tableau Public publishes everything publicly): no names, dates of birth, document numbers, customer or user
 ids, S3 keys, free-text officer reasons or extracted fields. Application ids are replaced by pseudonyms (C0001...,
 numbered by submission time, a new mapping per export that is not saved anywhere); officers become officer_1...
@@ -21,6 +40,7 @@ All the data is synthetic (SIDTD test templates and simulated selfies).
 
 from __future__ import annotations
 
+import argparse
 import json
 from datetime import datetime, timezone
 
@@ -29,6 +49,7 @@ import pandas as pd
 from ekyc import config, store
 
 OUT = config.PROJECT_ROOT / "dashboard" / "data"
+TABLEAU_OUT = OUT / "tableau"
 TRUTH_CSV = config.PROCESSED_DIR / "batch" / "ground_truth.csv"
 CHECKS = ("doc", "face", "forgery", "extraction")
 DOC_TYPE_LABELS = {"alb_id": "Albanian ID card", "aze_passport": "Azerbaijani passport", "esp_id": "Spanish ID card",
@@ -92,8 +113,20 @@ def check_score_and_band(check_type: str, check: dict) -> tuple[float | None, st
     return float(len(flags)), "strong_flag" if strong else "review_flag" if flags else "all_rules_pass"
 
 
-def export_operations(db, truth: pd.DataFrame, exported_at: datetime) -> dict[str, pd.DataFrame]:
+def latest_event(apps: list[dict], audit_by_app: dict[str, list]):
+    """The newest moment recorded for these applications (a submission or any status change in the audit log).
+    Waiting times are measured up to it (module docstring: WAITING TIMES)."""
+    times = [a["created_at"] for a in apps]
+    times += [entry["at"] for a in apps for entry in audit_by_app.get(a["application_id"], [])]
+    return max(times) if times else datetime.now(timezone.utc)
+
+
+def export_operations(db, truth: pd.DataFrame, batch_only: bool = True) -> tuple[dict[str, pd.DataFrame], datetime]:
+    """The four operational tables, and the moment the waiting times are measured at (latest_event)."""
     apps = sorted(db.applications.find({}, projection={"_id": False, "applicant": False}), key=lambda a: a["created_at"])
+    if batch_only and len(truth):  # leave out test runs (no ground truth); before numbering, so the batch is C0001...
+        batch = set(truth["application_id"])
+        apps = [a for a in apps if a["application_id"] in batch]
     pseudonym = {a["application_id"]: f"C{i:04d}" for i, a in enumerate(apps, start=1)}
     checks_by_app: dict[str, dict] = {}
     for c in db.check_results.find({}, projection={"_id": False}):
@@ -101,6 +134,7 @@ def export_operations(db, truth: pd.DataFrame, exported_at: datetime) -> dict[st
     audit_by_app: dict[str, list] = {}
     for entry in db.audit_log.find({}, projection={"_id": False}).sort("at", 1):
         audit_by_app.setdefault(entry["application_id"], []).append(entry)
+    as_of = latest_event(apps, audit_by_app)
     officers: dict[str, str] = {}
     truth_by_id = truth.set_index("application_id") if len(truth) else pd.DataFrame()
 
@@ -124,7 +158,7 @@ def export_operations(db, truth: pd.DataFrame, exported_at: datetime) -> dict[st
             "officer_wait_min": (round(seconds_between(d.get("decided_at"), od.get("at")) / 60, 1)
                                  if od and d.get("decided_at") else None),
             "awaiting_officer": a["status"] == "DECIDED",
-            "queue_age_min": (round(seconds_between(d.get("decided_at"), exported_at) / 60, 1)
+            "queue_age_min": (round(seconds_between(d.get("decided_at"), as_of) / 60, 1)
                               if a["status"] == "DECIDED" and d.get("decided_at") else None),
             "in_batch": t is not None,
         }
@@ -155,7 +189,7 @@ def export_operations(db, truth: pd.DataFrame, exported_at: datetime) -> dict[st
                             "truth_scenario": row["truth_scenario"]})
     return {"applications": pd.DataFrame(applications), "reasons": pd.DataFrame(reasons, columns=COLUMNS["reasons"]),
             "checks": pd.DataFrame(checks, columns=COLUMNS["checks"]),
-            "officer_actions": pd.DataFrame(actions, columns=COLUMNS["officer_actions"])}
+            "officer_actions": pd.DataFrame(actions, columns=COLUMNS["officer_actions"])}, as_of
 
 
 def export_model_metrics() -> pd.DataFrame:
@@ -249,22 +283,216 @@ def export_model_metrics() -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+# ---- Quick path: one pre-joined, Tableau-ready file per dashboard (dashboard/TABLEAU_GUIDE.md, "Quick path") ----
+# Friendly values for the codes, so that charts and legends read well without renaming anything in Tableau.
+OUTCOME_LABELS = {"AUTO_APPROVED": "Auto-approved", "MANUAL_REVIEW": "Manual review",
+                  "RESUBMIT_REQUIRED": "Resubmit required", "(pending)": "Pending"}
+RISK_LABELS = {"high": "High", "medium": "Medium", "low": "Low", "none": "None (resubmit)", "(pending)": "Pending"}
+OFFICER_LABELS = {"approve": "Approved", "reject": "Rejected", "none": "No officer decision"}
+TRUTH_CLASS_LABELS = {"legitimate": "Legitimate", "fraud_or_mismatch": "Fraud or mismatch",
+                      "unusable": "Unusable image", "not_in_batch": "No ground truth"}
+SCENARIO_LABELS = {"genuine": "Genuine", "genuine_wrong_details": "Genuine, wrong details typed",
+                   "stranger_selfie": "Genuine, stranger's selfie", "forged_own_selfie": "Forged, own selfie",
+                   "forged_stranger": "Forged, stranger's selfie", "unreadable": "Unusable image",
+                   "not_in_batch": "No ground truth"}
+EFFECT_LABELS = {"high": "High", "medium": "Medium", "resubmit": "Resubmit", "info": "Info only"}
+RAISED_BY = {"doc": "Document classifier", "face": "Face match", "forgery": "Forgery detector",
+             "extraction": "Field extraction", "applicant": "Typed details"}
+CHECK_LABELS = {"doc": "Doc", "face": "Face", "forgery": "Forgery", "extraction": "Extraction"}
+NO_REASON = "No reason"
+CHARTS = {  # model_performance.csv "Used in chart": the sheet filters of TABLEAU_GUIDE.md §6, as one column
+    "Forgery story": ("Forgery detector", "val",
+                      {"document PR-AUC", "localisation (heat on the edit)", "position-matched control AUC (~0.5 = no cue)"}),
+    "Face verification": ("Face verification", "LFW test", {"ROC-AUC", "TAR at FAR 1 %", "equal error rate"}),
+}
+WHOLE_NUMBER_COLUMNS = ("Applications", "Cases with this reason", "Risk score band", "Version order")
+
+
+def friendly(code, labels: dict):
+    """A code's friendly label; an unknown code is kept as it is (never dropped), an empty cell stays empty."""
+    return None if code is None or pd.isna(code) else labels.get(code, code)
+
+
+def yes_no(condition: bool, applies: bool = True) -> int | None:
+    """A (0/1) column: 1 = yes, 0 = no, empty = does not apply. Its average is a rate, its sum a count (Tableau's
+    AVG and SUM skip empty cells, so e.g. a rate among frauds only needs the column to be empty for non-frauds)."""
+    return (1 if condition else 0) if applies else None
+
+
+def seconds(ms) -> float | None:
+    return None if ms is None or pd.isna(ms) else round(ms / 1000, 2)
+
+
+def outcome_label(final_status: str, system_outcome: str) -> str:
+    """TABLEAU_GUIDE.md §2.1 "Outcome (readable)": one label per final state."""
+    if final_status == "APPROVED":
+        return "Auto-approved" if system_outcome == "AUTO_APPROVED" else "Approved by officer"
+    return {"REJECTED": "Rejected by officer", "DECIDED": "Awaiting officer",
+            "RESUBMIT_REQUESTED": "Retake requested"}.get(final_status, "In progress")
+
+
+def system_vs_truth(truth_class: str, system_outcome: str) -> str:
+    """TABLEAU_GUIDE.md §2.1 "System vs truth": what the system decided, against what was really submitted."""
+    if truth_class == "legitimate":
+        return {"AUTO_APPROVED": "Correct: approved", "MANUAL_REVIEW": "False alarm: sent to review"}.get(
+            system_outcome, "Legitimate, asked to resubmit")
+    if truth_class == "fraud_or_mismatch":
+        return {"AUTO_APPROVED": "Missed: auto-approved", "MANUAL_REVIEW": "Caught: sent to review"}.get(
+            system_outcome, "Caught: asked to resubmit")
+    if truth_class == "unusable":
+        return "Correct: resubmit" if system_outcome == "RESUBMIT_REQUIRED" else "Unusable, not sent back"
+    return "No ground truth"
+
+
+def whole_numbers(rows: list[dict]) -> pd.DataFrame:
+    """The rows as a table; counts and (0/1) columns as whole numbers with empty cells (plain pandas writes 1.0)."""
+    table = pd.DataFrame(rows)
+    for column in table.columns:
+        if column.endswith("(0/1)") or column.startswith("Funnel ") or column in WHOLE_NUMBER_COLUMNS:
+            table[column] = table[column].astype("Int64")
+    return table
+
+
+def tableau_operations(apps: pd.DataFrame, as_of: str) -> pd.DataFrame:
+    """operations.csv (dashboard 1, Operations): one row per application, so every sum and average counts each
+    application once. Replaces the relationship of applications.csv and checks.csv: the check latencies are columns."""
+    rows = []
+    for a in apps.to_dict("records"):
+        outcome, action = a["system_outcome"], a["officer_action"]
+        rows.append({
+            "Case": a["case_id"], "Submitted (UTC)": a["submitted_at"],
+            "Decided by the system (UTC)": a["decided_at"], "Closed (UTC)": a["closed_at"],
+            "Document type": a["doc_type_label"], "System outcome": friendly(outcome, OUTCOME_LABELS),
+            "Outcome": outcome_label(a["final_status"], outcome), "Risk level": friendly(a["risk_level"], RISK_LABELS),
+            "Scenario (truth)": friendly(a["truth_scenario"], SCENARIO_LABELS),
+            "Officer decision": friendly(action, OFFICER_LABELS),
+            "Applications": 1,
+            "Auto-approved (0/1)": yes_no(outcome == "AUTO_APPROVED"),
+            "Manual review (0/1)": yes_no(outcome == "MANUAL_REVIEW"),
+            "Resubmit required (0/1)": yes_no(outcome == "RESUBMIT_REQUIRED"),
+            "Time to decision (s)": a["time_to_decision_s"],
+            **{f"{label} check (s)": seconds(a[f"{check}_latency_ms"]) for check, label in CHECK_LABELS.items()},
+            "Funnel 1 Submitted": 1,
+            "Funnel 2 Decided by the system": yes_no(outcome != "(pending)"),
+            "Funnel 3 Sent to an officer": yes_no(outcome == "MANUAL_REVIEW"),
+            "Funnel 4 Decided by an officer": yes_no(action != "none"),
+            "Funnel 5 Rejected by an officer": yes_no(action == "reject"),
+            "Officer wait (min)": a["officer_wait_min"],
+            "Waiting for an officer (0/1)": yes_no(a["awaiting_officer"]),
+            "Queue age (min)": a["queue_age_min"],
+            "Data as of (UTC)": as_of,  # the moment the queue ages are measured at (latest_event)
+        })
+    return whole_numbers(rows)
+
+
+def tableau_risk_fraud(apps: pd.DataFrame, reasons: pd.DataFrame) -> pd.DataFrame:
+    """risk_fraud.csv (dashboard 2, Risk & fraud): one row per decision reason, plus one "No reason" row for a case
+    without any, so that no case is lost. A case's labels repeat on all its rows (every filter works on every row);
+    its numbers sit on its FIRST row only, so SUM and AVG count each application once, however many reasons it has.
+    Count reasons with "Cases with this reason". The officer decision is per case (at most one), so it is a case number."""
+    reasons_by_case = {case: group.to_dict("records") for case, group in reasons.groupby("case_id", sort=False)}
+    rows = []
+    for a in apps.to_dict("records"):
+        outcome, truth_class, action = a["system_outcome"], a["truth_class"], a["officer_action"]
+        by_officer = action in ("approve", "reject")
+        has_truth = truth_class in ("legitimate", "fraud_or_mismatch", "unusable")
+        labels = {  # repeated on every row of the case
+            "Case": a["case_id"], "Submitted (UTC)": a["submitted_at"], "Document type": a["doc_type_label"],
+            "System outcome": friendly(outcome, OUTCOME_LABELS), "Outcome": outcome_label(a["final_status"], outcome),
+            "Risk level": friendly(a["risk_level"], RISK_LABELS),
+            "Risk score band": None if pd.isna(a["risk_score"]) else int(a["risk_score"] // 10 * 10),
+            "Truth class": friendly(truth_class, TRUTH_CLASS_LABELS),
+            "Scenario (truth)": friendly(a["truth_scenario"], SCENARIO_LABELS),
+            "Forgery method (truth)": a["truth_forgery_type"],
+            "System vs truth": system_vs_truth(truth_class, outcome),
+            "Officer decision": friendly(action, OFFICER_LABELS),
+        }
+        numbers = {  # the case's first row only
+            "Applications": 1, "Risk score": a["risk_score"],
+            "Fraud caught (0/1)": yes_no(outcome != "AUTO_APPROVED", applies=truth_class == "fraud_or_mismatch"),
+            "Missed fraud (0/1)": yes_no(outcome == "AUTO_APPROVED", applies=truth_class == "fraud_or_mismatch"),
+            "False alarm (0/1)": yes_no(outcome == "MANUAL_REVIEW", applies=truth_class == "legitimate"),
+            "Officer confirmed the flag (0/1)": yes_no(action == "reject", applies=by_officer),
+            "Officer agrees with truth (0/1)": yes_no((action == "reject") == (truth_class != "legitimate"),
+                                                     applies=by_officer and has_truth),
+        }
+        for i, r in enumerate(reasons_by_case.get(a["case_id"]) or [None]):
+            reason = ({"Reason": r["reason_label"], "Reason effect": friendly(r["effect"], EFFECT_LABELS),
+                       "Raised by": friendly(r["check_type"], RAISED_BY), "Cases with this reason": 1} if r else
+                      {"Reason": NO_REASON, "Reason effect": None, "Raised by": None, "Cases with this reason": None})
+            rows.append({**labels, **reason, **(numbers if i == 0 else dict.fromkeys(numbers))})
+    return whole_numbers(rows)
+
+
+def chart_of(metric: dict) -> str:
+    if metric["split"] == "test (per field)":
+        return "Extraction per field"
+    for chart, (model, split, names) in CHARTS.items():
+        if metric["model"] == model and metric["split"] == split and metric["metric"] in names:
+            return chart
+    return "Metrics table only"
+
+
+def tableau_model_performance(metrics: pd.DataFrame) -> pd.DataFrame:
+    """model_performance.csv (dashboard 3): model_metrics.csv with friendly names, the per-field extraction metrics
+    split into Field and Match type, and the chart each row is drawn in (instead of three filters per sheet)."""
+    rows = []
+    for m in metrics.to_dict("records"):
+        per_field = m["split"] == "test (per field)"
+        match_type, _, field = m["metric"].partition(": ")  # "exact: surname" -> "exact", "surname"
+        rows.append({"Model": m["model"], "Version": m["version"], "Version order": m["version_order"],
+                     "Split": m["split"], "Metric": m["metric"], "Value": m["value"], "Used in chart": chart_of(m),
+                     "Field": field if per_field else None, "Match type": match_type.capitalize() if per_field else None,
+                     "Note": m["note"] or None, "Source": m["source"]})
+    return whole_numbers(rows)
+
+
+def tableau_tables(tables: dict[str, pd.DataFrame], as_of: str) -> dict[str, pd.DataFrame]:
+    """The three quick-path files, built only from the five exported (PII-free) tables."""
+    return {"operations": tableau_operations(tables["applications"], as_of),
+            "risk_fraud": tableau_risk_fraud(tables["applications"], tables["reasons"]),
+            "model_performance": tableau_model_performance(tables["model_metrics"])}
+
+
 FORBIDDEN_COLUMNS = ("name", "birth", "dob", "customer", "user", "email", "document_key", "selfie_key",
                      "document_number", "application_id", "officer_id")
 
 
-def main() -> None:
-    exported_at = datetime.now(timezone.utc)
-    truth = pd.read_csv(TRUTH_CSV, keep_default_na=False) if TRUTH_CSV.exists() else pd.DataFrame()
-    tables = export_operations(store.connect(), truth, exported_at)
-    tables["model_metrics"] = export_model_metrics()
-    OUT.mkdir(parents=True, exist_ok=True)
+def pii_like_columns(table: pd.DataFrame) -> list[str]:
+    """Column names that look like personal data (friendly names are read with spaces as underscores)."""
+    return [c for c in table.columns if any(word in c.lower().replace(" ", "_") for word in FORBIDDEN_COLUMNS)]
+
+
+def write(folder, tables: dict[str, pd.DataFrame], show_columns: bool = False) -> None:
+    for name, table in tables.items():  # check everything before writing anything
+        if leaked := pii_like_columns(table):
+            raise RuntimeError(f"{name}: PII-like columns {leaked}")
+    folder.mkdir(parents=True, exist_ok=True)
     for name, table in tables.items():
-        leaked = [c for c in table.columns if any(word in c.lower() for word in FORBIDDEN_COLUMNS)]
-        assert not leaked, f"{name}: PII-like columns {leaked}"
-        table.to_csv(OUT / f"{name}.csv", index=False)
-        print(f"  dashboard/data/{name}.csv  {len(table):>4} rows x {len(table.columns)} columns")
-    print(f"exported at {iso(exported_at)} UTC (queue ages are measured at this time)")
+        table.to_csv(folder / f"{name}.csv", index=False)
+        path = (folder / f"{name}.csv").relative_to(config.PROJECT_ROOT)
+        print(f"  {str(path):<44} {len(table):>4} rows x {len(table.columns)} columns")
+        if show_columns:
+            print("      " + " | ".join(table.columns))
+
+
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description="Export PII-free CSVs for the dashboards.")
+    parser.add_argument("--all", action="store_true", help="also export the applications without ground truth "
+                        "(end-to-end and smoke tests, demo-site recordings, manual submissions)")
+    args = parser.parse_args(argv)
+    truth = pd.read_csv(TRUTH_CSV, keep_default_na=False) if TRUTH_CSV.exists() else pd.DataFrame()
+    if not len(truth):
+        print(f"no ground truth ({TRUTH_CSV.relative_to(config.PROJECT_ROOT)}): exporting every application")
+    db = store.connect()
+    tables, as_of = export_operations(db, truth, batch_only=not args.all)
+    tables["model_metrics"] = export_model_metrics()
+    write(OUT, tables)
+    write(TABLEAU_OUT, tableau_tables(tables, iso(as_of)), show_columns=True)
+    left_out = db.applications.count_documents({}) - len(tables["applications"])
+    print(f"{len(tables['applications'])} applications exported"
+          + (f", {left_out} without ground truth left out (--all includes them)" if left_out else ""))
+    print(f"waiting times measured at {iso(as_of)} UTC (the latest recorded event)")
 
 
 if __name__ == "__main__":

@@ -1,8 +1,8 @@
 # GitHub Pages (Phase 11): builds the static demo site (the frontend in demo mode: replays of real pipeline runs, no
 # backend), tests it in a browser, and publishes it at https://abhishekchandra961.github.io/eKYC-Verification/
 # on every push to main. One-time setup: repository Settings -> Pages -> Build and deployment -> Source: GitHub Actions.
-# The demo links (video, dashboards) can be set without code changes as repository variables (Settings -> Secrets and
-# variables -> Actions -> Variables): DEMO_VIDEO_URL, DEMO_DASHBOARDS_URL.
+# The demo video link can be set without code changes as a repository variable (Settings -> Secrets and variables ->
+# Actions -> Variables): DEMO_VIDEO_URL. The dashboards are part of the site (#/dashboards, Phase 12).
 
 name: Pages
 
@@ -28,7 +28,6 @@ jobs:
         working-directory: frontend
     env:
       VITE_DEMO_VIDEO_URL: ${{ vars.DEMO_VIDEO_URL }}
-      VITE_DEMO_DASHBOARDS_URL: ${{ vars.DEMO_DASHBOARDS_URL }}
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
@@ -38,7 +37,7 @@ jobs:
           cache-dependency-path: frontend/package-lock.json
       - name: Install (exactly package-lock.json)
         run: npm ci --no-audit --no-fund
-      - name: Unit tests (Vitest, incl. the demo client and its fixtures)
+      - name: Unit tests (Vitest, incl. the demo client, its fixtures and the dashboard numbers)
         run: npm test
       - name: Browser for the end-to-end test (Chromium headless shell)
         run: npx playwright install --with-deps --only-shell chromium

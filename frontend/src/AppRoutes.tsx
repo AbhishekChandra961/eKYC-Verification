@@ -15,11 +15,15 @@ const KycWizard = lazy(() => import('./customer/KycWizard').then((m) => ({ defau
 const StatusPage = lazy(() => import('./customer/StatusPage').then((m) => ({ default: m.StatusPage })))
 const CaseQueue = lazy(() => import('./officer/CaseQueue').then((m) => ({ default: m.CaseQueue })))
 const CaseDetailPage = lazy(() => import('./officer/CaseDetailPage').then((m) => ({ default: m.CaseDetailPage })))
+// the analytics dashboards (Phase 12): their chart library and data load only when a dashboard is opened
+const DashboardsPage = lazy(() => import('./dashboards/DashboardsPage').then((m) => ({ default: m.DashboardsPage })))
+
+const loading = <LinearProgress aria-label="Loading the page" />
 
 function Portal({ allow }: { allow: 'CUSTOMER' | 'OFFICER' }) {
   return (
     <RequireRole allow={allow}>
-      <Suspense fallback={<LinearProgress aria-label="Loading the page" />}><Outlet /></Suspense>
+      <Suspense fallback={loading}><Outlet /></Suspense>
     </RequireRole>
   )
 }
@@ -35,7 +39,8 @@ export function AppRouter({ children }: { children: ReactNode }) {
   return __DEMO_MODE__ ? <HashRouter>{children}</HashRouter> : <BrowserRouter>{children}</BrowserRouter>
 }
 
-/** Two portals in one app: /customer/* for customers and /officer/* for compliance officers. */
+/** Two portals in one app: /customer/* for customers and /officer/* for compliance officers (with the analytics
+ *  dashboards at /officer/analytics). The demo site also serves the dashboards publicly at /dashboards. */
 export function AppRoutes() {
   return (
     <Routes>
@@ -51,7 +56,13 @@ export function AppRoutes() {
         <Route path="officer" element={<Portal allow="OFFICER" />}>
           <Route index element={<CaseQueue />} />
           <Route path="cases/:applicationId" element={<CaseDetailPage />} />
+          <Route path="analytics/:tab?" element={<DashboardsPage basePath="/officer/analytics" />} />
         </Route>
+        {/* demo site only: the dashboards are public (no login), linked from the landing page */}
+        {__DEMO_MODE__ && (
+          <Route path="dashboards/:tab?"
+            element={<Suspense fallback={loading}><DashboardsPage basePath="/dashboards" /></Suspense>} />
+        )}
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

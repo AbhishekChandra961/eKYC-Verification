@@ -37,7 +37,8 @@ test('landing page: banner, one-click logins and project links', async ({ page, 
   await expect(page.getByTestId('demo-banner')).toContainText(BANNER)
   await expect(page.getByRole('link', { name: /Source code on GitHub/ })).toHaveAttribute('href', /github\.com/)
   await expect(page.getByRole('link', { name: /Project report/ })).toBeVisible()
-  await expect(page.getByText('Coming soon')).toHaveCount(2) // video and dashboards: placeholders until published
+  await expect(page.getByRole('link', { name: /^Dashboards/ })).toHaveAttribute('href', /#\/dashboards$/) // on this site
+  await expect(page.getByText('Coming soon')).toHaveCount(1) // the video: a placeholder until published
   await expect(page.getByText(/CC BY-SA 4\.0/)).toBeVisible()
   await shot(page, '01_demo_landing')
   expect(outside).toEqual([])

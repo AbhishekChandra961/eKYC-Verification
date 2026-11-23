@@ -257,6 +257,7 @@ store.update_one({"application_id": app, "check_type": result.check_type},
 scripts/run_all.sh                                    # or: docker compose --profile app up -d
 .venv/bin/python scripts/simulate_batch.py --new      # ~150 applications through the API, ~1.5 h; resumable
 .venv/bin/python scripts/export_dashboard_data.py     # tidy, PII-free CSVs -> dashboard/data/
+.venv/bin/python scripts/export_dashboard_snapshot.py # -> frontend/src/dashboards/snapshot.json (the in-app dashboards)
 ```
 
 - **The batch:** `simulate_batch.py` mixes genuine, forged, impostor, wrong-detail and unreadable submissions
@@ -264,8 +265,10 @@ scripts/run_all.sh                                    # or: docker compose --pro
 - **The simulated officer** then decides about 70 % of the manual-review cases.
 - **Ground truth:** `data/processed/batch/ground_truth.csv` (local, no names or DOBs).
 - **Results:** `reports/phase9/batch_summary.md`.
-- **Dashboard docs:** `dashboard/DATA_DICTIONARY.md` (every column) and `dashboard/TABLEAU_GUIDE.md` (building the
-  three dashboards).
+- **Dashboards:**
+  - built into the frontend (Phase 12: the officer portal's *Analytics* tab, and public on the demo site);
+  - `dashboard/DATA_DICTIONARY.md` documents every column;
+  - `dashboard/TABLEAU_GUIDE.md` is optional: the same three dashboards in Tableau Public.
 
 ## Docker (Phase 9)
 

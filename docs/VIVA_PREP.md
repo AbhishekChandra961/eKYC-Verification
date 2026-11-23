@@ -24,6 +24,7 @@ out loud. Every number matches `reports/` and the [project report](report/REPORT
 8. [Decision engine and risk](#8-decision-engine-and-risk)
 9. [Security and privacy](#9-security-and-privacy)
 10. [Limitations and future work](#10-limitations-and-future-work)
+11. [Analytics dashboards](#11-analytics-dashboards)
 
 **The 30-second pitch:** "A digital KYC prototype with four independent AI checks:
 - document type;
@@ -408,3 +409,35 @@ batch, at the cost of sending a third of legitimate applications to review."
 1. A **dedicated MRZ OCR**: it removes most false alarms (the given-names rule caused 10 of 27).
 2. **Forgery training on phone photos and recaptures**, plus more Crop_and_Replace examples.
 3. **Real selfie-ID calibration** for the face threshold, and a liveness check.
+
+## 11. Analytics dashboards
+
+**Q51. Why build the dashboards in the app instead of Tableau?**
+- **Reproducible:** Tableau Desktop is GUI-only. Its workbook format is undocumented (a generated workbook was
+  rejected), so the dashboards could not be built from code. Power BI Desktop runs only on Windows.
+- **Tested:** in the app, the dashboards are code. Tests check their numbers on every push, and they deploy with the
+  demo site.
+- **The Tableau path still exists:** the CSVs and `dashboard/TABLEAU_GUIDE.md` remain as an optional extra.
+- **The library: MUI X Charts.**
+  - It is from the MUI team, for the MUI version the app uses, so it shares the theme.
+  - Legends, tooltips and keyboard navigation are built in.
+  - It loads only when a dashboard opens: a 132 KB gzipped chunk; other pages are unchanged.
+
+**Q52. How do you avoid double counting?**
+- **The problem:** `risk_fraud.csv` has **one row per decision reason**, and a case can have several reasons.
+- **The rule:** a case's own numbers (applications, risk score, the 0/1 columns) sit on its **first row only**. Every
+  case-level chart (the risk-score histogram, system vs truth, the KPIs) uses those rows (`caseRows()`).
+- **Reasons** are counted as **distinct cases** per reason.
+- **Tested:** a unit test builds a case with three reasons and checks that it counts once; on the real data the
+  histogram sums to 150, not to the 260 rows.
+
+**Q53. How do you know the dashboard numbers are right?**
+- **Same functions:** a **Vitest self-check** computes the headline numbers from the bundled snapshot with the same
+  functions the charts use.
+- **Compared with the report:** it checks them against `reports/phase9/batch_summary.json`. 150 applications,
+  auto-approval 32.7 %, manual review 62.7 %, resubmit 4.7 %, 67/68 caught, 27 false alarms, and the whole
+  confusion table.
+- **Snapshot in sync:** a pytest test fails if the snapshot is out of date with the CSVs.
+- **Rates** are averages of pre-computed 0/1 columns, where empty means "does not apply". For example, the catch rate
+  averages over the 68 frauds only.
+- **Percentiles** use the same interpolation as numpy and pandas.

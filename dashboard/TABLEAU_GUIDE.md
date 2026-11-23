@@ -1,5 +1,9 @@
 # Building the eKYC dashboard in Tableau Public (step by step)
 
+> **Optional since Phase 12.** The three dashboards are built into the app: the officer portal's *Analytics* tab, and
+> public on the demo site at `#/dashboards`. They are drawn from the same CSVs (see `frontend/README.md`, *Analytics
+> dashboards*). This guide remains for anyone who wants the same dashboards in Tableau Public.
+
 This guide assumes you have never used Tableau. You build three dashboards from the CSV files in `dashboard/data/`:
 
 1. **Operations:** how much work the system does, and how fast.
@@ -20,7 +24,12 @@ This guide assumes you have never used Tableau. You build three dashboards from 
    ```
 
    It writes `applications.csv`, `reasons.csv`, `checks.csv`, `officer_actions.csv` and `model_metrics.csv` to
-   `dashboard/data/`. `DATA_DICTIONARY.md` explains every column.
+   `dashboard/data/`, and the three pre-joined files of the [Quick path](#quick-path-three-ready-made-files) to
+   `dashboard/data/tableau/`. `DATA_DICTIONARY.md` explains every column.
+   - **Only the simulated batch is exported** (the applications with ground truth), so the numbers match
+     `reports/phase9/batch_summary.md`. MongoDB also holds test runs (end-to-end and smoke tests, the demo-site
+     recordings); `--all` adds them, marked `not_in_batch`.
+   - **Waiting times** are measured at the latest event recorded in the data, so a re-export gives the same numbers.
 2. **Install Tableau Public** (free): <https://public.tableau.com/app/discover> → *Create* → *Download Tableau
    Public*. Create a free Tableau Public account (you need it to save).
 3. **Vocabulary you will meet:**
@@ -33,6 +42,67 @@ This guide assumes you have never used Tableau. You build three dashboards from 
 **Field names.** Tableau may show `system_outcome` as **System Outcome**: it replaces underscores and capitalises.
 The formulas below use the CSV names. When you type a formula, type `[` and pick the field from the list that
 appears, and Tableau inserts the name exactly as it shows it.
+
+## Quick path: three ready-made files
+
+To build the dashboards faster, skip §1 and §2. `dashboard/data/tableau/` has **one pre-joined file per dashboard**:
+readable column names and values (*Auto-approved*, *High*, …), and the calculated fields of §2 already computed as
+columns. They are built only from the five files above, so they are just as PII-free.
+
+| File | Dashboard | One row per |
+|---|---|---|
+| `operations.csv` | 1 Operations | application (the check latencies are columns) |
+| `risk_fraud.csv` | 2 Risk & fraud | decision reason (a *No reason* row for a case without any) |
+| `model_performance.csv` | 3 Model performance | metric, as in `model_metrics.csv` |
+
+1. **Connect:** *Text file* → `tableau/operations.csv`, then **Data → New Data Source** for each of the other two:
+   three separate data sources, no relationships. Check that the `(UTC)` columns are *Date & Time*.
+2. **Three rules replace the formulas:**
+   - **`Applications` is 1 per application,** so SUM(`Applications`) counts applications.
+   - **A `(0/1)` column** holds 1 = yes, 0 = no, empty = does not apply.
+     - Its **Average** is the rate: right-click the pill → **Measure → Average**, then format it as a percentage.
+       Empty cells are skipped, so e.g. `Fraud caught (0/1)` averages over frauds only.
+     - Its **Sum** counts the *yes* cases.
+   - **`risk_fraud.csv` has a row per reason,** so a case's numbers (`Applications`, `Risk score`, the `(0/1)`
+     columns) sit on its **first row only**. SUM and AVG then still count each application once. Count reasons with
+     `Cases with this reason`.
+3. **Build the sheets of §4-§6 with these fields instead of the formulas.** The colours (§3), the layouts and
+   publishing (§7) do not change.
+
+   | §2 calculated field | Quick-path field |
+   |---|---|
+   | Applications | SUM(`Applications`) |
+   | Auto-approval, Manual-review, Resubmit rate | AVG of `Auto-approved (0/1)`, `Manual review (0/1)`, `Resubmit required (0/1)` |
+   | Median time to decision (s) | MEDIAN(`Time to decision (s)`) |
+   | Waiting for an officer; Oldest waiting case | SUM(`Waiting for an officer (0/1)`); MAX(`Queue age (min)`) |
+   | Latency (s); p95 latency (s) | `Doc check (s)` … `Extraction check (s)` with **Measure → Median**; **Measure → Percentile → 95** |
+   | Funnel 1-5 | SUM of `Funnel 1 Submitted` … `Funnel 5 Rejected by an officer` |
+   | Outcome (readable); System vs truth | `Outcome`; `System vs truth` (risk_fraud) |
+   | Fraud catch rate; Missed frauds; False-alarm rate | AVG(`Fraud caught (0/1)`); SUM(`Missed fraud (0/1)`); AVG(`False alarm (0/1)`) |
+   | Flag confirmed by officer; Officer agrees with truth | AVG(`Officer confirmed the flag (0/1)`); AVG(`Officer agrees with truth (0/1)`) |
+   | `risk_score (bin)` | `Risk score band` (0, 10, … 100): on Columns, right-click the pill → **Dimension**, then **Discrete** |
+   | Field; Match type; Value | `Field`; `Match type`; AVG(`Value`) |
+
+4. **Sheets that change slightly:**
+   - **Latency per check:**
+     1. Rows: **Measure Names**. Columns: **Measure Values**.
+     2. On the *Measure Values* card, keep only the four `… check (s)` fields and set each to **Measure → Median**.
+     3. For the 95th percentile, duplicate the sheet and choose **Percentile → 95** (Measure Values cannot take a
+        dual axis).
+   - **Queue age:**
+     1. Filter `Outcome` = *Awaiting officer*.
+     2. Waiting is measured at `Data as of (UTC)`: drag that field to **Detail**, then insert it in the title.
+   - **Reason frequencies:** Rows `Reason`, Columns SUM(`Cases with this reason`), Color `Reason effect`. Filter
+     `Reason` to exclude *No reason*.
+   - **System decision vs ground truth:**
+     - Rows `Truth class`, Columns `System outcome`, Color `System vs truth`, Label SUM(`Applications`).
+     - With an `--all` export, exclude *No ground truth*.
+   - **Officer agreement:** Rows `Risk level`, Columns AVG(`Officer confirmed the flag (0/1)`).
+   - **Model performance:**
+     - Each chart filters `Used in chart` (*Forgery story*, *Face verification*, *Extraction per field*) instead
+       of three filters.
+     - Sort `Version` by `Version order`.
+   - **Filters** (§4.7) act within one data source: set them separately on Operations and on Risk & fraud.
 
 ## 1. Connect the data
 
@@ -214,7 +284,7 @@ Create each sheet with the **New Worksheet** tab at the bottom, and name the tab
    1. Filters: `awaiting_officer` = True.
    2. Rows: `case_id`. Columns: `queue_age_min` (SUM). Color: `risk_level` (high `#d03b3b`, medium `#fab219`).
    3. Sort descending, and add Label = `queue_age_min`.
-   4. Title: *Cases waiting for an officer (minutes since the system decision, at export time)*.
+   4. Title: *Cases waiting for an officer (minutes since the system decision, as of the latest recorded event)*.
 6. **Dashboard:** click **New Dashboard** (bottom), name it **Operations**.
    1. Size (left pane): **Fixed**, 1200 × 900 (or *Automatic*).
    2. Drag a **Horizontal** container to the top, and put the four KPI sheets in it.
@@ -340,14 +410,16 @@ Create each sheet with the **New Worksheet** tab at the bottom, and name the tab
    - The workbook is **public**: share its link in the report.
 4. **Refresh after a new batch:**
    1. Run `scripts/export_dashboard_data.py` again.
-   2. In Tableau, **Data → eKYC operations → Refresh** (and *Model metrics*).
+   2. In Tableau, **Data → eKYC operations → Refresh** (and *Model metrics*; on the quick path, each of the three
+      data sources).
    3. Save to Tableau Public again.
 
    Tableau Public cannot connect live to MongoDB, so the CSV export is the bridge.
 
 ## 8. Checklist
 
-- [ ] All four CSVs related to `applications` by `case_id`; `model_metrics` a separate data source.
+- [ ] All four CSVs related to `applications` by `case_id`; `model_metrics` a separate data source. (Quick path: the
+      three `tableau/` files, each its own data source.)
 - [ ] Date fields are *Date & Time*, booleans are *Boolean*.
 - [ ] KPI numbers match `reports/phase9/batch_summary.md`. For example, the auto-approval rate equals AUTO_APPROVED
       / applications in its *System outcome mix* table.

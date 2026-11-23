@@ -1,0 +1,84 @@
+Model,Version,Version order,Split,Metric,Value,Used in chart,Field,Match type,Note,Source
+Document classifier,EfficientNetB0 (frozen),1,val,accuracy,0.9901,Metrics table only,,,,reports/phase3/doc_classifier_metrics.json
+Document classifier,EfficientNetB0 (frozen),1,val,macro F1,0.99,Metrics table only,,,,reports/phase3/doc_classifier_metrics.json
+Document classifier,EfficientNetB0 (frozen),1,test,accuracy,0.9929,Metrics table only,,,,reports/phase3/doc_classifier_metrics.json
+Document classifier,EfficientNetB0 (frozen),1,test,macro F1,0.9934,Metrics table only,,,,reports/phase3/doc_classifier_metrics.json
+Document classifier,EfficientNetB0 (frozen),1,test,share rejected (below 0.77),0.0148,Metrics table only,,,,reports/phase3/doc_classifier_metrics.json
+Document classifier,EfficientNetB0 (frozen),1,LFW faces,share of faces rejected,0.835,Metrics table only,,,a non-document should be rejected; 16.5 % of faces pass,reports/phase3/doc_classifier_metrics.json
+Forgery detector,v1 whole image,1,val,document PR-AUC,0.976,Forgery story,,,"whole image, templates + clip frames: learned shortcuts (recording style, JPEG quality)",reports/phase3/forgery_metrics_val.json
+Forgery detector,v1 whole image,1,val,document ROC-AUC,0.9859,Metrics table only,,,"whole image, templates + clip frames: learned shortcuts (recording style, JPEG quality)",reports/phase3/forgery_metrics_val.json
+Forgery detector,v1 whole image,1,val (templates only),document PR-AUC,0.5911,Metrics table only,,,chance level 0.544 (179 forged of 329),reports/phase3/forgery_breakdown_source_val.csv
+Forgery detector,v1 whole image,1,val,localisation (heat on the edit),0.0,Forgery story,,,Grad-CAM on the edit for 0 of 179 forged pages,reports/phase3/forgery_metrics_val.json
+Forgery detector,v2 tiles,2,val,document PR-AUC,0.9825,Forgery story,,,224 px tiles of 1280 px templates; residual compression-history cue,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,v2 tiles,2,val,document ROC-AUC,0.9737,Metrics table only,,,224 px tiles of 1280 px templates; residual compression-history cue,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,v2 tiles,2,val,position-matched control AUC (~0.5 = no cue),0.5839,Forgery story,,,224 px tiles of 1280 px templates; residual compression-history cue,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,v2 tiles,2,val,edit-hidden ROC-AUC (~0.5 or lower = no cue),0.583,Metrics table only,,,224 px tiles of 1280 px templates; residual compression-history cue,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,v2 tiles,2,val,localisation (heat on the edit),0.9385,Forgery story,,,224 px tiles of 1280 px templates; residual compression-history cue,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,v2 tiles,2,val,precision at the review threshold,0.9702,Metrics table only,,,224 px tiles of 1280 px templates; residual compression-history cue,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,v2 tiles,2,val,recall at the review threshold,0.9106,Metrics table only,,,224 px tiles of 1280 px templates; residual compression-history cue,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,"v3 tiles, equal history",3,val,document PR-AUC,0.9632,Forgery story,,,accepted: every shortcut check passes,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,"v3 tiles, equal history",3,val,document ROC-AUC,0.9391,Metrics table only,,,accepted: every shortcut check passes,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,"v3 tiles, equal history",3,val,position-matched control AUC (~0.5 = no cue),0.4908,Forgery story,,,accepted: every shortcut check passes,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,"v3 tiles, equal history",3,val,edit-hidden ROC-AUC (~0.5 or lower = no cue),0.386,Metrics table only,,,accepted: every shortcut check passes,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,"v3 tiles, equal history",3,val,localisation (heat on the edit),0.933,Forgery story,,,accepted: every shortcut check passes,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,"v3 tiles, equal history",3,val,precision at the review threshold,0.8351,Metrics table only,,,accepted: every shortcut check passes,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,"v3 tiles, equal history",3,val,recall at the review threshold,0.905,Metrics table only,,,accepted: every shortcut check passes,reports/phase3/forgery_v3_vs_v2_val.csv
+Forgery detector,"v3 tiles, equal history",3,test,document PR-AUC,0.9842,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,document ROC-AUC,0.9755,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,precision at the review threshold 0.729,0.8402,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,recall at the review threshold 0.729,0.9684,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,F1 at the review threshold 0.729,0.8998,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,false alarm rate at the review threshold 0.729,0.2365,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,precision at the suspected threshold 0.857,0.9082,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,recall at the suspected threshold 0.857,0.9368,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,F1 at the suspected threshold 0.857,0.9223,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,false alarm rate at the suspected threshold 0.857,0.1216,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,"recall at 0.857, Crop_and_Replace",0.6667,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,"recall at 0.857, Inpaint_and_Rewrite",0.9651,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,localisation (heat on the edit),0.9526,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Forgery detector,"v3 tiles, equal history",3,test,position-matched control AUC (~0.5 = no cue),0.4839,Metrics table only,,,,reports/phase3/forgery_v3_metrics_test.json
+Face verification,SFace (production),2,LFW test,ROC-AUC,0.9968,Face verification,,,,reports/phase4/face_metrics.json
+Face verification,SFace (production),2,LFW test,equal error rate,0.016,Face verification,,,,reports/phase4/face_metrics.json
+Face verification,SFace (production),2,LFW test,TAR at FAR 1 %,0.984,Face verification,,,,reports/phase4/face_metrics.json
+Face verification,SFace (production),2,LFW test,accuracy at the threshold,0.982,Metrics table only,,,,reports/phase4/face_metrics.json
+Face verification,SFace (production),2,LFW test,false accept rate,0.022,Metrics table only,,,,reports/phase4/face_metrics.json
+Face verification,SFace (production),2,LFW test,false reject rate,0.014,Metrics table only,,,,reports/phase4/face_metrics.json
+Face verification,Siamese (showcase),1,LFW test,ROC-AUC,0.7788,Face verification,,,,reports/phase4/face_metrics.json
+Face verification,Siamese (showcase),1,LFW test,equal error rate,0.3,Face verification,,,,reports/phase4/face_metrics.json
+Face verification,Siamese (showcase),1,LFW test,TAR at FAR 1 %,0.104,Face verification,,,,reports/phase4/face_metrics.json
+Face verification,Siamese (showcase),1,LFW test,accuracy at the threshold,0.523,Metrics table only,,,,reports/phase4/face_metrics.json
+Face verification,Siamese (showcase),1,LFW test,false accept rate,0.004,Metrics table only,,,,reports/phase4/face_metrics.json
+Face verification,Siamese (showcase),1,LFW test,false reject rate,0.95,Metrics table only,,,,reports/phase4/face_metrics.json
+Face verification,SFace (production),2,synthetic ID pairs,share of different people accepted,0.299,Metrics table only,,,why scores below 0.556 go to manual review,reports/phase4/face_metrics.json
+Face verification,SFace (production),2,synthetic ID pairs,share of same person accepted,0.999,Metrics table only,,,,reports/phase4/face_metrics.json
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test,exact field match,0.841,Metrics table only,,,,reports/phase5/phase5_metrics.json
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test,normalized field match,0.9522,Metrics table only,,,,reports/phase5/phase5_metrics.json
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test,valid JSON,0.9932,Metrics table only,,,,reports/phase5/phase5_metrics.json
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test,latency p50 (seconds),31.5864,Metrics table only,,,,reports/phase5/phase5_metrics.json
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test,latency p95 (seconds),64.1119,Metrics table only,,,,reports/phase5/phase5_metrics.json
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: surname,0.9054,Extraction per field,surname,Exact,148 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: surname,0.9189,Extraction per field,surname,Normalized,148 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: given_names,0.9122,Extraction per field,given_names,Exact,148 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: given_names,0.9257,Extraction per field,given_names,Normalized,148 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: birth_date,0.8919,Extraction per field,birth_date,Exact,148 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: birth_date,0.9865,Extraction per field,birth_date,Normalized,148 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: gender,0.9392,Extraction per field,gender,Exact,148 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: gender,0.9932,Extraction per field,gender,Normalized,148 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: nationality,0.8582,Extraction per field,nationality,Exact,134 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: nationality,0.9925,Extraction per field,nationality,Normalized,134 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: document_number,0.8919,Extraction per field,document_number,Exact,148 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: document_number,0.9865,Extraction per field,document_number,Normalized,148 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: personal_number,0.9833,Extraction per field,personal_number,Exact,120 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: personal_number,0.9833,Extraction per field,personal_number,Normalized,120 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: issue_date,0.8739,Extraction per field,issue_date,Exact,119 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: issue_date,0.9916,Extraction per field,issue_date,Normalized,119 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: expiry_date,0.8806,Extraction per field,expiry_date,Exact,134 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: expiry_date,0.9925,Extraction per field,expiry_date,Normalized,134 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: birth_place,0.7444,Extraction per field,birth_place,Exact,90 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: birth_place,0.9778,Extraction per field,birth_place,Normalized,90 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: authority,0.6667,Extraction per field,authority,Exact,90 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: authority,0.9556,Extraction per field,authority,Normalized,90 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: mrz_line0,0.1333,Extraction per field,mrz_line0,Exact,60 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: mrz_line0,0.7667,Extraction per field,mrz_line0,Normalized,60 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),exact: mrz_line1,0.65,Extraction per field,mrz_line1,Exact,60 documents,reports/phase5/extraction_test_per_field.csv
+Field extraction,"qwen2.5vl:7b, prompt v2",1,test (per field),normalized: mrz_line1,0.65,Extraction per field,mrz_line1,Normalized,60 documents,reports/phase5/extraction_test_per_field.csv

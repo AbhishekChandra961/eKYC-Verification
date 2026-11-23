@@ -1,21 +1,33 @@
 import LogoutIcon from '@mui/icons-material/Logout'
 import { AppBar, Box, Button, Chip, Container, Link, Stack, Toolbar, Typography } from '@mui/material'
-import { NavLink, Outlet, Link as RouterLink } from 'react-router'
+import { Outlet, Link as RouterLink, useLocation } from 'react-router'
 import { useAuth } from '../auth/AuthContext'
 import { homeFor } from '../auth/session'
 import { DemoAttribution } from '../demo/DemoBanner'
 import { BrandLogo } from './BrandLogo'
 
-const NAV = {
+interface NavItem { to: string; label: string; active: (path: string) => boolean }
+
+const NAV: Record<'CUSTOMER' | 'OFFICER' | 'VISITOR', NavItem[]> = {
   CUSTOMER: [
-    { to: '/customer', label: 'My applications', end: true },
-    { to: '/customer/verify', label: 'Verify my identity', end: false },
+    { to: '/customer', label: 'My applications', active: (p) => p === '/customer' || p.startsWith('/customer/applications') },
+    { to: '/customer/verify', label: 'Verify my identity', active: (p) => p.startsWith('/customer/verify') },
   ],
-  OFFICER: [{ to: '/officer', label: 'Case queue', end: false }],
+  OFFICER: [
+    { to: '/officer', label: 'Case queue', active: (p) => p === '/officer' || p.startsWith('/officer/cases') },
+    { to: '/officer/analytics', label: 'Analytics', active: (p) => p.startsWith('/officer/analytics') },
+  ],
+  // demo site, not logged in (the public dashboards)
+  VISITOR: [
+    { to: '/login', label: 'Demo home', active: () => false },
+    { to: '/dashboards', label: 'Dashboards', active: (p) => p.startsWith('/dashboards') },
+  ],
 }
 
 export function AppShell() {
   const { session, logout } = useAuth()
+  const { pathname } = useLocation()
+  const nav = session ? NAV[session.role] : __DEMO_MODE__ ? NAV.VISITOR : []
   return (
     <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* keyboard users can jump straight past the navigation */}
@@ -29,14 +41,18 @@ export function AppShell() {
             sx={{ textDecoration: 'none', mr: 2 }}>
             <BrandLogo inverse />
           </Box>
-          {session && (
-            <Box component="nav" aria-label="Main" sx={{ display: 'flex', gap: 0.5, flexGrow: 1 }}>
-              {NAV[session.role].map((item) => (
-                <Button key={item.to} component={NavLink} to={item.to} end={item.end} color="inherit"
-                  sx={{ opacity: 0.85, '&.active': { opacity: 1, textDecoration: 'underline', textUnderlineOffset: 6 } }}>
-                  {item.label}
-                </Button>
-              ))}
+          {nav.length > 0 && (
+            <Box component="nav" aria-label="Main" sx={{ display: 'flex', gap: 0.5, flexGrow: 1, flexWrap: 'wrap' }}>
+              {nav.map((item) => {
+                const active = item.active(pathname)
+                return (
+                  <Button key={item.to} component={RouterLink} to={item.to} color="inherit" aria-current={active ? 'page' : undefined}
+                    className={active ? 'active' : undefined}
+                    sx={{ opacity: 0.85, '&.active': { opacity: 1, textDecoration: 'underline', textUnderlineOffset: 6 } }}>
+                    {item.label}
+                  </Button>
+                )
+              })}
             </Box>
           )}
           {session && (
