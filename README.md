@@ -7,10 +7,11 @@
 no install (see [Live demo](#live-demo) for what it is and isn't).
 
 A digital **Know-Your-Customer (KYC)** onboarding system for a fictional bank, "SecureBank". The customer uploads a
-photo of an identity document and takes a selfie. Four independent AI checks then run in parallel:
+photo of an identity document and takes a selfie with a guided camera, which also asks them to turn their head (an
+active liveness check against a photo held up to the camera). Four independent AI checks then run in parallel:
 - **document type:** a CNN classifier;
 - **forgery:** a tile-based CNN with a heatmap;
-- **face match:** the selfie against the ID portrait;
+- **face match:** the selfie against the ID portrait, plus the liveness check on the head-turn frames (Phase 13);
 - **field extraction:** a local vision LLM, plus MRZ check-digit and consistency rules.
 
 A rule-based decision engine combines them into *auto-approve*, *manual review* or *resubmit*, and **never rejects on its
@@ -27,7 +28,10 @@ benchmark (LFW).
 **<https://abhishekchandra961.github.io/eKYC-Verification/>**: the real React frontend, built in *demo mode* and
 hosted free on GitHub Pages. Click **Try as customer** or **Try as officer**; no account or password is needed. The
 [**Dashboards**](https://abhishekchandra961.github.io/eKYC-Verification/#/dashboards) (operations, risk & fraud,
-model performance) are public too: see [Dashboards](#dashboards).
+model performance) are public too: see [Dashboards](#dashboards). So is
+[**Try the camera check**](https://abhishekchandra961.github.io/eKYC-Verification/#/camera-check): the smart selfie
+camera and its head-turn challenge, running in your browser with nothing uploaded (see
+[Active liveness](#active-liveness-phase-13)).
 
 | | |
 |---|---|
@@ -51,8 +55,9 @@ model performance) are public too: see [Dashboards](#dashboards).
 **What it isn't:**
 - **Not the running system.** No Kafka, workers, models or LLM run in the browser; nothing is computed. The full system
   runs locally ([Quickstart](#quickstart)) and in the demo video.
-- **No uploads.** Your own photos are refused with a message, and the camera is never switched on: there is no real run
-  to replay for them.
+- **No uploads.** Your own photos are refused with a message, and the replayed flows never switch the camera on: there
+  is no real run to replay for them. The separate *Try the camera check* page does use your camera, in the browser
+  only, and uploads nothing.
 - **Decisions are not saved.** Officer approve/reject works in your browser tab only and is gone on reload (it is
   labelled as such in the dialog and in the audit trail).
 
@@ -77,6 +82,13 @@ Build it yourself: `cd frontend && npm run build:demo` (output in `dist-demo/`, 
   - **67 of 68** forged or mismatched applications were not auto-approved;
   - all **45 of 45** forged documents went to review, all 4 Crop_and_Replace forgeries among them;
   - the honest cost: 27 of 75 legitimate applications also went to review (see *Results*).
+- **Selfie presentation-attack defence (Phase 13):**
+  - a smart camera guides the customer in the browser (MediaPipe face detection: distance, centring, light, one face)
+    and captures them looking at the camera, turned left and turned right;
+  - the **server** decides, never the browser: head yaw from YuNet's landmarks must show a clear turn each way, and
+    SFace must see the same person in all three frames;
+  - in an evaluation, all 190 static-photo attacks and all 148 printed photos tilted 40 degrees were caught; a simple
+    challenge-response check, not certified PAD (see *Results*).
 - **Event-driven architecture:** Kafka orchestration with fan-out/fan-in, the claim-check pattern (events carry S3
   keys, never images), at-least-once processing with idempotent upserts, retries with backoff, a dead-letter queue
   and a timeout sweeper.
@@ -88,7 +100,7 @@ Build it yourself: `cd frontend && npm run build:demo` (output in `dist-demo/`, 
   - only synthetic documents are used.
 - **Engineering hygiene:**
   - leakage-safe group splits; every test set was used once;
-  - 262 pytest tests, 80 Vitest tests, 4 Playwright end-to-end tests on the live system and 5 on the demo site;
+  - 317 pytest tests, 124 Vitest tests, 4 Playwright end-to-end tests on the live system and 12 on the demo site;
   - GitHub Actions CI and Pages deployment; non-root Docker images; deterministic, checksum-verified model release.
 
 ## Architecture
@@ -147,10 +159,10 @@ flowchart TB
 | Orchestrator | `services/orchestrator` | Publishes the four check tasks, collects results, marks late checks `timed_out`, runs the decision engine, moves the status and writes the audit log | confluent-kafka, pymongo |
 | doc-worker | `services/doc-worker` | Document type (10 classes) and "unrecognized document" | Keras EfficientNetB0 |
 | forgery-worker | `services/forgery-worker` | Forgery score and tile heatmap for the officer | Keras EfficientNetB0 on 224 px tiles |
-| face-worker | `services/face-worker` | Selfie vs ID portrait (cosine similarity) | OpenCV YuNet + SFace (ONNX) |
+| face-worker | `services/face-worker` | Selfie vs ID portrait (cosine similarity), and the active liveness check on the two head-turn frames (Phase 13) | OpenCV YuNet + SFace (ONNX) |
 | extraction-worker | `services/extraction-worker` | Printed fields and MRZ as validated JSON, then MRZ check digits and consistency rules | Ollama qwen2.5-VL 7B, Pydantic |
 | Decision engine | `src/ekyc/decision.py` | A pure function: four check results + typed details → outcome, risk score, reasons with evidence | Python |
-| Frontend | `frontend/` | Customer wizard and status, officer queue and case detail | React 19, TypeScript, Vite, MUI |
+| Frontend | `frontend/` | Customer wizard (smart selfie camera with on-device guidance and the head-turn challenge) and status, officer queue and case detail | React 19, TypeScript, Vite, MUI, MediaPipe Tasks (face detection in the browser) |
 | Infrastructure | `docker-compose.yml` | Kafka (KRaft), Kafka UI, MongoDB 8, RustFS (S3-compatible) | Docker Compose |
 | Dashboards | `frontend/src/dashboards/` | Operations, risk & fraud, model performance over the batch | MUI X Charts, from a JSON snapshot of pseudonymous CSV exports (`dashboard/`) |
 
@@ -218,6 +230,36 @@ decision engine therefore never trusts it alone.
 - **ID portraits are harder:** on synthetic ID portraits, two *different* documents still matched in **29.9 %** of
   pairs, because the generated faces look alike. The decision engine therefore sends scores between 0.2597 and
   0.556 to review.
+
+### Active liveness (Phase 13)
+
+The customer's camera captures three frames: looking at the camera (the selfie), head turned left, head turned right.
+The face-worker then checks them:
+- **turns:** head yaw from YuNet's 5 landmarks must show a turn of at least **20 degrees** each way, from a frontal
+  first frame;
+- **same person:** SFace must see one person in all three frames (cosine >= 0.2597).
+
+The rules are in `src/ekyc/liveness.py`; the thresholds are configurable. The decision engine turns a result into:
+- frames of different people -> **MANUAL_REVIEW high**;
+- any other failure -> **RESUBMIT_REQUIRED** ("retake the selfie and follow the prompts");
+- no frames (photo uploaded instead) -> **MANUAL_REVIEW medium**.
+
+| Evaluation scenario (`scripts/evaluate_liveness.py`) | Frames | Result |
+|---|---:|---|
+| Genuine, real head turns (LFW, one person's photos) | 42 | 41 passed (1 flagged as different people) |
+| Genuine, synthetic +-28 degree turns (SIDTD portraits) | 148 | 128 passed, 20 asked to retake |
+| Static photo, 3 identical frames | 190 | all caught |
+| Printed photo tilted +-40 / +-55 degrees | 148 each | all caught / 147 caught |
+| Different people (SIDTD look-alike portraits / LFW) | 148 / 42 | 144 caught / all caught |
+
+- **Where the genuine frames come from:** no real head-turn video was available.
+  - The genuine rows use LFW photos of one person at different angles: real 3-D turns, but separate photos, chosen
+    with the same yaw estimate.
+  - The SIDTD rows use synthetic 2.5-D turns of the generated portraits.
+- **A tilted printed photo** measures at most ~16 degrees up to a 40 degree tilt, because it has no nose depth.
+- **Not certified PAD:** a replayed video, a 3-D mask or a digitally injected camera stream could pass. The
+  synthetic turns made for the tests pass, which shows exactly that.
+- **Details:** [`reports/phase13/README.md`](reports/phase13/README.md).
 
 ### Field extraction (qwen2.5-VL 7B, local, 148 genuine test documents)
 
@@ -334,15 +376,17 @@ in Tableau Public.
 
 ## Screenshots
 
-| Customer: details | Customer: webcam selfie |
+| Customer: details | Customer: smart camera (head-turn challenge, Phase 13) |
 |---|---|
-| <img src="reports/phase8/screenshots/03_wizard_1_details.png" width="420" alt="Customer wizard, step 1: personal details"> | <img src="reports/phase8/screenshots/05_wizard_3_selfie_camera.png" width="420" alt="Customer wizard, step 3: webcam selfie"> |
+| <img src="reports/phase8/screenshots/03_wizard_1_details.png" width="420" alt="Customer wizard, step 1: personal details"> | <img src="reports/phase13/e2e/05_wizard_3_selfie_camera.png" width="420" alt="Customer wizard, step 3: the smart camera asking the customer to turn their head left"> |
 | **Customer: verified** | **Customer: please resubmit** |
 | <img src="reports/phase8/screenshots/08_status_verified.png" width="420" alt="Status page: verified"> | <img src="reports/phase8/screenshots/10_status_resubmit.png" width="420" alt="Status page: resubmit request"> |
 | **Officer: risk-sorted queue** | **Officer: case detail** |
 | <img src="reports/phase8/screenshots/12_officer_queue.png" width="420" alt="Officer case queue sorted by risk"> | <img src="reports/phase8/screenshots/13_case_detail.png" width="420" alt="Officer case detail with check results"> |
 | **Officer: forgery heatmap** | **Officer: rejection and audit trail** |
 | <img src="reports/phase8/screenshots/14_case_heatmap.png" width="420" alt="Forgery heatmap over the ID document"> | <img src="reports/phase8/screenshots/17_case_rejected_audit.png" width="420" alt="Rejected case with its audit trail"> |
+| **Smart camera: the head-turn challenge (Phase 13)** | **Camera check completed (demo site, in the browser)** |
+| <img src="reports/phase13/01_camera_check_turn_left.png" width="420" alt="Smart selfie camera asking the person to turn their head to the left"> | <img src="reports/phase13/02_camera_check_done.png" width="420" alt="Camera check completed: the three captured frames"> |
 
 ## Quickstart
 
@@ -472,18 +516,20 @@ docker compose --profile app up -d --build    # + API, orchestrator, 4 workers, 
   - `demo_samples/README.md` lists what to type for each sample: 3 genuine, 2 forged with a stranger's selfie, and
     1 blank image, all synthetic test-split documents;
   - it also lists the outcome to expect for each one.
-- **Webcam selfie:** your own face will not match a synthetic ID, so either choose *Upload a photo instead*, or start
-  Chrome with the fake webcam described in that README.
+- **Webcam selfie:** your own face will not match a synthetic ID. Either start Chrome with the fake webcam described
+  in that README: it plays the genuine_1 selfie with a synthetic head turn, so the camera's challenge completes and the
+  liveness check passes. Or choose *Upload a photo instead*: then there is no head-turn check, and even a genuine sample
+  goes to a medium-risk review.
 
 ### Tests
 
 ```bash
-.venv/bin/python -m pytest                       # 267 tests; tests needing services, weights or data skip themselves if missing
+.venv/bin/python -m pytest                       # 317 tests; tests needing services, weights or data skip themselves if missing
 uvx ruff@0.17.5 check                            # lint
-cd frontend && npm run lint && npm run typecheck && npm test   # ESLint, tsc, 104 Vitest tests
+cd frontend && npm run lint && npm run typecheck && npm test   # ESLint, tsc, 124 Vitest tests
 cd frontend && npm run e2e                       # Playwright: the whole system in host mode must be running
 cd frontend && npm run e2e:demo                  # Playwright against the static demo build (no backend needed)
-.venv/bin/python scripts/e2e_api_smoke.py        # API-level end-to-end smoke test (4 cases + 6 security checks)
+.venv/bin/python scripts/e2e_api_smoke.py        # API-level end-to-end smoke test (7 cases incl. 3 liveness + 6 security checks)
 ```
 
 CI ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)) runs ruff, the pytest tests that need no services,
@@ -496,10 +542,11 @@ weights or data, and the frontend lint, typecheck and unit tests on every push. 
 src/ekyc/            shared package: config, data + splits, models, decision engine, store, messaging, inference
 services/            api/, orchestrator/, {doc,forgery,face,extraction}-worker/, Dockerfile, README (operations)
 frontend/            React app (customer + officer), Dockerfile (nginx), Playwright e2e; src/demo/ = the static demo site;
-                     src/dashboards/ = the analytics dashboards (+ snapshot.json, their data)
+                     src/dashboards/ = the analytics dashboards (+ snapshot.json, their data);
+                     src/vision/ = the in-browser face detector (MediaPipe, bundled model)
 notebooks/           01 manifest + splits, 02 doc classifier, 03 forgery v1, 03b forgery tiles v3, 04 face, 05 extraction
 scripts/             run_all.sh, download_models.py, make_demo_samples.py, simulate_batch.py, export_demo_fixtures.py, ...
-reports/phase2-12/   metrics (JSON/CSV), plots, screenshots, batch and Docker reports
+reports/phase2-13/   metrics (JSON/CSV), plots, screenshots, batch, Docker and liveness reports
 dashboard/           data/*.csv (pseudonymous exports), data/tableau/*.csv (pre-joined: the dashboards' source),
                      DATA_DICTIONARY.md, TABLEAU_GUIDE.md (optional: the same dashboards in Tableau Public)
 docs/                report/ (REPORT.md + DOCX/PDF), VIVA_PREP.md, DEMO_SCRIPT.md, RELEASE_NOTES_v1.0.0.md
@@ -520,8 +567,12 @@ tests/               pytest (markers: services, models, data)
   where the MRZ repeats the edited field.
 - **Face matching on generated portraits** is weak: 29.9 % of different-document pairs matched. The LFW threshold
   missed one impostor in the batch.
+- **Liveness is a simple challenge-response check (Phase 13), not certified presentation-attack detection:**
+  - it stops a photo held up to the camera, but a replayed video of the person, a 3-D mask or a digitally injected
+    camera stream could pass;
+  - its genuine-turn evaluation uses LFW photos and synthetic turns, not real head-turn videos;
+  - on SIDTD's look-alike portraits, 4 of 148 different-person attacks passed.
 - **Not a full KYC system:**
-  - no liveness or anti-spoofing check;
   - no sanctions or PEP screening;
   - no document chip (NFC) reading.
 - **Throughput:** one local vision LLM processes extractions one at a time (about 20-30 s each), so concurrent
@@ -541,6 +592,8 @@ tests/               pytest (markers: services, models, data)
   - Officers see all the evidence.
 - **Humans decide rejections:** the system never auto-rejects; officers must give a reason, and the audit log is
   append-only.
+- **No third-party calls from the selfie step:** the face detector and its model are served by the app itself, and
+  MediaPipe's built-in usage logging to Google is blocked (Phase 13).
 - **Data minimization:**
   - PII is masked in logs;
   - presigned image links expire;
@@ -552,7 +605,8 @@ tests/               pytest (markers: services, models, data)
 
 ## Future work
 
-- Calibrate the thresholds on real, consented selfie-ID data; add liveness detection.
+- Calibrate the thresholds on real, consented selfie-ID data and real head-turn videos; add passive
+  presentation-attack detection (texture/depth), randomised challenges and camera-injection detection.
 - A dedicated MRZ OCR reader, or a stronger extraction model, to cut MRZ name false flags.
 - Train the forgery detector on phone photos (screen and print recaptures) and on more Crop_and_Replace forgeries.
 - Learn the risk weights from officer decisions (with a human in the loop), and monitor drift per document type.
@@ -588,6 +642,7 @@ tests/               pytest (markers: services, models, data)
 | **SFace** face recognizer, OpenCV Zoo (`face_recognition_sface_2021dec.onnx`) | Face embeddings | Apache 2.0 (licence file shipped with the model) |
 | **EfficientNetB0** ImageNet weights (Keras Applications) | Backbone of the document and forgery models | Apache 2.0 |
 | **Qwen2.5-VL 7B** (via Ollama) | Field extraction | Apache 2.0 |
+| **MediaPipe Tasks** (`@mediapipe/tasks-vision`) + **BlazeFace short-range** model (Google) | In-browser face detection for the smart selfie camera (Phase 13) | Apache 2.0 (model bundled in `frontend/src/vision/models/`) |
 
 The SIDTD templates are downloaded by each user from the dataset's server. This repository contains only
 derived figures and screenshots of synthetic documents, plus, for the demo site, 26 small web copies of SIDTD-derived

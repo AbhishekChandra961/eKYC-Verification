@@ -1,0 +1,317 @@
+{
+  "cases": [
+    {
+      "case": "1 genuine + own selfie + head turns",
+      "application_id": "app-fae296b2c324c8ef",
+      "outcome": "AUTO_APPROVED",
+      "status": "APPROVED",
+      "risk": "low",
+      "score": 6.4,
+      "expected": "AUTO_APPROVED low",
+      "ok": true,
+      "liveness": "passed",
+      "turns": {
+        "left": 28.8,
+        "right": -22.9
+      },
+      "same person": {
+        "left": 0.5199,
+        "right": 0.6069
+      },
+      "seconds to decision": 27.1,
+      "statuses seen (SSE)": "PROCESSING > PROCESSING > PROCESSING > PROCESSING > APPROVED",
+      "reasons": [
+        "[info] document_expired"
+      ],
+      "latency per check ms": {
+        "doc": 701.0,
+        "extraction": 25029.8,
+        "face": 1029.3,
+        "forgery": 2883.3
+      }
+    },
+    {
+      "case": "2 forged + stranger",
+      "application_id": "app-367cecd003da1f3f",
+      "outcome": "MANUAL_REVIEW",
+      "status": "DECIDED",
+      "risk": "high",
+      "score": 100.0,
+      "expected": "MANUAL_REVIEW high",
+      "ok": true,
+      "liveness": "not_provided",
+      "turns": null,
+      "same person": null,
+      "seconds to decision": 50.2,
+      "statuses seen (SSE)": "PROCESSING > PROCESSING > PROCESSING > PROCESSING > DECIDED",
+      "reasons": [
+        "[high] face_mismatch",
+        "[medium] liveness_not_provided",
+        "[high] forgery_suspected",
+        "[medium] rule_mrz_vs_surname",
+        "[medium] rule_mrz_vs_given_names"
+      ],
+      "latency per check ms": {
+        "doc": 164.4,
+        "extraction": 23788.4,
+        "face": 185.6,
+        "forgery": 1718.9
+      }
+    },
+    {
+      "case": "3 blank image",
+      "application_id": "app-83dea0300413f387",
+      "outcome": "RESUBMIT_REQUIRED",
+      "status": "RESUBMIT_REQUESTED",
+      "risk": null,
+      "score": 0.0,
+      "expected": "RESUBMIT_REQUIRED ",
+      "ok": true,
+      "liveness": "passed",
+      "turns": {
+        "left": 28.8,
+        "right": -22.9
+      },
+      "same person": {
+        "left": 0.5199,
+        "right": 0.6069
+      },
+      "seconds to decision": 1.1,
+      "statuses seen (SSE)": "PROCESSING > RESUBMIT_REQUESTED",
+      "reasons": [
+        "[resubmit] image_unreadable"
+      ],
+      "latency per check ms": {
+        "doc": 14.4,
+        "face": 804.0
+      }
+    },
+    {
+      "case": "4 genuine, wrong DOB",
+      "application_id": "app-167d53994b419bad",
+      "outcome": "MANUAL_REVIEW",
+      "status": "DECIDED",
+      "risk": "high",
+      "score": 56.4,
+      "expected": "MANUAL_REVIEW high",
+      "ok": true,
+      "liveness": "passed",
+      "turns": {
+        "left": 28.8,
+        "right": -22.9
+      },
+      "same person": {
+        "left": 0.5199,
+        "right": 0.6069
+      },
+      "seconds to decision": 46.1,
+      "statuses seen (SSE)": "PROCESSING > PROCESSING > PROCESSING > PROCESSING > PROCESSING > DECIDED",
+      "reasons": [
+        "[high] dob_mismatch",
+        "[info] document_expired"
+      ],
+      "latency per check ms": {
+        "doc": 1767.2,
+        "extraction": 41427.7,
+        "face": 3186.7,
+        "forgery": 30247.0
+      }
+    },
+    {
+      "case": "5 genuine, photo uploaded",
+      "application_id": "app-165b05957e2bede6",
+      "outcome": "MANUAL_REVIEW",
+      "status": "DECIDED",
+      "risk": "medium",
+      "score": 26.4,
+      "expected": "MANUAL_REVIEW medium",
+      "ok": true,
+      "liveness": "not_provided",
+      "turns": null,
+      "same person": null,
+      "seconds to decision": 104.0,
+      "statuses seen (SSE)": "PROCESSING > PROCESSING > PROCESSING > PROCESSING > PROCESSING > DECIDED",
+      "reasons": [
+        "[medium] liveness_not_provided",
+        "[info] document_expired"
+      ],
+      "latency per check ms": {
+        "doc": 993.1,
+        "extraction": 54650.5,
+        "face": 1545.4,
+        "forgery": 63953.5
+      }
+    },
+    {
+      "case": "6 genuine, static photo",
+      "application_id": "app-7269a687f25a6086",
+      "outcome": "RESUBMIT_REQUIRED",
+      "status": "RESUBMIT_REQUESTED",
+      "risk": null,
+      "score": 20.8,
+      "expected": "RESUBMIT_REQUIRED ",
+      "ok": true,
+      "liveness": "failed",
+      "turns": {
+        "left": 0.0,
+        "right": 0.0
+      },
+      "same person": {
+        "left": 1.0,
+        "right": 1.0
+      },
+      "seconds to decision": 177.9,
+      "statuses seen (SSE)": "PROCESSING > PROCESSING > PROCESSING > PROCESSING > PROCESSING > RESUBMIT_REQUESTED",
+      "reasons": [
+        "[resubmit] liveness_failed",
+        "[medium] forgery_timed_out",
+        "[info] document_expired"
+      ],
+      "latency per check ms": {
+        "doc": 583.4,
+        "extraction": 48982.2,
+        "face": 27394.8,
+        "forgery": 27421.2
+      }
+    },
+    {
+      "case": "7 genuine, turns of another person",
+      "application_id": "app-5f88ad3985cf356b",
+      "outcome": "MANUAL_REVIEW",
+      "status": "DECIDED",
+      "risk": "high",
+      "score": 56.4,
+      "expected": "MANUAL_REVIEW high",
+      "ok": true,
+      "liveness": "failed",
+      "turns": {
+        "left": 39.0,
+        "right": -23.6
+      },
+      "same person": {
+        "left": 0.0124,
+        "right": 0.1168
+      },
+      "seconds to decision": 175.1,
+      "statuses seen (SSE)": "PROCESSING > PROCESSING > PROCESSING > PROCESSING > DECIDED",
+      "reasons": [
+        "[high] liveness_different_person",
+        "[info] document_expired"
+      ],
+      "latency per check ms": {
+        "doc": 34170.6,
+        "extraction": 79112.7,
+        "face": 43972.7,
+        "forgery": 16191.4
+      }
+    }
+  ],
+  "queue": [
+    {
+      "application_id": "app-367cecd003da1f3f",
+      "status": "DECIDED",
+      "doc_type": "aze_passport",
+      "outcome": "MANUAL_REVIEW",
+      "risk_level": "high",
+      "risk_score": 100.0,
+      "reason_codes": [
+        "face_mismatch",
+        "liveness_not_provided",
+        "forgery_suspected",
+        "rule_mrz_vs_surname",
+        "rule_mrz_vs_given_names"
+      ],
+      "created_at": "2026-11-23T12:46:03.198000Z",
+      "updated_at": "2026-11-23T12:46:53.282000Z",
+      "decided_at": "2026-11-23T12:46:53.281000Z"
+    },
+    {
+      "application_id": "app-167d53994b419bad",
+      "status": "DECIDED",
+      "doc_type": "srb_passport",
+      "outcome": "MANUAL_REVIEW",
+      "risk_level": "high",
+      "risk_score": 56.4,
+      "reason_codes": [
+        "dob_mismatch",
+        "document_expired"
+      ],
+      "created_at": "2026-11-23T12:46:53.771000Z",
+      "updated_at": "2026-11-23T12:47:38.641000Z",
+      "decided_at": "2026-11-23T12:47:38.635000Z"
+    },
+    {
+      "application_id": "app-5f88ad3985cf356b",
+      "status": "DECIDED",
+      "doc_type": "srb_passport",
+      "outcome": "MANUAL_REVIEW",
+      "risk_level": "high",
+      "risk_score": 56.4,
+      "reason_codes": [
+        "liveness_different_person",
+        "document_expired"
+      ],
+      "created_at": "2026-11-23T12:50:23.023000Z",
+      "updated_at": "2026-11-23T12:52:44.018000Z",
+      "decided_at": "2026-11-23T12:52:44.005000Z"
+    },
+    {
+      "application_id": "app-165b05957e2bede6",
+      "status": "DECIDED",
+      "doc_type": "srb_passport",
+      "outcome": "MANUAL_REVIEW",
+      "risk_level": "medium",
+      "risk_score": 26.4,
+      "reason_codes": [
+        "liveness_not_provided",
+        "document_expired"
+      ],
+      "created_at": "2026-11-23T12:46:54.193000Z",
+      "updated_at": "2026-11-23T12:48:37.416000Z",
+      "decided_at": "2026-11-23T12:48:37.413000Z"
+    }
+  ],
+  "security": {
+    "customer -> GET /officer/cases (403)": 403,
+    "customer -> POST officer decision (403)": 403,
+    "another customer -> GET this application (404)": 404,
+    "no token (401)": 401,
+    "invalid token (401)": 401,
+    "expired token (401)": 401
+  },
+  "audit_trail": [
+    {
+      "application_id": "app-367cecd003da1f3f",
+      "actor": "customer:u-a2926683f1e6",
+      "from_status": null,
+      "to_status": "SUBMITTED",
+      "reason": "application submitted",
+      "at": "2026-11-23T12:46:03.199000Z"
+    },
+    {
+      "application_id": "app-367cecd003da1f3f",
+      "actor": "system:orchestrator",
+      "from_status": "SUBMITTED",
+      "to_status": "PROCESSING",
+      "reason": "checks started: doc, face",
+      "at": "2026-11-23T12:46:03.232000Z"
+    },
+    {
+      "application_id": "app-367cecd003da1f3f",
+      "actor": "system:orchestrator",
+      "from_status": "PROCESSING",
+      "to_status": "DECIDED",
+      "reason": "decision MANUAL_REVIEW (risk high)",
+      "at": "2026-11-23T12:46:53.288000Z"
+    },
+    {
+      "application_id": "app-367cecd003da1f3f",
+      "actor": "officer:u-ac31247ed68c",
+      "from_status": "DECIDED",
+      "to_status": "REJECTED",
+      "reason": "Forgery suspected and the selfie does not match the portrait.",
+      "at": "2026-11-23T12:52:51.551000Z"
+    }
+  ],
+  "passed": true
+}

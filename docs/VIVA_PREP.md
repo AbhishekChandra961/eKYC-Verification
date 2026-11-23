@@ -25,6 +25,7 @@ out loud. Every number matches `reports/` and the [project report](report/REPORT
 9. [Security and privacy](#9-security-and-privacy)
 10. [Limitations and future work](#10-limitations-and-future-work)
 11. [Analytics dashboards](#11-analytics-dashboards)
+12. [Selfie liveness](#12-selfie-liveness)
 
 **The 30-second pitch:** "A digital KYC prototype with four independent AI checks:
 - document type;
@@ -441,3 +442,60 @@ batch, at the cost of sending a third of legitimate applications to review."
 - **Rates** are averages of pre-computed 0/1 columns, where empty means "does not apply". For example, the catch rate
   averages over the 68 frauds only.
 - **Percentiles** use the same interpolation as numpy and pandas.
+
+## 12. Selfie liveness
+
+**Q54. How does your liveness check work, and why does a printed photo fail it?**
+- **The challenge:** the camera captures three frames: looking at the camera (the selfie), head turned **left**,
+  head turned **right**.
+- **Yaw from five landmarks:** the server takes YuNet's 5 landmarks per frame, levels the eyes, and computes
+  **yaw = atan(nose offset from the eye-mouth midline / (0.5 × eye distance))**.
+- **Why:**
+  - the **nose tip sticks out** about half an eye distance, so a real head turn moves it sideways relative to the
+    eyes and mouth;
+  - a **flat photo has no depth**: tilting it moves everything together, and only perspective adds a few degrees.
+- **Rules:** each turn must reach **20 degrees** from a frontal first frame, and **SFace** must see the **same
+  person** in all three (cosine >= 0.2597).
+- **Evaluation:**
+  - all **190 static-photo** attacks and all **148 printed photos tilted 40 degrees** were caught (at most ~16
+    degrees measured);
+  - at a 55-degree tilt, **1 of 148** passed;
+  - **41 of 42** real LFW head turns passed.
+
+**Q55. Why does the server decide, and what does the browser's face detector do?**
+- **Never trust the client.** Anyone can change JavaScript or call the API directly. The browser therefore sends
+  only images, and the API accepts no liveness result (a test checks this).
+- **The browser only guides:**
+  - MediaPipe's BlazeFace runs on the device and gives instant feedback (*Move closer*, *Too dark*, *Turn your head
+    to the left*);
+  - it captures the frames automatically, so customers send usable photos the first time.
+- **Calibrated to the server:** the browser's estimate was ~0.87 × the server's on 88 real LFW photos, so it asks
+  for 20 degrees (~23 on the server).
+- **Privacy:**
+  - the model and the WebAssembly runtime are served by the app (no CDN);
+  - a Playwright test caught MediaPipe sending **usage logs to Google**, so the app blocks that one host;
+  - nothing leaves the browser except the submitted images.
+
+**Q56. Is this presentation-attack detection? What can fool it, and how did you test it without real videos?**
+- **No, not certified PAD (ISO/IEC 30107):** it is a simple challenge-response check, a deterrent against the
+  cheapest attack.
+- **What could fool it:**
+  - a **replayed video** of the person turning;
+  - a **3-D mask**;
+  - a **digitally injected** camera stream. My own synthetic head turns pass the check, which demonstrates this.
+- **What production would add:**
+  - passive PAD (texture, moiré, depth);
+  - randomised challenges (order, blinking);
+  - camera-injection detection;
+  - calibration on real, consented videos.
+- **How I tested without videos:**
+  - **real 3-D turns** from LFW, as separate photos of one person, chosen by the same yaw estimate, so that row
+    mainly tests the same-person rule;
+  - **synthetic 2.5-D rotations** of SIDTD portraits;
+  - simulated **static** and **tilted-photo** attacks;
+  - **different-person** frames: 144 of 148 caught on SIDTD's look-alike portraits, all 42 on LFW.
+- **Decision rules:**
+  - liveness failed → **retake**;
+  - different people → **high-risk review**;
+  - photo uploaded instead of the camera → **medium review**.
+

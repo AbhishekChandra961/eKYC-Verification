@@ -1,8 +1,8 @@
 # Demo video: script and shot list (about 4.5 minutes)
 
 **Story:**
-- **Customer:** an honest customer is verified in under a minute; a forged attempt and a blank photo are caught
-  without revealing anything to the customer.
+- **Customer:** an honest customer is verified in under a minute, after the guided camera's head-turn check; a forged
+  attempt and a blank photo are caught without revealing anything to the customer.
 - **Officer:** sees the evidence, including the forgery heatmap, and makes an audited decision.
 - **Under the hood:** Kafka and a dashboard; then the architecture.
 
@@ -19,7 +19,9 @@ The narration is written to be spoken; about 140 words a minute.
 - [ ] **Browser:**
   - a Chrome window at about 1366×900, zoom 100 %;
   - for a webcam selfie that *matches* the ID, start Chrome with the fake webcam (command in
-    `demo_samples/README.md`); otherwise use **Upload a photo instead**.
+    `demo_samples/README.md`: the genuine_1 selfie with a synthetic head turn, so the camera's challenge completes
+    and the liveness check passes); with **Upload a photo instead** a genuine sample goes to a medium-risk review
+    (no head-turn check).
 - [ ] **Tabs ready:** http://localhost:5173 (customer), a second browser profile or private window for the officer,
       http://localhost:8080 (Kafka UI), the dashboards (officer portal → **Analytics**, or the demo site's
       `#/dashboards`), and `docs/report/figures/architecture.png` full screen.
@@ -32,7 +34,7 @@ The narration is written to be spoken; about 140 words a minute.
 | # | Time | Shot | On screen | Say |
 |---|---|---|---|---|
 | 0 | 0:00-0:20 | Title | README top or a title card: "eKYC Verification: layered AI checks for digital onboarding" | "Banks must verify who you are before you open an account. Online, that means a photo of your ID and a selfie, and that invites forged documents and impersonation. This is my capstone: a digital KYC system with four AI checks, built as event-driven microservices." |
-| 1 | 0:20-1:20 | Customer happy path | Log in as the demo customer → **Verify my identity** → step 1 name and date of birth (genuine_1) → step 2 upload `genuine_1_id.jpg` → step 3 webcam selfie → step 4 review → submit → the status page moves Submitted → Verifying → **Verified** | "I log in as a customer and type my details. I upload my ID and take a selfie. When I submit, four checks run in parallel: the document type, a forgery detector, a face match, and a local vision language model that reads the fields and checks the machine-readable zone. The status updates live... and I'm verified, in about half a minute." |
+| 1 | 0:20-1:20 | Customer happy path | Log in as the demo customer → **Verify my identity** → step 1 name and date of birth (genuine_1) → step 2 upload `genuine_1_id.jpg` → step 3 the smart camera: the guide captures "look at the camera", then asks to turn left and right → step 4 review → submit → the status page moves Submitted → Verifying → **Verified** | "I log in as a customer and type my details, and upload my ID. The camera guides me in the browser, then asks me to turn my head left and right: a printed photo can't do that, and the server checks the turns itself. When I submit, four checks run in parallel: the document type, a forgery detector, a face match with that liveness check, and a local vision language model that reads the fields and checks the machine-readable zone. The status updates live... and I'm verified, in about half a minute." |
 | 2 | 1:20-1:50 | Forged attempt | New application with `forged_1_id.jpg` (an edited surname) and `forged_1_selfie_stranger.jpg` → status → **Under review** | "Now a fraudster: a document with an edited surname, and someone else's face. Notice what the customer sees: just 'under review'. No scores, no hints. Showing fraud signals would teach an attacker which attempt came closest." |
 | 3 | 1:50-2:05 | Blank image | New application with `blank_id.jpg` → **Please resubmit** within about a second | "And an unusable photo is caught immediately: the customer is simply asked to retake it. The other checks don't even run." |
 | 4 | 2:05-2:30 | Officer queue | Log in as the officer → the case queue, sorted by risk, with the forged case on top (high risk) | "Here is the bank officer's view. Only doubtful cases come here, sorted by a risk score. The system never rejects anyone on its own: a person always makes that call." |

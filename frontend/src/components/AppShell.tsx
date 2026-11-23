@@ -21,6 +21,7 @@ const NAV: Record<'CUSTOMER' | 'OFFICER' | 'VISITOR', NavItem[]> = {
   VISITOR: [
     { to: '/login', label: 'Demo home', active: () => false },
     { to: '/dashboards', label: 'Dashboards', active: (p) => p.startsWith('/dashboards') },
+    { to: '/camera-check', label: 'Camera check', active: (p) => p.startsWith('/camera-check') },
   ],
 }
 

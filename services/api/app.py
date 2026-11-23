@@ -159,6 +159,12 @@ class OfficerDecisionRecord(BaseModel):
     at: datetime
 
 
+class LivenessKeys(BaseModel):
+    """S3 keys of the two head-turn frames (Phase 13); the selfie is the third frame, looking at the camera."""
+    left: str
+    right: str
+
+
 class CaseApplication(BaseModel):
     application_id: str
     customer_id: str
@@ -166,6 +172,7 @@ class CaseApplication(BaseModel):
     applicant: Applicant
     document_key: str
     selfie_key: str
+    liveness_keys: LivenessKeys | None = Field(None, description="None: a photo was uploaded (no head-turn frames)")
     doc_type: str | None = None
     created_at: datetime
     updated_at: datetime
@@ -198,6 +205,8 @@ class Heatmap(BaseModel):
 class CaseImages(BaseModel):
     document_url: str
     selfie_url: str
+    liveness_left_url: str | None = Field(None, description="head turned to the customer's left (Phase 13)")
+    liveness_right_url: str | None = Field(None, description="head turned to the customer's right (Phase 13)")
     expires_in: int = Field(description="seconds the presigned links stay valid")
 
 
@@ -350,25 +359,45 @@ def create_app(db=None, s3=None, producer=None, settings: Settings | None = None
         return data, ALLOWED_TYPES[upload.content_type]
 
     @app.post("/applications", status_code=status.HTTP_202_ACCEPTED, response_model=SubmitResponse, tags=["customer"],
-              summary="Submit an ID document and a selfie")
+              summary="Submit an ID document and a selfie (+ the two head-turn frames from the camera)")
     async def submit(user: Customer,
                      full_name: Annotated[str, Form(min_length=2, max_length=120, examples=["Krsto Velimirovic"])],
                      date_of_birth: Annotated[date, Form(examples=["1974-08-15"])],
                      id_image: Annotated[UploadFile, File(description="photo or scan of the ID document (JPEG/PNG)")],
-                     selfie: Annotated[UploadFile, File(description="selfie (JPEG/PNG)")]) -> SubmitResponse:
+                     selfie: Annotated[UploadFile, File(description="selfie (JPEG/PNG): with the camera, the frame "
+                                                                    "looking at the camera")],
+                     liveness_left: Annotated[UploadFile | None, File(
+                         description="Phase 13, optional: the camera frame with the head turned to the customer's "
+                                     "left (JPEG/PNG). Send both turn frames or neither (photo upload).")] = None,
+                     liveness_right: Annotated[UploadFile | None, File(
+                         description="Phase 13, optional: the frame with the head turned to the customer's right")] = None,
+                     ) -> SubmitResponse:
+        """Only images are accepted: the browser's own camera guidance is never trusted, the face-worker decides
+        whether the head-turn frames show a live turn (src/ekyc/liveness.py)."""
         if not date(1900, 1, 1) <= date_of_birth <= date.today():
             raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, "date_of_birth is not plausible")
+        if (liveness_left is None) != (liveness_right is None):
+            raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT,
+                                "liveness_left and liveness_right must be sent together (or neither)")
         document, doc_ext = await read_image(id_image, "id_image")
         selfie_bytes, selfie_ext = await read_image(selfie, "selfie")
+        turns = {}
+        for side, upload in (("left", liveness_left), ("right", liveness_right)):
+            if upload is not None:
+                turns[side] = (*await read_image(upload, f"liveness_{side}"), upload.content_type)
         application_id = f"app-{os.urandom(8).hex()}"
         keys = (f"{application_id}/document{doc_ext}", f"{application_id}/selfie{selfie_ext}")
         storage.upload_bytes(state["s3"], settings.s3_bucket, keys[0], document, id_image.content_type)
         storage.upload_bytes(state["s3"], settings.s3_bucket, keys[1], selfie_bytes, selfie.content_type)
+        liveness_keys = {side: f"{application_id}/liveness_{side}{ext}" for side, (_, ext, _) in turns.items()} or None
+        for side, (data, _, content_type) in turns.items():
+            storage.upload_bytes(state["s3"], settings.s3_bucket, liveness_keys[side], data, content_type)
         store.create_application(state["db"], user["user_id"], {"full_name": full_name.strip(),
                                                                 "date_of_birth": date_of_birth.isoformat()},
-                                 keys[0], keys[1], application_id=application_id)
+                                 keys[0], keys[1], application_id=application_id, liveness_keys=liveness_keys)
         publish(state["producer"], Topics.SUBMITTED, make_event(application_id, SubmittedPayload(
-            document_key=keys[0], selfie_key=keys[1])))
+            document_key=keys[0], selfie_key=keys[1], liveness_left_key=(liveness_keys or {}).get("left"),
+            liveness_right_key=(liveness_keys or {}).get("right"))))
         wait_delivered(state["producer"], log, limit_s=30)
         log.info("application %s submitted by %s (applicant %s, dob %s)", application_id, user["user_id"],
                  security.mask_name(full_name), security.mask_dob())
@@ -473,7 +502,10 @@ def create_app(db=None, s3=None, producer=None, settings: Settings | None = None
                 "ai_note": application.get("ai_note"),
                 "forgery_top_tile": forgery.get("top_tile"), "forgery_heatmap": heatmap,
                 "images": {"document_url": presign(application["document_key"]),
-                           "selfie_url": presign(application["selfie_key"]), "expires_in": api_config.presign_seconds},
+                           "selfie_url": presign(application["selfie_key"]),
+                           **{f"liveness_{side}_url": presign(key)
+                              for side, key in (application.get("liveness_keys") or {}).items()},
+                           "expires_in": api_config.presign_seconds},
                 "audit_trail": store.audit_trail(state["db"], application_id)}
 
     @app.post("/officer/cases/{application_id}/decision", response_model=OfficerDecisionResult, tags=["officer"],

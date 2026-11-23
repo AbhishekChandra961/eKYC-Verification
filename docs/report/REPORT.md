@@ -322,6 +322,52 @@ Every rule was first tested on the **ground truth** of all 1,000 genuine documen
 The officer's case summary is generated from a template; an LLM summary is shown only as a labelled "AI-assisted
 note", after one test summary added an unsupported interpretation.
 
+## 3.5 Active liveness for the selfie (Phase 13)
+
+The forgery detector protects the document; the simplest attack on the selfie is a photo of the victim held up to the
+camera. Phase 13 adds a challenge-response check that reuses the two face models, with no new server-side model.
+
+**In the browser.** The customer's camera shows live guidance, computed on the device:
+- MediaPipe's BlazeFace detector runs in WebAssembly, and all its files are served by the app;
+- it asks for one face, close enough, centred and well lit;
+- it captures three frames automatically: looking at the camera (this frame is the selfie), head turned left, head
+  turned right;
+- a manual button and the photo upload remain as fallbacks.
+
+**On the server.** The face-worker decides; the browser's guidance is never trusted:
+- **yaw per frame:** YuNet's five landmarks give the head's yaw as atan(nose offset from the eye-mouth midline /
+  (0.5 × eye distance)), after levelling the eyes;
+- **why it works:** the nose tip stands in front of the eyes and mouth, so it moves sideways when a head turns, but
+  not when a flat photo is tilted;
+- **turns:** each turn must reach 20 degrees from the first frame, and that frame must be frontal within 15 degrees;
+- **same person:** SFace must give a cosine of at least 0.2597 between the first frame and each turn.
+
+**The decision engine:**
+- frames of different people → manual review (high);
+- any other failure → resubmit, with only a neutral "retake your selfie and follow the prompts";
+- no frames (photo uploaded) → manual review (medium).
+
+**Table 4. Liveness evaluation** (`reports/phase13/liveness_eval.md`; production code, default thresholds, not tuned
+on these results).
+
+| Scenario | Frames | Result |
+|---|---:|---|
+| Genuine, real head turns (LFW: one person's frontal and turned photos) | 42 | 41 passed |
+| Genuine, synthetic ±28° turns (SIDTD test portraits) | 148 | 128 passed |
+| Static photo (three identical frames) | 190 | all caught |
+| Printed photo tilted ±40° / ±55° (perspective warp) | 148 / 148 | all caught / 147 caught |
+| Different people (SIDTD portraits / LFW), each turned the right way | 148 / 42 | 144 caught / all caught |
+
+**How to read it:**
+- **No real head-turn video was available.**
+  - The "real turns" are separate LFW photos, chosen with the same yaw estimate, so they test the same-person rule
+    on turned faces rather than the turn rule.
+  - The SIDTD turns are a 2.5-D synthetic rotation.
+- **The four different-person passes** come from the look-alike generated portraits already seen in Section 5.3.
+- **A tilted printed photo** never measured more than about 16 degrees up to a 40-degree tilt.
+- **Calibration:** the browser's keypoint estimate was about 0.87 × the server's on 88 real LFW photos, so the
+  browser asks for 20 degrees (about 23 on the server).
+
 # 4. System architecture
 
 ![Figure 4. System architecture. Events carry object-store keys, never images.](figures/architecture.png){width=95%}
@@ -366,7 +412,7 @@ Pydantic envelope: event id, application id, type, schema version, timestamp and
 
 The decision engine (`src/ekyc/decision.py`) is a **pure function** of the four check results and the details the
 applicant typed. Its thresholds are read from the model configuration files. Each check contributes **reasons** with
-an effect and the evidence behind it (Table 4).
+an effect and the evidence behind it (Table 5).
 
 The outcome follows from the reasons, in this order of precedence:
 1. an unusable document image (blank or unrecognized) → **RESUBMIT_REQUIRED**, and the other checks are skipped;
@@ -379,12 +425,13 @@ The outcome follows from the reasons, in this order of precedence:
 The risk score adds 50 points per high reason and 20 per medium reason, up to 10 points for the forgery score and up to
 10 for a weak face score, and is capped at 100. It orders the officer's queue. **The system never auto-rejects.**
 
-**Table 4. Main decision rules.**
+**Table 5. Main decision rules.**
 
 | Check | Evidence → effect |
 |------|------------------|
 | Document image | blank or unreadable → resubmit; classifier confidence below 0.77 ("unrecognized document") → resubmit |
 | Face | no face found → resubmit; score < 0.2597 → high (mismatch); 0.2597-0.556 → medium |
+| Liveness (Phase 13) | frames of different people → high; no clear turn, not frontal, or no face on a turn frame → resubmit; no frames (photo uploaded) → medium |
 | Forgery | score ≥ 0.857383 → high ("forgery suspected"); 0.729-0.857 → medium |
 | Typed details vs extraction | date of birth differs → high; name differs (fuzzy similarity < 0.85) or date of birth unreadable → medium |
 | Consistency rules | "strong" rules (MRZ check digits, MRZ vs document number and expiry, date order) → high; "review" rules (MRZ format, MRZ vs names and birth date, unparseable dates) → medium |
@@ -421,7 +468,8 @@ so two officers cannot both decide a case. Each transition is appended to an aud
 ## 4.5 Interfaces, packaging and operations
 
 **Frontend** (React, TypeScript, Vite, MUI):
-- **customer:** a four-step wizard (details, document, webcam or uploaded selfie, review) and a live status page fed
+- **customer:** a four-step wizard (details, document, selfie with the guided camera and its head-turn challenge or an
+  uploaded photo, review) and a live status page fed
   by Server-Sent Events;
 - **officer:** a queue sorted by risk and a case detail page with the images, a forgery heatmap overlay, every check,
   approve or reject, and the audit trail;
@@ -448,9 +496,9 @@ so two officers cannot both decide a case. Each transition is appended to an aud
 # 5. Evaluation
 
 All results in this section are one-time test evaluations, with thresholds frozen on validation, unless stated
-otherwise. Table 5 summarises them.
+otherwise. Table 6 summarises them.
 
-**Table 5. One-look test results.**
+**Table 6. One-look test results.**
 
 | Model | Test data | Key results |
 |-----|-----|----------------|
@@ -532,7 +580,7 @@ system:
   a stranger's selfie; 5 % blank or unreadable images; 5 % forged with a stranger's selfie;
 - **ground truth** was recorded separately, and nothing was tuned on the batch.
 
-**Table 6. System decision against ground truth** (`reports/phase9/batch_summary.md`).
+**Table 7. System decision against ground truth** (`reports/phase9/batch_summary.md`).
 
 | Ground truth | AUTO_APPROVED | MANUAL_REVIEW | RESUBMIT_REQUIRED | Total |
 |---|---:|---:|---:|---:|
@@ -562,17 +610,20 @@ approved 10. Because the simulated officer used the ground truth, this demonstra
 times were 1.5 s for the document check, 1.6 s for face, 6.4 s for forgery and 29.4 s for extraction. A Kafka stall
 of about 60 s caused timeouts in 2 applications, which went to manual review as designed.
 
-![Figure 7. The Risk & fraud dashboard over the batch (synthetic data): Table 6 as a highlight table, officer agreement by risk level, decision reasons by effect and the risk-score distribution.](../../reports/phase12/02_dashboard_risk_fraud.png){width=90%}
+![Figure 7. The Risk & fraud dashboard over the batch (synthetic data): Table 7 as a highlight table, officer agreement by risk level, decision reasons by effect and the risk-score distribution.](../../reports/phase12/02_dashboard_risk_fraud.png){width=90%}
 
 ## 5.6 Engineering verification
 
-- **Python tests:** 267, of which 235 run in CI without services, model weights or data.
+- **Python tests:** 317, of which 276 run in CI without services, model weights or data.
 - **Frontend:**
-  - 104 Vitest unit tests, including the dashboard self-check against `reports/phase9/batch_summary.json`;
+  - 124 Vitest unit tests, including the dashboard self-check against `reports/phase9/batch_summary.json` and the
+    camera's guidance and head-turn logic;
   - 4 Playwright end-to-end tests that drive the real system;
-  - 10 that run against the static demo site, 5 of them for the dashboards.
-- **API smoke test:** 4 cases plus 6 security checks (wrong role ×2, another customer's application, missing,
-  invalid and expired tokens).
+  - 12 that run against the static demo site: 5 for the dashboards, and 2 drive the camera check with Chromium's fake
+    webcam.
+- **API smoke test:** 7 cases plus 6 security checks (wrong role ×2, another customer's application, missing,
+  invalid and expired tokens). Three of the cases cover liveness (Phase 13): a photo uploaded, a static photo, and
+  head turns of another person.
 
 **Containers.** With Docker's memory at 4 GB, the forgery worker was killed by the operating system's out-of-memory
 handler at 1.33 GB. With 6 GB, the containerized smoke test passed every case:
@@ -591,7 +642,12 @@ handler at 1.33 GB. With 6 GB, the containerized smoke test passed every case:
   edited field.
 - **Face matching on generated portraits:** different documents matched in 29.9 % of pairs, and the batch's one miss
   came from this. LFW's FAR of 2.2 % does not transfer to ID portraits.
-- **Scope:** there is no liveness or anti-spoofing check, no sanctions or PEP screening, and no NFC chip reading.
+- **Liveness is not certified presentation-attack detection (PAD):** it stops a photo held up to the camera.
+  - A replayed video of the person turning, a 3-D mask or a digitally injected camera stream could pass; the
+    synthetic turns made for the tests pass, which shows exactly this.
+  - Its genuine-turn evaluation rests on LFW photos and synthetic rotations, not real head-turn videos.
+- **Scope:** there is no passive anti-spoofing (texture or depth), no sanctions or PEP screening, and no NFC chip
+  reading.
 - **Throughput:** one local LLM processes extractions one at a time (20-30 s each), so concurrent applications queue.
 - **Single-node infrastructure:** Kafka is a single broker with no replication.
 - **Small test groups:** per-type and per-method numbers rest on 13-50 pages, and their intervals are wide.
@@ -644,7 +700,7 @@ The main weaknesses lie in operations and data, not architecture:
 The next steps are therefore:
 - recalibration on real, consented data;
 - a dedicated MRZ reader;
-- liveness detection;
+- passive presentation-attack detection and camera-injection detection, on top of the head-turn check;
 - forgery training on phone photos.
 
 # References
@@ -692,5 +748,6 @@ The next steps are therefore:
 | 3.2, 5.2 Forgery | `reports/phase3/forgery_metrics_val.json` (v1), `forgery_breakdown_source_val.csv`, `forgery_v2_metrics_val.json`, `forgery_v3_vs_v2_val.csv`, `forgery_v3_metrics_test.json`, `summary.md` |
 | 3.3, 5.3 Face | `reports/phase4/face_metrics.json` |
 | 3.4, 5.4 Extraction | `reports/phase5/phase5_metrics.json`, notebook `05_field_extraction` |
+| 3.5 Liveness | `reports/phase13/liveness_eval.{md,json}`, `reports/phase13/README.md` (calibration, sizes) |
 | 5.5 Batch | `reports/phase9/batch_summary.{md,json}`, `dashboard/data/*.csv`, `frontend/src/dashboards/snapshot.json` |
 | 5.6 Containers | `reports/phase9/docker.md`, `e2e_api_containers_6gb.json` |

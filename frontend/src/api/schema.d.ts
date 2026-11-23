@@ -48,7 +48,11 @@ export interface paths {
         /** My Applications */
         get: operations["my_applications_applications_get"];
         put?: never;
-        /** Submit an ID document and a selfie */
+        /**
+         * Submit an ID document and a selfie (+ the two head-turn frames from the camera)
+         * @description Only images are accepted: the browser's own camera guidance is never trusted, the face-worker decides
+         *     whether the head-turn frames show a live turn (src/ekyc/liveness.py).
+         */
         post: operations["submit_applications_post"];
         delete?: never;
         options?: never;
@@ -254,9 +258,19 @@ export interface components {
             id_image: string;
             /**
              * Selfie
-             * @description selfie (JPEG/PNG)
+             * @description selfie (JPEG/PNG): with the camera, the frame looking at the camera
              */
             selfie: string;
+            /**
+             * Liveness Left
+             * @description Phase 13, optional: the camera frame with the head turned to the customer's left (JPEG/PNG). Send both turn frames or neither (photo upload).
+             */
+            liveness_left?: string | null;
+            /**
+             * Liveness Right
+             * @description Phase 13, optional: the frame with the head turned to the customer's right
+             */
+            liveness_right?: string | null;
         };
         /** CaseApplication */
         CaseApplication: {
@@ -274,6 +288,8 @@ export interface components {
             document_key: string;
             /** Selfie Key */
             selfie_key: string;
+            /** @description None: a photo was uploaded (no head-turn frames) */
+            liveness_keys?: components["schemas"]["LivenessKeys"] | null;
             /** Doc Type */
             doc_type?: string | null;
             /**
@@ -319,6 +335,16 @@ export interface components {
             document_url: string;
             /** Selfie Url */
             selfie_url: string;
+            /**
+             * Liveness Left Url
+             * @description head turned to the customer's left (Phase 13)
+             */
+            liveness_left_url?: string | null;
+            /**
+             * Liveness Right Url
+             * @description head turned to the customer's right (Phase 13)
+             */
+            liveness_right_url?: string | null;
             /**
              * Expires In
              * @description seconds the presigned links stay valid
@@ -431,6 +457,16 @@ export interface components {
             thresholds?: {
                 [key: string]: number;
             } | null;
+        };
+        /**
+         * LivenessKeys
+         * @description S3 keys of the two head-turn frames (Phase 13); the selfie is the third frame, looking at the camera.
+         */
+        LivenessKeys: {
+            /** Left */
+            left: string;
+            /** Right */
+            right: string;
         };
         /** OfficerDecision */
         OfficerDecision: {

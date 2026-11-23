@@ -113,7 +113,8 @@
         "tags": [
           "customer"
         ],
-        "summary": "Submit an ID document and a selfie",
+        "summary": "Submit an ID document and a selfie (+ the two head-turn frames from the camera)",
+        "description": "Only images are accepted: the browser's own camera guidance is never trusted, the face-worker decides\nwhether the head-turn frames show a live turn (src/ekyc/liveness.py).",
         "operationId": "submit_applications_post",
         "requestBody": {
           "content": {
@@ -707,7 +708,33 @@
             "type": "string",
             "contentMediaType": "application/octet-stream",
             "title": "Selfie",
-            "description": "selfie (JPEG/PNG)"
+            "description": "selfie (JPEG/PNG): with the camera, the frame looking at the camera"
+          },
+          "liveness_left": {
+            "anyOf": [
+              {
+                "type": "string",
+                "contentMediaType": "application/octet-stream"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Liveness Left",
+            "description": "Phase 13, optional: the camera frame with the head turned to the customer's left (JPEG/PNG). Send both turn frames or neither (photo upload)."
+          },
+          "liveness_right": {
+            "anyOf": [
+              {
+                "type": "string",
+                "contentMediaType": "application/octet-stream"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Liveness Right",
+            "description": "Phase 13, optional: the frame with the head turned to the customer's right"
           }
         },
         "type": "object",
@@ -751,6 +778,17 @@
           "selfie_key": {
             "type": "string",
             "title": "Selfie Key"
+          },
+          "liveness_keys": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LivenessKeys"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "None: a photo was uploaded (no head-turn frames)"
           },
           "doc_type": {
             "anyOf": [
@@ -902,6 +940,30 @@
           "selfie_url": {
             "type": "string",
             "title": "Selfie Url"
+          },
+          "liveness_left_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Liveness Left Url",
+            "description": "head turned to the customer's left (Phase 13)"
+          },
+          "liveness_right_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Liveness Right Url",
+            "description": "head turned to the customer's right (Phase 13)"
           },
           "expires_in": {
             "type": "integer",
@@ -1242,6 +1304,25 @@
           "page_size_1280"
         ],
         "title": "Heatmap"
+      },
+      "LivenessKeys": {
+        "properties": {
+          "left": {
+            "type": "string",
+            "title": "Left"
+          },
+          "right": {
+            "type": "string",
+            "title": "Right"
+          }
+        },
+        "type": "object",
+        "required": [
+          "left",
+          "right"
+        ],
+        "title": "LivenessKeys",
+        "description": "S3 keys of the two head-turn frames (Phase 13); the selfie is the third frame, looking at the camera."
       },
       "OfficerDecision": {
         "properties": {

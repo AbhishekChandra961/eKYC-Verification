@@ -17,6 +17,8 @@ const CaseQueue = lazy(() => import('./officer/CaseQueue').then((m) => ({ defaul
 const CaseDetailPage = lazy(() => import('./officer/CaseDetailPage').then((m) => ({ default: m.CaseDetailPage })))
 // the analytics dashboards (Phase 12): their chart library and data load only when a dashboard is opened
 const DashboardsPage = lazy(() => import('./dashboards/DashboardsPage').then((m) => ({ default: m.DashboardsPage })))
+// demo site only (Phase 13): the smart selfie camera, running in the browser with nothing uploaded
+const CameraCheckPage = lazy(() => import('./demo/CameraCheckPage').then((m) => ({ default: m.CameraCheckPage })))
 
 const loading = <LinearProgress aria-label="Loading the page" />
 
@@ -62,6 +64,9 @@ export function AppRoutes() {
         {__DEMO_MODE__ && (
           <Route path="dashboards/:tab?"
             element={<Suspense fallback={loading}><DashboardsPage basePath="/dashboards" /></Suspense>} />
+        )}
+        {__DEMO_MODE__ && (
+          <Route path="camera-check" element={<Suspense fallback={loading}><CameraCheckPage /></Suspense>} />
         )}
         <Route path="*" element={<NotFound />} />
       </Route>

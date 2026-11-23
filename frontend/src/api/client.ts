@@ -118,7 +118,10 @@ export interface NewApplication {
   fullName: string
   dateOfBirth: string // YYYY-MM-DD
   idImage: Blob
-  selfie: Blob
+  selfie: Blob // with the camera: the frame looking at the camera
+  /** Phase 13: the camera's head-turn frames (absent when a photo was uploaded). Only images are sent: the server
+   *  decides whether they show a live head turn. */
+  headTurns?: { left: Blob; right: Blob }
 }
 
 /** Live status of one application: the callbacks of watchApplication. */
@@ -159,6 +162,10 @@ const httpApi: EkycApi = {
     form.append('date_of_birth', input.dateOfBirth)
     form.append('id_image', input.idImage, fileName(input.idImage, 'id-document'))
     form.append('selfie', input.selfie, fileName(input.selfie, 'selfie'))
+    if (input.headTurns) {
+      form.append('liveness_left', input.headTurns.left, fileName(input.headTurns.left, 'head-left'))
+      form.append('liveness_right', input.headTurns.right, fileName(input.headTurns.right, 'head-right'))
+    }
     return request<SubmitResponse>('/applications', { method: 'POST', body: form })
   },
   myApplications(signal?: AbortSignal): Promise<ApplicationView[]> {

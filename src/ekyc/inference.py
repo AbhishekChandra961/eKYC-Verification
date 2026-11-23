@@ -20,7 +20,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from ekyc import config, consistency, data, extraction, face
+from ekyc import config, consistency, data, extraction, face, liveness
 
 MODEL_DIR = config.PROJECT_ROOT / "models"
 log = logging.getLogger(__name__)
@@ -179,9 +179,10 @@ class FaceVerifier:
         cfg = json.loads((model_dir / "face_config.json").read_text())
         self.threshold = float(cfg["decision"]["threshold"])  # 0.2597
         self.match_from = float(cfg["decision"].get("review_below", FACE_MATCH_FROM))  # 0.556
+        self.liveness_policy = liveness.policy_from_env(same_person_min_cosine=self.threshold)  # Phase 13
         self.version = f"{file_version(config.YUNET_ONNX)}, {file_version(config.SFACE_ONNX)}"
 
-    def _face(self, image_bytes: bytes):
+    def _face(self, image_bytes: bytes, with_landmarks: bool = False):
         rgb = _rgb(image_bytes)
         scale = min(1.0, self.MAX_SIDE / max(rgb.shape[:2]))
         if scale < 1.0:
@@ -190,7 +191,20 @@ class FaceVerifier:
         aligned, info = face.detect_and_align(rgb, self.detector, self.recognizer, pick="largest")
         summary = {"faces": info["faces"], "confidence": None if aligned is None else round(info["score"], 3),
                    "box": None if info["box"] is None else [round(v / scale) for v in info["box"]]}
+        if with_landmarks:
+            summary["landmarks"] = None if aligned is None else [[x / scale, y / scale] for x, y in info["landmarks"]]
         return (None if aligned is None else face.embed(aligned, self.recognizer)), summary
+
+    def liveness(self, neutral_bytes: bytes, left_bytes: bytes | None, right_bytes: bytes | None) -> dict:
+        """Active liveness (Phase 13): the selfie (= the frame looking at the camera) and the two head-turn frames.
+        No turn frames (the customer uploaded a photo) -> {"status": "not_provided"}."""
+        if left_bytes is None or right_bytes is None:
+            return dict(liveness.NOT_PROVIDED)
+        frames = []
+        for image in (neutral_bytes, left_bytes, right_bytes):
+            embedding, summary = self._face(image, with_landmarks=True)
+            frames.append(liveness.FrameFace(summary["landmarks"], embedding))
+        return liveness.evaluate(*frames, self.liveness_policy)
 
     def verify(self, id_bytes: bytes, selfie_bytes: bytes) -> dict:
         id_embedding, id_info = self._face(id_bytes)

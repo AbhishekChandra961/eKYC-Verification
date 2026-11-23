@@ -1,6 +1,7 @@
 // One end-to-end flow through the real system, saving a screenshot of every main screen for the report:
-//   customer: genuine sample (webcam) -> "Verified"; forged sample (upload) -> "Under review"; blank -> "Please resubmit"
-//   officer:  queue -> the forged case -> heatmap -> reject with a reason -> audit trail
+//   customer: genuine sample (smart camera: guidance + head-turn challenge, Phase 13) -> "Verified";
+//             forged sample (upload) -> "Under review"; blank -> "Please resubmit"
+//   officer:  queue -> the forged case -> heatmap, liveness "not provided" (photo uploaded) -> reject -> audit trail
 import { expect, test, type Page } from '@playwright/test'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
@@ -82,11 +83,12 @@ test('customer: genuine sample with a webcam selfie is verified', async ({ page 
   await fillDetailsAndDocument(page, samples.genuine_1, true)
 
   await page.getByRole('button', { name: 'Turn on camera' }).click()
-  await expect(page.getByRole('button', { name: 'Take photo' })).toBeVisible()
   await page.waitForFunction(() => (document.querySelector('video')?.videoWidth ?? 0) > 0)
+  // the face guide captures "look at the camera" by itself, then asks for the turns (the fake webcam turns its head)
+  await expect(page.getByTestId('camera-prompt')).toHaveText(/turn your head slowly to your left/, { timeout: 60_000 })
   await shot(page, '05_wizard_3_selfie_camera')
-  await page.getByRole('button', { name: 'Take photo' }).click()
-  await expect(page.getByAltText('Your selfie')).toBeVisible()
+  await expect(page.getByAltText('Your selfie')).toBeVisible({ timeout: 60_000 })
+  await expect(page.getByText('Head-turn photos taken')).toBeVisible()
   await page.getByRole('button', { name: 'Continue' }).click()
 
   const { applicationId, submittedAt } = await reviewAndSubmit(page, true)
@@ -151,6 +153,7 @@ test('officer: opens the forged case, sees the heatmap and rejects it', async ({
   expect(await heatmap.locator('rect').count()).toBeGreaterThan(2)
   await expect(page.getByText('Forgery suspected').first()).toBeVisible()
   await expect(page.getByText('Official summary')).toBeVisible()
+  await expect(page.getByTestId('liveness-panel')).toContainText('Not provided') // a photo was uploaded: no head turns
   await page.locator('figure').first().screenshot({ path: path.join(shots, '14_case_heatmap.png'), animations: 'disabled' })
   await shot(page, '13_case_detail')
 

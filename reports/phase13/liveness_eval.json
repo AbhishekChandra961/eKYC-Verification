@@ -1,0 +1,250 @@
+{
+ "meta": {
+  "thresholds": {
+   "same_person_min_cosine": 0.2597,
+   "min_turn_deg": 20.0,
+   "max_neutral_yaw_deg": 15.0
+  },
+  "nose_depth": 0.5,
+  "synthetic_turn_deg": 28.0,
+  "tilts_deg": [
+   40.0,
+   55.0
+  ],
+  "sidtd_portraits": 148,
+  "sidtd_skipped": [],
+  "lfw": {
+   "people_with_10_photos": 158,
+   "triplets": 42
+  },
+  "decision": {
+   "passed": "no liveness reason",
+   "failed": "RESUBMIT_REQUIRED (retake the selfie)",
+   "different_person": "MANUAL_REVIEW high"
+  }
+ },
+ "summary": [
+  {
+   "scenario": "lfw_genuine_real_turns",
+   "n": 42,
+   "outcomes": {
+    "passed": 41,
+    "different_person": 1
+   },
+   "failures": {
+    "different_person": 1
+   },
+   "passed_share": 0.9762,
+   "turn_left_deg": {
+    "min": 25.1,
+    "median": 29.6,
+    "max": 41.5
+   },
+   "turn_right_deg": {
+    "min": -46.9,
+    "median": -29.3,
+    "max": -25.2
+   },
+   "lowest_same_person_cosine": {
+    "min": 0.031,
+    "median": 0.611,
+    "max": 0.753
+   }
+  },
+  {
+   "scenario": "sidtd_genuine_synthetic",
+   "n": 148,
+   "outcomes": {
+    "passed": 128,
+    "failed": 20
+   },
+   "failures": {
+    "no_left_turn": 14,
+    "no_right_turn": 12
+   },
+   "passed_share": 0.8649,
+   "turn_left_deg": {
+    "min": 13.0,
+    "median": 28.0,
+    "max": 36.8
+   },
+   "turn_right_deg": {
+    "min": -44.9,
+    "median": -29.1,
+    "max": -12.8
+   },
+   "lowest_same_person_cosine": {
+    "min": 0.272,
+    "median": 0.526,
+    "max": 0.761
+   }
+  },
+  {
+   "scenario": "sidtd_static",
+   "n": 148,
+   "outcomes": {
+    "failed": 148
+   },
+   "failures": {
+    "no_left_turn": 148,
+    "no_right_turn": 148
+   },
+   "passed_share": 0.0,
+   "turn_left_deg": {
+    "min": 0.0,
+    "median": 0.0,
+    "max": 0.0
+   },
+   "turn_right_deg": {
+    "min": 0.0,
+    "median": 0.0,
+    "max": 0.0
+   },
+   "lowest_same_person_cosine": {
+    "min": 1.0,
+    "median": 1.0,
+    "max": 1.0
+   }
+  },
+  {
+   "scenario": "lfw_static",
+   "n": 42,
+   "outcomes": {
+    "failed": 42
+   },
+   "failures": {
+    "no_left_turn": 42,
+    "no_right_turn": 42
+   },
+   "passed_share": 0.0,
+   "turn_left_deg": {
+    "min": 0.0,
+    "median": 0.0,
+    "max": 0.0
+   },
+   "turn_right_deg": {
+    "min": 0.0,
+    "median": 0.0,
+    "max": 0.0
+   },
+   "lowest_same_person_cosine": {
+    "min": 1.0,
+    "median": 1.0,
+    "max": 1.0
+   }
+  },
+  {
+   "scenario": "sidtd_tilt_40",
+   "n": 148,
+   "outcomes": {
+    "failed": 148
+   },
+   "failures": {
+    "no_left_turn": 148,
+    "no_right_turn": 147
+   },
+   "passed_share": 0.0,
+   "turn_left_deg": {
+    "min": -5.2,
+    "median": 8.4,
+    "max": 15.2
+   },
+   "turn_right_deg": {
+    "min": -20.5,
+    "median": -10.4,
+    "max": -2.9
+   },
+   "lowest_same_person_cosine": {
+    "min": 0.606,
+    "median": 0.785,
+    "max": 0.855
+   }
+  },
+  {
+   "scenario": "sidtd_tilt_55",
+   "n": 148,
+   "outcomes": {
+    "failed": 145,
+    "different_person": 2,
+    "passed": 1
+   },
+   "failures": {
+    "no_left_turn": 146,
+    "no_right_turn": 101,
+    "different_person": 2
+   },
+   "passed_share": 0.0068,
+   "turn_left_deg": {
+    "min": -10.4,
+    "median": 9.4,
+    "max": 26.9
+   },
+   "turn_right_deg": {
+    "min": -32.9,
+    "median": -17.2,
+    "max": -0.8
+   },
+   "lowest_same_person_cosine": {
+    "min": 0.234,
+    "median": 0.556,
+    "max": 0.731
+   }
+  },
+  {
+   "scenario": "sidtd_different",
+   "n": 148,
+   "outcomes": {
+    "different_person": 141,
+    "passed": 4,
+    "failed": 3
+   },
+   "failures": {
+    "different_person": 141,
+    "no_left_turn": 25,
+    "no_right_turn": 20
+   },
+   "passed_share": 0.027,
+   "turn_left_deg": {
+    "min": 1.0,
+    "median": 28.3,
+    "max": 43.5
+   },
+   "turn_right_deg": {
+    "min": -52.9,
+    "median": -28.7,
+    "max": 5.6
+   },
+   "lowest_same_person_cosine": {
+    "min": -0.131,
+    "median": 0.071,
+    "max": 0.424
+   }
+  },
+  {
+   "scenario": "lfw_different",
+   "n": 42,
+   "outcomes": {
+    "different_person": 42
+   },
+   "failures": {
+    "different_person": 42
+   },
+   "passed_share": 0.0,
+   "turn_left_deg": {
+    "min": 24.1,
+    "median": 29.5,
+    "max": 42.3
+   },
+   "turn_right_deg": {
+    "min": -46.9,
+    "median": -29.7,
+    "max": -22.8
+   },
+   "lowest_same_person_cosine": {
+    "min": -0.119,
+    "median": 0.043,
+    "max": 0.189
+   }
+  }
+ ]
+}

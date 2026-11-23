@@ -69,7 +69,8 @@ def detect_and_align(image_rgb: np.ndarray, detector, recognizer, settings: dict
     highest confidence, and let SFace rotate/crop it with the 5 landmarks. Returns (None, info) if no face is
     found; the caller decides what that means (for KYC: ask for a new photo or send to manual review).
     info: faces (how many were found), score (confidence of the kept face), box (x, y, w, h in the ORIGINAL
-    image's pixels), scale (enlargement factor used).
+    image's pixels), scale (enlargement factor used), landmarks (the kept face's 5 points in the ORIGINAL image's
+    pixels: right eye, left eye, nose tip, right and left mouth corner, as (x, y); Phase 13 liveness).
     """
     bgr = to_bgr_uint8(image_rgb)
     height, width = bgr.shape[:2]
@@ -81,13 +82,15 @@ def detect_and_align(image_rgb: np.ndarray, detector, recognizer, settings: dict
     detector.setInputSize((bgr.shape[1], bgr.shape[0]))
     _, faces = detector.detect(bgr)  # None, or one row per face: x, y, w, h, 5 landmark (x, y) pairs, score
     if faces is None or len(faces) == 0:
-        return None, {"faces": 0, "score": np.nan, "box": None, "scale": scale}
+        return None, {"faces": 0, "score": np.nan, "box": None, "scale": scale, "landmarks": None}
     chosen = np.argmax(faces[:, 2] * faces[:, 3]) if pick == "largest" else np.argmax(faces[:, -1])
     best = faces[int(chosen)]
     x, y, w, h = best[:4]
     box = ((x - pad) / scale, (y - pad) / scale, w / scale, h / scale)  # back to original image pixels
+    landmarks = (best[4:14].reshape(5, 2) - pad) / scale
     aligned = recognizer.alignCrop(bgr, best)
-    return aligned, {"faces": int(len(faces)), "score": float(best[-1]), "box": tuple(map(float, box)), "scale": scale}
+    return aligned, {"faces": int(len(faces)), "score": float(best[-1]), "box": tuple(map(float, box)), "scale": scale,
+                     "landmarks": landmarks.astype(float).tolist()}
 
 
 def embed(aligned_bgr: np.ndarray, recognizer) -> np.ndarray:

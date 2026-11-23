@@ -1,5 +1,6 @@
 """Table-driven tests of the decision engine (Phase 7): one row per rule branch (with the threshold boundaries),
-the precedence between rules, the risk score order, the policy loader and the Phase 6 smoke-test cases."""
+the precedence between rules, the risk score order, the policy loader and the Phase 6 smoke-test cases.
+Phase 13: the active liveness branches (the face check's outputs["liveness"])."""
 
 import copy
 from datetime import date
@@ -21,12 +22,23 @@ def clean_checks():
         "doc": {"status": "ok", "outputs": {"blank": False, "recognized": True, "doc_type": "srb_passport",
                                             "confidence": 0.9988, "predicted_type": "srb_passport"}},
         "face": {"status": "ok", "outputs": {"score": 0.92, "band": "match", "id_face": {"faces": 2},
-                                             "selfie_face": {"faces": 1}}},
+                                             "selfie_face": {"faces": 1}, "liveness": passed_liveness()}},
         "forgery": {"status": "ok", "outputs": {"score": 0.56, "band": "pass", "top_tile": {"box_original": [1, 2, 3, 4]}}},
         "extraction": {"status": "ok", "outputs": {"fields": {"surname": "VELIMIROVIĆ", "given_names": "KRSTO",
                                                               "birth_date": "15.08.1974", "expiry_date": "12.08.2030"},
                                                    "flags": []}},
     }
+
+
+def passed_liveness():
+    """A passed Phase 13 liveness result, shaped like FaceVerifier.liveness() (src/ekyc/liveness.py)."""
+    return {"status": "passed", "failures": [], "yaw_deg": {"neutral": 2.1, "left": 31.4, "right": -28.7},
+            "turn_deg": {"left": 29.3, "right": -30.8}, "same_person_cosine": {"left": 0.71, "right": 0.68},
+            "thresholds": {"same_person_min_cosine": 0.2597, "min_turn_deg": 20.0, "max_neutral_yaw_deg": 15.0}}
+
+
+def failed_liveness(*failures):
+    return {**passed_liveness(), "status": "failed", "failures": list(failures)}
 
 
 def setter(path, value):
@@ -90,6 +102,34 @@ CASES = [  # (name, changes, outcome, risk level, reason codes in order)
      ["dob_unverified"]),
     ("expired document is informational", [setter("extraction.outputs.fields.expiry_date", "12.08.2025")],
      "AUTO_APPROVED", "low", ["document_expired"]),
+    # --- active liveness (Phase 13): the face check carries it
+    ("liveness passed", [], "AUTO_APPROVED", "low", []),
+    ("liveness not provided (photo uploaded)", [setter("face.outputs.liveness", {"status": "not_provided"})],
+     "MANUAL_REVIEW", "medium", ["liveness_not_provided"]),
+    ("face result from before Phase 13 counts as not provided", [setter("face.outputs.liveness", DELETE)],
+     "MANUAL_REVIEW", "medium", ["liveness_not_provided"]),
+    ("static photo: no turn", [setter("face.outputs.liveness", failed_liveness("no_left_turn", "no_right_turn"))],
+     "RESUBMIT_REQUIRED", None, ["liveness_failed"]),
+    ("not facing the camera first", [setter("face.outputs.liveness", failed_liveness("not_frontal"))],
+     "RESUBMIT_REQUIRED", None, ["liveness_failed"]),
+    ("no face on a turn frame", [setter("face.outputs.liveness", failed_liveness("no_face_left"))],
+     "RESUBMIT_REQUIRED", None, ["liveness_failed"]),
+    ("frames of different people", [setter("face.outputs.liveness", failed_liveness("different_person"))],
+     "MANUAL_REVIEW", "high", ["liveness_different_person"]),
+    ("different people beat a retake",
+     [setter("face.outputs.liveness", failed_liveness("no_left_turn", "different_person"))],
+     "MANUAL_REVIEW", "high", ["liveness_different_person", "liveness_failed"]),
+    ("a liveness retake beats a medium finding",
+     [setter("face.outputs.liveness", failed_liveness("no_right_turn")), setter("forgery.outputs.score", 0.80)],
+     "RESUBMIT_REQUIRED", None, ["liveness_failed", "forgery_uncertain"]),
+    ("a liveness retake never hides a suspected forgery",
+     [setter("face.outputs.liveness", failed_liveness("no_right_turn")), setter("forgery.outputs.score", 0.99)],
+     "MANUAL_REVIEW", "high", ["liveness_failed", "forgery_suspected"]),
+    ("no face on the selfie: one retake reason, not two",
+     [setter("face.outputs.score", None), setter("face.outputs.selfie_face", {"faces": 0}),
+      setter("face.outputs.liveness", failed_liveness("no_face_neutral"))], "RESUBMIT_REQUIRED", None, ["no_face_found"]),
+    ("face check timed out: no liveness reason on top",
+     [setter("face.status", "timed_out")], "MANUAL_REVIEW", "medium", ["face_timed_out"]),
     # --- precedence
     ("blank image beats everything", [setter("doc.outputs.blank", True), setter("forgery.outputs.score", 0.99)],
      "RESUBMIT_REQUIRED", None, ["image_unreadable"]),
@@ -186,3 +226,23 @@ def test_phase6_case2_forged_with_strangers_selfie_is_high_risk_review():
                                            "rule_mrz_vs_given_names"]
     summary = decision.official_summary("app-2", d, checks)
     assert "manual review (risk high" in summary and "Forgery suspected" in summary and "KRSTO" not in summary
+
+
+def test_liveness_retake_message_is_customer_safe():
+    """The resubmit message reaches the customer (API retake list): instructions only, no fraud signal words."""
+    checks = clean_checks()
+    checks["face"]["outputs"]["liveness"] = failed_liveness("no_left_turn")
+    reason = decide(checks, APPLICANT, POLICY, today=TODAY).reasons[0]
+    assert reason.effect == "resubmit" and "turn your head" in reason.message
+    assert not any(word in reason.message.lower() for word in ("score", "fraud", "risk", "liveness", "spoof", "fake"))
+    assert reason.evidence["turn_deg"] == {"left": 29.3, "right": -30.8}  # the officer sees the measured values
+
+
+def test_official_summary_reports_liveness():
+    checks = clean_checks()
+    summary = decision.official_summary("app-1", decide(checks, APPLICANT, POLICY, today=TODAY), checks)
+    assert "Liveness: passed (turns 29.3 / -30.8 degrees)." in summary
+    checks["face"]["outputs"]["liveness"] = {"status": "not_provided"}
+    summary = decision.official_summary("app-1", decide(checks, APPLICANT, POLICY, today=TODAY), checks)
+    assert "Liveness: not provided." in summary
+

@@ -59,11 +59,11 @@ cd frontend && npm run e2e                          # Playwright (Chromium) thro
 | Method | Path | Role | What it does |
 |---|---|---|---|
 | POST | `/auth/login` | - | form `username` (email) + `password` -> JWT (30 min) |
-| POST | `/applications` | CUSTOMER | multipart: `full_name`, `date_of_birth`, `id_image`, `selfie` (JPEG/PNG, <= 10 MB, checked with Pillow) -> S3 + MongoDB + `kyc.submitted` -> **202** with the id |
+| POST | `/applications` | CUSTOMER | multipart: `full_name`, `date_of_birth`, `id_image`, `selfie` (JPEG/PNG, <= 10 MB, checked with Pillow), and (Phase 13, optional) `liveness_left` + `liveness_right`, the camera's head-turn frames: both or neither (422), stored in S3 like the selfie, keys in `liveness_keys` and in the face task -> S3 + MongoDB + `kyc.submitted` -> **202** with the id. Only images are accepted: no liveness result from the browser |
 | GET | `/applications`, `/applications/{id}` | CUSTOMER | own applications only (another customer's id -> 404); status, outcome, a neutral message, progress (checks completed / total, never their results), and what to retake (only for RESUBMIT_REQUIRED) |
 | GET | `/applications/{id}/events` | CUSTOMER | Server-Sent Events: one `status` event per change until a final status (`?token=` accepted, since browser EventSource cannot send headers) |
 | GET | `/officer/cases` | OFFICER | queue, filter `status` / `outcome`, highest risk score first |
-| GET | `/officer/cases/{id}` | OFFICER | applicant data, every check result, decision + reasons with evidence, official summary, forgery top tile and tile grid (`forgery_heatmap`), 5-minute presigned image URLs, audit trail |
+| GET | `/officer/cases/{id}` | OFFICER | applicant data, every check result, decision + reasons with evidence, official summary, forgery top tile and tile grid (`forgery_heatmap`), 5-minute presigned image URLs (incl. `liveness_left_url` / `liveness_right_url`, Phase 13), audit trail |
 | POST | `/officer/cases/{id}/decision` | OFFICER | `{"action": "approve"\|"reject", "reason": "..."}` (reason mandatory); only from DECIDED, i.e. a case awaiting an officer (else 409); audited |
 | GET | `/health` | - | MongoDB, S3, Kafka reachable |
 
@@ -131,6 +131,9 @@ cd frontend && npm run e2e                          # Playwright (Chromium) thro
 | face | no face on the selfie / document | RESUBMIT_REQUIRED "retake the selfie / document photo" |
 | face | score < 0.2597 (`face_config.json`) | MANUAL_REVIEW **high** |
 | face | 0.2597 <= score < 0.556 (`face_config.json` `review_below`) | MANUAL_REVIEW medium |
+| face (liveness, Phase 13) | the head-turn frames show different people | MANUAL_REVIEW **high** |
+| face (liveness) | no clear left / right turn, first frame not frontal, or no face on a turn frame | RESUBMIT_REQUIRED "retake your selfie with the camera and follow the on-screen prompts" |
+| face (liveness) | no head-turn frames (photo uploaded instead of the camera) | MANUAL_REVIEW medium |
 | forgery | score >= 0.857383 (`forgery_detector.json`) | MANUAL_REVIEW **high** |
 | forgery | 0.729 <= score < 0.857383 | MANUAL_REVIEW medium |
 | extraction | status failed / timed out / skipped | MANUAL_REVIEW medium |
@@ -201,12 +204,19 @@ Ctrl+C stops them all. Each worker finishes its current message, leaves its cons
 |---|---|---|---|
 | doc-worker | `kyc.tasks.doc` | blank-image gate, document classifier (reject below 0.77) | `doc_type`, `confidence`, `recognized`, `blank`, `top3` |
 | forgery-worker | `kyc.tasks.forgery` | exact preprocessing of `forgery_detector.json`, tile scores, page score | `score`, `band` (pass / needs_review / forgery_suspected), `top_tile` box, `tiles` grid (every tile's position + score on the 1280 px page, ~2 KB; Phase 8, for the officer's heatmap) |
-| face-worker | `kyc.tasks.face` | largest face on the ID page vs the selfie (YuNet + SFace) | `score`, `band` (match / needs_review / mismatch / no_face_found) |
+| face-worker | `kyc.tasks.face` | largest face on the ID page vs the selfie (YuNet + SFace); Phase 13: the active liveness check on the selfie + the two head-turn frames (`src/ekyc/liveness.py`) | `score`, `band` (match / needs_review / mismatch / no_face_found), `liveness`: `status` (passed / failed / not_provided), `failures`, `yaw_deg` per frame, `turn_deg` (left, right), `same_person_cosine`, `thresholds` |
 | extraction-worker | `kyc.tasks.extraction` | Ollama qwen2.5vl:7b (prompt v2) + consistency rules | `fields`, `rules`, `strong_flags`, `review_flags` |
 
 - **Bands:**
   - forgery: >= 0.857383 forgery_suspected, >= 0.729 needs_review, otherwise pass;
   - face: < 0.2597 mismatch, 0.2597-0.556 needs_review, >= 0.556 match.
+- **Liveness thresholds (Phase 13)**, defaults in `src/ekyc/config.py`, overridable in `.env` or the environment:
+  - `EKYC_LIVENESS_MIN_TURN_DEG` (20): each turn, measured from the first frame;
+  - `EKYC_LIVENESS_MAX_NEUTRAL_YAW_DEG` (15): the first frame must face the camera;
+  - `EKYC_LIVENESS_NOSE_DEPTH` (0.5): the constant of the yaw formula.
+
+  The same-person threshold is the face check's own (0.2597). Evaluation: `scripts/evaluate_liveness.py` ->
+  `reports/phase13/`.
 - **Rule severities** (`consistency.RULE_SEVERITY`):
   - "strong": check digits, expiry date, document number, date order;
   - "review": the MRZ name and birth-date cross-checks, the MRZ format.

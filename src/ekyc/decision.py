@@ -1,4 +1,5 @@
 """The KYC decision engine (Phase 7): turns the four check results + what the applicant typed into one outcome.
+Phase 13 adds the active liveness result, which the face check carries (outputs["liveness"]).
 
     policy = load_policy()                                # thresholds from models/*.json (the only I/O here)
     decision = decide(checks, applicant, policy)          # PURE: same inputs -> same decision, no I/O
@@ -144,6 +145,35 @@ def _face_reasons(check: dict | None, policy: Policy) -> list[Reason]:
     return []
 
 
+LIVENESS_RETAKE = ("Please retake your selfie with the camera and follow the on-screen prompts: look at the camera, "
+                   "then turn your head to the left, then to the right")  # shown to the customer: neutral wording
+
+
+def _liveness_reasons(check: dict | None) -> list[Reason]:
+    """Phase 13 active liveness, from the face check's outputs["liveness"] (src/ekyc/liveness.py):
+    - frames of different people -> high (an officer looks: a retake would just invite another try);
+    - any other failure (no clear left/right turn, not facing the camera, no face on a turn frame) -> resubmit;
+    - not provided (photo uploaded instead of the camera; also a face result from before Phase 13) -> medium.
+    Nothing when the face check itself did not complete or found no face on the selfie: that is already a reason."""
+    if (check or {}).get("status") != "ok" or check["outputs"].get("score") is None:
+        return []
+    live = check["outputs"].get("liveness") or {"status": "not_provided"}
+    if live.get("status") == "passed":
+        return []
+    if live.get("status") != "failed":
+        return [Reason("liveness_not_provided", "No head-turn check: a photo was uploaded instead of using the camera",
+                       "medium", "face", {"status": live.get("status", "not_provided")})]
+    failures = list(live.get("failures") or [])
+    evidence = {k: live.get(k) for k in ("failures", "yaw_deg", "turn_deg", "same_person_cosine", "thresholds")}
+    reasons = []
+    if "different_person" in failures:
+        reasons.append(Reason("liveness_different_person", "The head-turn frames do not all show the same person",
+                              "high", "face", evidence))
+    if [f for f in failures if f != "different_person"]:
+        reasons.append(Reason("liveness_failed", LIVENESS_RETAKE, "resubmit", "face", evidence))
+    return reasons
+
+
 def _forgery_reasons(check: dict | None, policy: Policy) -> list[Reason]:
     if (r := _unavailable("forgery", check)) is not None:
         return [r]
@@ -223,7 +253,8 @@ def decide(checks: dict[str, dict], applicant: dict, policy: Policy, today: date
     doc = _doc_reasons(checks.get("doc"), policy)
     if any(r.effect == "resubmit" for r in doc):
         return Decision("RESUBMIT_REQUIRED", None, 0.0, tuple(doc))
-    reasons = (doc + _face_reasons(checks.get("face"), policy) + _forgery_reasons(checks.get("forgery"), policy)
+    reasons = (doc + _face_reasons(checks.get("face"), policy) + _liveness_reasons(checks.get("face"))
+               + _forgery_reasons(checks.get("forgery"), policy)
                + _extraction_reasons(checks.get("extraction"))
                + _applicant_reasons(checks.get("extraction"), applicant, policy, today))
     effects = {r.effect for r in reasons}
@@ -259,6 +290,10 @@ def official_summary(application_id: str, decision: Decision, checks: dict[str, 
         lines.append(f"Forgery score {o['forgery'].get('score')} ({o['forgery'].get('band')}).")
     if "face" in o and o["face"]:
         lines.append(f"Face match score {o['face'].get('score')} ({o['face'].get('band')}).")
+        live = o["face"].get("liveness") or {"status": "not_provided"}
+        turns = live.get("turn_deg") or {}
+        lines.append(f"Liveness: {live.get('status', 'not_provided').replace('_', ' ')}"
+                     + (f" (turns {turns.get('left')} / {turns.get('right')} degrees)" if turns else "") + ".")
     if "extraction" in checks:
         status = checks["extraction"].get("status")
         lines.append("Document fields read and checked." if status == "ok" else f"Field extraction: {status}.")

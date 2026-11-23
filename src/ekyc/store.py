@@ -95,10 +95,12 @@ def audit_trail(db: Database, application_id: str) -> list[dict]:
 # ---------------------------------------------------------------- applications
 
 def create_application(db: Database, customer_id: str, applicant: dict, document_key: str, selfie_key: str,
-                       application_id: str | None = None) -> dict:
+                       application_id: str | None = None, liveness_keys: dict | None = None) -> dict:
+    """liveness_keys (Phase 13): {"left": key, "right": key} of the head-turn frames, or None (photo uploaded)."""
     app_id = application_id or f"app-{uuid.uuid4().hex[:16]}"
     doc = {"application_id": app_id, "customer_id": customer_id, "status": "SUBMITTED", "applicant": applicant,
-           "document_key": document_key, "selfie_key": selfie_key, "created_at": now(), "updated_at": now(),
+           "document_key": document_key, "selfie_key": selfie_key, "liveness_keys": liveness_keys,
+           "created_at": now(), "updated_at": now(),
            "pending": {}, "decision": None, "summary": None, "ai_note": None, "officer_decision": None}
     db.applications.insert_one(doc)
     audit(db, app_id, f"customer:{customer_id}", None, "SUBMITTED", "application submitted")
