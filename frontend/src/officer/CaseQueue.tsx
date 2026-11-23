@@ -62,7 +62,7 @@ export function CaseQueue() {
   )
 
   return (
-    <Stack spacing={3}>
+    <Stack spacing={3} className="ekyc-fade-up">
       <Box>
         <Typography variant="h1" sx={{ mb: 0.5 }}>Case queue</Typography>
         <Typography color="text.secondary">Highest risk first. Open a case to see the evidence and decide.</Typography>

@@ -1,7 +1,7 @@
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import ReplayIcon from '@mui/icons-material/Replay'
 import { Alert, Box, Button, Chip, Grid, Stack, Typography } from '@mui/material'
 import { useState } from 'react'
+import { AnimatedCheck } from '../../motion/AnimatedCheck'
 import { ImageDropzone } from '../ImageDropzone'
 import type { PickedImage } from '../usePickedImage'
 import { WebcamCapture, type CameraFrames } from '../WebcamCapture'
@@ -41,7 +41,10 @@ export function SelfieStep({ picked, headTurns, onCapture, onFile, onClear }: Pr
       <Stack spacing={2} sx={{ alignItems: 'center' }}>
         <Box component="img" src={picked.url} alt="Your selfie"
           sx={{ width: '100%', maxWidth: 420, borderRadius: 2, boxShadow: 1 }} />
-        {headTurns && <Chip color="success" variant="outlined" icon={<CheckCircleIcon />} label="Head-turn photos taken" />}
+        {headTurns && (
+          <Chip color="success" variant="outlined" label="Head-turn photos taken"
+            icon={<Box sx={{ display: 'flex', ml: 0.5 }}><AnimatedCheck size={20} color="#1e6b34" /></Box>} />
+        )}
         {picked.error && <Alert severity="error" role="alert">{picked.error}</Alert>}
         <Button variant="outlined" startIcon={<ReplayIcon />} onClick={retake}>Retake photo</Button>
       </Stack>

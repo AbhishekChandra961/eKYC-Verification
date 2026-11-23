@@ -1,0 +1,27 @@
+{
+ "note": "Headless Chromium on the development laptop (Apple M5, 16 GB, under memory pressure), 5 s with the mouse moving. frame = requestAnimationFrame interval; slow = > 20 ms; mainThreadBusy = share of wall time the renderer main thread was busy (CDP TaskDuration); drawMs = the dot field's own average draw time per frame.",
+ "desktopDotField": {
+  "frames": 290,
+  "meanFrameMs": 17.24,
+  "p95FrameMs": 16.8,
+  "slowFrameShare": 0.0207,
+  "mainThreadBusy": 0.0531,
+  "drawMs": 0.065
+ },
+ "desktopStaticBackground": {
+  "frames": 299,
+  "meanFrameMs": 16.72,
+  "p95FrameMs": 16.7,
+  "slowFrameShare": 0.0033,
+  "mainThreadBusy": 0.0313,
+  "drawMs": null
+ },
+ "phoneDotField": {
+  "frames": 300,
+  "meanFrameMs": 16.67,
+  "p95FrameMs": 16.7,
+  "slowFrameShare": 0,
+  "mainThreadBusy": 0.0422,
+  "drawMs": 0.03
+ }
+}

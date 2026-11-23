@@ -616,11 +616,11 @@ of about 60 s caused timeouts in 2 applications, which went to manual review as 
 
 - **Python tests:** 317, of which 276 run in CI without services, model weights or data.
 - **Frontend:**
-  - 124 Vitest unit tests, including the dashboard self-check against `reports/phase9/batch_summary.json` and the
-    camera's guidance and head-turn logic;
+  - 129 Vitest unit tests, including the dashboard self-check against `reports/phase9/batch_summary.json`, the
+    camera's guidance and head-turn logic, and the reduced-motion fallbacks;
   - 4 Playwright end-to-end tests that drive the real system;
-  - 12 that run against the static demo site: 5 for the dashboards, and 2 drive the camera check with Chromium's fake
-    webcam.
+  - 13 that run against the static demo site: 5 for the dashboards, 2 drive the camera check with Chromium's fake
+    webcam, and 1 checks that keyboard focus is visible.
 - **API smoke test:** 7 cases plus 6 security checks (wrong role ×2, another customer's application, missing,
   invalid and expired tokens). Three of the cases cover liveness (Phase 13): a photo uploaded, a static photo, and
   head turns of another person.
